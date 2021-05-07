@@ -136,7 +136,7 @@ function buildController(lines, setup, elem, elemString, topFor, topForString) {
                 let _data = value.substring(value.indexOf(':') + 1);
                 let _arrayName = '_arr_' + uniqueID();
                 if (isNaN(_data))
-                    lines.push(_arrayName + ' = ' + _data);
+                    lines.push(_arrayName + ' = (typeof '+_data+' !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
                 else
                     lines.push(_arrayName + ' = new Array(parseInt(' + _data + '))');
                 lines.push('updateForChildren(' + currentForString + ',' + _arrayName + ')');
