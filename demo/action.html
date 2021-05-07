@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Reken - Action buttons</title>
+  </head>
+<script>
+  counter = 0
+</script>
+<body>
+    <main>
+        <h1>Using action buttons with Reken</h1>
+
+        <div>Counter: <span data-text="${counter}"></span></div>
+        <button data-action="counter++">Increment</button>
+        <button data-action="counter--">Decrement</button>
+
+    </main>
+</body>
+
+
+</html>
+<script src="../src/reken.js"></script>
+
+<!--
+function Counter() {
+  const [value, setValue] = useState(0);
+
+  return (
+    <>
+      <div>Counter: {value}</div>
+      <button onClick={() => setValue(value + 1)}>Increment</button>
+      <button onClick={() => setValue(value - 1)}>Decrement</button>
+    </>
+  )
+}    
+-->

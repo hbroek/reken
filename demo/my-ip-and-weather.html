@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <script>
+        var address = {
+            ip: 0,
+            latitude: 0,
+            longitude: 0,
+            // latitude: 42.5138,
+            // longitude: -72.7025,
+        };
+        weather = [];
+        function formatDate(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return '' + days[date.getDay()] + ' ' + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+        }
+        function coverageEmoji(coverage, percipitation) {
+            if (coverage < 3.3) {
+                return '☀️'
+            }
+            else if (coverage < 6.6) {
+                return '⛅'
+            }
+            else {
+                return percipitation === 'rain' ? '🌧️' : '☁️'
+            }
+
+        }
+        days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+    </script>
+    <title>Reken - Weather forecast based on IP based Geolocation</title>
+</head>
+
+<body>
+    <header>
+        <h1>Reken - Weather forecast based on IP based Geolocation</h1>
+    </header>
+    <main>
+        <section>
+            <header>
+                <h1>Get my geo location based on my IP</h1>
+            </header>
+            <div data-rest="address:https://freegeoip.app/json/">
+                <article>IP Address: <emp data-text="${address.ip?address.ip:'No IP'}"></emp>
+                </article>
+                <article>Geo Location: (Lat <emp data-text="${address.latitude?address.latitude:'No IP'}, "></emp>
+                    <emp data-text="Lon ${address.longitude?address.longitude:'No IP'})"></emp>
+                </article>
+                </ul>
+        </section>
+
+        <section>
+            <header>
+                <h1>Get my forecast</h1>
+            </header>
+            <div data-for="time:weather"
+                data-rest="weather:dataseries:https://www.7timer.info/bin/astro.php?lon=${address.longitude}&lat=${address.latitude}&ac=0&unit=metric&output=json&tzshift=0">
+                <aside>
+                    <h3 data-text="${formatDate(new Date(new Date().getTime() + (time.item.timepoint*60*60*1000)))}">
+                    </h3>
+                    <p data-text="Temperature: ${(time.item.temp2m * 1.8 + 32).toFixed(0)}"></p>
+                    <p data-text="Percipitation: ${time.item.prec_type}"></p>
+                    <p style="font-size:200%"
+                        data-text="Cloud coverage: ${coverageEmoji(time.item.cloudcover, time.item.prec_type)}"></p>
+                    <p data-text="Wind: ${time.item.wind10m.direction} / ${time.item.wind10m.speed}"></p>
+                </aside>
+            </div>
+        </section>
+    </main>
+</body>
+<script src="../src/reken.js"></script>
+
+</html>

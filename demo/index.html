@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Index of Reken demos</title>
+</head>
+<style>
+    a {
+        text-transform: capitalize;
+    }
+</style>
+<script>
+    links = []
+</script>
+
+<body>
+    <script data-calc />
+    links.sort();
+    </script>
+    <header>
+        <h1>Index of Reken demos</h1>
+    </header>
+
+    <main>
+        <section>
+            <ol data-for="link:links" data-rest="links:json/index.json">
+                <li><a data-attr-href="${link.item}" data-text="${link.item.replace(/\.html/,'')}"></a></li>
+            </ol>
+        </section>
+    </main>
+</body>
+
+
+</html>
+<script src="../src/reken.js"></script>

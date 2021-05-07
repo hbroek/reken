@@ -1,0 +1,150 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+
+    <title>Reken REPL</title>
+    <style>
+        header {
+            padding:0;
+        }
+        section {
+            flex-direction: column;
+        }
+
+        section.editors {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 480px;
+
+        }
+        div.editable,
+        iframe {
+            border: solid 1px gray;
+            padding: 5px;
+            margin: none;
+            width: calc(100% - 11px);
+            height: 100%;
+            background: #FFFAF0;
+        }
+
+        div.editable {
+            font-family: monospace;
+            z-index:1;
+        }
+    </style>
+</head>
+<script>
+
+    let preLines = [
+        '<html>',
+        '  <head>',
+        '  </head>',
+        '  <body>'
+    ]
+    let postLines = [
+        '  <' + '/body>',
+        '  <script src="../src/reken.js"></' + 'script>',
+        '</html>'
+    ]
+    let startLines = [
+        '<script>',
+        '  let name = \'World\' ',
+        '</' + 'script>',
+        '<div data-text="Hello ${name}">'
+    ]
+    let source = ''
+    let sourceLines = []
+
+    let samples = []
+    let previous_sample = ''
+    let current_sample = 0
+
+    tokens = {
+        '<div>': '',
+        '</div>': '\n',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&nbsp;': ' ',
+        '&quot;': '"'
+    }
+
+    let htmlUnescape = (escaped) => {
+        let index = 0;
+        let s = '';
+
+        while (index < escaped.length) {
+            let next = false
+            for (token of Object.keys(tokens)) {
+                if (escaped.indexOf(token, index) === index) {
+                    t = tokens[token];
+                    s += t;
+                    index += token.length;
+                    next = true;
+                    break;
+                }
+            }
+            if (next)
+                continue;
+            s += escaped.charAt(index);
+            index++;
+        }
+        return s;
+    }
+
+    function htmlEscape(srcLines) {
+        let s = ''
+
+        for (line of srcLines) {
+            s += '<div>'
+            for (c of line) {
+                if (c == '<')
+                    s += '&lt;'
+                else if (c == '>')
+                    s += '&gt;'
+                else if (c == '"')
+                    s += '&quot;'
+                else if (c == ' ')
+                    s += '&nbsp;'
+                else
+                    s += c
+            }
+            s += '</div>'
+        }
+        return s
+    }
+</script>
+
+<script data-calc>
+    if (previous_sample !== current_sample) {
+        sourceLines = (samples.length > 0 ? samples[current_sample].code : startLines)
+        source = htmlEscape(sourceLines)
+        previous_sample = current_sample
+    }
+</script>
+
+
+<body>
+    <header>
+        <h1>Reken REPL</h1>
+    </header>
+    <main>
+        <section>
+            <label>Sample: <select data-value="current_sample" data-for="sample:samples"
+                    data-rest="samples:json/repl.json">
+                    <option data-value="sample.index" value="0" data-text="${sample.item.title}"></option>
+                </select></label>
+            <p data-text="${samples.length>0?samples[current_sample].description:''}"></p>
+            <button accesskey="s" data-action="source=document.getElementById('editor').innerHTML;"
+                type="button">Run</button>
+            <section class="editors">
+                <div id="editor" data-html="${source}" class="editable" contenteditable="true" spellcheck="false"></div>
+                <iframe data-attr-srcdoc="${preLines.join('\n')+htmlUnescape(source)+postLines.join('\n')}"></iframe>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
+<script src="../src/reken.js"></script>

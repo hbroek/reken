@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Reken - Array based table examples</title>
+    <style>
+        input {
+            margin-bottom: 0;
+        }
+        section {
+            flex-direction:column;
+            align-items:center;
+        }
+    </style>
+    <script>
+        var myObjects = [
+            { firstName: "John", lastName: "Mills", steps: 560 },
+            { firstName: "Cathy", lastName: "Brooks", steps: 10001 }
+        ]
+        selectedRow = '1';
+        selectedRow2 = ['1'];
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Reken - Array based table examples</h1>
+    </header>
+    <main>
+        <section>
+            <h3>Edit row data</h3>
+            <div>
+                <table>
+                    <thead>
+                        <th></th>
+                        <th>#</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Full name</th>
+                        <th>Steps</th>
+                        <th>Steps to go</th>
+                    </thead>
+                    <tbody data-for="objA:myObjects">
+                        <tr>
+                            <td><input type="checkbox" name="checkboxes" data-attr-value="${objA.index}"
+                                    data-value="selectedRow2"></td>
+                            <td data-text="${objA.index}"></td>
+                            <td data-text="${objA.item.firstName}"></td>
+                            <td data-text="${objA.item.lastName}"></td>
+                            <td data-text="${objA.item.firstName} ${objA.item.lastName}"></td>
+                            <td><input type="number" style="max-width:4em;" data-value="objA.item.steps"></td>
+                            <td data-text="${objA.item.steps>=10000?'Done':10000-objA.item.steps}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div data-text="Selected row: ${selectedRow2}"></div>
+            <div data-text="${JSON.stringify(myObjects)}"></div>
+            <hr/>
+        </section>
+
+    </main>
+</body>
+
+
+<script src="../src/reken.js"></script>
+
+</html>

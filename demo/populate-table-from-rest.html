@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>People from REST service</title>
+    <script>
+        var restResults = [];
+    </script>
+    <style>
+        table {
+            overflow-x:initial;
+        }
+        th {
+            background-color: var(--color);
+            position: sticky;
+            top:0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header><h1>Reken - load people from REST Call with a few columns in a table</h1></header>
+    <main>
+        <section>
+            <table>
+                <thead>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </thead>
+                <tbody data-for="person:restResults" data-rest="restResults:json/people.json">
+                    <tr>
+                        <td data-text="${person.index+1}"></td>
+                        <td data-text="${person.item.name}"></td>
+                        <td data-text="${person.item.email}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+
+
+<script src="../src/reken.js"></script>
+</html>
