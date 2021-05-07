@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Reken - Tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+</head>
+
+<body>
+  <div id="mocha"></div>
+
+  <script src="https://unpkg.com/chai/chai.js"></script>
+  <script src="https://unpkg.com/chai-dom/chai-dom.js"></script>
+  <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const expect = chai.expect;
+  </script>
+  <script>
+    hello = 'world'
+    var a = 10;
+    var b = 20;
+    var vtext0 = ""
+    var vtext1 = "Second value"
+    var vnumber2 = 100
+    var vnumber3 = 50
+    var vcheckbox4 = false;
+    var vcheckbox5 = ['one', 'three'];
+    var vradio6 = 'THREE'
+    var vselect7 = ''
+    var vselect8 = 'T2'
+    var vtextarea9 = ''
+    var vtextarea10 = 'The first words count'
+
+    var swidth = 64
+    var sheight = 48
+    var sbackground = 'silver'
+    var class2 = true
+    var class3 = false
+
+    var if1 = false
+    var if2 = true
+
+    let a0 = 0
+    let a1 = 10
+
+    let at_width = 64;
+    let at_height= 48;
+
+    let o_0 = 5
+    let o_1 = 'a'
+  
+    let f4 = ['Monkey', "Elephant", "Lion"];
+
+    let f5 = [
+      {'firstname': 'Karin', 'lastname': 'Williamson', 'steps': 953},
+      {'firstname': 'John', 'lastname': 'Smith', 'steps': 5401},
+      {'firstname': 'Maria', 'lastname': 'Samson', 'steps': 11000}
+    ];
+
+    let f6 = JSON.parse(JSON.stringify(f5));; //Clone the f5 array
+    sumSteps = (total, elem) => {
+      return total += elem.steps
+    }
+    sumStepsToGo = (total, elem) => {
+      return total += (elem.steps < 10000?10000-elem.steps:0)
+    }
+    f6_selected = 1
+
+    r0 = {theNumber:0};
+    r1 = {theNumber:0};
+    r1_filename = 'one'
+
+    let r2v; // Prevent global namespace leak warning
+    nameList=[];
+
+    
+    var waitFor = (timeoutms, condition) => new Promise((r, j) => {
+      let timeCheck = 1
+      var check = () => {
+        if(condition()) 
+          r(true)
+        else if((timeoutms -= timeCheck) < 0)
+          j('timed out!')
+        else
+          setTimeout(check, timeCheck)
+      }
+      setTimeout(check, timeCheck)
+    })
+
+  </script>
+
+  <hr>
+  <section>
+    <h3>data-text tests</h3>
+    <div id="t0" data-text>Wow</div>
+    <div id="t1" data-text="${1}">Should not be there</div>
+    <div id="t2" data-text="${hello}"></div>
+    <div id="t3" data-text="Hello ${hello}"></div>
+    <div id="t4" data-text="Hello ${1+1} worlds"></div>
+    <div id="t5"><span data-text="a + b = ${a+b}"></span></div>
+  </section>
+  <hr>
+  <section>
+    <h3>data-html tests</h3>
+    <div id="h0" data-html=""><span>Wow</span></div>
+    <div id="h1" data-html="<div>${a}<span>${b}<span></div>">Should not be there</div>
+    <div id="h2" data-html="<span>[${hello+a}]</span><span>[${hello+b}]</span>"></div>
+  </section>
+  <hr>
+  <section>
+    <h3>data-value tests</h3>
+    <div>
+      <span id="v0_0" data-text="${vtext0}"></span>
+      <label>vtext0:
+        <input id="v0" type="text" data-value="vtext0" value="not used">
+      </label>
+      <span id="v0_1" data-text="${vtext0}"></span>
+    </div>
+    <div>
+      <span id="v1_0" data-text="${vtext1}"></span>
+      <label>vtext1:
+        <input id="v1" type="text" data-value="vtext1" value="not used">
+      </label>
+      <span id="v1_1" data-text="${vtext1}"></span>
+    </div>
+    <div>
+      <span id="v2_0" data-text="${vnumber2}"></span>
+      <label>vnumber2:
+        <input id="v2" type="number" data-value="vnumber2" value="not used">
+      </label>
+      <span id="v2_1" data-text="${vnumber2}"></span>
+    </div>
+    <div>
+      <span id="v3_0" data-text="${vnumber3}"></span>
+      <label>vnumber3:
+        <input id="v3" type="range" data-value="vnumber3" value="not used">
+      </label>
+      <span id="v3_1" data-text="${vnumber3}"></span>
+    </div>
+    <div>
+      <span id="v4_0" data-text="${vcheckbox4}"></span>
+      <label>vcheckbox4:
+        <input id="v4" type="checkbox" data-value="vcheckbox4" value="not used">
+      </label>
+      <span id="v4_1" data-text="${vcheckbox4}"></span>
+    </div>
+    <div>
+      <span id="v5_0" data-text="${vcheckbox5}"></span>
+      <label>vcheckbox5:
+        <input id="v5" type="checkbox" name="vcheckbox5" data-value="vcheckbox5" value="one">
+        <input id="v5_2" type="checkbox" name="vcheckbox5" data-value="vcheckbox5" value="two">
+        <input id="v5_3" type="checkbox" name="vcheckbox5" data-value="vcheckbox5" value="three">
+      </label>
+      <span id="v5_1" data-text="${vcheckbox5}"></span>
+    </div>
+    <div>
+      <span id="v6_0" data-text="${vradio6}"></span>
+      <label>vradio6:
+        <input id="v6" type="radio" name="vradio6" data-value="vradio6" value="ONE">
+        <input id="v6_2" type="radio" name="vradio6" data-value="vradio6" value="TWO">
+        <input id="v6_3" type="radio" name="vradio6" data-value="vradio6" value="THREE">
+      </label>
+      <span id="v6_1" data-text="${vradio6}"></span>
+    </div>
+    <div>
+      <span id="v7_0" data-text="${vselect7}"></span>
+      <label>vselect7:
+        <select id="v7" data-value="vselect7">
+          <option>One</option>
+          <option>Two</option>
+          <option>Three</option>
+        </select>
+      </label>
+      <span id="v7_1" data-text="${vselect7}"></span>
+    </div>
+    <div>
+      <span id="v8_0" data-text="${vselect8}"></span>
+      <label>vselect8:
+        <select id="v8" data-value="vselect8">
+          <option>T1</option>
+          <option>T2</option>
+          <option>T3</option>
+        </select>
+      </label>
+      <span id="v8_1" data-text="${vselect8}"></span>
+    </div>
+    <div>
+      <span id="v9_0" data-text="${vtextarea9}"></span>
+      <label>vtextarea9:
+        <textarea id="v9" data-value="vtextarea9">
+        </textarea>
+      </label>
+      <span id="v9_1" data-text="${vtextarea9}"></span>
+    </div>
+    <div>
+      <span id="v10_0" data-text="${vtextarea10}"></span>
+      <label>vtextarea10:
+        <textarea id="v10" data-value="vtextarea10">
+        </textarea>
+      </label>
+      <span id="v10_1" data-text="${vtextarea10}"></span>
+    </div>
+  </section>
+  <section>
+    <h3>data-style tests</h3>
+    <div id="s0" data-style="width:${swidth}px;height:${sheight}px;background-color:${sbackground}">
+      Hello class
+    </div>
+  </section>
+  <hr>
+
+  <section>
+    <h3>data-class tests</h3>
+    <div id="c0" data-class="class0:true">
+      Hello class
+    </div>
+    <div id="c1" data-class="class1:false">
+      Hello class
+    </div>
+    <div id="c2" data-class="class2">
+      Hello class
+    </div>
+    <input id="c2_1" type="checkbox" data-value="class2">
+    <div id="c3" data-class="class3">
+      Hello class
+    </div>
+    <input id="c3_1" type="checkbox" data-value="class3">
+  </section>
+  <hr>
+
+  <section>
+    <h3>data-if tests</h3>
+    <div id="i0" data-if="if1">
+      Hello not visible
+    </div>
+    <input id="i0_1" type="checkbox" data-value="if1">
+    <div id="i1" data-if="if2">
+      Hello visible
+    </div>
+    <input id="i1_1" type="checkbox" data-value="if2">
+  </section>
+  <hr>
+
+  <h3>data-action tests</h3>
+  <button type="button" data-action="a0=a0+1" id="a0">Increment a0</button>
+  <button type="button" data-action="a1=a1-1" id="a1" data-text="Decrement a1 = ${a1}"></button>
+  </section>
+  <hr>
+
+  <section>
+    <h3>data-if tests</h3>
+    <div id="i0" data-if="if1">
+      Hello not visible
+    </div>
+    <input id="i0_1" type="checkbox" data-value="if1">
+    <div id="i1" data-if="if2">
+      Hello visible
+    </div>
+    <input id="i1_1" type="checkbox" data-value="if2">
+  </section>
+  <hr>
+ 
+  <section>
+    <h3>data-attr-* tests</h3>
+    <img id="at0" data-attr-width="${at_width}" data-attr-height="${at_height}">Image</div>
+    <button id="at1" data-action="at_width=32; at_height=24" type="button">Update dimensions</button>
+  </section>
+  <hr>
+
+  <section>
+    <h3>data-on tests</h3>
+    <button type="button" data-on="click:o_0=o_0+1" data-text="Increment o0 ${o_0}" id="o0"></button>
+    <div id=o0_0 data-text="${o_0}"></div>
+    <input id="o1" data-on="change:o_1='z'"></div>
+    <div id=o1_0 data-text="${o_1}"></div>
+  </section>
+
+  <section>
+    <h3>data-for tests</h3>
+    <ol id="f0" data-for="f0v:5">OL
+      <li>5 elements</li>
+    </ol>
+    <ol id="f1" data-for="f1v:2">Outer
+      <ol id="f1_1" data-for="f1_1v:3">Inner
+        <li>3 x 2 elements</li>
+      </ol>
+    </ol>
+    <ul id="f2" data-for="f2v:5">UL
+      <li data-text="Element ${f2v.index+1} of 5 elements"></li>
+    </ul>
+    <ul id="f3" data-for="f3v:2">Outer
+      <ul id="f3_1" data-for="f3_1v:3">Inner
+        <li data-text="2 x 3 elements ${f3v.index} - ${f3_1v.index}"> </li>
+      </ul>
+    </ul>
+    <ul id="f4" data-for="f4v:f4">UL
+      <li data-text="${f4v.index+1} - ${f4v.item}"></li>
+    </ul>
+    <table>
+      <thead><th>#</th><th>First name</th><th>Last name</th><th>Steps</th><th>Steps to go</th></thead>
+      <tbody id="f5" data-for="f5v:f5">
+        <tr>
+          <td data-text="${f5v.index+1}"></td>
+          <td data-text="${f5v.item.firstname}"></td>
+          <td data-text="${f5v.item.lastname}"></td>
+          <td data-text="${f5v.item.steps}"></td>
+          <td data-text="${f5v.item.steps<10000?10000-f5v.item.steps:'Done'}"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <thead><th data-text="${f5.length}"></th><th></th><th></th><th data-text="${f5.reduce(sumSteps, 0)}"></th><th data-text="${f5.reduce(sumStepsToGo, 0)}"></th></thead>
+      </tfoot>
+    </table>  
+
+    <table>
+      <thead><th></th><th>#</th><th>First name</th><th>Last name</th><th>Steps</th><th>Steps to go</th><th>Action</th></thead>
+      <tbody id="f6" data-for="f6v:f6">
+        <tr>
+          <td><input type="radio" name="f6radio" data-value="f6_selected" data-attr-value="${f6v.index}"></td>
+          <td data-text="${f6v.index+1}"></td>
+          <td data-text="${f6v.item.firstname}"></td>
+          <td data-text="${f6v.item.lastname}"></td>
+          <td><input type="number" data-value="f6v.item.steps"></td>
+          <td data-text="${f6v.item.steps<10000?10000-f6v.item.steps:'Done'}"></td>
+          <td><button type="button" data-action="f6.splice(f6v.index,1)">Delete</button></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <thead><th></th><th data-text="${f6.length}"></th><th></th><th></th><th data-text="${f6.reduce(sumSteps, 0)}"></th><th data-text="${f6.reduce(sumStepsToGo, 0)}"></th><th></th></thead>
+      </tfoot>
+    </table>  
+  </section>
+  <hr>
+  <section>
+    <h3>data-calc tests</h3>
+    <script data-calc>c0=10</script>
+    <script>c0=0</script>
+    <div id="ca0" data-text="${c0}"></div>
+  </section>
+  <hr>
+  <section>
+    <h3>data-rest tests</h3>
+    <div id="r0" data-text="${r0.theNumber}" data-rest="r0:json/one.json"></div>
+
+    <div>
+      <select id="r1_0" data-value="r1_filename">
+        <option>one</option>
+        <option>two</option>
+      </select>
+      <div id="r1" data-text="${r1.theNumber}" data-rest="r1:json/${r1_filename}.json"></div>
+    </div>
+    <div>
+      <ul id="r2" data-for="r2v:nameList" data-rest="nameList:namesData:json/names.json">
+        <li data-text=${r2v.item}></li>
+      </ul>
+    </div>
+
+
+  </section>
+  <hr>
+
+<html>
+<head>
+  <style></style>
+</head>
+<body>
+  <div data-text=""></div>
+</body>
+<script></script>
+</html>
+  <script src="../src/reken.js"></script>
+
+  <script>
+    var assert = chai.assert;
+    var $ = ((id) => (document.getElementById(id)));
+    describe('data-text tests', () => {
+      it('Test no expression', (done) => {
+        expect($('t0')).to.have.text('');
+        done();
+      })
+      it('Test number literal', (done) => {
+        expect($('t1')).to.have.text('1');
+        done();
+      })
+      it('Test string literal', (done) => {
+        expect($('t2')).to.have.text('world');
+        done();
+      })
+      it('Test text + string literal', (done) => {
+        expect($('t3')).to.have.text('Hello world');
+        done();
+      })
+      it('Test numeral expression + string literal', (done) => {
+        expect($('t4')).to.have.text('Hello 2 worlds');
+        done();
+      })
+      it('Element does not get an id', (done) => {
+        expect($('t5').children[0]).to.have.id('');
+        done();
+      })
+      it('Element without id to have text', (done) => {
+        expect($('t5').children[0]).to.have.text('a + b = 30');
+        done();
+      })
+    })
+    describe('data-html tests', () => {
+      it('Test no expression', (done) => {
+        expect($('h0')).to.be.empty;
+        done();
+      })
+      it('Html with expression in div and span', (done) => {
+        expect($('h1')).not.to.be.empty;
+        expect($('h1')).to.contain.text('1020')
+        done();
+      })
+      it('Html with expression in 2 spans', (done) => {
+        expect($('h2')).not.to.be.empty;
+        expect($('h2')).to.have.length(2);
+        expect($('h2')).to.contain('span')
+        expect($('h2')).to.contain.text('[world10][world20]')
+        done();
+      })
+    })
+    describe('data-value tests', () => {
+      it('Start with empty value and change value', (done) => {
+        expect($('v0')).to.have.attr('value', 'not used') //value can be ignored.
+        const testString0 = "First String"
+        assert($('v0').value == '', "Value is empty")
+        $('v0').value = testString0
+        $('v0').dispatchEvent(new Event('change'));
+        assert($('v0').value == testString0, `Value set to ${testString0}`)
+        expect($('v0_0')).to.have.text(testString0);
+        expect($('v0_1')).to.have.text(testString0);
+        done();
+      })
+      it('Start with string value and change value, then set to empty string', (done) => {
+        let testString1 = "Second value"
+        assert($('v1').value == testString1, testString1)
+        testString1 = "Value changed"
+        $('v1').value = testString1
+        $('v1').dispatchEvent(new Event('change'));
+        assert($('v1').value == testString1, `Value set to ${testString1}`)
+        expect($('v1_0')).to.have.text(testString1);
+        expect($('v1_1')).to.have.text(testString1);
+        testString1 = ""
+        $('v1').value = testString1
+        $('v1').dispatchEvent(new Event('change'));
+        assert($('v1').value == testString1, `Value set to ${testString1}`)
+        expect($('v1_0')).to.have.text(testString1);
+        expect($('v1_1')).to.have.text(testString1);
+        done();
+      })
+      it('Start with number value 100', (done) => {
+        let testNumber2 = 100
+        assert($('v2').value == testNumber2, "Value is 100")
+        expect($('v2_0')).to.have.text("" + testNumber2);
+        expect($('v2_1')).to.have.text("" + testNumber2);
+        testNumber2 = 200
+        $('v2').value = testNumber2
+        $('v2').dispatchEvent(new Event('change'));
+        assert($('v2').value == testNumber2, `Value set to ${testNumber2}`)
+        expect($('v2_0')).to.have.text("" + testNumber2);
+        expect($('v2_1')).to.have.text("" + testNumber2);
+        done();
+      })
+      it('Start with range number value 50', (done) => {
+        let testNumber3 = 50
+        assert($('v3').value == testNumber3, "Value is 50")
+        expect($('v3_0')).to.have.text("" + testNumber3);
+        expect($('v3_1')).to.have.text("" + testNumber3);
+        testNumber3 = 25
+        $('v3').value = testNumber3
+        $('v3').dispatchEvent(new Event('input'));
+        assert($('v3').value == testNumber3, `Value set to ${testNumber3}`)
+        expect($('v3_0')).to.have.text("" + testNumber3);
+        expect($('v3_1')).to.have.text("" + testNumber3);
+        done();
+      })
+      it('Start with single checkbox false', (done) => {
+        let testCheckbox4 = false
+        assert($('v4').checked == testCheckbox4, "Value is unchecked")
+        expect($('v4_0')).to.have.text("" + testCheckbox4);
+        expect($('v4_1')).to.have.text("" + testCheckbox4);
+        testCheckbox4 = true
+        $('v4').checked = testCheckbox4
+        $('v4').dispatchEvent(new Event('change'));
+        assert($('v4').checked == testCheckbox4, `Value set to ${testCheckbox4}`)
+        expect($('v4_0')).to.have.text("" + testCheckbox4);
+        expect($('v4_1')).to.have.text("" + testCheckbox4);
+        done();
+      })
+      it('Start with multiple checkbox one and three checked, then uncheck one, then check 2', (done) => {
+        let testCheckbox5 = ['one', 'three'];
+        assert($('v5').checked == true, "Value is unchecked")
+        assert($('v5_2').checked == false, "Value is unchecked")
+        assert($('v5_3').checked == true, "Value is unchecked")
+        expect($('v5_0')).to.have.text("" + testCheckbox5.toString());
+        expect($('v5_1')).to.have.text("" + testCheckbox5.toString());
+
+        $('v5').checked = false
+        $('v5').dispatchEvent(new Event('change'));
+        assert($('v5').checked == false, "Value is unchecked")
+        assert($('v5_2').checked == false, "Value is unchecked")
+        assert($('v5_3').checked == true, "Value is unchecked")
+        testCheckbox5 = ['three'];
+        expect($('v5_0')).to.have.text("" + testCheckbox5.toString());
+        expect($('v5_1')).to.have.text("" + testCheckbox5.toString());
+
+        $('v5_2').checked = true
+        $('v5_2').dispatchEvent(new Event('change'));
+        assert($('v5').checked == false, "Value is unchecked")
+        assert($('v5_2').checked == true, "Value is unchecked")
+        assert($('v5_3').checked == true, "Value is unchecked")
+        testCheckbox5 = ['three', 'two'];
+        expect($('v5_0')).to.have.text("" + testCheckbox5.toString());
+        expect($('v5_1')).to.have.text("" + testCheckbox5.toString());
+        done();
+      })
+      it('Start with multiple radio 3 checked, then set radio 2', (done) => {
+        let testRadio6 = 'THREE';
+        assert($('v6').checked == false, "Value is unchecked")
+        assert($('v6_2').checked == false, "Value is unchecked")
+        assert($('v6_3').checked == true, "Value is checked")
+        expect($('v6_0')).to.have.text("" + testRadio6.toString());
+        expect($('v6_1')).to.have.text("" + testRadio6.toString());
+
+        $('v6_2').checked = true;
+        $('v6_2').dispatchEvent(new Event('change'));
+        assert($('v6').checked == false, "Value is unchecked")
+        assert($('v6_2').checked == true, "Value is unchecked")
+        assert($('v6_3').checked == false, "Value is unchecked")
+        testRadio6 = 'TWO';
+        expect($('v6_0')).to.have.text("" + testRadio6.toString());
+        expect($('v6_1')).to.have.text("" + testRadio6.toString());
+        done();
+      })
+      it('Start with empty select value and change value', (done) => {
+        const testString7 = "Two"
+        assert($('v7').value == '', "Value is empty")
+        expect($('v7_0')).to.have.text('');
+        expect($('v7_1')).to.have.text('');
+        $('v7').value = testString7
+        $('v7').dispatchEvent(new Event('change'));
+        assert($('v7').value == testString7, `Value set to ${testString7}`)
+        expect($('v7_0')).to.have.text(testString7);
+        expect($('v7_1')).to.have.text(testString7);
+        done();
+      })
+      it('Start with T2 selected value and change value to T3', (done) => {
+        let testString8 = "T2"
+        expect($('v8_0')).to.have.text(testString8);
+        expect($('v8_1')).to.have.text(testString8);
+        assert($('v8').value == 'T2', "Value is T2")
+
+        testString8 = "T3"
+        $('v8').value = testString8
+        $('v8').dispatchEvent(new Event('change'));
+        assert($('v8').value == testString8, `Value set to ${testString8}`)
+        expect($('v8_0')).to.have.text(testString8);
+        expect($('v8_1')).to.have.text(testString8);
+        done();
+      })
+      it('Start with empty textarea and change value', (done) => {
+        const testString9 = "Two little piggies"
+        assert($('v9').value == '', "Value is empty")
+        expect($('v9_0')).to.have.text('');
+        expect($('v9_1')).to.have.text('');
+        $('v9').value = testString9
+        $('v9').dispatchEvent(new Event('input'));
+        assert($('v9').value == testString9, `Value set to ${testString9}`)
+        expect($('v9_0')).to.have.text(testString9);
+        expect($('v9_1')).to.have.text(testString9);
+        done();
+      })
+      it('Start with populated textarea and change value', (done) => {
+        let testString10 = vtextarea10;
+        assert($('v10').value === testString10, "Value is empty")
+        expect($('v10_0')).to.have.text(testString10);
+        expect($('v10_1')).to.have.text(testString10);
+        testString10 = "The last ones too"
+        $('v10').value = testString10
+        $('v10').dispatchEvent(new Event('input'));
+        assert($('v10').value == testString10, `Value set to ${testString10}`)
+        expect($('v10_0')).to.have.text(testString10);
+        expect($('v10_1')).to.have.text(testString10);
+        done();
+      })
+    })
+    describe('data-style tests', () => {
+      it('width, heigh background', (done) => {
+        expect($('s0')).to.have.style('width', '64px');
+        expect($('s0')).to.have.style('height', '48px');
+        expect($('s0')).to.have.style('background-color', 'rgb(192, 192, 192)');
+        done();
+      })
+    })
+    describe('data-class tests', () => {
+      it('class added', (done) => {
+        expect($('c0')).to.have.class('class0');
+        done();
+      })
+      it('class not added', (done) => {
+        expect($('c1')).not.to.have.class('class1');
+        done();
+      })
+      it('class added with short form', (done) => {
+        expect($('c2')).to.have.class('class2');
+        $('c2_1').checked = false;
+        $('c2_1').dispatchEvent(new Event('change'));
+        expect($('c2')).to.not.have.class('class2');
+
+        done();
+      })
+      it('class not added with short form', (done) => {
+        expect($('c3')).not.to.have.class('class3');
+        $('c3_1').checked = false;
+        $('c3_1').dispatchEvent(new Event('change'));
+        expect($('c3')).to.not.have.class('class3');
+
+        done();
+      })
+    })
+    describe('data-if tests', () => {
+      it('if not displayed', (done) => {
+        expect($('i0')).not.to.be.displayed;
+        //Make true
+        $('i0_1').checked = true;
+        $('i0_1').dispatchEvent(new Event('change'));
+        expect($('i0')).to.be.displayed;
+        done();
+      })
+      it('if displayed', (done) => {
+        expect($('i1')).to.be.displayed;
+        //Make true
+        $('i1_1').checked = true;
+        $('i1_1').dispatchEvent(new Event('change'));
+        expect($('i1')).to.be.displayed;
+
+        done();
+      })
+    })
+    describe('data-action tests', () => {
+      it('Press button to increment js number a0', (done) => {
+        expect(a0).to.equal(0);
+
+        $('a0').dispatchEvent(new Event('click'));
+
+        expect(a0).to.equal(1);
+        done();
+      })
+      it('Press button to decrement a1 and check the button text gets updated', (done) => {
+
+        expect(a1).to.equal(10);
+        expect($('a1')).to.have.text('Decrement a1 = 10')
+
+        $('a1').dispatchEvent(new Event('click'));
+
+        expect(a1).to.equal(9);
+        expect($('a1')).to.have.text('Decrement a1 = 9')
+        done();
+      })
+    })
+    describe('data-attr tests, initial value and after updated width and height js vars', () => {
+      it('Init img dimenions from vars and then change with button press', (done) => {
+        expect($('at0')).to.have.attribute('width', '64')
+        expect($('at0')).to.have.attribute('height', '48')
+
+        $('at1').dispatchEvent(new Event('click'));
+
+        expect($('at0')).to.have.attribute('width', '32')
+        expect($('at0')).to.have.attribute('height', '24')
+
+        done();
+      })
+    })
+    describe('data-on tests', () => {
+      it('Press button to increment js number a_0', (done) => {
+        expect(o_0).to.equal(5);
+        expect($('o0')).to.have.text('Increment o0 5')
+        $('o0').dispatchEvent(new Event('click'));
+        expect(o_0).to.equal(6);
+        expect($('o0')).to.have.text('Increment o0 6')
+        done();
+      })
+      it('Check for on change event.', (done) => {
+        expect(o_1).to.equal('a');
+        expect($('o1_0')).to.have.text('a')
+        
+        $('o1').value = 'z';
+        $('o1').dispatchEvent(new Event('change'));
+        expect(o_1).to.equal('z');
+        expect($('o1_0')).to.have.text('z')
+        done();
+      })
+    })
+    describe('data-for tests', () => {
+      it('Render 5 li\'s', (done) => {
+        expect($('f0')).to.have.length(5)
+        expect($('f0')).to.contain.text('OL')
+        expect(document.querySelectorAll('ol#f0 li')).to.contain.text('5 elements')
+        done();
+      })
+      it('Render 2 ol\'s with each 3 li\'s' , (done) => {
+        expect($('f1')).to.have.length(2)
+        expect(document.querySelectorAll('ol#f1 li')).to.have.length(6)
+        expect(document.querySelectorAll('ol#f1 li')).to.contain.text(['3 x 2 elements'])
+        done();
+      })
+      it('Render 5 li\'s with index stamped', (done) => {
+        expect($('f2')).to.have.length(5)
+        expect($('f2')).to.contain.text('UL')
+        expect(document.querySelectorAll('ul#f2 li')).to.contain.text('5 elements')
+        expect(document.querySelectorAll('ul#f2 li')).to.contain.text(['Element 1 of 5 elements','Element 3 of 5 elements','Element 5 of 5 elements'])
+        done();
+      })
+      it('Render 2 ul\'s with each 3 li\'s' , (done) => {
+        expect($('f3')).to.have.length(2)
+        expect(document.querySelectorAll('ul#f3 li')).to.have.length(6)
+        expect(document.querySelectorAll('ul#f3 li')).to.contain.text(['2 x 3 elements 0 - 1', '2 x 3 elements 1 - 2'])
+        done();
+      })
+      it('Render 3 li\'s from an array with 3 elements and display index and array', (done) => {
+        expect($('f4')).to.have.length(3)
+        expect(document.querySelectorAll('ul#f4 li')).to.contain.text(['1 - Monkey','2 - Elephant','3 - Lion'])
+        done();
+      })
+      it('Render 3 table rows with td \'s from an array with 3 objects and display index and object props', (done) => {
+        expect($('f5')).to.have.length(3)
+        expect(document.querySelectorAll('tbody#f5 td')).to.contain.text(['1','2','3'])
+        expect(document.querySelectorAll('tbody#f5 td')).to.contain.text(['Karin','John','Maria'])
+        expect(document.querySelectorAll('tbody#f5 td')).to.contain.text(['9047','4599','Done'])
+        done();
+      })
+      it('Render 3 table rows with td \'s from an array with 3 objects. interact with number input, radio and button.', (done) => {
+        expect($('f6')).to.have.length(3)
+        expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2','3'])
+        expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','John','Maria'])
+        let f6elem  = document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(5) > input[type="number"]');
+        expect(parseInt(f6elem.value)).to.equal(f6[1].steps);
+
+        // Change steps in 2nd row.        
+        f6elem.value = 10000;
+        // Since dispatchEvent doesn't work on delegated event listeners, call listener directly
+        $('f6')[f6elem.dataset.event_id]({target:f6elem})
+        expect(10000).to.equal(f6[1].steps);
+        expect(document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(6)')).to.contain.text('Done');
+
+        //Select the third element element
+        let f6_2_radio = document.querySelector('#f6 > tr:nth-child(3) > td:nth-child(1) > input[type="radio"]');
+        $('f6')[f6_2_radio.dataset.event_id]({target:f6_2_radio})
+        expect('2').to.equal(f6_selected);
+
+        // Remove 2nd remove by "clicking" action button
+        let f6_1_button = document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(7) > button');
+        //call delete click handler on the for node
+        $('f6')[f6_1_button.dataset.event_id]({target:f6_1_button})
+        expect($('f6')).to.have.length(3)
+        expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2'])
+        expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','Maria'])
+        expect(document.querySelector('#f6 > tr:nth-child(3)')).not.to.be.displayed
+        done();
+      })
+    })
+    describe('data-calc tests', () => {
+      it('Render a the value of js var, update with calc tagged script', (done) => {
+        expect($('ca0')).to.have.text('10')
+        done();
+      })
+    })
+
+    checkForClass = (elem, className) => {
+      return elem.classList.contains(className)
+    }
+
+    describe('data-rest tests', () => {
+      it('Load a value from json file and display in a div thru js var r0.theNumber', async function () {
+
+        await waitFor(2000, () => checkForClass($('r0'), "reken-rest-done"));
+        expect($('r0')).to.have.text('1')
+
+      })
+      it('Load a value from json file then load a value from another file', async function () {
+
+        await waitFor(2000, () => checkForClass($('r1'), "reken-rest-done"));
+        expect($('r1')).to.have.text('1')
+
+        // Now chance select to 2
+        r1_0.value = "two"
+        r1_0.dispatchEvent(new Event("change"))
+
+        await waitFor(2000, () => checkForClass($('r1'), "reken-rest-done"));
+        expect($('r1')).to.have.text('2')
+
+      })
+      it('Load an array from a json file and point to the array data with path', async function () {
+        await waitFor(2000, () => checkForClass($('r2'), "reken-rest-done"));
+        expect($('r2')).to.have.length(3)
+        expect(document.querySelectorAll('#r2 li')).to.contain.text(['Arnold','Bob','Chris'])
+      })
+    })
+  </script>
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>
