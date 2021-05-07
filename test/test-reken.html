@@ -71,6 +71,8 @@
     }
     f6_selected = 1
 
+    f7_loop = 12
+
     r0 = {theNumber:0};
     r1 = {theNumber:0};
     r1_filename = 'one'
@@ -334,6 +336,9 @@
         <thead><th></th><th data-text="${f6.length}"></th><th></th><th></th><th data-text="${f6.reduce(sumSteps, 0)}"></th><th data-text="${f6.reduce(sumStepsToGo, 0)}"></th><th></th></thead>
       </tfoot>
     </table>  
+    <ol id="f7" data-for="f7v:f7_loop">12 elements
+      <li data-text="${f7v.index+1} of 12 elements"</li>
+    </ol>
   </section>
   <hr>
   <section>
@@ -359,8 +364,6 @@
         <li data-text=${r2v.item}></li>
       </ul>
     </div>
-
-
   </section>
   <hr>
 
@@ -763,6 +766,11 @@
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2'])
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','Maria'])
         expect(document.querySelector('#f6 > tr:nth-child(3)')).not.to.be.displayed
+        done();
+      })
+      it('Render 12 li\'s', (done) => {
+        expect($('f7')).to.have.length(12)
+        expect(document.querySelectorAll('ol#f7 li')).to.contain.text(['1 of 12 elements', '12 of 12 elements'])
         done();
       })
     })
