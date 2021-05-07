@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <script>
+        var repo = {}
+        var userName = "hbroek"
+        var repoName = "reken"
+    </script>
+    <title>Reken - Rest Object fetch example</title>
+</head>
+
+<body>
+    <header>
+        <h1>Reken - Rest Object fetch example</h1>
+    </header>
+    <main>
+        <section>
+            <form onsubmit="return false">
+                <h3>Fetch Github stars</h3>
+                <label>User name<input placeholder="Git username" data-value="userName" type="text" /></label>
+                <label>Repo name<input placeholder="Git reponame" data-value="repoName" type="text" /></label>
+            </form>
+        </section>
+        <section>
+            <div data-rest="repo:https://api.github.com/repos/${userName}/${repoName}">
+                ⭐️ <emp data-text="${repo.stargazers_count?repo.stargazers_count:'Not a valid repo'}"></emp> Stars
+            </ul>
+        </section>
+    </main>
+</body>
+<script src="../src/reken.js"></script>
+
+</html>

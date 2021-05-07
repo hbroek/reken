@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <style>
+        aside {
+            background: lightgreen;
+        }
+
+        aside.hazardous {
+            background: lightsalmon;
+        }
+
+        .emoji {
+            display: inline-block;
+            font-size: 300%;
+            padding: .125em;
+        }
+    </style>
+    <title>Asteroids nearby</title>
+    <script>
+        let prefix0 = (str) => str.length > 1 ? str : ('0' + str) // Add a zero for numbers < 10
+        let today = new Date();
+        //format a current date into a string (yyyy-mm-dd) used for the nasa rest call date query parameter.
+        let todayString = `${today.getFullYear()}-${(today.getMonth() + 1 + '').padStart(2, '0')}-${(today.getDate() + '').padStart(2, '0')}`
+        let asteroidData = {};
+        let asteroidDates = [];
+        let asteroidList = [];
+        let selectedDate = "";
+    </script>
+    <script data-calc> /* reruns on every model update cycle */
+        // Check for Nasa rest service is finished when element_count is found on asteroidData
+        if (asteroidDates.length == 0 && 'element_count' in asteroidData) {
+            asteroidDates = Object.keys(asteroidData.near_earth_objects).sort()
+            selectedDate = asteroidDates[0];
+        }
+        // If we have dates and a selectDate initialize the asteroidList
+        if (asteroidDates.length > 0 && selectedDate != "") {
+            asteroidList = asteroidData.near_earth_objects[selectedDate];
+        }
+        let henry = 1;
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Reken - Asteroids "nearby"</h1>
+    </header>
+    <main>
+        <section data-if="asteroidDates.length==0">
+            Loading ...
+        </section>
+        <section data-if="asteroidDates.length>0"
+            data-rest="asteroidData:https://api.nasa.gov/neo/rest/v1/feed?api_key=DEMO_KEY&start_date=${todayString}">
+            <!-- <section data-if="asteroidDates.length>0" data-rest="asteroidData:asteroids.json?start_date=${todayString}"> -->
+            <form>
+                <header>
+                    <h2>Asteroid date selection</h2>
+                </header>
+                <p>Load Asteroid json file from rest service, populate date selector and list of asteroids of selected date.</p>
+
+                <label>Select date:<select data-for="vad:asteroidDates" data-value="selectedDate">
+                        <option data-text="${vad.item}"></option>
+                    </select></label>
+            </form>
+        </section>
+        <section data-for="asteroid:asteroidList">
+            <aside data-class="hazardous:asteroid.item.is_potentially_hazardous_asteroid">
+                <h3><span class="emoji">☄</span><span data-text="${asteroid.item.name}"></span></h3>
+                <p
+                    data-text="Diameter: ${asteroid.item.estimated_diameter.meters.estimated_diameter_min.toFixed(0)} - ${asteroid.item.estimated_diameter.meters.estimated_diameter_max.toFixed(0)} meters">
+                </p>
+                <p data-text="Closest on: ${asteroid.item.close_approach_data[0].close_approach_date_full}"></p>
+                <p data-text="Distance: ${parseInt(asteroid.item.close_approach_data[0].miss_distance.miles)} mi."></p>
+                <p
+                    data-text="Speed: ${parseInt(asteroid.item.close_approach_data[0].relative_velocity.miles_per_hour)} mph.">
+                </p>
+                <p><small><a data-attr-href="${asteroid.item.nasa_jpl_url}">More details</a></small></p>
+            </aside>
+        </section>
+    </main>
+</body>
+
+<script src="../src/reken.js"></script>
+
+</html>

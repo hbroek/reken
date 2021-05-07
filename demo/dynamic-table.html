@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>People from REST service</title>
+    <script>
+        var restResults = [{'name':'John', 'email':'John@'}];
+    </script>
+    <style>
+        table {
+            overflow-x:initial;
+        }
+        th {
+            background-color: var(--color);
+            position: sticky;
+            top:0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>Load and display Rest based list of people</h1>
+        <p>Dynamically construct a table from a rest based array of objects based on the object keys and values</p>
+    </header>
+    <main>
+        <div>
+            <table>
+                <thead>
+                    <tr data-for="header:Object.keys((restResults[0]))">
+                        <th data-text="${header.item}"></th>
+                    </tr>
+                </thead>
+                <tbody data-for="person:restResults" data-rest="restResults:json/people.json">
+                    <tr data-for="field:Object.values(person.item)">
+                        <td data-text="${field.item}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+
+<script src="../src/reken.js"></script>
+</html>

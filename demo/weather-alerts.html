@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+
+    <title data-text="${title}">Weather Alerts for a State</title>
+    <script>
+        var stateList = []
+        var alerts = []
+    </script>
+    <style>
+        section#info aside {
+            background:lightyellow;
+        }
+        .reken-rest-busy {
+            opacity: 0.5;
+            background: silver;
+            min-height:400px;
+            content: "Fetching..."
+            linear-gradient(lightgrey var(--card-height), transparent 0);
+  
+        }
+        #info.EMPTY {
+            min-height:400px;
+            background:lightgreen;
+            align-items: center;            
+        }
+        #info.EMPTY::after {
+            content: "No weather alerts for this state currently.";
+        }
+        #info.reken-rest-error {
+            background: red;
+        }
+        #info.reken-rest-error::after {
+            content: "Fetch error occurred";
+        }
+
+    </style>
+</head>
+<script>
+    title="Weather Alerts for a State"
+    selectedValue = "MA"
+</script>
+
+<body>
+    <main>
+        <header><h1 data-text="${title}"></h1></header>
+
+        <section>
+            <form>
+                <header><h3>State picker</h3></header>                
+                <label><span>Select State:</span><select id="selector" data-for="state:stateList" data-rest="stateList:json/states.json" data-value="selectedValue">
+                        <option data-attr-value="${state.item.abbreviation}" data-text="${state.item.name}"/>
+                    </select></label>
+
+                    <button data-action="alerts=[]" type="button">Remove warning.</button>
+            </form>
+
+        </section>
+       <section id="info" data-class="EMPTY:alerts.length==0" data-for="alert:alerts" data-rest="alerts:features:https://api.weather.gov/alerts/active?area=${selectedValue}">
+            <aside>
+                <h3 data-text="${alert.item.properties.headline}"></h3>
+                <p data-text="${alert.item.properties.description}"></p>
+                <p><small>Expires: <span data-text="${alert.item.properties.expires}"></span></small></p>
+            </aside>
+        </section>
+    </main>
+</body>
+<script src="../src/reken.js"></script>
+</html>

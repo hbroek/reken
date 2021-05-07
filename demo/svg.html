@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+
+    <title>Reken - manipulate SVG elements</title>
+</head>
+
+<body>
+    <header>
+        <h1>Reken - manipulate SVG elements</h1>
+    </header>
+    <section>
+        <form>
+            <header><h3>Slide to move squares</h3></header>
+            <label for="sliderx">Slider:<input id="sliderx" data-value="sliderx" placeholder="Enter a number"
+                    type="range" min="0" max="100" step="5" value="0" /></label>
+        </form>
+    </section>
+    <section>
+        <svg width="500" height="500">
+            <g data-for="offset:150">
+                <rect data-attr-x="${parseInt(Math.random()*470)}" data-attr-y="${parseInt(Math.random()*480)}"
+                    data-attr-fill="${ '#' + Math.floor(Math.random() * 16777215).toString(16)}" width="30" height="30">
+                </rect>
+            </g>
+            <g data-for="offset1:50">
+                <rect data-attr-x="${offset1.index*10}" data-attr-y="${offset1.index*10}" x="0" y="0" width="10"
+                    height="10" fill="blue"></rect>
+            </g>
+        </svg>
+    </section>
+</body>
+
+<script src="../src/reken.js"></script>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Rotating squares with reken.js</title>
+
+    <style>
+        .block {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: orange;
+            margin: 5px;
+            transform-origin: center;
+            text-align: center;
+            padding: 2px;
+        }
+    </style>
+    <script>ran=0</script>
+</head>
+
+<body>
+    <header><h1>Reken - rotate 1000 divs with a slider</h1></header>
+    <section>
+        <form>
+            <header><h3>Rotation picker</h3></header>
+        <label>Select rotation:<input data-value="ran" type="range" min="0" max="360" step="5" value="0" /><span data-text="${ran}deg"></label>
+        </form>
+    </section>
+    <section  data-for="x:1000" class="flex">
+        <div data-style="transform: rotate(${ran}deg)" class="block" />
+    </section>
+</body>
+
+</html>
+<script src="../src/reken.js"></script>

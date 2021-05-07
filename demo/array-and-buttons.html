@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <script>var todoList = []; var todo=''</script>
+        <title>Reken - array manipulation with action buttons</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    </head>
+    
+    <body>
+        <main>
+            <header>
+            <h1>Reken - array manipulation with action buttons</h1>
+            </header>
+            <section>
+                <form onsubmit="return false">
+                    <header><h3>Enter TODO items</h3></header>
+                    <button type="button" data-action="todoList.push(todo)">Add Todo</button>
+                    <button type="button" data-action="todoList = []">Clear</button>
+                    <label>Add Todo<input placeholder="Type todo item" data-value="todo" type="text" /></label>
+                </form>
+            </section>
+            <section>
+                <ul data-for="todos:todoList">
+                    <li data-text="${todos.item}"/>
+                </ul>
+            </section>
+        </main>
+    </body>
+    <script src="../src/reken.js"></script>
+    
+    </html>

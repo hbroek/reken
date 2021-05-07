@@ -1,0 +1,7 @@
+{
+    "arrayProperty": [
+        {"first":"John", "last":"Smit"},
+        {"first":"Maria", "last":"Campbell"},
+        {"first":"Leslie", "last":"Johnson"}
+    ]    
+}
