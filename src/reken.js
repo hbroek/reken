@@ -175,37 +175,6 @@ function buildController(lines, setup, elem, elemString, topFor, topForString) {
                 }
                 lines.push("processRestCall(" + elemString + ",`" + _url + "`, (js)=>{" + _array + "=js" + path + ";})");
                 break;
-            case "component": //create Reken based web components;
-                let publicAttrs = [];
-                Object.entries(elem.dataset).forEach(entry => {
-                    const [attrkey, defaultValue] = entry;
-                    if (attrkey !== "component") {
-                        const _attr = attrkey.substring(4).toLowerCase();
-                        publicAttrs.push(_attr);
-                    }
-                });
-
-                let newClass = class extends HTMLElement {
-                    constructor() {
-                        super(); // always call super() first in the constructor.
-                    }
-                    connectedCallback() {
-                        let shadowRoot = this.attachShadow({ mode: 'open' });
-                        shadowRoot.appendChild(elem.content.cloneNode(true));
-                    }
-                    static get observedAttributes() {
-                        return publicAttrs;
-                    }
-                    attributeChangedCallback(name, oldValue, newValue) {
-                        if (name === 'background')
-                            this.style.backgroundColor = newValue;
-                        if (name === 'height')
-                            this.style.height = newValue;
-                        //                        console.log("I changed !!!", name, oldValue, newValue);
-                    }
-                };
-                customElements.define(value, newClass);
-                break;
             default: {
                 if (key.startsWith('attr')) {
                     if (typeof elem.dataset.component === 'undefined') {
