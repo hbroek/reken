@@ -56,7 +56,8 @@ function buildController(lines, setup, elem, elemString, topFor, topForString) {
         topFor = [];
     if (typeof topForString == 'undefined')
         topForString = [];
-
+    if (elem.id !== '' && topFor.length==0) // if element has an id and it is not an element in a for loop use the element's id
+        elemString="document.getElementById('"+elem.id+"')"
     // Sorting element to make sure data-attr-value is before data-value for checkbox and radio button
     Object.entries(elem.dataset).sort().forEach(entry => {
         const [key, value] = entry;
@@ -188,10 +189,14 @@ function buildController(lines, setup, elem, elemString, topFor, topForString) {
     });
     let i = 0;
     if (elem.dataset.for === undefined) {
-        for (let child of elem.children) {
+        if (elem.dataset.if !== undefined) 
+            lines.push('if ('+elem.dataset.if +') {')
+        for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
             buildController(lines, setup, child, elemString + ".children[" + i + "]", topFor, topForString);
             i++;
         }
+        if (elem.dataset.if !== undefined)
+            lines.push('}')
     }
 }
 function eventHandlerBuilder(setup, elem, elemString, topFor, topForString, eventName, handler) {

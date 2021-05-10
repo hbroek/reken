@@ -42,8 +42,9 @@
     var class2 = true
     var class3 = false
 
-    var if1 = false
-    var if2 = true
+    var if0 = false;
+    var if1 = true;
+    var if2 = true;
 
     let a0 = 0
     let a1 = 10
@@ -237,33 +238,26 @@
 
   <section>
     <h3>data-if tests</h3>
-    <div id="i0" data-if="if1">
+    <div id="i0" data-if="if0">
       Hello not visible
     </div>
-    <input id="i0_1" type="checkbox" data-value="if1">
-    <div id="i1" data-if="if2">
+    <input id="i0_1" type="checkbox" data-value="if0">
+    
+    <div id="i1" data-if="if1">
       Hello visible
     </div>
-    <input id="i1_1" type="checkbox" data-value="if2">
+    <input id="i1_1" type="checkbox" data-value="if1">
+
+    <div id="i2" data-if="if2">
+      <span id="i2_2" data-text="${if2}"></span>
+    </div>
+    <input id="i2_1" type="checkbox" data-value="if2">
   </section>
   <hr>
 
   <h3>data-action tests</h3>
   <button type="button" data-action="a0=a0+1" id="a0">Increment a0</button>
   <button type="button" data-action="a1=a1-1" id="a1" data-text="Decrement a1 = ${a1}"></button>
-  </section>
-  <hr>
-
-  <section>
-    <h3>data-if tests</h3>
-    <div id="i0" data-if="if1">
-      Hello not visible
-    </div>
-    <input id="i0_1" type="checkbox" data-value="if1">
-    <div id="i1" data-if="if2">
-      Hello visible
-    </div>
-    <input id="i1_1" type="checkbox" data-value="if2">
   </section>
   <hr>
  
@@ -628,7 +622,7 @@
         done();
       })
     })
-    describe('data-if tests', () => {
+    describe('data-if tests', (done) => {
       it('if not displayed', (done) => {
         expect($('i0')).not.to.be.displayed;
         //Make true
@@ -640,9 +634,23 @@
       it('if displayed', (done) => {
         expect($('i1')).to.be.displayed;
         //Make true
-        $('i1_1').checked = true;
+        $('i1_1').checked = false;
         $('i1_1').dispatchEvent(new Event('change'));
-        expect($('i1')).to.be.displayed;
+        expect($('i1')).not.to.be.displayed;
+
+        done();
+      })
+      it('Make sure that if element children do no get updated when hidden', (done) => {
+        expect($('i2_2')).to.be.displayed;
+        expect($('i2_2')).to.have.text('true')
+        //Make false
+        $('i2_1').checked = false;
+        $('i2_1').dispatchEvent(new Event('change'));
+        expect($('i2')).not.to.be.displayed;
+        expect($('i2_2')).to.have.text('true') //Means if element contents are not updated when if negative
+
+        expect($('i2_2')).to.be.displayed;
+        expect($('i2_2')).to.have.text('true')
 
         done();
       })
