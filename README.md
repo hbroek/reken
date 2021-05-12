@@ -29,7 +29,7 @@ Reken relies on a few 'data-*' attributes that empower any HTML element to:
 - Conditional renders or toggles classes.
 - Create repeating HTML such as selections, lists or tables.
 - Makes it real easy to accept and process user input through events.
-- Loads from a JSON REST endpoint and provides class to monitor the restcall status.
+- Loads from a JSON REST endpoint and provides classes to monitor the rest call status.
 - Automatically updates the DOM.
 
 When a page with Reken attributes is loaded, Reken will build a setup controller and a runtime controller.
@@ -83,10 +83,20 @@ The variable vrb will contain the propery **index** and when bound to an array a
 - **data-action**: javascript code that gets executed in the event. In the code snippet you have access to the event details through the e variable.
 - **data-on**: Takes a eventName seperated by a colon and followed by javascript code that gets executed in the event. In the code snippet you have access to the variable the event details through the e variable.
 - **data-rest**: Takes a javascript variable and a rest service JSON endpoint url, separated by a colon. Once the rest service call is resolved the javascript variable contains the object representing the json. An optional property path in the resultset can be specified. When the url changes the rest call gets executed again. The url is an evaluated template string. That is how you can parameterize your rest calls. Based on the state of the rest call various classes are added on the element containing the data-rest attribute. When the rest call is in progress it adds the **reken-rest-busy** class. When completed it adds the **reken-rest-done** class. When there was an error it contains a **reken-rest-error** class. This allows you to change the look of the UI during the various stages. 
-An example is _&lt;tbody data-rest="myArray:myrestfile.json"/> for a file coming from the same domain. Or _&lt;div data-rest="myObject:path.to.the.object:http://someserver/thathasarestapi.json">_
+An example is _&lt;tbody data-rest="myArray:myrestfile.json"/>_ for a file coming from the same domain. Or _&lt;div data-rest="myObject:path.to.the.object:http://someserver/thathasarestapi.json">_
 - **data-calc**: Set this on a script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas or make transformations of data loaded by a rest service. For example _&lt;script data-calc>myVar = myOtherVar + 10&lt;/script>_
 
 Look at the demos and the Reken REPL for more examples and usages. 
+
+# Acknowledgments
+## [MVP.css](https://andybrewer.github.io/mvp/)
+A semantic HTML stylesheet. Create good looking concise demos.
+## [Mocha](https://mochajs.org)
+Runs the Reken tests.
+## [Chai](https://www.chaijs.com)
+Assertions in the Reken tests.
+## [Chai-dom](https://www.chaijs.com/plugins/chai-dom/)
+DOM Assertions in the Reken tests.
 
 # License
 Distributed under the MIT license. See License for details.
