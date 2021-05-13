@@ -90,7 +90,9 @@ Look at the demos and the Reken REPL for more examples and usages.
 
 # Acknowledgments
 ## [MVP.css](https://andybrewer.github.io/mvp/)
-A semantic HTML stylesheet. Create good looking concise demos.
+A semantic HTML stylesheet. Create good looking and concise demos.
+## [Chart.css](https://chartscss.org)
+A CSS data visualization framework. Used in the chart demo.
 ## [Mocha](https://mochajs.org)
 Runs the Reken tests.
 ## [Chai](https://www.chaijs.com)

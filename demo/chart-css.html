@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css@0.9.0/dist/charts.min.css">
+    <style>
+        table.charts-css {
+            --color: initial;
+            /* reset global --color var to have the bars show their individual colors;*/
+            min-height: 300px;
+        }
+
+        #controls {
+            display:flex;
+            flex-direction: column;
+            align-items:center;
+        }
+
+        #my-chart {
+            min-width: 300px;
+        }
+
+        #my-chart.column {
+            height: 300px;
+            min-height: 300px;
+            max-width: 300px;
+            min-width: 300px;
+            margin: 0 auto;
+        }
+
+        #my-chart tr:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        #my-chart tr:hover th {
+            background-color: rgba(0, 0, 0, 0.4);
+            color: #fff;
+        }
+    </style>
+    <title>Reken - Generate chart.css table and manipulate its data.</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+</head>
+
+<script>
+    let chartType = 'column'
+    const dataMax = 100
+    let tableData = [];
+    const generateDataPoint = () => Math.max(parseInt(Math.random() * dataMax), 20)
+
+    const updateArray = () => {
+        tableData = []
+        const startYear = 2016;
+        for (let i = 0; i < 6; i++) {
+            tableData.push({
+                label: i + startYear,
+                value: generateDataPoint(),
+                previous: (i == 0 ? generateDataPoint() : tableData[i - 1].value)
+            })
+        }
+    }
+    updateArray();
+</script>
+
+<body>
+    <main>
+        <header>
+            <h1>Reken - Show CSS based bar chart using chart.css</h1>
+        </header>
+        <section>
+            <form onsubmit1="return false">
+                <header>
+                    <h3>Update Salary data</h3>
+                </header>
+                <main id="controls">
+                    <label>Chart type:<select data-value="chartType">
+                        <option>column</option>
+                        <option>bar</option>
+                        <option>line</option>
+                        <option>area</option>
+                    </select></label>
+                    <button type="button" data-action="updateArray()">Refresh Data</button>
+                </main>
+            </form>
+        </section>
+        <section>
+            <main>
+                <table id="my-chart"
+                    data-attr-class="charts-css ${chartType} show-heading show-10-secondary-axes show-data-axes show-labels data-spacing-0">
+                    <caption> Random salaries </caption>
+                    <tbody data-for="bar:tableData">
+                        <tr>
+                            <th scope="row" data-text="${bar.item.label}"></th>
+                            <td data-style="--start: ${bar.item.previous / dataMax}; --size: ${bar.item.value / dataMax}"
+                                data-text="$${bar.item.value}K "> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+        </section>
+    </main>
+</body>
+<script src="../src/reken.js"></script>
+
+</html>
