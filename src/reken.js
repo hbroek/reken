@@ -117,6 +117,8 @@ function buildController(lines, setup, elem, elemString, topFor, topForString) {
                 break;
             case "if":
                 lines.push(elemString + ".style.display=(" + value + "?'':'none');");
+                lines.push('if ('+elem.dataset.if +') {')
+    
                 break;
             case "on":
                 let _eventName = value.substring(0, value.indexOf(':'));
@@ -189,8 +191,6 @@ function buildController(lines, setup, elem, elemString, topFor, topForString) {
     });
     let i = 0;
     if (elem.dataset.for === undefined) {
-        if (elem.dataset.if !== undefined) 
-            lines.push('if ('+elem.dataset.if +') {')
         for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
             buildController(lines, setup, child, elemString + ".children[" + i + "]", topFor, topForString);
             i++;

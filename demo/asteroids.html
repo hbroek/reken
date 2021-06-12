@@ -51,12 +51,11 @@
     <header>
         <h1>Reken - Asteroids "nearby"</h1>
     </header>
-    <main>
+    <main data-rest="asteroidData:https://api.nasa.gov/neo/rest/v1/feed?api_key=DEMO_KEY&start_date=${todayString}">
         <section data-if="asteroidDates.length==0">
             Loading ...
         </section>
-        <section data-if="asteroidDates.length>0"
-            data-rest="asteroidData:https://api.nasa.gov/neo/rest/v1/feed?api_key=DEMO_KEY&start_date=${todayString}">
+        <section data-if="asteroidDates.length>0">
             <form>
                 <header>
                     <h2>Asteroid date selection</h2>
