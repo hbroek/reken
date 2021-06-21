@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Set color with HSL parameters</title>
+
+
+    <style>
+        #color-block > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+        }
+        #color-block > div > div {
+        display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: center;
+        }
+        #color-block > div > div > div {
+            border-radius: 3px;
+            margin:0.125em;
+            width:30px;
+            height:30px;
+            cursor:cell;
+        }
+        #color-block > div > div > div:hover {
+            transform: scale(1.3);
+        }
+        .selected {
+            transform: scale(1.2);
+        }
+
+    </style>
+    <script>
+        let hue        = 0;
+        let saturation = 0;
+        let lighten    = 0;
+    </script>
+</head>
+
+<body>
+    <header><h1>Reken - create colors with HSL parameters</h1></header>
+    <section>
+        <form onsubmit1="return false">
+            <header><h3>Choose HSL color settings</h3></header>
+            <label>Hue:<input data-value="hue" type="range" min="0" max="360" step="0" value="0" /><input data-value="hue" type="number"></label>
+        </form>
+    </section>
+    <section id="color-block">
+        <div data-for="sat:9">
+            <div data-for="light:9">
+                <div data-action="saturation=sat.index;lighten=light.index;" data-style="background:hsl(${hue},${(sat.index+1)*10}%,${(light.index+1)*10}%);"
+                    data-attr-title="hsl(${hue},${(sat.index+1)*10}%,${(light.index+1)*10}%)" data-class="selected:saturation==sat.index&&lighten==light.index"></div>
+            <div>
+        </div>
+    </section>
+    <section>
+        <div data-text="hsl(${hue},${(saturation+1)*10}%,${(lighten+1)*10}%)"></div>
+    </section> 
+</body>
+
+</html>
+<script src="../src/reken.js"></script>
