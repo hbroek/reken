@@ -211,8 +211,24 @@
             "  </tr>",
             "</body>",
             "</table>"
-            ]
-        }
-   
-    
+        ]
+    },
+    {
+        "title": "data-component - Create and use a component",
+        "description": "Create and style a component that renders a div with a background color specified in the color argument and display it three times",
+        "code": [
+            "<div data-component=\"colorbox\" data-arg-color=\"red\"></div>",
+            "<div data-component=\"colorbox\" data-arg-color=\"white\"></div>",
+            "<div data-component=\"colorbox\" data-arg-color=\"blue\"></div>",
+            "<template data-component=\"colorbox\" data-arg-color>",
+            "  <style>",
+            "    :host {",
+            "      width:100%;",
+            "      height:100px;",
+            "    }",
+            "  </style>",
+            "  <div data-style=\"background:${color}\"></div>",
+            "</template>"
+        ]
+    }
 ]
