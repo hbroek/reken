@@ -85,6 +85,14 @@ The variable vrb will contain the propery **index** and when bound to an array a
 - **data-rest**: Takes a javascript variable and a rest service JSON endpoint url, separated by a colon. Once the rest service call is resolved the javascript variable contains the object representing the json. An optional property path in the resultset can be specified. When the url changes the rest call gets executed again. The url is an evaluated template string. That is how you can parameterize your rest calls. Based on the state of the rest call various classes are added on the element containing the data-rest attribute. When the rest call is in progress it adds the **reken-rest-busy** class. When completed it adds the **reken-rest-done** class. When there was an error it contains a **reken-rest-error** class. This allows you to change the look of the UI during the various stages. 
 An example is _&lt;tbody data-rest="myArray:myrestfile.json"/>_ for a file coming from the same domain. Or _&lt;div data-rest="myObject:path.to.the.object:http://someserver/thathasarestapi.json">_
 - **data-calc**: Set this on a script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas or make transformations of data loaded by a rest service. For example _&lt;script data-calc>myVar = myOtherVar + 10&lt;/script>_
+- **data-component**: You can create a reusable component by adding a data-component attribute to a template. The value of the attribute is the name of the component. You can now reuse this component in your document by adding the data-component attribute to a non-template tag. It will then insert/replace the content of that tag with the content of the template. For example _&lt;template data-component="mycomponent"> .... html here ...&lt;/template>_ You can reuse the component by refering to it as follows: _&lt;div data-component="mycomponent">&lt;/div>_
+You can create component specific styles, by placing a style tag in the template for the component definition. You can refer to the top element with the :host css phrase.
+_&lt;style>
+  :host {background: red;}
+  :host > span {color: white;}
+&lt;/style>_
+You can also specify component state by specifying a script tag and initialize variables with the let construct. For example _let val = 100_ This _val variable will be scoped to the component.
+- **data-arg-***: You can pass in arguments into a component using the data-arg-&lt;name> attribute. For example: _&lt;div data-component="mycomponent" data-arg-myattr="value">_. In the component definition you will need to specify the attribute and can then use it in the component definition.  _&lt;template data-component="mycomponent" data-arg-myattr>..._  You can now refer to the attribute in the template html. For example: _&lt;div data-text="${myattr}"</div> which insert the argument as the div's text content.
 
 Look at the demos and the Reken REPL for more examples and usages. 
 
