@@ -42,10 +42,6 @@
     var class2 = true
     var class3 = false
 
-    var if0 = false;
-    var if1 = true;
-    var if2 = true;
-
     let a0 = 0
     let a1 = 10
 
@@ -239,22 +235,33 @@
   </section>
   <hr>
 
+  <script>
+    let if0 = false;
+    let if1 = true;
+    let if2 = true;
+    let if3 = false;
+  </script>
   <section>
     <h3>data-if tests</h3>
     <div id="i0" data-if="if0">
       Hello not visible
     </div>
-    <input id="i0_1" type="checkbox" data-value="if0">
+    <label>if0:<input id="i0_1" type="checkbox" data-value="if0"></label>
     
     <div id="i1" data-if="if1">
       Hello visible
     </div>
-    <input id="i1_1" type="checkbox" data-value="if1">
+    <label>if1:<input id="i1_1" type="checkbox" data-value="if1"></label>
 
     <div id="i2" data-if="if2">
       <span id="i2_2" data-text="${if2}"></span>
     </div>
-    <input id="i2_1" type="checkbox" data-value="if2">
+    <label>if2:<input id="i2_1" type="checkbox" data-value="if2"></label>
+
+    <div id="i3" data-if="if3" data-for="if3_1:3">
+      <span data-text="${if3_1.index}"></span>
+    </div>
+    <label>if3:<input id="i3_1" type="checkbox" data-value="if3"></label>
   </section>
   <hr>
 
@@ -861,6 +868,19 @@
 
         expect($('i2_2')).to.be.displayed;
         expect($('i2_2')).to.have.text('true')
+
+        done();
+      })
+      it('Make sure that if element with a for loop does not execute when hidden', (done) => {
+        expect($('i3')).not.to.be.displayed;
+        expect($('i3_1').checked).to.be.false;
+        expect($('i3')).to.have.length(1);
+        //Make true; Ie show and execute element
+        $('i3_1').checked = true;
+        $('i3_1').dispatchEvent(new Event('change'));
+        expect($('i3')).to.be.displayed;
+        expect($('i3_1').checked).to.be.true;
+        expect($('i3')).to.have.length(3);
 
         done();
       })

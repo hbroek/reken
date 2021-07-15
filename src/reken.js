@@ -170,6 +170,12 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             case "for":
                 if (topForString === undefined)
                     topForString = elemString
+
+                if (elem.dataset.if !== undefined && elem.children.length>0) {
+                    controlCode.push(indent+'if ('+elem.dataset.if +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                    indent = '  ' + indent
+                }
+    
                 let _var = value.substring(0, value.indexOf(':'));
                 let _data = value.substring(value.indexOf(':') + 1);
                 let _arrayName = '_arr_' + uniqueID();
@@ -196,6 +202,12 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 }
                 controlCode.push(indent+_forIndex + "+=1");
                 controlCode.push(indent+'}' + '// End loop ' + _forVar);
+
+                if (elem.dataset.if !== undefined && elem.children.length>0) {
+                    indent = indent.substring(2);
+                    controlCode.push(indent+'}') //Close if statement
+                }
+
                 break;
             case "calc":
                 controlCode.push(elem.textContent.trim());
