@@ -62,7 +62,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['component', 'if', 'for', 'attr-value']; // Need to be first in that order.
+    let firsts = ['component', 'style', 'if', 'for', 'attr-value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
