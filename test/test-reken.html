@@ -240,6 +240,7 @@
     let if1 = true;
     let if2 = true;
     let if3 = false;
+    let if4 = true;
   </script>
   <section>
     <h3>data-if tests</h3>
@@ -262,6 +263,10 @@
       <span data-text="${if3_1.index}"></span>
     </div>
     <label>if3:<input id="i3_1" type="checkbox" data-value="if3"></label>
+
+    <div id="i4" data-if="if4" data-style="background:rgb(255, 0, 0)">if/style test
+    </div>
+    <label>if4:<input id="i4_1" type="checkbox" data-value="if4"></label>
   </section>
   <hr>
 
@@ -884,7 +889,21 @@
 
         done();
       })
+      it('Make sure that if element works with data-style attribute', (done) => {
+        expect($('i4')).to.be.displayed;
+        expect($('i4_1').checked).to.be.true;
+        expect($('i4')).to.have.style('background-color', 'rgb(255, 0, 0)');
+
+        //Make true; Ie show and execute element
+        $('i4_1').checked = false;
+        $('i4_1').dispatchEvent(new Event('change'));
+        expect($('i4')).not.to.be.displayed;
+        expect($('i4_1').checked).to.be.false;
+        expect($('i4')).to.have.style('background-color', 'rgb(255, 0, 0)');
+        done();
+      })      
     })
+    
     describe('data-action tests', () => {
       it('Press button to increment js number a0', (done) => {
         expect(a0).to.equal(0);
