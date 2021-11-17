@@ -15,7 +15,7 @@
 *   * radio: has a change listener and takes a boolean, if multiple are grouped by the names attribute it takes a string.
 * - data-style: Update the style attribute with a an evaluated template string.
 * - data-class: Takes a classname and an boolean expression that resolves in adding the classname when true and removing when false. If not boolean expression if provided the classname with be resolved into a boolean expression.
-* - data-if: Takes a boolean expression, when true the element is shown, false the element is hidden (display:none)
+* - data-if: Takes a boolean expression, when true the element is shown, false the element is hidden (display:none). if classname provide before expression, class is added/removed to element instead of toggling the display property.
 * - data-on: Takes a eventName following by js code that gets executed in the event. with the variable e the event details are made available.
 * - data-for: Takes a var name following by a iterating javascript iterable object or a number. The first child of the element containing data-for will be replicated with the number of the elements in the iterable object or the number of times specifed. in the for loop the var element will contain property index and with an iterable object the item property. Nested loops a are allowed.
 * - data-rest: Takes a javascript variable and a rest service JSON endpoint. Once the rest service is resolved the javascript variable contains the object representing the json. An optional property path in the resultsset can be specified. When the url changes the rest call gets executed again. The url can is an evaluated template string. That is how you can parameterize your rest calls.
@@ -133,7 +133,13 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                 break;
             case "if":
-                controlCode.push(elemString + ".style.display=(" + value + "?'':'none');");
+                {
+                    let [_expr, _class] = parseIfExpression(value);
+                    if (_class)
+                        controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
+                    else
+                        controlCode.push(elemString + ".style.display=(" + value + "?'':'none');");
+                }
                 break;
             case "action": {
                     let eventName = "click";
@@ -172,7 +178,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     topForString = elemString
 
                 if (elem.dataset.if !== undefined && elem.children.length>0) {
-                    controlCode.push(indent+'if ('+elem.dataset.if +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                    controlCode.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                     indent = '  ' + indent
                 }
     
@@ -285,7 +291,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     }
     if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
         if (elem.dataset.if !== undefined && elem.children.length>0)
-            controlCode.push('if ('+elem.dataset.if +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+            controlCode.push('if ('+parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
 
         let i = 0;
         for (let child of elem.children) { 
@@ -522,6 +528,17 @@ function getForContextString(forElem, idxName) {
     let _return = "let " + _var + "= {index:" + idxName + "};"
     _return += "if (typeof ("+_data+") !== 'number' && typeof ("+_data+") !== 'undefined')"+_var+"['item'] = "+ _data  + "[" + idxName + "];"
     return _return;
+}
+
+// Fetch if expression and optional class which gets set when expression is true
+const parseIfExpression = (value) => {
+    let _class = null;
+    let _expr = value;
+    if (value.indexOf(':') >= 0) {
+        _class = value.substring(0, value.indexOf(':'));
+        _expr = value.substring(value.indexOf(':') + 1);
+    }
+    return [_expr, _class];
 }
 /* Runtime Helpers *********************************************************************************************************/
 function processRestCall(elem, _url, modelUpdate) {

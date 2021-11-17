@@ -241,6 +241,8 @@
     let if2 = true;
     let if3 = false;
     let if4 = true;
+    let if5 = true;
+
   </script>
   <section>
     <h3>data-if tests</h3>
@@ -267,6 +269,12 @@
     <div id="i4" data-if="if4" data-style="background:rgb(255, 0, 0)">if/style test
     </div>
     <label>if4:<input id="i4_1" type="checkbox" data-value="if4"></label>
+
+    <div id="i5" data-if="i5class:if5">if/class test
+      <strong id="i5t" data-text="${if5}"></strong>
+    </div>
+    <label>if5:<input id="i5_1" type="checkbox" data-value="if5"></label>
+
   </section>
   <hr>
 
@@ -348,7 +356,7 @@
     <ol id="f7" data-for="f7v:f7_loop">12 elements
       <li data-text="${f7v.index+1} of 12 elements"</li>
     </ol>
-    <!--double nested loop with action in the inner -->
+
     <script>
       let outer8Var = 0;
       let inner8Var = 0
@@ -486,8 +494,6 @@
     </template>
     <div id="cp6" data-component="comp6" data-arg-arr="cp6arr"></div>
 
-
-    <!-- Verify component context sensitive change and action events -->
     <template data-component="cp7cell">
       <script>
         let cellValue = 10
@@ -529,7 +535,6 @@
     </template> 
     <div id="cp7" style="border: 1px solid red" data-component="cp7grid"></div> 
 
-    <!-- Verify component state in for loop  -->
     <script>
       let a8 = ["One", "Two", "Three"]
     </script>
@@ -902,6 +907,25 @@
         expect($('i4')).to.have.style('background-color', 'rgb(255, 0, 0)');
         done();
       })      
+      it('Make sure that if element works with class modifier', (done) => {
+        expect($('i5')).to.be.displayed;
+        expect($('i5t')).to.be.displayed;
+        expect($('i5t')).to.have.text('true');
+        expect($('i5_1').checked).to.be.true;
+        expect($('i5')).to.have.class('i5class');
+
+        //Make false; Ie show and execute element
+        $('i5_1').checked = false;
+        $('i5_1').dispatchEvent(new Event('change'));
+        expect($('i5')).to.be.displayed;
+        expect($('i5t')).to.be.displayed; // Not hidden and not modified as the class modifier does not hide it but children are not executed.
+        expect($('i5t')).to.have.text('true');
+        expect($('i5_1').checked).to.be.false;
+        expect($('i4')).to.not.have.class('i5class');
+        done();
+      })      
+
+
     })
     
     describe('data-action tests', () => {
