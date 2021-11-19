@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Reken - Single Page Application</title>
+    <style>
+        main > section {
+            display:none;
+        }
+        main > section.current {
+            display:inherit;
+        }
+        button {
+            margin: 0.5em;
+        }
+    </style>
+    <script>
+        let current = 'page1';
+    </script>
+</head>
+
+<body>
+    <header><h1>Reken - Single Page Application</h1></header>
+    <main>
+        <section id="page1" data-if="current:current=='page1'">
+            <header><h1>Page 1</h1></header>
+        </section>
+        <section id="page2"  data-if="current:current=='page2'">
+            <header><h1>Page 2</h1></header>
+        </section>
+        <section id="page3"  data-if="current:current=='page3'">
+            <header><h1>Page 3</h1></header>
+        </section>
+    </main>
+    <footer>
+        <section>
+            <button data-attr-disabled="current=='page1'" data-action="current='page1'">Page 1</button>
+            <button data-attr-disabled="current=='page2'" data-action="current='page2'">Page 2</button>
+            <button data-attr-disabled="current=='page3'" data-action="current='page3'">Page 3</button>
+        </section>
+    </footer>
+</body>
+
+<script src="../src/reken.js"></script>
+</html>
