@@ -21,6 +21,7 @@
 * - data-rest: Takes a javascript variable and a rest service JSON endpoint. Once the rest service is resolved the javascript variable contains the object representing the json. An optional property path in the resultsset can be specified. When the url changes the rest call gets executed again. The url can is an evaluated template string. That is how you can parameterize your rest calls.
 * - data-calc: Set this on an script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas.
 * - data-component: Define and reference a component.
+* - data-attr-*: Set element with attr value. If the attribute is a boolean attr eg. disabled, readlonly; the value is evaluated as a boolean at the attr will be added it evaluates to true.
 * - data-arg-*: Define and reference component arguments.
 */
 if (typeof rkn_server_generated === 'undefined')
@@ -31,6 +32,35 @@ var setupFunction;
 var controllerFunction;
 var _setupString;
 var _controllerString;
+let booleanAttrs = [
+    'allowfullscreen',
+    'allowpaymentrequest',
+    'async',
+    'autofocus',
+    'autoplay',
+    'checked',
+    'controls',
+    'default',
+    'defer',
+    'disabled',
+    'formnovalidate',
+    'hidden',
+    'ismap',
+    'itemscope',
+    'loop',
+    'multiple',
+    'muted',
+    'nomodule',
+    'novalidate',
+    'open',
+    'playsinline',
+    'readonly',
+    'required',
+    'reversed',
+    'selected',
+    'truespeed'
+]
+
 function buildClasses(componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles) {
     if (elem.tagName == "TEMPLATE")
         return; //Ignore template tags
@@ -283,7 +313,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             default: {
                 if (key.startsWith('attr')) {
                     let _attr = key.substring(4).toLowerCase();
-                    controlCode.push(elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
+                    if (booleanAttrs.includes(_attr.toLowerCase()))
+                        controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
+                    else
+                      controlCode.push(elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
                 }
 
             }

@@ -45,9 +45,6 @@
     let a0 = 0
     let a1 = 10
 
-    let at_width = 64;
-    let at_height= 48;
-
     let o_0 = 5
     let o_1 = 'a'
   
@@ -284,10 +281,20 @@
   </section>
   <hr>
  
+  <script>
+    let at_width = 64;
+    let at_height= 48;
+    let at2_disabled = false;
+  </script>
+  
   <section>
     <h3>data-attr-* tests</h3>
     <img id="at0" data-attr-width="${at_width}" data-attr-height="${at_height}">Image</div>
     <button id="at1" data-action="at_width=32; at_height=24" type="button">Update dimensions</button>
+
+    <!-- test boolean attrs-->
+    <button id="at2" data-action="at2_disabled = true" data-attr-disabled="at2_disabled" type="button">Click to disable</button>
+
   </section>
   <hr>
 
@@ -958,6 +965,15 @@
 
         expect($('at0')).to.have.attribute('width', '32')
         expect($('at0')).to.have.attribute('height', '24')
+
+        done();
+      })
+      it('Conditionally show boolean attribute', (done) => {
+        expect($('at2')).to.not.have.attribute('disabled')
+
+        $('at2').dispatchEvent(new Event('click'));
+
+        expect($('at2')).to.have.attribute('disabled')
 
         done();
       })
