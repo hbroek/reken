@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Open a Json file using the file input control</title>
+    <script>
+        let file;
+    </script>
+</head>
+
+<body>
+    <header>
+        <h3>Reken - Open a Json file</h3>
+    </header>
+    <main>
+        <section>
+            <form>
+                <header>
+                    <h3>Open a JSON file</h3>
+                    <h5>Note it will not get uploaded to a server, it will stay in your browser</h5>
+                </header>
+                <label>Pick a JSON file:<input data-value="file" type="file" accept=".json"></label>
+                <div data-if="file">Results
+                    <h3 data-text="Name: ${file.name}"></h3>
+                    <h3 data-text="Epoch time: ${file.lastModified}"></h3>
+                    <h3 data-text="Date: ${new Date(file.lastModified)}"></h3>
+                    <h3 data-text="Size: ${file.size}"></h3>
+                    <h3 data-text="Type: ${file.type}"></h3>
+                    <h3 data-text="Content: ${JSON.stringify(file.data)}"></h3>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+
+
+<script src="../src/reken.js"></script>
+
+</html>

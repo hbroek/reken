@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <script>
+        let methods = ['get', 'post']
+        let method = 'get'
+        let body   = 'Hello World'
+        var results = undefined;
+        var counter1 = 0
+    </script>
+
+    <title>Reken - Rest Options fetch example</title>
+</head>
+
+<body>
+    <script data-calc>
+        var options = {
+            "method": method,
+            "body": method=='get'?null:body
+        }
+    </script>
+
+    <header>
+        <h1>Reken - Rest options fetch example</h1>
+    </header>
+    <main>
+        <section>
+            <form onsubmit="return false">
+                <h3>Fetch Options</h3>
+                <label>Method
+                    <select data-value="method" type="text" data-for="method:methods">
+                        <option data-text="${method.item}">
+                    </select>
+                </label>
+                <label data-if="method!='get'">Body<input placeholder="Fetch body" data-value="body" type="text" /></label>
+                <button data-action="counter1++">Fetch</button>
+            </form>
+        </section>
+        <section data-rest="results:https://echo.zuplo.io/?counter=${counter1}" data-rest-options="options">
+            <div><h3>Rest results</h3></div>
+            <div data-if="!results">Loading</div>
+            <div data-if="results">
+                <h5>Url</h5>
+                <span data-text="${results.url}"></span>
+                <h5>Method</h5>
+                <span data-text="${results.method}"></span>
+                <div data-if="results.body">
+                    <h5>Body</h5>
+                    <span data-text="${results.body}"></span>
+                </div>
+                <h5>Query</h5>
+                <table data-for="row:Object.keys(results.query)">
+                    <tr><td data-text="${row.item}"</td><td data-text="${results.query[row.item]}"</td></tr>
+                </table>
+                <h5>Headers</h5>
+                <table data-for="row:Object.keys(results.headers)">
+                    <tr><td data-text="${row.item}"</td><td data-text="${results.headers[row.item]}"</td></tr>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+<script src="../src/reken.js"></script>
+
+</html>

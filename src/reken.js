@@ -13,16 +13,20 @@
 *   * input type: range have an update! listener and returns a number value
 *   * checkbox: has change listener and takes a boolean, if multiple checkboxes are grouped by the name attribute it takes an array
 *   * radio: has a change listener and takes a boolean, if multiple are grouped by the names attribute it takes a string.
+*   * file: value is read-only and after a file (JSON) upload will contain the File object with attributes: name, size, lastModified (in ms), type and data containing the deserialized JSON.
+*   *       an optional transform function reference can be provided, and will be called with the file content string and the File object. It should return the deserialized object. For example to parse XML data.
 * - data-style: Update the style attribute with a an evaluated template string.
 * - data-class: Takes a classname and an boolean expression that resolves in adding the classname when true and removing when false. If not boolean expression if provided the classname with be resolved into a boolean expression.
 * - data-if: Takes a boolean expression, when true the element is shown, false the element is hidden (display:none). if classname provide before expression, class is added/removed to element instead of toggling the display property.
 * - data-on: Takes a eventName following by js code that gets executed in the event. with the variable e the event details are made available.
 * - data-for: Takes a var name following by a iterating javascript iterable object or a number. The first child of the element containing data-for will be replicated with the number of the elements in the iterable object or the number of times specifed. in the for loop the var element will contain property index and with an iterable object the item property. Nested loops a are allowed.
 * - data-rest: Takes a javascript variable and a rest service JSON endpoint. Once the rest service is resolved the javascript variable contains the object representing the json. An optional property path in the resultsset can be specified. When the url changes the rest call gets executed again. The url can is an evaluated template string. That is how you can parameterize your rest calls.
-* - data-calc: Set this on an script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas.
-* - data-component: Define and reference a component.
-* - data-attr-*: Set element with attr value. If the attribute is a boolean attr eg. disabled, readlonly; the value is evaluated as a boolean at the attr will be added it evaluates to true.
-* - data-arg-*: Define and reference component arguments.
+* - data-rest-options: Takes a javascript variable with options to pass into the rest fetch call.
+* - data-calc: Set this attribute on an script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas.
+* - data-component: Define and reference a component. Components can have members vars by defining them with "let varname = value" and component methods for internal use. by defining a script block in the component. To reexecute component state for every event add  script block with the calc attribute
+* - data-attr-*: Set element with attr value. If the attribute is a boolean attr eg. disabled, read-only; the value is evaluated as a boolean at the attr will be added it evaluates to true. 
+* - data-arg-*: Define component arguments. Values bind to the argument can be updated by the component.
+* - data-bind-*: Bind variable to a component binding. Values bind to the argument can be updated by the component.
 */
 if (typeof rkn_server_generated === 'undefined')
     var rkn_server_generated = false;
@@ -71,7 +75,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     if (componentRoot) {
         let keysToRemove = ['component']
         for (let key of keys) {
-            if (key.startsWith('arg') > 0)
+            if (key.startsWith('arg') > 0 || key.startsWith('bind') > 0)
                 keysToRemove.push(key)
         }
         for (let key of keysToRemove) {
@@ -84,7 +88,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
         if (keys.indexOf('component')>=0) {
             let filteredKeys = ['component']
             for (let key of keys) {
-                if (key.startsWith('arg'))
+                if (key.startsWith('arg') || key.startsWith('bind') > 0)
                     filteredKeys.push(key)
             }
             keys = filteredKeys;
@@ -105,7 +109,9 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     }
     let indent = "    "
     for (let key of orderedKeys) {
-        const value = elem.dataset[key];
+        let value = elem.dataset[key];
+        let transformerFunctionReference = ""
+
 
         if (elem.id != '' && elemString != "this.root" && elemString === compString)
             elemString = "document.getElementById('"+elem.id+"')"
@@ -130,6 +136,13 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     else
                         controlCode.push(indent + elemString + ".checked = " + value);
                 }
+                else if (elem.type == 'file') {
+                    let transformerIndex = value.indexOf(':')
+                    if (transformerIndex >= 0) {
+                        transformerFunctionReference = value.substring(transformerIndex+1)
+                        value = value.substring(0, transformerIndex)
+                    }
+                }
                 else
                     controlCode.push(indent + elemString + ".value = " + value);
                 let eventName = "change";
@@ -138,14 +151,16 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 }
 
                 let eventId = eventName+"_"+uniqueID();
-                initCode.push(compString + ".dataset.event_id = '" + eventId+"'");
+                initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
                     'eventType':eventName,
-                    'handlerEventCheck': "  if (e.target.dataset.event_id !== '" + eventId + "') return;",
+                    'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
                     'handlerName': eventId,
-                    'handlerCode':(value + "=typedReturn(e.target," + value + ");"),
-                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";"
+                    'handlerCode': (elem.type === 'file')?(value + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")")
+                        :(value + "=typedReturn(e.target," + value + ");"),
+                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";",
+                    "deferredUpdate": elem.type === 'file'
                 })
                 break;
             case "style":
@@ -169,35 +184,25 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                     else
                         controlCode.push(elemString + ".style.display=(" + value + "?'':'none');");
+
+                    if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
+                        if (elem.dataset.if !== undefined)
+                            controlCode.push('if ('+parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                    }
+                    
                 }
                 break;
             case "action": {
                     let eventName = "click";
                     let eventId = eventName+"_"+uniqueID();
-                    initCode.push(compString + ".dataset.event_id = '" + eventId+"'");
+                    initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
 
                     eventCode.push({
                         'elemId':(topForString === undefined ? compString : topForString),
                         'eventType':eventName,
-                        'handlerEventCheck': "  if (e.target.dataset.event_id !== '" + eventId + "') return;",
+                        'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
                         'handlerName': eventId,
                         'handlerCode':value,
-                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";"
-                    })
-                }
-                break;
-            case "on": {
-                    let eventName = value.substring(0, value.indexOf(':'));
-                    let handler = value.substring(value.indexOf(':') + 1);
-                    let eventId = eventName+"_"+uniqueID();
-                    initCode.push(compString + ".dataset.event_id = '" + eventId+"'");
-    
-                    eventCode.push({
-                        'elemId':(topForString === undefined ? compString : topForString),
-                        'eventType':eventName,
-                        'handlerEventCheck': "  if (e.target.dataset.event_id !== '" + eventId + "') return;",
-                        'handlerName': eventId,
-                        'handlerCode':handler,
                         'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";"
                     })
                 }
@@ -279,13 +284,18 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 controlCode.push("    {"); 
                 let args = []
                 for (let attr of Object.keys(elem.dataset)) {
-                    if (attr.startsWith("arg")) {
+                    if (attr.startsWith("arg") || attr.startsWith('bind')) {
                         let arg = attr.substring(3).toLowerCase()
+                        if (attr.startsWith('bind'))
+                            arg = attr.substring(4).toLowerCase()
                         let value = elem.dataset[attr]
                         //Check if variable
-                        if (/^[a-zA-Z_$][0-9a-zA-Z_$/.]*$/.test(value))
+                        if (/^[a-zA-Z_$][0-9a-zA-Z_$/.]*$/.test(value)) {
                             controlCode.push("      let " + arg + " = (typeof " + value + "!== 'undefined'?"+value+":'"+value+"')")
-                        //Check if number
+                            if (attr.startsWith('bind')) // Only bind parameters send bind events.
+                                initCode.push(indent + compString + ".addEventListener('"+arg+"', (e) => {"+value+" = e.detail.value})")
+                        }
+                            //Check if number
                         else if (!isNaN(value)) {
                             controlCode.push("      let " + arg + ' = ' +value)
                         }
@@ -293,9 +303,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         else
                             controlCode.push("      let " + arg + ' = ' + "`"+value+"`")
                         args.push(`${arg}`)
+
                     }
                 }
-                controlCode.push(`      ${elemString}.rkn_class.controller(${args.join(',')})`)
+                controlCode.push(`      ${elemString}.rkn_class.controller({${args.join(',')}})`)
                 controlCode.push('    }')
                 break;
             case "rest":
@@ -307,7 +318,12 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     path = '.' + _url.substring(0, nextTokenIndex);
                     _url = _url.substring(nextTokenIndex + 1);
                 }
-                controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, (js)=>{" + _array + "=js" + path + ";_mainInstance.controller()})");
+                // get rest options if available
+                let options = '{}'
+                if (elem.dataset.restOptions) {
+                    options = elem.dataset.restOptions
+                }
+                controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{" + _array + "=js" + path + ";_mainInstance.controller({})})");
                 break;
 
             default: {
@@ -316,22 +332,33 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     if (booleanAttrs.includes(_attr.toLowerCase()))
                         controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
                     else
-                      controlCode.push(elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
+                      controlCode.push("if (" + elemString + ".getAttribute('" + _attr + "') !== `" + value + "`) " + elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
                 }
-
+                else if (key.startsWith('on')) {
+                    let eventName = key.substring(2).toLowerCase();
+                    let handler = value;
+                    let eventId = eventName+"_"+uniqueID();
+                    initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+    
+                    eventCode.push({
+                        'elemId':(topForString === undefined ? compString : topForString),
+                        'eventType':eventName,
+                        'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
+                        'handlerName': eventId,
+                        'handlerCode':handler,
+                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";"
+                    })
+                }
             }
         }
     }
     if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
-        if (elem.dataset.if !== undefined && elem.children.length>0)
-            controlCode.push('if ('+parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-
         let i = 0;
         for (let child of elem.children) { 
             buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles)
             i++
         }
-        if (elem.dataset.if !== undefined && elem.children.length>0)
+        if (elem.dataset.if !== undefined)
             controlCode.push('}')
     }            
 }
@@ -358,7 +385,7 @@ const processComponentReferences = (elem) => {
                     }
                 }
                 else {
-                    if (attr.startsWith('data-arg'))
+                    if (attr.startsWith('data-arg') || attr.startsWith('data-bind'))
                         component.setAttribute(attr, elem.getAttribute(attr))
                     if (attr == 'class')
                         component.classList.add(elem.getAttribute('class'))
@@ -405,13 +432,15 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
 
     let output = []
     // Build constructor 
-    output.push(`class ${componentName} {`);
+    output.push(`class ${componentName} extends rkn_base{`);
     output.push('  constructor(root) {');
+    output.push('  super()');
     output.push('    this.root = root;');
     // Add references to top descendant classes
     output.push(...compInitCode)
     // State initialization
     const [stateVars, initCode] = getStateVars(templateElement)
+    stateVars.push("root")
     output.push(...initCode)
     for (let _var of stateVars)
         output.push(`    this.${_var} = ${_var}`)
@@ -427,24 +456,53 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
     output.push(`    return new ${componentName}(elem);`)
     output.push('  }')
 
+    // Get comp arguments
+    const initArgs = getInitParams(templateElement, 'arg')
+    const initBinds = getInitParams(templateElement, 'bind')
+    // Create a list of bind names from the bind default assignment declarations
+    const bindKeys = initBinds.map(paramAssign => paramAssign.substring(0,paramAssign.indexOf('=')))
+    const initParams = [...initArgs, ...initBinds]
+    // Create a list of parameter names from the parameter default assignment declarations
+    const paramKeys = initParams.map(paramAssign => paramAssign.substring(0,paramAssign.indexOf('=')))
+ 
+    // Add method calls
+    const [methods, methodCode] = getMethods(templateElement, stateVars, initParams)
+    output.push(...methodCode)
 
     // Build controller
-    const initArgs = getInitArgs(templateElement)
-    output.push(`  controller(${initArgs.join(',')}) {`)
+    output.push(`  controller({${initParams.join(',')}}) {`)
+    // if (componentName === '_main')
+    //     output.push('console.time("controller")');
+
 
     for (let _var of stateVars)
         output.push(`    let ${_var} = this.${_var}`)
+    
+    for (let _method of methods)
+        output.push(_method)
+
+
+    //inject script code
+    output.push(...getScript(templateElement))
 
     if (compControlCode.length>0)
         output.push(`    let _v`)
         output.push(...compControlCode)
 
-    for (let argAssign of initArgs) {
-        let arg = argAssign.substring(0,argAssign.indexOf('='))
-        output.push("    this." + arg +" = " + arg) 
+    // save potentially updated argument state
+    for (let paramAssign of initParams) {
+        let param = paramAssign.substring(0,paramAssign.indexOf('='))
+        output.push("    this." + param +" = " + param) 
     }
-    output.push('  }')
 
+    // save potentially updated member state
+    for (let _var of stateVars)
+        output.push(`    this.${_var} = ${_var}`)
+
+
+    // if (componentName === '_main')
+    //     output.push('console.timeEnd("controller")');
+    output.push('  }')
 
     // Build events
     for (let event of compEventCode) {
@@ -455,21 +513,28 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
         for (let _var of stateVars)
             output.push(`    let ${_var} = this.${_var}`)
 
-        // set args from state
-        for (let argAssign of initArgs) {
-            let arg = argAssign.substring(0,argAssign.indexOf('='))
-            output.push("    let " + arg +" = this." + arg) 
-        }
+        for (let param of paramKeys)
+            output.push("    let " + param +" = this." + param) 
+
+        for (let _method of methods)
+            output.push(_method)
+
     
         //Add for loop context(s)
         output.push("    " + event.forContext);
         //Add event handler code
         output.push("    " + event.handlerCode)   
+
+        //Notify if value argument has changed
+        for (let valueVar of bindKeys) {
+            output.push("    if ("+valueVar+"!==this."+valueVar+") root.dispatchEvent(new CustomEvent('"+valueVar+"', {detail:{value:"+valueVar+"}}))");
+        }
     
         for (let _var of stateVars)
             output.push(`    this.${_var} = ${_var}`)
-         
-        output.push("    _mainInstance.controller()");
+        
+        if (!event.deferredUpdate) 
+            output.push("    _mainInstance.controller({})");
         output.push("  }");
     }
     //end class
@@ -482,11 +547,13 @@ function getStateVars(templateElement) {
     let initCode = []
     if (templateElement) {
         let scriptElement = templateElement.content.querySelector('script')
-        if (scriptElement != null && scriptElement.childNodes.length>0) {
+        if (scriptElement != null && !scriptElement.hasAttribute('data-calc') && scriptElement.childNodes.length>0) {
             let _code =  scriptElement.textContent.split(/\r?\n/); // Create array of state init code.
             for (let line of _code) {
                 line = line.trim()
-                if (line == '')
+                if (line.startsWith('function'))
+                    break;
+                if (line == '' || !line.startsWith('let'))
                     continue;
                 initCode.push('    '+line); // Add state init code to class constructor
                 let assignment = line.split(/=? /) // If assigment add it is a class member and initialize
@@ -497,26 +564,67 @@ function getStateVars(templateElement) {
     }
     return [stateVars, initCode]
 }
+// Load first template script and isolate the function methods
+function getMethods(templateElement, stateVars, initArgs) {
+    let methods = []
+    let initCode = []
+    let beforeFunctions = true;
+    if (templateElement) {
+        let scriptElement = templateElement.content.querySelector('script')
+        if (scriptElement != null && !scriptElement.hasAttribute('data-calc') && scriptElement.childNodes.length>0) {
+            let _code =  scriptElement.textContent.split(/\r?\n/); // Create array of state init code.
+            
+            for (let line of _code) {
+                line = line.trim()
+                if (line.startsWith('function')) {
+                    beforeFunctions = false
+                    line = line.substring(8)
+                    let _funcName = line.substring(0,line.indexOf('(')).trim()
+                    let _params = line.substring(_funcName.length+1, line.indexOf(')')+1).trim()
+
+                    initCode.push('    '+line); // Add state init code to class constructor
+                    for (let _var of stateVars)
+                        initCode.push(`    let ${_var} = this.${_var}`)
+
+                    for (let _method of methods)
+                        initCode.push('    '+_method)
+
+
+                    for (let argAssign of initArgs) { // Comp arguments
+                        let arg = argAssign.substring(0,argAssign.indexOf('='))
+                        initCode.push("    let " + arg +" = this." + arg) 
+                    }
+                    methods.push(`let ${_funcName} = ${_params}=>this.${_funcName}${_params}`)
+                    continue;
+                }
+                if (beforeFunctions)
+                    continue;
+                initCode.push('    '+line); // Add state init code to class constructor
+            }
+        }
+    }
+    return [methods, initCode]
+}
+
 // Find the component arguments
-function getInitArgs(templateElement) {
+function getInitParams(templateElement, paramType) {
     let args = []
     if (templateElement) {
-
         for (let attr of Object.keys(templateElement.dataset)) {
-            if (attr.startsWith("arg")) {
-                let arg = attr.substring(3).toLowerCase()
+            if (attr.startsWith(paramType)) {
+                let arg = attr.substring(paramType.length).toLowerCase()
                 let value = templateElement.dataset[attr]
                 if (value != "")
                     arg += `=${isNaN(value)?"'"+value+"'":value}`
                 else
-                    arg += '=""' // Default is empty string
+                    arg += '=undefined' // Default is empty string
                 args.push(arg)
             }
         }
     }
     return args
 }
-// FInd the first style tag for a component and prepend with the component selector
+// Find the first style tag for a component and prepend with the component selector
 function getStyle(templateElement) {
     if (templateElement && templateElement.content.querySelector('style')) {
         let rekenStyle = templateElement.content.querySelector('style')
@@ -536,6 +644,18 @@ function getStyle(templateElement) {
     }
     return [];
 }
+// Find the first script tag for a component and return javascript
+function getScript(templateElement) {
+    if (templateElement && templateElement.content.querySelector('script[data-calc]')) {
+        let rekenScript = templateElement.content.querySelector('script[data-calc]')
+        if (rekenScript != null && rekenScript.textContent) {
+            let _scriptLines =  rekenScript.textContent.split(/\r?\n/); // Create of script lines
+            return _scriptLines
+        }
+    }
+    return [];
+}
+
 // Generates the code that sets up the context before the event code gets executed.
 function getEventContextString(elem, idxHolder) {
     if (typeof idxHolder === 'undefined')
@@ -574,7 +694,7 @@ const parseIfExpression = (value) => {
     return [_expr, _class];
 }
 /* Runtime Helpers *********************************************************************************************************/
-function processRestCall(elem, _url, modelUpdate) {
+function processRestCall(elem, _url, _options, modelUpdate) {
     // Url request is the same as last time, no need to fetch again and thus nothing do here.
     if (typeof elem.dataset.url !== undefined && elem.dataset.url === _url) {
         return;
@@ -582,7 +702,7 @@ function processRestCall(elem, _url, modelUpdate) {
     elem.dataset.url = _url;
     elem.classList.add("reken-rest-busy");
     elem.classList.remove("reken-rest-error", "reken-rest-done");
-    fetch(_url)
+    fetch(_url, _options)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Network response was not ok, code ${response.status} - ${response.statusText}`);
@@ -622,10 +742,26 @@ function typedReturn(elem, value) {
         case "number":
         case "range":
             return elem.valueAsNumber;
+        case "file":
+            return elem.files[0]
         default:
-            return elem.value;
+        return elem.value;
     }
 }
+function importData(elem, updateModel, fileTransformer) {
+    let file_to_read = elem.files[0];
+    let fileread = new FileReader();
+    fileread.onload = function(e) {
+        let content = e.target.result;
+        if (!fileTransformer)
+            elem.files[0].data = JSON.parse(content); // parse json 
+        else
+            elem.files[0].data = fileTransformer(content, file_to_read); // parse json 
+        updateModel()
+    };
+    fileread.readAsText(file_to_read);
+};
+
 
 function indexesInForAncestors(elem, indexes) {
     if (typeof indexes === 'undefined')
@@ -709,6 +845,7 @@ if (!rkn_server_generated) {
     let styles = ['template {display:none !important;}'];
 
     document.body.parentElement.setAttribute('data-component', '_main')
+    definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
     buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles)
     if (styles.length>0) {
         const headElem = document.querySelector('head');
@@ -724,8 +861,9 @@ if (!rkn_server_generated) {
     definition.push("let _mainInstance = _main.createInstance(document.body.parentElement)")
     definition.push("document.body.parentElement.rkn_class = _mainInstance");
 
-    definition.push("_mainInstance.controller()")
+    definition.push("_mainInstance.controller({})")
     let definitionString = definition.join('\n')
+//    console.log(definitionString)
     let controllerFunction = new Function(definitionString);
     controllerFunction();
     if (rkn_generate_code) {

@@ -47,6 +47,7 @@
 
     let o_0 = 5
     let o_1 = 'a'
+    let o_2 = ''
   
     let f4 = ['Monkey', "Elephant", "Lion"];
 
@@ -73,6 +74,10 @@
 
     let r2v; // Prevent global namespace leak warning
     nameList=[];
+    let r3_options = {'method': 'DELETE'}
+    let r3_result = {}
+    let r4_options = {'method': 'GET'}
+    let r4_result = {}
 
     let cp2_0s = "data-text value"
     
@@ -204,6 +209,18 @@
       </label>
       <span id="v10_1" data-text="${vtextarea10}"></span>
     </div>
+    <script>
+      let vselect11 = 1
+    </script>
+    <div>
+      <span id="v11_0" data-text="${vselect11}"></span>
+      <label>vselect11:
+        <select id="v11" data-value="vselect11" data-for="vfor11:10">
+          <option data-attr-value="${vfor11.index}" data-text="T${vfor11.index}"></option>
+        </select>
+      </label>
+      <span id="v11_1" data-text="${vselect11}"></span>
+    </div>
   </section>
   <section>
     <h3>data-style tests</h3>
@@ -239,6 +256,7 @@
     let if3 = false;
     let if4 = true;
     let if5 = true;
+    let if6 = false;
 
   </script>
   <section>
@@ -272,6 +290,9 @@
     </div>
     <label>if5:<input id="i5_1" type="checkbox" data-value="if5"></label>
 
+    <div id="i6" data-if="if6" data-text="${if6}">check data-text is not executed</div>
+    <label>if6:<input id="i6_1" type="checkbox" data-value="if6"></label>
+
   </section>
   <hr>
 
@@ -300,10 +321,12 @@
 
   <section>
     <h3>data-on tests</h3>
-    <button type="button" data-on="click:o_0=o_0+1" data-text="Increment o0 ${o_0}" id="o0"></button>
+    <button type="button" data-on-click="o_0=o_0+1" data-text="Increment o0 ${o_0}" id="o0"></button>
     <div id=o0_0 data-text="${o_0}"></div>
-    <input id="o1" data-on="change:o_1='z'"></div>
+    <input id="o1" data-on-change="o_1='z'"></div>
     <div id=o1_0 data-text="${o_1}"></div>
+    <input id="o2" data-on-keydown="o_2=e.keyCode" data-on-keyup="o_2=e.keyCode"></div>
+    <div id=o2_0 data-text="${o_2}"></div>
   </section>
 
   <section>
@@ -376,7 +399,19 @@
       </div>
       <div id="f81" data-text="${outer8Var} - ${inner8Var}"></div>
     </div>
-  
+
+    <script>
+      let for9ObjectArray = [{c0:1, c1:10}, {c0:100, c1:110}]
+    </script>
+    <div id="f9" data-for="f9:for9ObjectArray">
+      <div>
+        <span data-text="${f9.index}"></span>
+        <span data-text="c0:${f9.item.c0}"></span>
+        <button data-action="f9.item.c0++">Increase c0</button>
+        <span data-text="c1:${f9.item.c1}"></span>
+        <button data-action="f9.item.c1++">Increase c1</button>
+      </div>
+    </div>
 
   </section>
   <hr>
@@ -403,6 +438,14 @@
         <li data-text=${r2v.item}></li>
       </ul>
     </div>
+    <div id="r3_1">
+      <ul id="r3" data-rest="r3_result:json/names.json" data-rest-options="r3_options">
+      </ul>
+    </div>
+    <div id="r4_1">
+      <ul id="r4" data-rest="r4_result:json/names.json" data-rest-options="r4_options">
+      </ul>
+    </div>
   </section>
   <hr>
   <section>
@@ -410,7 +453,7 @@
     <template data-component="comp0"><div>Component 0</div></template>
     <div id="cp0" data-component="comp0"></div>
 
-    <template data-component="comp1" data-arg-arg1="default value" data-arg-arg2><div data-text="${arg1}${arg2}"></div>
+    <template data-component="comp1" data-arg-arg1="default value" data-arg-arg2=""><div data-text="${arg1}${arg2}"></div>
     </template>
     <div id="cp1" data-component="comp1"></div>
     <div id="cp1_0" data-component="comp1" data-arg-arg1="arg passed in"></div>
@@ -603,7 +646,53 @@
       </template>
     </div>
 
-  </section>
+    <!-- Test component recalculate logic  -->
+    <script>
+      let base10 = 10
+      let count10 = 0
+    </script>
+    <template data-component="cp10calc">
+      <script data-calc>
+        count10 = base10 + 10
+      </script>
+      <div>
+          <div data-text="${count10}"></div>
+      </div>
+    </template>
+    <div>
+      <div id="cp10" data-component="cp10calc"></div>
+      <button id="cp10Recalc" data-action="base10 = 20" type="button">Set base to 20</button>
+    </div>
+
+    <!-- Test bindable component arguments  -->
+    <script>
+      let arg11_00 = 10
+      let arg11_01 = 11
+      let arg11_10 = 110
+      let arg11_11 = 111
+      let argval11 = 130
+    </script>
+    <template data-component="cp11bind" data-bind-bind1 data-bind-bind2 data-arg-setval="20">
+      <div>
+          <div data-text="${bind1}"></div>
+          <div data-text="${bind2}"></div>
+          <button data-action="bind1=setval" type="button">Set bound1 arg to the value of setval</button>
+          <button data-action="bind2=bind2+1" type="button">Increment bound2 arg</button>
+          <button data-action="setval=setval+1" type="button">Increment setval this should not propagate</button>
+      </div>
+    </template>
+    <div>
+      <p>
+        <div id="cp11_0" data-component="cp11bind" data-bind-bind1="arg11_00" data-bind-bind2="arg11_01"></div>
+        <span id="cp11_01" data-text="${arg11_00} - ${arg11_01}"></span>
+      </p>
+      <p>
+        <div id="cp11_1" data-component="cp11bind" data-bind-bind1="arg11_10" data-bind-bind2="arg11_11" data-arg-setval="argval11"></div>
+        <span id="cp11_11"  data-text="${arg11_10} - ${arg11_11} - ${argval11}"></span>
+      </p>
+    </div>
+
+    </section>
   <script src="../src/reken.js"></script>
 
   <script>
@@ -821,6 +910,20 @@
         expect($('v10_1')).to.have.text(testString10);
         done();
       })
+      it('On a data-for generated select list start with 1 as the selected value and change value to 9', (done) => {
+        let testString11 = "1"
+        expect($('v11_0')).to.have.text(testString11);
+        expect($('v11_1')).to.have.text(testString11);
+        assert($('v11').value == testString11, "Value is 1")
+
+        testString11 = "9"
+        $('v11').value = testString11
+        $('v11').dispatchEvent(new Event('change'));
+        assert($('v11').value == testString11, `Value set to ${testString11}`)
+        expect($('v11_0')).to.have.text(testString11);
+        expect($('v11_1')).to.have.text(testString11);
+        done();
+      })
     })
     describe('data-style tests', () => {
       it('width, heigh background', (done) => {
@@ -931,7 +1034,18 @@
         expect($('i4')).to.not.have.class('i5class');
         done();
       })      
+      
+      it('Make sure that false if does not execute data-text', (done) => {
+        expect($('i6')).not.to.be.displayed;
+        expect($('i6')).to.have.text('check data-text is not executed');
 
+        //Make false; Ie show and execute element
+        $('i6_1').checked = true;
+        $('i6_1').dispatchEvent(new Event('change'));
+        expect($('i6')).to.be.displayed;
+        expect($('i6')).to.have.text('true');
+        done();
+      })      
 
     })
     
@@ -997,6 +1111,18 @@
         expect($('o1_0')).to.have.text('z')
         done();
       })
+      it('Check for on keypress up and down event.', (done) => {
+        expect(o_2).to.equal('');
+        expect($('o2_0')).to.have.text('')
+        fireEvent($('o2'), "keydown", {keyCode: 120});
+        expect(o_2).to.equal(120);
+        expect($('o2_0')).to.have.text('120')
+        fireEvent($('o2'), "keyup", {keyCode: 110});
+        expect(o_2).to.equal(110);
+        expect($('o2_0')).to.have.text('110')
+        done();
+      })
+
     })
     describe('data-for tests', () => {
       it('Render 5 li\'s', (done) => {
@@ -1046,19 +1172,19 @@
         // Change steps in 2nd row.        
         f6elem.value = 10000;
         // Since dispatchEvent doesn't work on delegated event listeners, call listener directly
-        fireEvent(f6elem);
+        fireEvent(f6elem, "change");
         expect(10000).to.equal(f6[1].steps);
         expect(document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(6)')).to.contain.text('Done');
 
         //Select the third element element
         let f6_2_radio = document.querySelector('#f6 > tr:nth-child(3) > td:nth-child(1) > input[type="radio"]');
-        fireEvent(f6_2_radio);
+        fireEvent(f6_2_radio, "change");
         expect('2').to.equal(f6_selected);
 
         // Remove 2nd remove by "clicking" action button
         let f6_1_button = document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(7) > button');
         //call delete click handler on the for node
-        fireEvent(f6_1_button);
+        fireEvent(f6_1_button, "click");
         expect($('f6')).to.have.length(3)
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2'])
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','Maria'])
@@ -1074,9 +1200,44 @@
 
         expect($('f81')).to.have.text("0 - 0")
         const f8Button1_1 = document.querySelector('#f8 > div > div:nth-child(2) > button:nth-child(2)')
-        fireEvent(f8Button1_1)
+        fireEvent(f8Button1_1, "click")
         expect($('f81')).to.have.text("1 - 1")
+        done();
+      })
+      it('For loop with 2 action buttons on each loop item', (done) => {
+        const f9Div = $('f9')
+        const f9Row0Div = f9Div.querySelectorAll('div')[0];
+        const f9Row1Div = f9Div.querySelectorAll('div')[1];
 
+        const f9Row0Div1Span = f9Row0Div.querySelectorAll('span')[1];
+        expect(f9Row0Div1Span).to.have.text('c0:1')
+        const f9Row0Div2Span = f9Row0Div.querySelectorAll('span')[2];
+        expect(f9Row0Div2Span).to.have.text('c1:10')
+        const f9Row1Div1Span = f9Row1Div.querySelectorAll('span')[1];
+        expect(f9Row1Div1Span).to.have.text('c0:100')
+        const f9Row1Div2Span = f9Row1Div.querySelectorAll('span')[2];
+        expect(f9Row1Div2Span).to.have.text('c1:110')
+
+        const f9Row0Div0Button = f9Row0Div.querySelectorAll('button')[0];
+        fireEvent(f9Row0Div0Button, "click")
+        expect(f9Row0Div1Span).to.have.text('c0:2') //Changed
+        expect(f9Row0Div2Span).to.have.text('c1:10')
+        expect(f9Row1Div1Span).to.have.text('c0:100')
+        expect(f9Row1Div2Span).to.have.text('c1:110')
+
+        const f9Row0Div1Button = f9Row0Div.querySelectorAll('button')[1];
+        fireEvent(f9Row0Div1Button, "click")
+        expect(f9Row0Div1Span).to.have.text('c0:2')
+        expect(f9Row0Div2Span).to.have.text('c1:11') //Changed
+        expect(f9Row1Div1Span).to.have.text('c0:100')
+        expect(f9Row1Div2Span).to.have.text('c1:110')
+
+        const f9Row1Div1Button = f9Row1Div.querySelectorAll('button')[1];
+        fireEvent(f9Row1Div1Button, "click")
+        expect(f9Row0Div1Span).to.have.text('c0:2')
+        expect(f9Row0Div2Span).to.have.text('c1:11') 
+        expect(f9Row1Div1Span).to.have.text('c0:100')
+        expect(f9Row1Div2Span).to.have.text('c1:111')
         done();
       })
     })
@@ -1116,6 +1277,12 @@
         expect($('r2')).to.have.length(3)
         expect(document.querySelectorAll('#r2 li')).to.contain.text(['Arnold','Bob','Chris'])
       })
+      it('Load an object with options, method=DELETE should fail', async function () {
+        await waitFor(2000, () => checkForClass($('r3'), "reken-rest-error"));
+      })
+      it('Load an object with options, method=GET should pass', async function () {
+        await waitFor(2000, () => checkForClass($('r4'), "reken-rest-done"));
+      })
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
@@ -1130,12 +1297,12 @@
         done();
       })
       it('Verify components argumenta', (done) => {
-        expect($('cp1')).to.have.text('default value')
-        expect($('cp1_0')).to.have.text('arg passed in')
-        expect($('cp1_1')).to.have.text('data-text value')
-        expect($('cp1_2')).to.have.text('data-text value')
+        expect($('cp1')).to.have.text('default valueundefined')
+        expect($('cp1_0')).to.have.text('arg passed inundefined')
+        expect($('cp1_1')).to.have.text('data-text valueundefined')
+        expect($('cp1_2')).to.have.text('data-text valueundefined')
         expect($('cp1_3')).to.have.text('01')
-        expect($('cp1_4')).to.have.text('justAStringNotAVar')
+        expect($('cp1_4')).to.have.text('justAStringNotAVarundefined')
         done();
       })
       it('Verify components state', (done) => {
@@ -1198,21 +1365,21 @@
         const cp62input = document.querySelector('#cp6 > ul > li:nth-child(2) > input')
         cp62input.value = 120
         //Process change event of input control
-        fireEvent(cp62input);
+        fireEvent(cp62input, "change");
         expect(cp6Ul).to.have.length(3);
         expect(cp6Summary).to.have.text('arr_elems: 10,120,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 120','comp 6 instance 3 - 30'])
 
         //Update 2nd row value with button
         const cp62button = document.querySelector('#cp6 > ul > li:nth-child(2) > button.update')
-        fireEvent(cp62button)
+        fireEvent(cp62button, "click")
         expect(cp6Ul).to.have.length(3);
         expect(cp6Summary).to.have.text('arr_elems: 10,100,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 100','comp 6 instance 3 - 30'])
 
         //Remove 2nd row with button
         const cp63button = document.querySelector('#cp6 > ul > li:nth-child(2) > button.delete')
-        fireEvent(cp63button)
+        fireEvent(cp63button, "click")
         // Reken does not remove unused for elements just hides them.
         expect(document.querySelector('#cp6 > ul > li:nth-child(3)')).not.to.be.displayed
         expect(cp6Summary).to.have.text('arr_elems: 10,30')
@@ -1220,13 +1387,13 @@
 
         //Add row at the end.
         const cp600AddButton = document.querySelector('#cp600');
-        fireEvent(cp600AddButton);
+        fireEvent(cp600AddButton, "click");
         expect(cp6Summary).to.have.text('arr_elems: 10,30,300')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 30','comp 6 instance 3 - 300'])
 
         //Remove row at the end.
         const cp601DeleteButton = document.querySelector('#cp601');
-        fireEvent(cp601DeleteButton)
+        fireEvent(cp601DeleteButton, "click")
         expect(cp6Summary).to.have.text('arr_elems: 10,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 30'])
 
@@ -1255,7 +1422,7 @@
         //Change value with input control in outer component
         const cp7Input = document.querySelector('#cp7 > span > input ')
         cp7Input.value = 5;
-        fireEvent(cp7Input);
+        fireEvent(cp7Input, "input");
         expect(cp7Span).to.have.text('5') // Changed to 5
         expect(cp72Span).to.have.text('3') // not changed
         expect(cp722Span).to.have.text('10') // not changed
@@ -1271,7 +1438,7 @@
         //Change value with input control in 2nd row in middle component
         const cp72Input = cp72Comp.querySelector('span > input');
         cp72Input.value = 7
-        fireEvent(cp72Input);
+        fireEvent(cp72Input, "input");
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Changed to 7
         expect(cp722Span).to.have.text('10') // Not changed
@@ -1282,7 +1449,7 @@
         //Change value with input control in 2nd row in inner component
         const cp722Input = cp722Comp.querySelector('input');
         cp722Input.value = 42
-        fireEvent(cp722Input)
+        fireEvent(cp722Input, "input")
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Not changed
         expect(cp722Span).to.have.text('42') // Changed to 42
@@ -1292,7 +1459,7 @@
 
         //Reset value with button in 2nd row in inner component
         const cp722Button = cp722Comp.querySelector('button');
-        fireEvent(cp722Button)
+        fireEvent(cp722Button, "click")
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Not changed
         expect(cp722Span).to.have.text('0') // Reset to 0
@@ -1318,17 +1485,17 @@
         expect(cp83Checkbox.checked).to.be.true;
 
         cp82Checkbox.checked = false;
-        fireEvent(cp82Checkbox);
+        fireEvent(cp82Checkbox, "change");
         expect(cp81Checkbox.checked).to.be.true;
         expect(cp82Checkbox.checked).to.be.false;
         expect(cp83Checkbox.checked).to.be.true;
 
 
         cp83Checkbox.checked = false;
-        fireEvent(cp83Checkbox);
+        fireEvent(cp83Checkbox, "change");
 
         const cp8Delete = document.querySelector('#cp8Delete')
-        fireEvent(cp8Delete);
+        fireEvent(cp8Delete, "click");
 
         cp81Checkbox = document.querySelector('#cp8 > div:not([style*="display: none"]):nth-child(1)>input')
         cp82Checkbox = document.querySelector('#cp8 > div:not([style*="display: none"]):nth-child(2)>input')
@@ -1357,7 +1524,7 @@
 
         const li9_1Input = li9_1.querySelector('input')
         li9_1Input.checked = true;
-        fireEvent(li9_1Input);
+        fireEvent(li9_1Input, "change");
         expect(window.getComputedStyle(cp9, null).backgroundColor).to.equal(brown9) //brown
         expect(window.getComputedStyle(li9_0, null).backgroundColor).to.equal(gray9) //gray not selected
         expect(window.getComputedStyle(li9_1, null).backgroundColor).to.equal(silver9) //gray not selected
@@ -1366,16 +1533,75 @@
         
         done();
       })
+      it('Verify component recalc is executed', (done) => {
+        let cp10subdiv =  document.querySelector('#cp10 > div:first-child');
+        expect(cp10subdiv).to.have.text('20')
+        $('cp10Recalc').dispatchEvent(new Event('click'));
+        expect(cp10subdiv).to.have.text('30')
+        done();
+      })
+      it('Verify component bound arguments are updated', (done) => {
+        // First component instance
+        let cp11div0 = $('cp11_0')
+        let cp11_0subdiv0 =  cp11div0.querySelectorAll('div')[0];
+        let cp11_0subdiv1 =  cp11div0.querySelectorAll('div')[1];
+        let cp11_01 = $('cp11_01')
+
+        expect(cp11_0subdiv0).to.have.text('10')
+        expect(cp11_0subdiv1).to.have.text('11')
+        expect(cp11_01).to.have.text('10 - 11')
+
+        fireEvent(cp11div0.querySelectorAll('button')[0], "click") // Set bind1 to setval value
+        expect(cp11_0subdiv0).to.have.text('20')
+        expect(cp11_0subdiv1).to.have.text('11')
+        expect(cp11_01).to.have.text('20 - 11')
+
+        fireEvent(cp11div0.querySelectorAll('button')[1], "click") // Increment bind2 value
+        expect(cp11_0subdiv0).to.have.text('20')
+        expect(cp11_0subdiv1).to.have.text('12')
+
+        // Second component instance
+        let cp11div1 = $('cp11_1')
+        let cp11_1subdiv0 =  cp11div1.querySelectorAll('div')[0];
+        let cp11_1subdiv1 =  cp11div1.querySelectorAll('div')[1];
+        let cp11_11 = $('cp11_11')
+
+        expect(cp11_1subdiv0).to.have.text('110')
+        expect(cp11_1subdiv1).to.have.text('111')
+        expect(cp11_11).to.have.text('110 - 111 - 130')
+
+        fireEvent(cp11div1.querySelectorAll('button')[0], "click") // Set bind1 to setval value
+        expect(cp11_1subdiv0).to.have.text('130')
+        expect(cp11_1subdiv1).to.have.text('111')
+        expect(cp11_11).to.have.text('130 - 111 - 130')
+
+        fireEvent(cp11div1.querySelectorAll('button')[1], "click") // Increment bind2 value
+        expect(cp11_1subdiv0).to.have.text('130')
+        expect(cp11_1subdiv1).to.have.text('112')
+        expect(cp11_11).to.have.text('130 - 112 - 130')
+
+        expect(cp11_1subdiv1).to.have.text('112')
+        fireEvent(cp11div1.querySelectorAll('button')[2], "click") // Increment setval value; should not propagate outside of component as it is an arg not a bind parameter
+        expect(cp11_11).to.have.text('130 - 112 - 130')
+
+
+        done();
+      })
+
 
 
     })
-    const fireEvent = (target) => {
+    const fireEvent = (target, eventType, payLoad) => {
       let classRoot = target.parentElement;
       while (classRoot !== null && !('rkn_class' in classRoot) ) {
         classRoot = classRoot.parentElement;
       }
       let _instance = classRoot.rkn_class
-      _instance[target.dataset.event_id]({"target":target})
+      let event = {}
+      if (payLoad)
+        event = {...payLoad};
+      event.target = target;
+      _instance[target.dataset['event_'+eventType]](event)
     }
   </script>
   <script class="mocha-exec">

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Component Bindable Attributes Demo</title>
+    <script>
+        let x_coord = 10
+        let y_coord = 30
+    </script>
+    <style>
+    </style>
+</head>
+
+<body>
+    <header><h3>Reken - Component bindable attributes demo</h3></header>
+    <main>
+        <section>
+            <p>
+                <div data-text="x:${x_coord} - y:${y_coord}"></div>
+            </p>
+            <p>
+                <div style="width:300px;height:300px;" data-component="xypicker" data-bind-x="x_coord" data-bind-y="y_coord"></div>
+            </p>
+        </section>
+    </main>
+</body>
+
+<template data-component="xypicker" data-bind-x data-bind-y>
+    <style>
+        :host {
+            background: silver;
+            position: relative;
+        }
+        :host > div {
+            width:10px;
+            height:10px;
+            border-radius: 5px;
+            background: orange;
+            border: 1px solid black;
+            position: absolute;
+        }
+    </style>
+    <div data-on-pointermove="x=parseInt(e.offsetX/e.target.offsetWidth*100);y=parseInt(e.offsetY/e.target.offsetHeight*100)">
+        <div data-style="left: ${x*root.offsetWidth/100}px; top: ${y*root.offsetHeight/100}px"></div>
+    </div>
+
+</template>
+
+<script src="../src/reken.js"></script>
+</html>

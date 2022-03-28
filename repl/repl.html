@@ -133,7 +133,7 @@
         <section>
             <label>Sample: <select data-value="current_sample" data-for="sample:samples"
                     data-rest="samples:json/repl.json">
-                    <option data-value="sample.index" value="0" data-text="${sample.item.title}"></option>
+                    <option data-attr-value="${sample.index}" data-text="${sample.item.title}"></option>
                 </select></label>
             <p data-text="${samples.length>0?samples[current_sample].description:''}"></p>
             <button accesskey="s" data-action="source=document.getElementById('editor').innerHTML;"
