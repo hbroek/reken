@@ -29,6 +29,14 @@ jobs:
           directory: 'src'
           output: 'dist'
 
+      # gzips files in the dist directory
+      - name: CompressFiles
+        uses: ThiagoJaweb/ghaction-CompressFiles@v1.0.3
+        with:
+          path: 'dist'
+          extensions: '.js,.css,.html'
+          tools: 'brotli,gzip'
+
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
       - name: Auto committing minified files
