@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * reken.js - copyright Henry van den Broek, 2021
+ * reken.js - copyright Henry van den Broek, 2021-2022
  */
 
 /*
