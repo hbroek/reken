@@ -1,10 +1,147 @@
-<html>
+<!-- MVP.css quickstart template: https://github.com/andybrewer/mvp/ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="https://via.placeholder.com/70x70">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+
+    <meta charset="utf-8">
+    <meta name="description" content="My description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reken - </title>
+    <style>
+        code.example {
+            text-align: left;
+            color: #FCFCFC;
+            background: black;
+            padding: 1em;
+        }
+    </style>
+</head>
+
 <body>
-    <h1>Reken Home</h1>
-    <section>
-        <h3><a href="demo/index.html">Demos</a> - list of demos showcasing Reken functionality</h3>
-        <h3><a href="repl/repl.html">Repl</a> - an interactive playground to try out Reken features in your browser</h3>
-        <h3><a href="README.md">Documentation</a> - Reken documentation</h3>
-    </section>
+    <header>
+        <nav>
+            <a href="/"><img alt="Logo" src="./assets/reken-logo.png" height="105"></a>
+            <ul>
+                <li><a href="demo/index.html">Demos</a></li>
+                <li><a href="repl/repl.html">Repl</a></li>
+                <li><a href="dist/README.html">Docs</a></li>
+                <li><a href="#">More</a>
+                    <ul>
+                        <li><a href="https://github.com/hbroek/reken">Github</a></li>
+                        <li><a href="test/test-reken.html">Tests</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <h1>Fast <i>reactive</i> <u>HTML compliant</u> web pages</h1>
+        <p><mark>without</mark> virtual DOM overhead or the need for build tools</p>
+        <br>
+        <p>
+            <a download="reken.zip" href="https://github.com/hbroek/reken/archive/refs/heads/main.zip" target="_blank"><i>Download Reken ↗</i></a>
+            <a download="reken.min.js.gz" href="dist/reken.min.js.gz" target="_blank"><b>Download reken.min.js (5kb) ↗</b></a>
+        </p>
+        <br/>
+        <br/>
+        <p><sup>Quick start</sup> Add this code near the bottom of a new HTML file:<br><br><code>&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt/script&gt;</code></p>
+    </header>
+    <main>
+        <hr>
+        <section>
+            <header>
+                <h2>Simple but powerful attributes to turbo boost your HTML</h2>
+                <script>counter = 0</script>
+                <p><span data-text="Counter: ${counter}"></span></p><p><button data-action="counter++">Increase Counter</button>
+                </p>
+                <p><code class="example">
+                    &lt;script&gt;counter = 0&lt;/script&gt;<br/>
+                    &lt;span <mark>data-text="Counter: ${counter}"</mark>&gt;&lt;/span&gt;<br/>
+                    &lt;button <mark>data-action="counter++"</mark>&gt;Increase Counter&lt;/button&gt;
+                </code></p>
+            </header>
+            <aside>
+                <h3>Data driven HTML</h3>
+                <p>Use javascript style templates to update text in your HTML</p>
+                <p><small>data-text, data-html, data-attr-[attribute]</small></p>
+            </aside>
+            <aside>
+                <h3>Data driven styling</h3>
+                <p>Dynamically set styles and classes on HTML elements</p>
+                <p><small>data-style, data-class</small></p>
+            </aside>
+            <aside>
+                <h3>Conditional HTML</h3>
+                <p>Hide and show HTML content</p>
+                <p><small>data-if</small></p>
+            </aside>
+            <aside>
+                <h3>Repeat HTML content</h3>
+                <p>Repeat elements based on a iterators such as arrays</p>
+                <p><small>data-for</small></p>
+            </aside>
+            <aside>
+                <h3>Implicit and explicit event handling</h3>
+                <p>Input controls automatically update data. Or register explicit handlers</p>
+                <p><small>data-value, data-action, data-on-[eventname]</small></p>
+            </aside>
+            <aside>
+                <h3>Automatically get and post REST data</h3>
+                <p>Load JSON from REST APIs, automically triggers new fetches when the url updates</p>
+                <p><small>data-rest, data-rest-options</small></p>
+            </aside>
+            <aside>
+                <h3>Components</h3>
+                <p>Create and reuse components, pass arguments or bind to component attributes</p>
+                <p><small>data-component, data-arg-[argumentname], data-bind-[bindable argumentname]</small></p>
+            </aside>
+        </section>
+        <section>
+            <blockquote>
+                "Simplicity is the soul of efficiency.
+                <footer><i>- Austin Freeman</i></footer>
+            </blockquote>
+        </section>
+        <hr>
+        <section>
+            <header>
+                <h2>Getting started</h2>
+                <p>No tooling needed, you don't even have to install anything. To get started first play with our <a href="demo/index.html">demos</a> to get a feel what, and importantly, how you can do them. Then try Reken out for yourself in our <a href="repl/repl.html">REPL environment</a>. Then scan thru our <a href="dist/README.html">documentation</a> to get an overview of the various features. Then start with a new or existing HTML document, add the link to our <a href="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js">hosted library file (5kb)</a> and sprinkle in some Reken goodness.</p>
+            </header>
+            <aside>
+                <h3>Demos</h3>
+                <p>Checkout our <a href="demo/index.html">demos</a> to get a feel of what kind of functionality you can build with Reken</p>
+            </aside>
+            <aside>
+                <h3>REPL</h3>
+                <p>Ready to play with Reken? Use our <a href="repl/repl.html">REPL</a> (Read, Evaluate, Print and Loop) interactive environment, choose an existing example and tweak it or try an example from scratch</p>
+                <p><small>the REPL environment is build with Reken</small></p>
+            </aside>
+            <aside>
+                <h3>Documentation</h3>
+                <p>More detailed information about the Reken functionality can be found in the <a href="dist/README.html">documentation</a>, including all the options and some more samples.</p>
+            </aside>
+            <aside>
+                <h3>Hosted Reken library</h3>
+                <p>Easiest way to start with your own Reken enabled HTML page is to link to our hosted javascrip library. Added the following tag at the bottom of your html page between the closing body and html tag. <br/><br/>Off course you can also host the library yourself.</p>
+            </aside>
+            <header><code class="example">
+                &nbsp;&nbsp;....<br/>
+                &nbsp;&lt;/body&gt;<br/>
+                &nbsp;&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt;/script&gt;<br/>
+              &lt;/html&gt;
+          </code></header>
+        </section>
+        <section>
+            <blockquote>
+                "Make it work, make it right, make it fast.
+                <footer><i>– Kent Beck</i></footer>
+            </blockquote>
+        </section>
+    </main>
 </body>
+<script src="dist/reken.min.js"></script>
 </html>
