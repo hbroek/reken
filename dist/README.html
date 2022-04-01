@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>REKEN Why use Reken? Who is Reken for? How does Reken work? Here an example Installation Browser support Reken supports the following attributes Acknowledgments License</title>
+<style>
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body .anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body h1:hover .anchor .octicon-link:before,
+.markdown-body h2:hover .anchor .octicon-link:before,
+.markdown-body h3:hover .anchor .octicon-link:before,
+.markdown-body h4:hover .anchor .octicon-link:before,
+.markdown-body h5:hover .anchor .octicon-link:before,
+.markdown-body h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: #24292e;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: initial;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr:after,
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body :checked+.radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.markdown-body .border {
+  border: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .border-0 {
+  border: 0!important;
+}
+
+.markdown-body .border-bottom {
+  border-bottom: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .rounded-1 {
+  border-radius: 3px!important;
+}
+
+.markdown-body .bg-white {
+  background-color: #fff!important;
+}
+
+.markdown-body .bg-gray-light {
+  background-color: #fafbfc!important;
+}
+
+.markdown-body .text-gray-light {
+  color: #6a737d!important;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-top: 8px!important;
+  margin-bottom: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+}
+
+.markdown-body .pl-3,
+.markdown-body .px-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .px-3 {
+  padding-right: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .f6 {
+  font-size: 12px!important;
+}
+
+.markdown-body .lh-condensed {
+  line-height: 1.25!important;
+}
+
+.markdown-body .text-bold {
+  font-weight: 600!important;
+}
+
+.markdown-body .pl-c {
+  color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #6f42c1;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
+  color: #24292e;
+}
+
+.markdown-body .pl-ent {
+  color: #22863a;
+}
+
+.markdown-body .pl-k {
+  color: #d73a49;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.markdown-body .pl-smw,
+.markdown-body .pl-v {
+  color: #e36209;
+}
+
+.markdown-body .pl-bu {
+  color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.markdown-body .pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.markdown-body .pl-c2:before {
+  content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.markdown-body .pl-ml {
+  color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.markdown-body .pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.markdown-body .pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.markdown-body .pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.markdown-body .pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.markdown-body .pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.markdown-body .pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.markdown-body .pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.markdown-body .pl-ba {
+  color: #586069;
+}
+
+.markdown-body .pl-sg {
+  color: #959da5;
+}
+
+.markdown-body .pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-bottom: 8px!important;
+}
+
+.markdown-body .my-2 {
+  margin-top: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+}
+
+.markdown-body .pl-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .pl-7 {
+  padding-left: 48px!important;
+}
+
+.markdown-body .pl-8 {
+  padding-left: 64px!important;
+}
+
+.markdown-body .pl-9 {
+  padding-left: 80px!important;
+}
+
+.markdown-body .pl-10 {
+  padding-left: 96px!important;
+}
+
+.markdown-body .pl-11 {
+  padding-left: 112px!important;
+}
+
+.markdown-body .pl-12 {
+  padding-left: 128px!important;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body:after,
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  clear: both;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body details,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-size: .85em;
+  color: #6a737d;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: initial;
+  background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.markdown-body .commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.markdown-body .full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.markdown-body .blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-body .blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.markdown-body .blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27,31,35,.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.markdown-body .blob-num:hover {
+  color: rgba(27,31,35,.6);
+}
+
+.markdown-body .blob-num:before {
+  content: attr(data-line-number);
+}
+
+.markdown-body .blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.markdown-body .blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.markdown-body .pl-token.active,
+.markdown-body .pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.markdown-body .tab-size[data-tab-size="1"] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="2"] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.markdown-body .tab-size[data-tab-size="3"] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.markdown-body .tab-size[data-tab-size="4"] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.markdown-body .tab-size[data-tab-size="5"] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.markdown-body .tab-size[data-tab-size="6"] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.markdown-body .tab-size[data-tab-size="7"] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.markdown-body .tab-size[data-tab-size="8"] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.markdown-body .tab-size[data-tab-size="9"] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.markdown-body .tab-size[data-tab-size="10"] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.markdown-body .tab-size[data-tab-size="11"] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.markdown-body .tab-size[data-tab-size="12"] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 .2em .25em -1.6em;
+  vertical-align: middle;
+}
+
+</style>
+<style>
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+<article class="markdown-body">
+<h1>
+<a id="user-content-reken" class="anchor" href="#reken" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>REKEN</h1>
+<p><em>Dutch singular verb for calculate. Pronounce: <strong>Ray - ken</strong></em></p>
+<p><strong>With Reken you can create fast, reactive, HTML compliant web pages without virtual DOM overhead or the need for build tools.</strong></p>
+<h1>
+<a id="user-content-why-use-reken" class="anchor" href="#why-use-reken" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why use Reken?</h1>
+<h3>
+<a id="user-content-easy-creation-of-dynamic-web-pages-with-just-html-css-and-a-few--sprinkles-of-javascript" class="anchor" href="#easy-creation-of-dynamic-web-pages-with-just-html-css-and-a-few--sprinkles-of-javascript" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Easy creation of Dynamic Web pages with just HTML, CSS and a few  sprinkles of Javascript.</h3>
+<ul>
+<li>Build dynamic DOM based standard HTML with a few Reken HTML attributes.</li>
+<li>No need to learn new markup such as JSX or TSX.</li>
+<li>Just 1 DOM tree, without the need for Virtual DOM trees.</li>
+<li>Reken only updates DOM that needs changing.</li>
+<li>No need to install any tooling.</li>
+<li>ES6 Based. (Sorry no IE).</li>
+<li>HTML compliant web pages.</li>
+<li>Can hydrate search engine friendly server side generated content.</li>
+</ul>
+<h1>
+<a id="user-content-who-is-reken-for" class="anchor" href="#who-is-reken-for" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Who is Reken for?</h1>
+<ul>
+<li>HTML page developers, that need some interactivity.</li>
+<li>UX designers, that want to make their UI mockups come alive</li>
+<li>Developers looking to build a quick prototype or minimal viable product.</li>
+<li>Web app builders building light-weight apps.</li>
+</ul>
+<h1>
+<a id="user-content-how-does-reken-work" class="anchor" href="#how-does-reken-work" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How does Reken work?</h1>
+<p>Reken relies on a few 'data-*' attributes that empower any HTML element to:</p>
+<ul>
+<li>Render dynamic content, attributes and styles.</li>
+<li>Conditional renders or toggles classes.</li>
+<li>Create repeating HTML such as selections, lists or tables.</li>
+<li>Makes it real easy to accept and process user input through events.</li>
+<li>Loads from a JSON REST endpoint and provides classes to monitor the rest call status.</li>
+<li>Automatically updates the DOM.</li>
+</ul>
+<p>When a page with Reken attributes is loaded, Reken will build a setup controller and a runtime controller.</p>
+<p>It will then run the setup controller once to register any event listeners.</p>
+<p>After setup is completed it will run the runtime controller which will update any dynamic DOM when needed. The runtime controller will run again after any Reken-managed event listener fires or rest call finishes.</p>
+<h1>
+<a id="user-content-here-an-example" class="anchor" href="#here-an-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Here an example</h1>
+<pre><code>&lt;script&gt;
+    let name = 'World';
+&lt;/script&gt;
+
+&lt;h1 data-text="Hello ${name}"&gt;&lt;/h1&gt;
+</code></pre>
+<h1>
+<a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
+<p>Install Reken.js on your server and add a script tag <strong>at the bottom of your web page</strong> between the the end body and before the end html tag.</p>
+<pre><code>  ...
+  &lt;/body&gt;
+  &lt;script src="reken.js"&gt;&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<h1>
+<a id="user-content-browser-support" class="anchor" href="#browser-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Browser support</h1>
+<p>Reken relies on a number of ES6 features and therefor supports the following browsers:</p>
+<ul>
+<li>Chrome</li>
+<li>Safari</li>
+<li>Firefox</li>
+<li>Chrome Edge</li>
+</ul>
+<h1>
+<a id="user-content-reken-supports-the-following-attributes" class="anchor" href="#reken-supports-the-following-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reken supports the following attributes</h1>
+<ul>
+<li>
+<p><strong>data-text</strong>; Update the textContent of the element with the evaluated template string. <em>data-text="text before ${expression} regular text"</em></p>
+</li>
+<li>
+<p><strong>data-html</strong>: Update the innerHTML of the element with the evaluated template string. Note Reken attributes in the resulting HTML will be ignored.
+<em>data-html="&lt;emp&gt;${someexpression}&lt;/emp&gt;&lt;span&gt;${anotherexpression}&lt;/span&gt;"</em></p>
+</li>
+<li>
+<p><strong>data-value</strong>: Bind a javascript variable to an  input element and add a default change or update listener.</p>
+<ul>
+<li>input types: <strong>text, number</strong> get a <strong>change</strong> listener.</li>
+<li>input type: <strong>range</strong> gets an <strong>update</strong> listener</li>
+<li>input type: <strong>checkbox</strong>: gets a <strong>change</strong> listener and takes a boolean. If multiple checkboxes are grouped by the <strong>name</strong> attribute it takes an array.</li>
+<li>input type: <strong>radio</strong> gets a <strong>change</strong> listener and takes a boolean, if multiple radios are grouped by the <strong>name</strong> attribute it takes a string.</li>
+<li>input type: <strong>file</strong> takes a javascript variable that will contain the File object of the uploaded file. The File will have properties: name, size, lastModified (in ms), type and <strong>data</strong>. The <strong>data</strong> property contains the deserialized JSON. Seperated by a colon the javascript variable can be followed by the name of a transform function in case the loaded file is not in JSON format. The transform function can then tranform the text into a javascript object. For example when the uploaded file is in xml or csv format. The transform will be provided with two arguments: the uploaded to deserialize string and the File object and should return the deserialized object.</li>
+<li>Element <strong>select</strong> has a <strong>change</strong> listener and takes a string.</li>
+</ul>
+<p>Here an example where the javascript variable myNumber is bound to a number input control. <em>&lt;input type="number" data-value="myNumber"&gt;</em></p>
+</li>
+<li>
+<p><strong>data-style</strong>: Update the style attribute with an evaluated template string. <em>&lt;div data-style="width:${widthVar}"/&gt;</em></p>
+</li>
+<li>
+<p><strong>data-attr-[attr]</strong> Dynamically set any of the HTML element's attribute value. Update that attribute with an evaluated template string. <em>&lt;img data-attr-width="${imgWidth}"&gt;</em> updates the element's width attribute. If the attribute is a boolean attribute, for example disabled or readonly, the value with be evaluated as a boolean and if true the attribute will be set.</p>
+</li>
+<li>
+<p><strong>data-class</strong>: Takes a classname and an boolean expression, separated by a colon that resolves in adding the classname when the expression is true and removes it when it resolves to false. If no boolean expression is provided the classname (is also assumed to be an existing javascript variable which will be resolved into a boolean expression. <em>&lt;div data-class="myClass:x&gt;0"&gt;</em> or <em>&lt;div data-class="booleanClass"&gt;</em></p>
+</li>
+<li>
+<p><strong>data-if</strong>: Takes a boolean expression, when true the element is shown, when false the element is hidden (by setting display:none). Instead of using just a boolean expression, a classname prefixing the boolean expression seperated by a colon can be specified. ie myclassname:booleanexpression. In this case the element will not be hidden using display:none but when the expression is true the classname is added and when false removed. This allows for classbased hiding/showing of the element including any animations that are driven of the class. <em>&lt;div data-if="x&gt;0"&gt;</em> or <em>&lt;div data-if="myClass:x&gt;0"&gt;</em></p>
+</li>
+<li>
+<p><strong>data-for</strong>: Takes a var name separated by a colon and followed by an iterating javascript iterable object or a number. The first child of the element containing data-for will be replicated with the number of the elements in the iterable object or the number of times specifed. All elements contained by the element with the data-for property have access to a property index and with an iterable object the item property on the var variable. Nested loops a are allowed. For example  <em>&lt;data-for="vrb:10"&gt;</em> or <em>&lt;data-for="vrb:myarray"&gt;</em>.
+The variable vrb will contain the propery <strong>index</strong> and when bound to an array also the property <strong>item</strong>. For example:
+&lt;ul data-for="vrb:_array"&gt;&lt;li data-text=${vrb.index} - ${vrb.item}&gt; will render the index and the value of the array for each element in the array.</p>
+</li>
+<li>
+<p><strong>data-action</strong>: javascript code that gets executed in the event. In the code snippet you have access to the event details through the e variable.</p>
+</li>
+<li>
+<p><strong>data-on-</strong>: takes javascript code that gets executed in the event. In the code snippet you have access to the variable the event details through the e variable.</p>
+</li>
+<li>
+<p><strong>data-rest</strong>: Takes a javascript variable and a rest service JSON endpoint url, separated by a colon. Once the rest service call is resolved the javascript variable contains the object representing the json. An optional property path in the resultset can be specified. When the url changes the rest call gets executed again. The url is an evaluated template string. That is how you can parameterize your rest calls. Based on the state of the rest call various classes are added on the element containing the data-rest attribute. When the rest call is in progress it adds the <strong>reken-rest-busy</strong> class. When completed it adds the <strong>reken-rest-done</strong> class. When there was an error it contains a <strong>reken-rest-error</strong> class. This allows you to change the look of the UI during the various stages.
+An example is <em>&lt;tbody data-rest="myArray:myrestfile.json"/&gt;</em> for a file coming from the same domain. Or <em>&lt;div data-rest="myObject:path.to.the.object:<a href="http://someserver/thathasarestapi.json%22%3E" rel="nofollow">http://someserver/thathasarestapi.json"&gt;</a></em></p>
+</li>
+<li>
+<p><strong>data-rest-options</strong>: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.</p>
+</li>
+<li>
+<p><strong>data-calc</strong>: Set this on a script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas or make transformations of data loaded by a rest service. For example <em>&lt;script data-calc&gt;myVar = myOtherVar + 10&lt;/script&gt;</em></p>
+</li>
+<li>
+<p><strong>data-component</strong>: You can create a reusable component by adding a data-component attribute to a template. The value of the attribute is the name of the component. You can now reuse this component in your document by adding the data-component attribute to a non-template tag. It will then insert/replace the content of that tag with the content of the template. For example <em>&lt;template data-component="mycomponent"&gt; .... html here ...&lt;/template&gt;</em> You can reuse the component by refering to it as follows: <em>&lt;div data-component="mycomponent"&gt;&lt;/div&gt;</em>
+You can create component specific styles, by placing a style tag in the template for the component definition. You can refer to the top element with the :host css phrase.
+<em>&lt;style&gt;
+:host {background: red;}
+:host &gt; span {color: white;}
+&lt;/style&gt;</em>
+You can also specify component state by specifying a script tag and initialize variables with the let construct. For example <em>let val = 100</em> This _val variable will be scoped to the component.</p>
+</li>
+<li>
+<p><strong>data-arg-</strong>*: You can pass in arguments into a component using the data-arg-&lt;name&gt; attribute. For example: <em>&lt;div data-component="mycomponent" data-arg-myattr="value"&gt;</em>. In the component definition you will need to specify the attribute and can then use it in the component definition.  <em>&lt;template data-component="mycomponent" data-arg-myattr&gt;...</em>  You can now refer to the attribute in the template html. For example: _&lt;div data-text="${myattr}" which insert the argument as the div's text content.</p>
+</li>
+<li>
+<p><strong>data-bind-</strong>*: You can create bind variables to a component's bindable arguments using the data-bind-&lt;name&gt; attribute. For example: <em>&lt;div data-component="mycomponent" data-bind-myattr="myVar"&gt;</em>. In the component definition you will need to specify the attribute and can then use it in the component definition.  <em>&lt;template data-component="mycomponent" data-bind-myattr&gt;...</em>  You can now refer to the attribute in the template html, if the attribute gets updated in the component, the variable that is bind to it will also automatically update.</p>
+</li>
+</ul>
+<p>Look at the demos and the Reken REPL for more examples and usages.</p>
+<h1>
+<a id="user-content-acknowledgments" class="anchor" href="#acknowledgments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Acknowledgments</h1>
+<h2>
+<a id="user-content-mvpcss" class="anchor" href="#mvpcss" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://andybrewer.github.io/mvp/" rel="nofollow">MVP.css</a>
+</h2>
+<p>A semantic HTML stylesheet. Create good looking and concise demos.</p>
+<h2>
+<a id="user-content-chartcss" class="anchor" href="#chartcss" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://chartscss.org" rel="nofollow">Chart.css</a>
+</h2>
+<p>A CSS data visualization framework. Used in the chart demo.</p>
+<h2>
+<a id="user-content-mocha" class="anchor" href="#mocha" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://mochajs.org" rel="nofollow">Mocha</a>
+</h2>
+<p>Runs the Reken tests.</p>
+<h2>
+<a id="user-content-chai" class="anchor" href="#chai" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://www.chaijs.com" rel="nofollow">Chai</a>
+</h2>
+<p>Assertions in the Reken tests.</p>
+<h2>
+<a id="user-content-chai-dom" class="anchor" href="#chai-dom" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://www.chaijs.com/plugins/chai-dom/" rel="nofollow">Chai-dom</a>
+</h2>
+<p>DOM Assertions in the Reken tests.</p>
+<h1>
+<a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h1>
+<p>Distributed under the MIT license. See License for details.</p>
+
+</article>
+</body>
+</html>
