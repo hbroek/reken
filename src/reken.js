@@ -182,8 +182,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     let [_expr, _class] = parseIfExpression(value);
                     if (_class)
                         controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
-                    else
-                        controlCode.push(elemString + ".style.display=(" + value + "?'':'none');");
+                    else {
+                        controlCode.push("_v=(" + value + "?'':'none');");
+                        controlCode.push("if ("+elemString + ".style.display!==_v) " + elemString + ".style.display=_v;");
+                    }
 
                     if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
                         if (elem.dataset.if !== undefined)
@@ -501,7 +503,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
 
 
     // if (componentName === '_main')
-    //     output.push('console.timeEnd("controller")');
+    // output.push('console.timeEnd("controller")');
     output.push('  }')
 
     // Build events
@@ -804,15 +806,17 @@ function updateForChildren(elem, array) {
                 _child = _children[i];
             }
             else { // No child yet create it
-                _child = _childTemplate.cloneNode(true);
+                _child = _firstChild.cloneNode(true);
+                initComponentElement(_child)
 
                 elem.appendChild(_child);
             }
-            initComponentElement(_child)
-            _children[i].style.display = '';
+            if (_children[i].style.display !== '')
+                _children[i].style.display = '';
         }
         for (let i = array.length; i < _numberOfChildren; i++) {
-            _children[i].style.display = 'none';
+            if (_children[i].style.display !== 'none')
+                _children[i].style.display = 'none';
         }
     }
 }
