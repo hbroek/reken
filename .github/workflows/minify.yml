@@ -36,6 +36,14 @@ jobs:
           path: 'dist'
           extensions: '.js,.css,.html'
           tools: 'brotli,gzip'
+          
+      # Generate readme.html from readme.md
+      - name: Convert Markdown to HTML
+        uses: natescherer/markdown-to-html-with-github-style-action@v1
+        with:
+          #path: README.md,CHANGELOG.md,docs\doc1.md
+          path: README.md
+          outputpath: dist
 
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
