@@ -8,11 +8,35 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 
     <meta charset="utf-8">
-    <meta name="description" content="My description">
+    <meta name="description" content="Reken - Fast reactive HTML compliant web pages">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Reken - </title>
+    <title>Reken - Fast reactive HTML compliant web pages</title>
     <style>
+        body {
+            --color: rgb(32, 83, 122);
+            --color-accent: var(--color-secondary-accent);
+            --color-bg: #fff;
+            --color-bg-secondary: #e9e9e9;
+            --color-link: rgb(32, 83, 122);
+            --color-secondary: hsl(35, 86%, 57.8%);
+            --color-secondary-accent: hsl(35, 95%, 80%);
+            --color-shadow: #f4f4f4;
+            --color-table: var(--color-secondary);
+            --color-text: #000;
+            --color-text-secondary: #999;
+        }
+
+        mark {
+            background-color: var(--color-secondary-accent);
+        }
+
+        footer,
+        header,
+        main {
+            padding: 0.5em;
+        }
+
         code.example {
             text-align: left;
             color: #FCFCFC;
@@ -42,12 +66,16 @@
         <p><mark>without</mark> virtual DOM overhead or the need for build tools</p>
         <br>
         <p>
-            <a download="reken.zip" href="https://github.com/hbroek/reken/archive/refs/heads/main.zip" target="_blank"><i>Download Reken ↗</i></a>
-            <a download="reken.min.js.gz" href="dist/reken.min.js.gz" target="_blank"><b>Download reken.min.js (5kb) ↗</b></a>
+            <a download="reken.zip" href="https://github.com/hbroek/reken/archive/refs/heads/main.zip"
+                target="_blank"><i>Download Reken ↗</i></a>
+            <a download="reken.min.js.gz" href="dist/reken.min.js.gz" target="_blank"><b>Download reken.min.js (5kb)
+                    ↗</b></a>
         </p>
-        <br/>
-        <br/>
-        <p><sup>Quick start</sup> Add this code near the bottom of a new HTML file:<br><br><code>&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt/script&gt;</code></p>
+        <br />
+        <br />
+        <p><sup>Quick start</sup> Add this code near the bottom of your HTML
+            file:<br><br><code>&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt/script&gt;</code>
+        </p>
     </header>
     <main>
         <hr>
@@ -55,7 +83,8 @@
             <header>
                 <h2>Simple but powerful attributes to turbo boost your HTML</h2>
                 <script>counter = 0</script>
-                <p><span data-text="Counter: ${counter}"></span></p><p><button data-action="counter++">Increase Counter</button>
+                <p><span data-text="Counter: ${counter}"></span></p>
+                <p><button data-action="counter++">Increase Counter</button>
                 </p>
                 <p><code class="example">
                     &lt;script&gt;counter = 0&lt;/script&gt;<br/>
@@ -80,7 +109,7 @@
             </aside>
             <aside>
                 <h3>Repeat HTML content</h3>
-                <p>Repeat elements based on a iterators such as arrays</p>
+                <p>Repeat elements based on iterators such as arrays</p>
                 <p><small>data-for</small></p>
             </aside>
             <aside>
@@ -99,9 +128,10 @@
                 <p><small>data-component, data-arg-[argumentname], data-bind-[bindable argumentname]</small></p>
             </aside>
         </section>
+        <hr>
         <section>
             <blockquote>
-                "Simplicity is the soul of efficiency.
+                "Simplicity is the soul of efficiency."
                 <footer><i>- Austin Freeman</i></footer>
             </blockquote>
         </section>
@@ -109,39 +139,69 @@
         <section>
             <header>
                 <h2>Getting started</h2>
-                <p>No tooling needed, you don't even have to install anything. To get started first play with our <a href="demo/index.html">demos</a> to get a feel what, and importantly, how you can do them. Then try Reken out for yourself in our <a href="repl/repl.html">REPL environment</a>. Then scan thru our <a href="dist/README.html">documentation</a> to get an overview of the various features. Then start with a new or existing HTML document, add the link to our <a href="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js">hosted library file (5kb)</a> and sprinkle in some Reken goodness.</p>
+                <p>No tooling needed, you don't even have to install anything. To get started first play with our <a
+                        href="demo/index.html">demos</a> to get a feel what power Reken provides, and more importantly,
+                    how you can unleash it. Once you get a feel for that, try out Reken for yourself in our <a
+                        href="repl/repl.html">REPL environment</a>. If you need help with the functionality scan through
+                    our <a href="dist/README.html">documentation</a> to get an overview of the various features. When
+                    ready to start with a new or existing HTML document, add the link to our <a
+                        href="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js">hosted library file (5kb)</a>
+                    and sprinkle in some Reken goodness.</p>
             </header>
             <aside>
                 <h3>Demos</h3>
-                <p>Checkout our <a href="demo/index.html">demos</a> to get a feel of what kind of functionality you can build with Reken</p>
+                <p>Checkout our <a href="demo/index.html">demos</a> to get a feel of what kind of functionality you can
+                    build with Reken</p>
             </aside>
             <aside>
                 <h3>REPL</h3>
-                <p>Ready to play with Reken? Use our <a href="repl/repl.html">REPL</a> (Read, Evaluate, Print and Loop) interactive environment, choose an existing example and tweak it or try an example from scratch</p>
+                <p>Ready to play with Reken? Use our <a href="repl/repl.html">REPL</a> (Read, Evaluate, Print and Loop)
+                    interactive environment, choose an existing example and tweak it or try an example from scratch</p>
                 <p><small>the REPL environment is build with Reken</small></p>
             </aside>
             <aside>
                 <h3>Documentation</h3>
-                <p>More detailed information about the Reken functionality can be found in the <a href="dist/README.html">documentation</a>, including all the options and some more samples.</p>
+                <p>More detailed information about the Reken functionality can be found in the <a
+                        href="dist/README.html">documentation</a>, including all the options and some more samples.</p>
             </aside>
             <aside>
                 <h3>Hosted Reken library</h3>
-                <p>Easiest way to start with your own Reken enabled HTML page is to link to our hosted javascrip library. Added the following tag at the bottom of your html page between the closing body and html tag. <br/><br/>Off course you can also host the library yourself.</p>
+                <p>Easiest way to start with your own Reken enabled HTML page is to link to our hosted javascrip
+                    library. Added the following tag at the bottom of your html page between the closing body and html
+                    tag. <br /><br />Off course you can also host the library yourself.</p>
             </aside>
             <header><code class="example">
-                &nbsp;&nbsp;....<br/>
+                &nbsp;&nbsp;...<br/>
                 &nbsp;&lt;/body&gt;<br/>
                 &nbsp;&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt;/script&gt;<br/>
               &lt;/html&gt;
           </code></header>
         </section>
+        <hr>
         <section>
             <blockquote>
-                "Make it work, make it right, make it fast.
+                "Make it work, make it right, make it fast."
                 <footer><i>– Kent Beck</i></footer>
             </blockquote>
+        </section>
+        <hr>
+        <section>
+            <script>
+                degrees = 0
+            </script>
+            <aside style="display:flex;flex-direction:column;gap:2em;">
+                <img alt="Logo" data-style="transform: rotate(${degrees}deg);" src="./assets/reken-logo.png">
+                <input type="range" min="0" max="1080" data-value="degrees">
+            </aside>
+            <header><code class="example">
+                &lt;script&gt;degrees = 0&lt;/script&gt;<br/>
+                &lt;img alt="Logo" <mark>data-style="transform: rotate(${degrees}deg);"</mark> src="./assets/reken-logo.png"<br/>
+                &lt;input type="range" min="0" max="1080" <mark>data-value="degrees"</mark>&gt;
+            </code></header>
+
         </section>
     </main>
 </body>
 <script src="dist/reken.min.js"></script>
+
 </html>
