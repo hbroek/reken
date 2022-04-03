@@ -1,9 +1,11 @@
-# REKEN
+# ![Reken logo; blue html representing elements intertwined with orange reken elements](/assets/reken-logo.png)
 
-_Dutch singular verb for calculate. Pronounce: **Ray - ken**_
+**Reken** _Dutch singular verb for calculate. Pronounce: **Ray - ken**_
 
 **With Reken you can create fast, reactive, HTML compliant web pages without virtual DOM overhead or the need for build tools.**
 
+# Reken website
+For live demos, REPL and more info check the [Reken website ➞](http://www.reken.dev)
 # Why use Reken?
 
 ### Easy creation of Dynamic Web pages with just HTML, CSS and a few  sprinkles of Javascript.
