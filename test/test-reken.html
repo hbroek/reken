@@ -691,8 +691,17 @@
         <span id="cp11_11"  data-text="${arg11_10} - ${arg11_11} - ${argval11}"></span>
       </p>
     </div>
-
-    </section>
+    <script>
+      let cp12var = false
+    </script>
+    <template data-component="comp12" data-arg-active>
+      <div data-if="active">
+        <div data-text="Is active">Is not active</div>
+      </div>
+    </template>
+    <div id="cp12" data-component="comp12" data-arg-active="cp12var"></div>
+    <label>cp12:<input id="cp12_1" type="checkbox" data-value="cp12var"></label>
+  </section>
   <script src="../src/reken.js"></script>
 
   <script>
@@ -1583,13 +1592,18 @@
         expect(cp11_1subdiv1).to.have.text('112')
         fireEvent(cp11div1.querySelectorAll('button')[2], "click") // Increment setval value; should not propagate outside of component as it is an arg not a bind parameter
         expect(cp11_11).to.have.text('130 - 112 - 130')
-
-
         done();
       })
 
-
-
+      it('Verify when component data-if is false it does not execute children code', (done) => {
+        let cp12div = $('cp12')
+        let cp12_subdiv = cp12.querySelector('div');
+        expect(cp12_subdiv).to.have.text('Is not active')
+        $('cp12_1').checked = true
+        fireEvent($('cp12_1'), 'change')
+        expect(cp12_subdiv).to.have.text('Is active')
+        done();
+      })
     })
     const fireEvent = (target, eventType, payLoad) => {
       let classRoot = target.parentElement;

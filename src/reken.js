@@ -187,7 +187,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         controlCode.push("if ("+elemString + ".style.display!==_v) " + elemString + ".style.display=_v;");
                     }
 
-                    if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
+                    if (!elem.dataset.for) { // Elements with For process their own children
                         if (elem.dataset.if !== undefined)
                             controlCode.push('if ('+parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                     }
@@ -272,6 +272,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                             buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles)
                             i++
                         }
+                        if (elem.dataset.if !== undefined) {
+                            compControlCode.push('}') //Close if statement
+                        }
+                    
                     }
                     const [compDefinition, compStyle] = generateComponentClass(value, compInitCode, compControlCode, compEventCode)
                     styles.push(...compStyle);
@@ -362,7 +366,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
         }
         if (elem.dataset.if !== undefined)
             controlCode.push('}')
-    }            
+    }        
 }
 
 const processComponentReferences = (elem) => {
