@@ -39,8 +39,6 @@
     var swidth = 64
     var sheight = 48
     var sbackground = 'silver'
-    var class2 = true
-    var class3 = false
 
     let a0 = 0
     let a1 = 10
@@ -219,22 +217,44 @@
   </section>
   <hr>
 
+  <script>
+    let class2 = true
+    let class3 = false
+    let class50 = false
+    let class51 = true
+  </script>
+
   <section>
     <h3>data-class tests</h3>
     <div id="c0" data-class="class0:true">
       Hello class
     </div>
+
     <div id="c1" data-class="class1:false">
       Hello class
     </div>
+
     <div id="c2" data-class="class2">
       Hello class
     </div>
     <input id="c2_1" type="checkbox" data-value="class2">
+
     <div id="c3" data-class="class3">
       Hello class
     </div>
     <input id="c3_1" type="checkbox" data-value="class3">
+
+    <div id="c4" data-class="class40:true;class41:false;class42:true;class43:false">
+      Hello class
+    </div>
+
+    <div id="c5" data-class="class50;class51">
+      Hello class
+    </div>
+    <input id="c5_1" type="checkbox" data-value="class50">
+    <input id="c5_2" type="checkbox" data-value="class51">
+
+
   </section>
   <hr>
 
@@ -990,6 +1010,30 @@
 
         done();
       })
+      it('Multiple classes: class40, class42 added. class41, class43 not.', (done) => {
+        expect($('c4')).to.have.class('class40');
+        expect($('c4')).to.not.have.class('class41');
+        expect($('c4')).to.have.class('class42');
+        expect($('c4')).to.not.have.class('class43');
+        done();
+      })
+      it('Multiple classes added using short form', (done) => {
+        expect($('c5')).not.to.have.class('class50');
+        expect($('c5')).to.have.class('class51');
+
+        $('c5_1').checked = true;
+        $('c5_1').dispatchEvent(new Event('change'));
+        expect($('c5')).to.have.class('class50');
+        expect($('c5')).to.have.class('class51');
+
+        $('c5_2').checked = false;
+        $('c5_2').dispatchEvent(new Event('change'));
+        expect($('c5')).to.have.class('class50');
+        expect($('c5')).to.not.have.class('class51');
+
+        done();
+      })
+
     })
     describe('data-if tests', (done) => {
       it('if not displayed', (done) => {

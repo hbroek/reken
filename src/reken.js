@@ -167,15 +167,18 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 controlCode.push("_v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== _v) " + elemString + ".setAttribute('style',  _v)"); // Update DOM element with HTML Element from template string if different
                 break;
             case "class":
-                let _class, _expr;
-                if (value.indexOf(':') >= 0) {
-                    _class = value.substring(0, value.indexOf(':'));
-                    _expr = value.substring(value.indexOf(':') + 1);
+                const classPairs = value.split(';')
+                for (const classPair of classPairs) {
+                    let _class, _expr;
+                    if (classPair.indexOf(':') >= 0) {
+                        _class = classPair.substring(0, classPair.indexOf(':'));
+                        _expr = classPair.substring(classPair.indexOf(':') + 1);
+                    }
+                    else {
+                        _class = _expr = classPair; //Shorthand for set class based on the name of the boolean var.
+                    }
+                    controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                 }
-                else {
-                    _class = _expr = value; //Shorthand for set class based on the name of the boolean var.
-                }
-                controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                 break;
             case "if":
                 {

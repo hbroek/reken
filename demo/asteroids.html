@@ -15,6 +15,14 @@
         aside.hazardous {
             background: lightsalmon;
         }
+        aside.large {
+            animation: blink-animation 1s steps(5, start) infinite;
+        }
+        @keyframes blink-animation {
+            to {
+              visibility: hidden;
+            }
+        }
 
         .emoji {
             display: inline-block;
@@ -43,7 +51,6 @@
         if (asteroidDates.length > 0 && selectedDate != "") {
             asteroidList = asteroidData.near_earth_objects[selectedDate];
         }
-        let henry = 1;
     </script>
 
 </head>
@@ -61,7 +68,7 @@
                 <header>
                     <h2>Asteroid date selection</h2>
                 </header>
-                <p>Load Asteroid json file from rest service, populate date selector and list of asteroids of selected date.</p>
+                <p>Load Asteroid json file from rest service, populate date selector and list of asteroids of selected date. Red background indicates potentially hazardous. A blinking background indicates that the meteorite has a maximum diameter over 100 meters.</p>
 
                 <label>Select date:<select data-for="vad:asteroidDates" data-value="selectedDate">
                         <option data-text="${vad.item}"></option>
@@ -69,7 +76,7 @@
             </form>
         </section>
         <section data-for="asteroid:asteroidList">
-            <aside data-class="hazardous:asteroid.item.is_potentially_hazardous_asteroid">
+            <aside data-class="hazardous:asteroid.item.is_potentially_hazardous_asteroid;large:asteroid.item.estimated_diameter.meters.estimated_diameter_max>100">
                 <h3><span class="emoji">☄</span><span data-text="${asteroid.item.name}"></span></h3>
                 <p
                     data-text="Diameter: ${asteroid.item.estimated_diameter.meters.estimated_diameter_min.toFixed(0)} - ${asteroid.item.estimated_diameter.meters.estimated_diameter_max.toFixed(0)} meters">
