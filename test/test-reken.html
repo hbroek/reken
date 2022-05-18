@@ -421,14 +421,20 @@
         <button data-action="f9.item.c1++">Increase c1</button>
       </div>
     </div>
-
+    
   </section>
   <hr>
   <section>
     <h3>data-calc tests</h3>
+    <script>let c0=0</script>
     <script data-calc>c0=10</script>
-    <script>c0=0</script>
     <div id="ca0" data-text="${c0}"></div>
+
+    <script>let ca10=1;</script>
+    <div id="ca1" data-text="${ca11}"></div>
+    <input id="ca1_0" type="number" data-value="ca10">
+    <button id="ca1_1" data-action="ca10=21">Set ca10 to 21</button>
+    <script data-calc>let ca11=ca10+10</script>
   </section>
   <hr>
   <section>
@@ -1320,6 +1326,19 @@
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
         expect($('ca0')).to.have.text('10')
+        done();
+      })
+
+      it('Render a the value of js var, update with calc tagged script', (done) => {
+        expect($('ca1')).to.have.text('11')
+
+        $('ca1_0').value = 11
+        fireEvent($('ca1_0'), "change")
+        expect($('ca1')).to.have.text('21')
+
+        fireEvent($('ca1_1'), "click")
+        expect($('ca1')).to.have.text('31')
+
         done();
       })
     })

@@ -256,7 +256,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
 
                 break;
             case "calc":
-                controlCode.push(elem.textContent.trim());
+                controlCode.unshift(elem.textContent.trim());
                 break;
             case "component":
                 topForString = undefined; //Reset the outermost for-loop.
