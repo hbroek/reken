@@ -4,16 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <link rel="stylesheet" href="../assets/reken.css"/>
+    <link rel="stylesheet" href="../assets/reken.css" />
+
+    <style>
+        .loading,
+        .error {
+            display: none;
+        }
+
+        section.reken-rest-busy .loading {
+            display: block;
+        }
+
+        .loaded {
+            display: none;
+        }
+
+        section.reken-rest-done .loaded {
+            display: block;
+        }
+
+        section.reken-rest-error .error {
+            display: block;
+            color: red;
+        }
+    </style>
 
     <script>
         let methods = ['get', 'post']
-        let method = 'get'
-        let body   = 'Hello World'
+        let body = 'Hello World'
         var results = undefined;
-        var counter1 = 0
+        var options = {
+            "method": 'get',
+            "fetch": false
+        }
+        const responseProps = [
+            'bodyUsed',
+            'ok',
+            'redirected',
+            'status',
+            'statusText',
+            'type',
+            'url'
+        ]
     </script>
 
     <title>Reken - Rest Options fetch example</title>
@@ -21,10 +56,8 @@
 
 <body>
     <script data-calc>
-        var options = {
-            "method": method,
-            "body": method=='get'?null:body
-        }
+        options.body = (options.method == 'get' ? null : body)
+        console.log(options.response)
     </script>
 
     <header>
@@ -35,18 +68,21 @@
             <form onsubmit="return false">
                 <h3>Fetch Options</h3>
                 <label>Method
-                    <select data-value="method" type="text" data-for="method:methods">
+                    <select data-value="options.method" type="text" data-for="method:methods">
                         <option data-text="${method.item}">
                     </select>
                 </label>
-                <label data-if="method!='get'">Body<input placeholder="Fetch body" data-value="body" type="text" /></label>
-                <button data-action="counter1++">Fetch</button>
+                <label data-if="options.method!='get'">Body<input placeholder="Fetch body" data-value="body"
+                        type="text" /></label>
+                <button data-action="options.fetch=true" data-text="Fetch"></button>
             </form>
         </section>
-        <section data-rest="results:https://echo.zuplo.io/?counter=${counter1}" data-rest-options="options">
-            <div><h3>Rest results</h3></div>
-            <div data-if="!results">Loading</div>
-            <div data-if="results">
+        <section data-rest="results:https://echo.zuplo.io/" data-rest-options="options">
+            <aside class="loading">Loading</aside>
+            <aside class="error" data-if="options.response"
+                data-text="${options.response.status} - ${options.response.statusText}">Error loading</aside>
+            <header class="loaded" data-if="results">
+                <h3>Rest results</h3>
                 <h5>Url</h5>
                 <span data-text="${results.url}"></span>
                 <h5>Method</h5>
@@ -56,17 +92,37 @@
                     <span data-text="${results.body}"></span>
                 </div>
                 <h5>Query</h5>
-                <table data-for="row:Object.keys(results.query)">
-                    <tr><td data-text="${row.item}"</td><td data-text="${results.query[row.item]}"</td></tr>
+                <table>
+                    <tbody data-for="row:Object.keys(results.query)">
+                        <tr>
+                            <td data-text="${row.item}" </td>
+                            <td data-text="${results.query[row.item]}" </td>
+                        </tr>
+                    </tbody>
                 </table>
                 <h5>Headers</h5>
-                <table data-for="row:Object.keys(results.headers)">
-                    <tr><td data-text="${row.item}"</td><td data-text="${results.headers[row.item]}"</td></tr>
+                <table>
+                    <tbody data-for="row:Object.keys(results.headers)">
+                        <tr>
+                            <td data-text="${row.item}" </td>
+                            <td data-text="${results.headers[row.item]}" </td>
+                        </tr>
+                    </tbody>
                 </table>
-            </div>
+                <h5>Response</h5>
+                <table data-if="options.response">
+                    <tbody data-for="row:responseProps">
+                        <tr>
+                            <td data-text="${row.item}" </td>
+                            <td data-text="${options.response[row.item]}" </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </header>
         </section>
     </main>
 </body>
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
 </html>

@@ -702,21 +702,42 @@ const parseIfExpression = (value) => {
 /* Runtime Helpers *********************************************************************************************************/
 function processRestCall(elem, _url, _options, modelUpdate) {
     // Url request is the same as last time, no need to fetch again and thus nothing do here.
-    if (typeof elem.dataset.url !== undefined && elem.dataset.url === _url) {
-        return;
+    if (_options && typeof _options.fetch !== 'undefined') {
+        if (_options.fetch === false)
+            return;
+        _options.fetch = false;
     }
-    elem.dataset.url = _url;
+    else {
+        if (typeof elem.dataset.url !== undefined && elem.dataset.url === _url) {
+            return;
+        }
+        elem.dataset.url = _url;
+    }
     elem.classList.add("reken-rest-busy");
     elem.classList.remove("reken-rest-error", "reken-rest-done");
+    let skip = false;
     fetch(_url, _options)
         .then(response => {
-            if (!response.ok) {
+            if (!response.ok && !response.status === 304) {
                 throw new Error(`Network response was not ok, code ${response.status} - ${response.statusText}`);
             }
-            return response.json();
+            if (response.status === 304) {
+                skip = true;
+                return
+            }
+            _options.response = response;
+            if (_options.transformer) {
+                let promise = Promise.resolve(response.text())
+                return promise.then(text => _options.transformer(text, _options))
+            }
+            else {
+                return response.json();
+            }
+         
         })
         .then(json => {
-            modelUpdate(json)
+            if (!skip)
+                modelUpdate(json)
             elem.classList.add("reken-rest-done");
         })
         .catch(error => {

@@ -68,17 +68,6 @@
 
     f7_loop = 12
 
-    r0 = {theNumber:0};
-    r1 = {theNumber:0};
-    r1_filename = 'one'
-
-    let r2v; // Prevent global namespace leak warning
-    nameList=[];
-    let r3_options = {'method': 'DELETE'}
-    let r3_result = {}
-    let r4_options = {'method': 'GET'}
-    let r4_result = {}
-
     let cp2_0s = "data-text value"
     
     var waitFor = (timeoutms, condition) => new Promise((r, j) => {
@@ -424,6 +413,32 @@
   <hr>
   <section>
     <h3>data-rest tests</h3>
+    <script>
+      r0 = {theNumber:0};
+      r1 = {theNumber:0};
+      r1_filename = 'one'
+
+      let r2v; // Prevent global namespace leak warning
+      nameList=[];
+      let r3_options = {'method': 'DELETE'}
+      let r3_result = {}
+      let r4_options = {'method': 'GET'}
+      let r4_result = {}
+
+      let r5 = {theNumber:0};
+      let r5_options = {fetch:false}
+
+      let r6_options = {}
+
+      function text7Converter(text, options) {
+        return {theNumber:parseInt(text)}
+      }
+      r7 = {theNumber:0};
+      let r7_options = {
+        transformer: text7Converter
+      }
+    </script>
+
     <div id="r0" data-text="${r0.theNumber}" data-rest="r0:json/one.json"></div>
 
     <div>
@@ -446,6 +461,14 @@
       <ul id="r4" data-rest="r4_result:json/names.json" data-rest-options="r4_options">
       </ul>
     </div>
+
+    <div id="r5" data-text="${r5.theNumber}" data-rest="r5:json/one.json" data-rest-options="r5_options"></div>
+    <button id="r5_button" data-action="r5_options.fetch=true" type="button">Trigger the rest call</button>
+
+    <div id="r6" data-rest="r0:json/one.json" data-rest-options="r6_options"></div>
+
+    <div id="r7" data-text="${r7.theNumber}" data-rest="r7:json/one.txt" data-rest-options="r7_options"></div>
+
   </section>
   <hr>
   <section>
@@ -1291,6 +1314,23 @@
       })
       it('Load an object with options, method=GET should pass', async function () {
         await waitFor(2000, () => checkForClass($('r4'), "reken-rest-done"));
+      })
+      it('Load a value from json file, by setting the fetch option to true', async function () {
+        expect($('r5')).to.have.text('0')
+
+        $('r5_button').dispatchEvent(new Event('click'));
+
+        await waitFor(2000, () => checkForClass($('r5'), "reken-rest-done"));
+        expect($('r5')).to.have.text('1')
+      })
+      it('Load json file, check that the response is set on the options after the call', async function () {
+        await waitFor(2000, () => checkForClass($('r6'), "reken-rest-done"));
+        assert(typeof r6_options.response === 'object', "Options should contain response object")
+        assert(r6_options.response.ok, "Response property ok should be true")
+      })
+      it('Load text file and convert into an object', async function () {
+        await waitFor(2000, () => checkForClass($('r7'), "reken-rest-done"));
+        expect($('r7')).to.have.text('1')
       })
     })
     describe('data-calc tests', () => {

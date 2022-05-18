@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css"/>
+
+    <title>People from REST service returning CSV</title>
+    <script>
+        /* Simple CSV parser, assumes the first row contains the column headers */
+        function parseCSV(csvString) {
+            const rows = csvString.split('\n') ;
+
+            const headers = getCsvValuesFromLine(rows[0]);
+            rows.shift();
+
+            let dataLines = rows.map(function (line) {
+                let dataLine = {};
+                const lineValues = getCsvValuesFromLine(line);
+
+                for (let i = 0; i < lineValues.length; i++) {
+                    const value = lineValues[i];
+                    dataLine[headers[i]] = value;
+                }
+
+                return dataLine;
+            });
+
+            return dataLines;
+        }
+        
+        function getCsvValuesFromLine(line) {
+            let values = line.split(',');
+            let i = 0;
+            let newArray = []
+
+            while (i < values.length) {
+                let start = i;
+                if (values[i].startsWith("\"")) {
+                    while (!(values[i].endsWith("\""))) {
+                        values[start] += "," + values[i + 1]
+                        i++
+                    }
+                }
+                newArray.push(values[start])
+                i++
+            }
+            values = newArray
+
+            values = values.map(function (value) {
+                const rawValue = value.replace(/\"/g, '');
+
+                if (rawValue == "") {
+                    return rawValue
+                }
+                let newValue = rawValue;
+
+                if (!isNaN(rawValue)) {
+                    newValue = Number.parseFloat(rawValue)
+                }
+
+                return newValue;
+            });
+
+            return values;
+        }
+        /* End CSV parser */
+
+        let restResults = [];
+        let restOptions = {
+            transformer: parseCSV,
+            data: restResults,
+            fetch: true
+        }
+    </script>
+    <style>
+        table {
+            overflow-x:initial;
+        }
+        th {
+            background-color: var(--color);
+            position: sticky;
+            top:0;
+        }
+    </style>
+</head>
+
+<body>
+    <header><h1>Reken - load people from a CSV file with REST Call</h1></header>
+    <main>
+        <section data-rest="restResults:csv/people.csv" data-rest-options="restOptions">
+            <table data-if="restResults.length>0">
+                <thead>
+                    <tr data-for="column:Object.keys(restResults[0])">
+                        <th data-text="${column.item}"></th>
+                    </tr>
+                </thead>
+                <tbody data-for="person:restResults">
+                    <tr data-for="column:Object.values(person.item)">
+                        <td data-text="${column.item}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+</html>
