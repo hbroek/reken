@@ -43,10 +43,6 @@
     let a0 = 0
     let a1 = 10
 
-    let o_0 = 5
-    let o_1 = 'a'
-    let o_2 = ''
-  
     let f4 = ['Monkey', "Elephant", "Lion"];
 
     let f5 = [
@@ -329,13 +325,25 @@
   <hr>
 
   <section>
+    <script>
+      let o_0 = 5
+      let o_1 = 'a'
+      let o_2 = ''
+      let o_3 = 'abc'
+    </script>
     <h3>data-on tests</h3>
+
     <button type="button" data-on-click="o_0=o_0+1" data-text="Increment o0 ${o_0}" id="o0"></button>
     <div id=o0_0 data-text="${o_0}"></div>
+
     <input id="o1" data-on-change="o_1='z'"></div>
     <div id=o1_0 data-text="${o_1}"></div>
+
     <input id="o2" data-on-keydown="o_2=e.keyCode" data-on-keyup="o_2=e.keyCode"></div>
     <div id=o2_0 data-text="${o_2}"></div>
+
+    <input id="o3" data-on-change="o_3=o_3.trim()" data-value="o_3"></div>
+    <div id=o3_0 data-text="${o_3}"></div>
   </section>
 
   <section>
@@ -1204,7 +1212,16 @@
         expect($('o2_0')).to.have.text('110')
         done();
       })
-
+      it('data-value and a change listener on the same element', (done) => {
+        expect(o_3).to.equal('abc');
+        expect($('o3_0')).to.have.text('abc');
+        $('o3').value = "ABC   ";
+        fireEvent($('o3'), "value");
+        expect($('o3_0')).to.have.text('ABC   ')
+        fireEvent($('o3'), "change");
+        expect($('o3_0')).to.have.text('ABC')
+        done();
+      })
     })
     describe('data-for tests', () => {
       it('Render 5 li\'s', (done) => {
@@ -1254,13 +1271,13 @@
         // Change steps in 2nd row.        
         f6elem.value = 10000;
         // Since dispatchEvent doesn't work on delegated event listeners, call listener directly
-        fireEvent(f6elem, "change");
+        fireEvent(f6elem, "value");
         expect(10000).to.equal(f6[1].steps);
         expect(document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(6)')).to.contain.text('Done');
 
         //Select the third element element
         let f6_2_radio = document.querySelector('#f6 > tr:nth-child(3) > td:nth-child(1) > input[type="radio"]');
-        fireEvent(f6_2_radio, "change");
+        fireEvent(f6_2_radio, "value");
         expect('2').to.equal(f6_selected);
 
         // Remove 2nd remove by "clicking" action button
@@ -1333,7 +1350,7 @@
         expect($('ca1')).to.have.text('11')
 
         $('ca1_0').value = 11
-        fireEvent($('ca1_0'), "change")
+        fireEvent($('ca1_0'), "value")
         expect($('ca1')).to.have.text('21')
 
         fireEvent($('ca1_1'), "click")
@@ -1477,7 +1494,7 @@
         const cp62input = document.querySelector('#cp6 > ul > li:nth-child(2) > input')
         cp62input.value = 120
         //Process change event of input control
-        fireEvent(cp62input, "change");
+        fireEvent(cp62input, "value");
         expect(cp6Ul).to.have.length(3);
         expect(cp6Summary).to.have.text('arr_elems: 10,120,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 120','comp 6 instance 3 - 30'])
@@ -1534,7 +1551,7 @@
         //Change value with input control in outer component
         const cp7Input = document.querySelector('#cp7 > span > input ')
         cp7Input.value = 5;
-        fireEvent(cp7Input, "input");
+        fireEvent(cp7Input, "value");
         expect(cp7Span).to.have.text('5') // Changed to 5
         expect(cp72Span).to.have.text('3') // not changed
         expect(cp722Span).to.have.text('10') // not changed
@@ -1550,7 +1567,7 @@
         //Change value with input control in 2nd row in middle component
         const cp72Input = cp72Comp.querySelector('span > input');
         cp72Input.value = 7
-        fireEvent(cp72Input, "input");
+        fireEvent(cp72Input, "value");
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Changed to 7
         expect(cp722Span).to.have.text('10') // Not changed
@@ -1561,7 +1578,7 @@
         //Change value with input control in 2nd row in inner component
         const cp722Input = cp722Comp.querySelector('input');
         cp722Input.value = 42
-        fireEvent(cp722Input, "input")
+        fireEvent(cp722Input, "value")
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Not changed
         expect(cp722Span).to.have.text('42') // Changed to 42
@@ -1597,14 +1614,14 @@
         expect(cp83Checkbox.checked).to.be.true;
 
         cp82Checkbox.checked = false;
-        fireEvent(cp82Checkbox, "change");
+        fireEvent(cp82Checkbox, "value");
         expect(cp81Checkbox.checked).to.be.true;
         expect(cp82Checkbox.checked).to.be.false;
         expect(cp83Checkbox.checked).to.be.true;
 
 
         cp83Checkbox.checked = false;
-        fireEvent(cp83Checkbox, "change");
+        fireEvent(cp83Checkbox, "value");
 
         const cp8Delete = document.querySelector('#cp8Delete')
         fireEvent(cp8Delete, "click");
@@ -1636,7 +1653,7 @@
 
         const li9_1Input = li9_1.querySelector('input')
         li9_1Input.checked = true;
-        fireEvent(li9_1Input, "change");
+        fireEvent(li9_1Input, "value");
         expect(window.getComputedStyle(cp9, null).backgroundColor).to.equal(brown9) //brown
         expect(window.getComputedStyle(li9_0, null).backgroundColor).to.equal(gray9) //gray not selected
         expect(window.getComputedStyle(li9_1, null).backgroundColor).to.equal(silver9) //gray not selected
@@ -1703,7 +1720,7 @@
         let cp12_subdiv = cp12.querySelector('div');
         expect(cp12_subdiv).to.have.text('Is not active')
         $('cp12_1').checked = true
-        fireEvent($('cp12_1'), 'change')
+        fireEvent($('cp12_1'), 'value')
         expect(cp12_subdiv).to.have.text('Is active')
         done();
       })

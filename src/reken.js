@@ -96,7 +96,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['component', 'style', 'if', 'for', 'attr-value']; // Need to be first in that order.
+    let firsts = ['component', 'style', 'if', 'for', 'attr-value', 'value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
@@ -145,16 +145,17 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 }
                 else
                     controlCode.push(indent + elemString + ".value = " + value);
-                let eventName = "change";
+                let eventType = "change";
                 if (elem.tagName === 'TEXTAREA' || elem.type === 'range') {
-                    eventName = 'input';
+                    eventType = 'input';
                 }
 
+                const eventName = 'value'
                 let eventId = eventName+"_"+uniqueID();
                 initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
-                    'eventType':eventName,
+                    'eventType':eventType,
                     'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
                     'handlerName': eventId,
                     'handlerCode': (elem.type === 'file')?(value + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")")
