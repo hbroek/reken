@@ -153,13 +153,15 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 const eventName = 'value' // Create pseudo eventName for data-value handlers, so a real change or input event can still be registered on the element
                 let eventId = eventName+"_"+uniqueID();
                 initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+
                 const eventContext = getEventContext(elem)
                 let valueValue = value;
+                
                 if (eventContext.forContext) {
                     const {forIterator, contextVar, idxName} = eventContext.forContext;
-                    let parts = value.split('.');
-                    if (parts.length==2 && parts[0]==contextVar && parts[1] === 'item')
+                    if (valueValue == contextVar+'.item') { // in case of value array update the reference to it.
                         valueValue = forIterator + '[' + idxName + ']'
+                    }
                 }
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
@@ -693,7 +695,7 @@ function getEventContext(elem, eventContext) {
         if (typeof _parent.dataset.for !== 'undefined') {
             eventContext.forContext = getForContext(_parent);
             const idxName = 'ctxIdx[' + (eventContext.idx++) + ']'
-            
+
             eventContext.forContext.idxName = idxName;
             const {forIterator, contextVar} = eventContext.forContext;
 
