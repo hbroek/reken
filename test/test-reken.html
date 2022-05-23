@@ -429,7 +429,18 @@
         <button data-action="f9.item.c1++">Increase c1</button>
       </div>
     </div>
-    
+
+    <script>
+      let for10StringArray = ['Charlie', 'Foxtrot', 'Tango']
+    </script>
+    <div id="f10" data-for="f10:for10StringArray">
+      <div>
+        <span data-text="${f10.index}"></span>
+        <span data-text="${f10.item}"></span>
+        <input data-value="f10.item">
+      </div>
+    </div>
+
   </section>
   <hr>
   <section>
@@ -443,6 +454,13 @@
     <input id="ca1_0" type="number" data-value="ca10">
     <button id="ca1_1" data-action="ca10=21">Set ca10 to 21</button>
     <script data-calc>let ca11=ca10+10</script>
+ 
+    <script>let ca20 = true</script>
+    <div>
+      <input id="ca2_0" data-calc="if (ca20 && document.activeElement != elem) elem.focus()" type="number">
+      <input id="ca2_1" data-calc="if (!ca20 && document.activeElement != elem) elem.focus()" type="number">
+      <button id="ca2_2" data-action="ca20=!ca20">Toggle focus</button>
+    </div>
   </section>
   <hr>
   <section>
@@ -1339,6 +1357,17 @@
         expect(f9Row1Div2Span).to.have.text('c1:111')
         done();
       })
+
+      it('String array For loop with text output and input control', (done) => {
+        expect($('f10')).to.have.length(3)
+        expect(document.querySelectorAll('#f10 div span')).to.contain.text(['0','1','2'])
+        expect(document.querySelectorAll('#f10 div span')).to.contain.text(['Charlie','Foxtrot','Tango'])
+        let f10_2ndRowInput  = document.querySelector('#f10 > div:nth-child(2) > input');
+        f10_2ndRowInput.value = 'Alpha'
+        fireEvent(f10_2ndRowInput, "value");
+        expect(document.querySelectorAll('#f10 div span')).to.contain.text(['Charlie','Alpha','Tango'])
+        done();
+      })
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
@@ -1356,6 +1385,15 @@
         fireEvent($('ca1_1'), "click")
         expect($('ca1')).to.have.text('31')
 
+        done();
+      })
+
+      it('Switch focus between 2 input controls', (done) => {
+        ca20 = false
+        fireEvent($('ca2_2'), "click")
+        assert($('ca2_0')===document.activeElement, "ca2_0 has focus")
+        fireEvent($('ca2_2'), "click")
+        assert($('ca2_1')===document.activeElement, "ca2_1 has focus")
         done();
       })
     })

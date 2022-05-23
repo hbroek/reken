@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css"/>
 
-        <script>var todoList = []; var todo=''</script>
+        <script>
+            let todoList = [];
+            let newTodo= ''
+            let editing = -1
+        </script>
         <title>Reken - array manipulation with action buttons</title>
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
     </head>
@@ -21,14 +25,19 @@
             <section>
                 <form onsubmit="return false">
                     <header><h3>Enter TODO items</h3></header>
-                    <button type="button" data-action="todoList.push(todo)">Add Todo</button>
-                    <button type="button" data-action="todoList = []">Clear</button>
-                    <label>Add Todo<input placeholder="Type todo item" data-value="todo" type="text" /></label>
+                    <button type="button" data-action="if (newTodo !== '')todoList.push(newTodo);newTodo=''" data-attr-disabled="newTodo === ''">Add Todo</button>
+                    <button type="button" data-action="todoList = []" data-attr-disabled="todoList.length==0">Clear</button>
+                    <label>Add Todo<input placeholder="Type todo item" data-value="newTodo" type="text" autofocus/></label>
                 </form>
             </section>
             <section>
-                <ul data-for="todos:todoList">
-                    <li data-text="${todos.item}"/>
+                <ul data-for="todo:todoList">
+                    <li>
+                        <label data-if="editing!=todo.index" data-text="${todo.item}" data-on-click="editing=todo.index"></label>
+                        <input data-if="editing==todo.index" data-on-change="editing=-1" data-value="todo.item" data-change="editing=-1"
+                            data-calc="if (todo.index == editing && elem != document.activeComponent) elem.focus()"
+                        />
+                    </li>
                 </ul>
             </section>
         </main>

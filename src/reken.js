@@ -96,7 +96,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['component', 'style', 'if', 'for', 'attr-value', 'value']; // Need to be first in that order.
+    let firsts = ['component', 'style', 'if', 'for', 'calc', 'attr-value', 'value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
@@ -150,17 +150,26 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     eventType = 'input';
                 }
 
-                const eventName = 'value'
+                const eventName = 'value' // Create pseudo eventName for data-value handlers, so a real change or input event can still be registered on the element
                 let eventId = eventName+"_"+uniqueID();
                 initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+                const eventContext = getEventContext(elem)
+                let valueValue = value;
+                if (eventContext.forContext) {
+                    const {forIterator, contextVar, idxName} = eventContext.forContext;
+                    let parts = value.split('.');
+                    if (parts.length==2 && parts[0]==contextVar && parts[1] === 'item')
+                        valueValue = forIterator + '[' + idxName + ']'
+                }
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
                     'eventType':eventType,
                     'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
                     'handlerName': eventId,
-                    'handlerCode': (elem.type === 'file')?(value + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")")
-                        :(value + "=typedReturn(e.target," + value + ");"),
-                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";",
+                    'handlerCode': (elem.type === 'file') ?
+                        (valueValue + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")") :
+                        (valueValue + "=typedReturn(e.target," + valueValue + ");"),
+                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + eventContext.contextString + ";",
                     "deferredUpdate": elem.type === 'file'
                 })
                 break;
@@ -209,7 +218,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
                         'handlerName': eventId,
                         'handlerCode':value,
-                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";"
+                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                     })
                 }
                 break;
@@ -257,8 +266,12 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
 
                 break;
             case "calc":
-                controlCode.unshift(elem.textContent.trim());
+                if (elem.tagName === 'SCRIPT')
+                    controlCode.unshift(elem.textContent.trim());
+                else
+                    controlCode.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
                 break;
+
             case "component":
                 topForString = undefined; //Reset the outermost for-loop.
                 if (!generatedClass[value]) {
@@ -356,7 +369,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
                         'handlerName': eventId,
                         'handlerCode':handler,
-                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContextString(elem) + ";"
+                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                     })
                 }
             }
@@ -496,7 +509,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
     output.push(...getScript(templateElement))
 
     if (compControlCode.length>0)
-        output.push(`    let _v`)
+        output.push(`    let _v, elem`)
         output.push(...compControlCode)
 
     // save potentially updated argument state
@@ -667,30 +680,44 @@ function getScript(templateElement) {
 }
 
 // Generates the code that sets up the context before the event code gets executed.
-function getEventContextString(elem, idxHolder) {
-    if (typeof idxHolder === 'undefined')
-        idxHolder = { idx: 0 };
-    let _contextString = '';
+function getEventContext(elem, eventContext) {
+    if (typeof eventContext === 'undefined') {
+        eventContext = {};
+        eventContext.idx = 0;
+        eventContext.contextString = '';
+    }
     let _parent = elem.parentElement;
-    if (_parent != null) {
-        _contextString = getEventContextString(_parent, idxHolder);
+    if (_parent != null) {        
+        getEventContext(_parent, eventContext); 
 
         if (typeof _parent.dataset.for !== 'undefined') {
-            return _contextString + getForContextString(_parent, 'ctxIdx[' + (idxHolder.idx++) + ']');
+            eventContext.forContext = getForContext(_parent);
+            const idxName = 'ctxIdx[' + (eventContext.idx++) + ']'
+            
+            eventContext.forContext.idxName = idxName;
+            const {forIterator, contextVar} = eventContext.forContext;
+
+            let _forContextString =  "let " + contextVar + "= {index:" + idxName + "};"
+            _forContextString += "if (typeof ("+ forIterator +") !== 'number' && typeof ("+ forIterator +") !== 'undefined')"+ contextVar+"['item'] = "+ forIterator  + "[" + idxName + "];"
+            eventContext.contextString = eventContext.contextString + _forContextString;
+
+            return eventContext;
         }
     }
-    return _contextString;
+    return eventContext;
 }
 
 // Generate the code that sets up the context for when processing elements in a for loop.
-function getForContextString(forElem, idxName) {
+function getForContext(forElem) {
     let value = forElem.dataset.for;
-    let _var = value.substring(0, value.indexOf(':'));
-    let _data = value.substring(value.indexOf(':') + 1);
+    let _contextVar = value.substring(0, value.indexOf(':'));
+    let _forIterator = value.substring(value.indexOf(':') + 1);
 
-    let _return = "let " + _var + "= {index:" + idxName + "};"
-    _return += "if (typeof ("+_data+") !== 'number' && typeof ("+_data+") !== 'undefined')"+_var+"['item'] = "+ _data  + "[" + idxName + "];"
-    return _return;
+    let _returnObject = {
+        "forIterator": _forIterator,
+        "contextVar": _contextVar,
+    }
+    return _returnObject;
 }
 
 // Fetch if expression and optional class which gets set when expression is true
@@ -896,7 +923,7 @@ if (!rkn_server_generated) {
 
     definition.push("_mainInstance.controller({})")
     let definitionString = definition.join('\n')
-//    console.log(definitionString)
+    // console.log(definitionString)
     let controllerFunction = new Function(definitionString);
     controllerFunction();
     if (rkn_generate_code) {
