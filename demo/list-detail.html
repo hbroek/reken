@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css"/>
+
+    <title>Reken - List - details</title>
+    <script>
+        let restResults = [];
+        let person;
+    </script>
+    <style>
+        table {
+            overflow-x:initial;
+        }
+        th {
+            background-color: var(--color);
+            position: sticky;
+            top:0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>List - details</h1>
+        <p>Use routing to go from the main page to the detail page after clicking the &#8942; button </p>
+    </header>
+    <main data-route="/">
+        <section>
+            <table>
+                <thead>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                </thead>
+                <tbody data-for="person:restResults" data-rest="restResults:json/people.json">
+                    <tr>
+                        <td data-text="${person.index+1}"></td>
+                        <td data-text="${person.item.name}"></td>
+                        <td data-text="${person.item.email}"></td>
+                        <td><a class="button" data-attr-href="#/person/${person.item._id}"><strong>&#8942;</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <main data-route="/person/#personid">
+        <form onsubmit="return false;">
+            <label>Name:<input data-value="person.name"></label>
+            <label>Email:<input data-value="person.email"></label>
+            <label>Address:<input data-value="person.address"></label>
+            <label>Age:<input data-value="person.age"></label>
+            <label>Company:<input data-value="person.company"></label>
+            <button data-action="history.back();">Back</button>
+        </form>
+    </main>
+    <script data-calc>
+        if (typeof personid !== 'undefined')
+            person = restResults.find(row => row._id === personid);
+    </script>
+
+</body>
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+</html>

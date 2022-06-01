@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css"/>
+
+    <title>Reken - Single Page Application</title>
+    <style>
+        button {
+            margin: 0.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <header><h1>Reken - Single Page Application with routing</h1></header>
+    <main>
+        <section id="page1" data-route="/">
+            <header><h1>Page 1</h1></header>
+        </section>
+        <section id="page2" data-route="/page2">
+            <header><h1>Page 2</h1></header>
+        </section>
+        <section id="page3" data-route="/page3">
+            <header><h1>Page 3</h1></header>
+        </section>
+    </main>
+    <footer>
+        <section>
+            <button data-component="nav_button" data-arg-title="Page 1" data-arg-hash="#/"></button>
+            <button data-component="nav_button" data-arg-title="Page 2" data-arg-hash="#/page2"></button>
+            <button data-component="nav_button" data-arg-title="Page 3" data-arg-hash="#/page3"></button>
+        </section>
+    </footer>
+</body>
+<template data-component="nav_button" data-arg-title data-arg-hash>
+    <button 
+        data-text = "${title}"
+        data-action = "location.href=hash"
+        data-attr-disabled="hash===location.hash || (hash === '#/' && location.hash==='')"
+    >
+    </button>
+</template>
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+</html>

@@ -300,7 +300,30 @@
 
   </section>
   <hr>
+  <section>
+    <h3>data-route tests</h3>
+    <script>
+      
+    </script>
+    <div id="rt0" data-route="/">rt0</div>
+    <div id="rt1" data-route="/rt1">rt1</div>
+    <div id="rt2" data-route="/rt2">
+      rt2 > 
+      <span id="srt2_0" data-route="">srt0</span>
+      <span id="srt2_1" data-route="srt1"></span>
+      <span id="srt2_2" data-route="srt2"></span>
+    </div>
+    <div id="rt3" data-route="/rt3/subrt3/srt3">rt3/subrt3/srt3</div>
+    <div id="rt4" data-route="class_rt4:/rt4">rt4</div>
 
+    <div id="rt5" data-route="/rt5/#rt5value" data-text="rt5/${rt5value}"></div>
+
+    <div id="rt6" data-route="/rt6">rt6</div>
+    <div id="rt61" data-route="/rt61">rt61</div>
+  </section>
+
+  <hr>
+  <section>
   <h3>data-action tests</h3>
   <button type="button" data-action="a0=a0+1" id="a0">Increment a0</button>
   <button type="button" data-action="a1=a1-1" id="a1" data-text="Decrement a1 = ${a1}"></button>
@@ -596,7 +619,6 @@
       <li data-component="comp5" data-arg-idx="idx5"></li>
     </ul>
 
-
     <script>
       let cp6arr = [10,20,30]
     </script>
@@ -776,7 +798,21 @@
     </template>
     <div id="cp12" data-component="comp12" data-arg-active="cp12var"></div>
     <label>cp12:<input id="cp12_1" type="checkbox" data-value="cp12var"></label>
-  </section>
+
+    <template data-component="comp13" data-arg-item>
+      <li data-text="comp 13 name ${item.name}"></li>
+    </template>
+    <script>
+        let i13var = [
+          {name: 'John'},
+          {name: 'Mary'}
+        ]
+      </script>
+    <ul id="cp13" data-for="idx13:i13var">Uls
+      <li data-component="comp13" data-arg-item="idx13.item"></li>
+    </ul>
+
+    </section>
   <script src="../src/reken.js"></script>
 
   <script>
@@ -1156,6 +1192,161 @@
       })      
 
     })
+
+    describe('data-route tests', (done) => {
+      it('change hash', async function () {
+        await waitForNewHash('#/new')
+        expect(document.location.hash === '#/new')
+      })
+      it('Route to rt0 without hash', async function () {
+        expect($('rt0')).not.to.be.displayed;
+
+        await waitForNewHash('')
+        expect(document.location.hash === '')
+        expect($('rt0')).to.be.displayed;
+
+      })
+      it('Route to rt0', async function () {
+        // set back to #/new
+        await waitForNewHash('#/new')
+
+        const hash0 = '';
+
+        expect($('rt0')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash0}`)
+        expect(document.location.hash === `#/${hash0}`)
+        expect($('rt0')).to.be.displayed;
+
+      })
+
+      it('Route to rt1', async function () {
+        const hash1 = 'rt1';
+
+        expect($('rt1')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash1}`)
+        expect(document.location.hash === `#/${hash1}`)
+        expect($('rt1')).to.be.displayed;
+
+      })
+      it('Route to rt2, default sub route', async function () {
+        const hash2 = 'rt2';
+
+        expect($('rt2')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash2}`)
+        expect(document.location.hash === `#/${hash2}`)
+        expect($('rt2')).to.be.displayed;
+        expect($('srt2_0')).to.be.displayed;
+        expect()
+
+      })
+      it('Route to rt2, subrt 1', async function () {
+        const hash21 = 'rt2/srt1';
+
+        expect($('srt2_1')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash21}`)
+        expect(document.location.hash === `#/${hash21}`)
+        expect($('rt2')).to.be.displayed;
+        expect($('srt2_1')).to.be.displayed;
+        expect()
+
+      })
+      it('Route to rt2, subrt 1', async function () {
+        // set back to #/new
+        await waitForNewHash('#/new')
+
+        const hash22 = 'rt2/srt2';
+
+        expect($('rt2')).not.to.be.displayed;
+        expect($('srt2_2')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash22}`)
+        expect(document.location.hash === `#/${hash22}`)
+        expect($('rt2')).to.be.displayed;
+        expect($('srt2_2')).to.be.displayed;
+      })
+
+      it('Route to rt3/subrt3/srt3', async function () {
+        const hash3 = 'rt3/subrt3/srt3';
+
+        expect($('rt3')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash3}`)
+        expect(document.location.hash === `#/${hash3}`)
+        expect($('rt3')).to.be.displayed;
+      })
+
+      it('Route to rt4 and set class class_rt4', async function () {
+        const hash4 = 'rt4';
+
+        expect($('rt4')).to.be.displayed;
+        expect($('rt4')).not.to.have.class('class_rt4');
+
+        await waitForNewHash(`#/${hash4}`)
+        expect(document.location.hash === `#/${hash4}`)
+        expect($('rt4')).to.be.displayed;
+        expect($('rt4')).to.have.class('class_rt4');
+      })
+
+      it('Route to rt5/:value50', async function () {
+        const hash5 = 'rt5/50';
+
+        expect($('rt5')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash5}`)
+        expect(document.location.hash === `#/${hash5}`)
+        expect($('rt5')).to.be.displayed;
+        expect($('rt5')).to.have.text('rt5/50');
+
+      })
+      it('Route to rt5/:value51', async function () {
+        const hash51 = 'rt5/51';
+
+        expect($('rt5')).to.be.displayed;
+
+        await waitForNewHash(`#/${hash51}`)
+        expect(document.location.hash === `#/${hash51}`)
+        expect($('rt5')).to.be.displayed;
+        expect($('rt5')).to.have.text('rt5/51');
+      })
+
+      it('Route to rt6, then to 61 and then back', async function () {
+        const hash6 = 'rt6';
+
+        expect($('rt6')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash6}`)
+        expect(document.location.hash === `#/${hash6}`)
+        expect($('rt6')).to.be.displayed;
+
+        const hash61 = 'rt61';
+
+        expect($('rt61')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash61}`)
+        expect(document.location.hash === `#/${hash61}`)
+        expect($('rt6')).not.to.be.displayed;
+        expect($('rt61')).to.be.displayed;
+
+        // Browser history back
+        window.history.back();
+        await waitFor(2000, () => document.location.hash===`#/${hash6}` && rt6.style.display == '')
+        expect(document.location.hash === `#/${hash6}`)
+
+        expect($('rt6')).to.be.displayed;
+        expect($('rt61')).not.to.be.displayed;
+      })
+
+    })
+
+    async function waitForNewHash(hash) {
+      document.location.hash=hash;
+      await waitFor(2000, () => document.location.hash==hash)
+    }
+
     
     describe('data-action tests', () => {
       it('Press button to increment js number a0', (done) => {
@@ -1762,6 +1953,15 @@
         expect(cp12_subdiv).to.have.text('Is active')
         done();
       })
+
+      it('Verify a for loop item can be passed as an argument', (done) => {
+        let cp13ul = $('cp13')
+        expect(cp13ul).to.have.length(2);
+        expect(cp13ul.querySelectorAll('li')[0]).to.have.text('comp 13 name John');
+        expect(cp13ul.querySelectorAll('li')[1]).to.have.text('comp 13 name Mary');
+        done();
+      })
+
     })
     const fireEvent = (target, eventType, payLoad) => {
       let classRoot = target.parentElement;

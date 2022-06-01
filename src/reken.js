@@ -17,7 +17,8 @@
 *   *       an optional transform function reference can be provided, and will be called with the file content string and the File object. It should return the deserialized object. For example to parse XML data.
 * - data-style: Update the style attribute with a an evaluated template string.
 * - data-class: Takes a classname and an boolean expression that resolves in adding the classname when true and removing when false. If not boolean expression if provided the classname with be resolved into a boolean expression.
-* - data-if: Takes a boolean expression, when true the element is shown, false the element is hidden (display:none). if classname provide before expression, class is added/removed to element instead of toggling the display property.
+* - data-if: Takes a boolean expression, when true the element is shown, false the element is hidden (display:none). if classname provide before expression, the class is added/removed to element instead of toggling the display property.
+* - data-route: Takes a path as an argument. When the path matches the location hash (the value after the first # value) the element will be visible otherwise not. An optional class name can be provided separated by a colon. if the hash matches, the class is set on the element. The path can also be a variable by preceding it with a # value. In that case the variable will be initialized with the matching hash value.
 * - data-on: Takes a eventName following by js code that gets executed in the event. with the variable e the event details are made available.
 * - data-for: Takes a var name following by a iterating javascript iterable object or a number. The first child of the element containing data-for will be replicated with the number of the elements in the iterable object or the number of times specifed. in the for loop the var element will contain property index and with an iterable object the item property. Nested loops a are allowed.
 * - data-rest: Takes a javascript variable and a rest service JSON endpoint. Once the rest service is resolved the javascript variable contains the object representing the json. An optional property path in the resultsset can be specified. When the url changes the rest call gets executed again. The url can is an evaluated template string. That is how you can parameterize your rest calls.
@@ -65,7 +66,7 @@ let booleanAttrs = [
     'truespeed'
 ]
 
-function buildClasses(componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles) {
+function buildClasses(componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars) {
     if (elem.tagName == "TEMPLATE")
         return; //Ignore template tags
 
@@ -192,6 +193,37 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                 }
                 break;
+            case "route":
+                {
+                    let [_expr, _class] = parseIfExpression(value);
+                    value =  _expr
+
+                    if (value.startsWith('/')) {
+                        route = []
+                        value = value.substring(1);
+                    }
+
+                    let subroute = value.split('/');
+                    if (subroute.length===0)
+                        subroute.push('')
+
+                    route = route.concat(subroute)
+                    value = "reken_routing_path.length>="+route.length+""
+                    for (let i = 0; i < route.length; i++) {
+                        if (route[i].startsWith('#')) {
+                            let routeAssignment = `let ${route[i].substring(1)} = reken_routing_path[${i}]`
+                            if (controlCode.indexOf(routeAssignment) < 0) {
+                                routeVars.push(routeAssignment)
+                            }
+                        }
+                        else
+                            value += `&&reken_routing_path[${i}] === '${route[i]}'`
+                    }
+                    if (_class)
+                        value = _class + ':' + value
+                }
+                // Notice we drop into the if case to process the routing expression
+
             case "if":
                 {
                     let [_expr, _class] = parseIfExpression(value);
@@ -203,8 +235,8 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     }
 
                     if (!elem.dataset.for) { // Elements with For process their own children
-                        if (elem.dataset.if !== undefined)
-                            controlCode.push('if ('+parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                        if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
+                            controlCode.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                     }
                     
                 }
@@ -255,7 +287,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
 
                 let i = 0;
                 for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                    buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles)
+                    buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars)
                     i++;
                 }
                 controlCode.push(indent+_forIndex + "+=1");
@@ -282,13 +314,13 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     let compControlCode = [];
                     let compEventCode = [];
 
-                    buildClasses(true, elem, "this.root", "this.root", topForString, definition, compInitCode, compControlCode, compEventCode, styles)
+                    buildClasses(true, elem, "this.root", "this.root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
 
                     if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
                         let i = 0;
                         for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                             let elemString = "this.root"
-                            buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles)
+                            buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
                             i++
                         }
                         if (elem.dataset.if !== undefined) {
@@ -296,7 +328,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         }
                     
                     }
-                    const [compDefinition, compStyle] = generateComponentClass(value, compInitCode, compControlCode, compEventCode)
+                    const [compDefinition, compStyle] = generateComponentClass(value, compInitCode, compControlCode, compEventCode, routeVars)
                     styles.push(...compStyle);
                     definition.push(...compDefinition)
                     definition.push(`classRegistry['${value}']=${value}`)
@@ -316,7 +348,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         let value = elem.dataset[attr]
                         //Check if variable
                         if (/^[a-zA-Z_$][0-9a-zA-Z_$/.]*$/.test(value)) {
-                            controlCode.push("      let " + arg + " = (typeof " + value + "!== 'undefined'?"+value+":'"+value+"')")
+                            controlCode.push("      let " + arg + " = (typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "']?"+value+":'"+value+"')")
                             if (attr.startsWith('bind')) // Only bind parameters send bind events.
                                 initCode.push(indent + compString + ".addEventListener('"+arg+"', (e) => {"+value+" = e.detail.value})")
                         }
@@ -380,10 +412,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
         let i = 0;
         for (let child of elem.children) { 
-            buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles)
+            buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars)
             i++
         }
-        if (elem.dataset.if !== undefined)
+        if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
             controlCode.push('}')
     }        
 }
@@ -452,7 +484,7 @@ const getComponent = (componentName) => {
     return componentClone;
 }
 
-function generateComponentClass(componentName, compInitCode, compControlCode, compEventCode) {
+function generateComponentClass(componentName, compInitCode, compControlCode, compEventCode, routeVars) {
     let templateElement = document.querySelector("template[data-component='"+componentName+"']")
 
     let output = []
@@ -506,6 +538,11 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
     for (let _method of methods)
         output.push(_method)
 
+    if (componentName === '_main') {
+        for (let _routeVar of routeVars) {
+            output.push("    "+_routeVar)
+        }
+    }
 
     //inject script code
     output.push(...getScript(templateElement))
@@ -541,6 +578,10 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
         for (let param of paramKeys)
             output.push("    let " + param +" = this." + param) 
 
+        for (let _routeVar of routeVars) {
+            output.push("    "+_routeVar)
+        }
+        
         for (let _method of methods)
             output.push(_method)
 
@@ -906,9 +947,25 @@ if (!rkn_server_generated) {
     let setup = [];
     let styles = ['template {display:none !important;}'];
 
+    function getParsedHash(hash) {
+        let routing_path = []
+        if (hash.length>2) {
+            const path = hash.substring(2)
+            routing_path = path.split("/");
+        }
+        routing_path.push('')
+        return routing_path;
+    }
+    var reken_routing_path = getParsedHash(window.location.hash);
+
+    window.addEventListener('hashchange', (e) => {
+        reken_routing_path = getParsedHash(window.location.hash);
+        document.body.parentElement.rkn_class.controller({})
+    })
+    
     document.body.parentElement.setAttribute('data-component', '_main')
     definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
-    buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles)
+    buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [])
     if (styles.length>0) {
         const headElem = document.querySelector('head');
         if (headElem == null) {

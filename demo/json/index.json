@@ -11,6 +11,7 @@
     "file-open.html",
     "filter-table.html",
     "hsl-colors.html",
+    "list-detail.html",
     "load-csv-file-from-rest.html",
     "my-ip-and-weather.html",
     "nested-for.html",
@@ -19,6 +20,7 @@
     "rest-options.html",
     "rotator.html",
     "spa.html",
+    "spa-with-routing.html",
     "svg.html",
     "weather-alerts.html"
 ]
