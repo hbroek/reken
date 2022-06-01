@@ -1143,6 +1143,18 @@ The variable vrb will contain the propery <strong>index</strong> and when bound 
 <p><strong>data-calc</strong>: When set on a script tag that needs to be executed everytime there is a model update. Use for example to recalculate formulas or make transformations of data loaded by a rest service. For example <em>&lt;script data-calc&gt;myVar = myOtherVar + 10&lt;/script&gt;</em>. When set on regular HTML you can specify code to run in the attribute value. The code will execute every time the controller runs. For example <em>&lt;input data-calc="if (elem != document.activeElement) elem.focus()</em>. This will focus the element when it does not have focus. Note the <strong>elem</strong> variable which is available and points to the element the data-calc property is assigned to. <strong>Use with care this code runs everytime the controller runs</strong>.</p>
 </li>
 <li>
+<p><strong>data-route</strong>: With the data-route attribute you can turn parts of the page on and off based on the url hash. This is useful for SPA applications that have all the pages in one HTML document. For example you can show a signup page, the login page, a main page with url hashes: <strong>#/signup, #/login, #/main</strong>. The route attribute on the element for the signup page would in this case be <strong>"data-route="/signup"</strong>.</p>
+<ul>
+<li>You can also specify a classname to be used instead of showing / hiding the element. For example <strong>data-route="fade-in-signup:/signup"</strong> will set the class fade-in-signup on the element when the url hash matches the route. This allows the use of CSS animations to hide and show the element.</li>
+<li>Route attributes can also be set on nested elements that match sub elements. For example an element with route <strong>"/main"</strong> can contain an element with a sub route <strong>"welcome"</strong> and an element with a subroute <strong>"goodbye"</strong> showing either of the 2 sub elements depending whether the url hash is <strong>"/main/welcome"</strong> or <strong>"/main/goodbye"</strong>.</li>
+<li>Reken's routing  supports routing variables to parameterize a routing page. With <strong>/order/#orderid</strong>, the element with the order route is made visible and a variable called <strong>orderid</strong> is initialzed with the 2nd argument. For example a hash <strong>/order/12345</strong>. Activates the element with the order route and sets the orderid routing variable with the value <strong>12345</strong>. This is useful in master details usecases. For example open a new page with the order selected or a sub view on the same page is initialized with the orderid number.</li>
+<li>To navigate thru the application you can create links with <strong>&lt;a href="#/main/welcome"&gt;Welcome&lt;/a&gt;</strong>
+</li>
+<li>A back button can be implemented by using the history API. <strong>&lt;button data-action="history.back()"&gt;Back&lt;/button&gt;</strong>
+</li>
+</ul>
+</li>
+<li>
 <p><strong>data-component</strong>: You can create a reusable component by adding a data-component attribute to a template. The value of the attribute is the name of the component. You can now reuse this component in your document by adding the data-component attribute to a non-template tag. It will then insert/replace the content of that tag with the content of the template. For example <em>&lt;template data-component="mycomponent"&gt; .... html here ...&lt;/template&gt;</em> You can reuse the component by refering to it as follows: <em>&lt;div data-component="mycomponent"&gt;&lt;/div&gt;</em>
 You can create component specific styles, by placing a style tag in the template for the component definition. You can refer to the top element with the :host css phrase.
 <em>&lt;style&gt;
