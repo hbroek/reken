@@ -12,6 +12,26 @@
         let restResults = []
     </script>
     <style>
+        demo-card {
+            transition: transform 0.3s;
+            animation: slidein 0.3s;
+        }
+        @keyframes slidein {
+            from {
+                opacity: 0;
+                transform: translateY(-40%);
+            }
+            90% {
+                transform: translateY(10%);
+            }
+            to {
+                transform: translateY(0%);
+                opacity: 1.0;
+            }
+        }
+        demo-card:hover {
+            transform: scale(1.2);
+        }
     </style>
 </head>
 
@@ -21,51 +41,17 @@
         <section data-if="restResults.length==0">
             <h3>Loading...</h3>
         </section>
-        <section data-if="restResults.length>0" data-for="person:restResults">
-            <aside data-component="card" data-arg-detail="person.item"></aside>    
+
+        <section class="cards" data-if="restResults.length>0" data-for="person:restResults">
+            <!-- the demo-card component definition comes from the includes/library.html file -->    
+            <demo-card class="card" detail="person.item"></demo-card>
         </section>
     </main>
 </body>
 
-<template data-component="card" data-arg-detail>
-    <style>
-        :host {
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            align-items: end;
-        }
-        :host .email {
-            font-size: 0.8em;
-            align-self: start;
-        }
+<!-- load components from includes/library.html file -->
+<div data-include="includes/library.html"></div>
 
-    </style>
-    <aside>
-        <div data-component="avatar" data-arg-name="detail.name"></div>
-        <div data-text="${detail.name}"></div>
-        <div class="email" data-text="${detail.email}"></div>
-    </aside>    
-</template>
-
-<template data-component="avatar" data-arg-name>
-    <style>
-        :host {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width:2em;
-            height:2em;
-            grid-column: 1;
-            grid-row: 1 / 3;
-            background: purple;
-            color: white;
-            font-size: 2em;
-            font-weight: bold;
-            border-radius:5px;
-        }
-    </style>
-    <div data-text="${name.split(' ').reduce((val, word)=>val.substring(0,1)+word.substring(0,1))}"></div>
-</template>
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

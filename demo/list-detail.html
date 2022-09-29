@@ -51,13 +51,13 @@
         </section>
     </main>
     <main data-route="/person/#personid">
-        <form onsubmit="return false;">
+        <form>
             <label>Name:<input data-value="person.name"></label>
             <label>Email:<input data-value="person.email"></label>
             <label>Address:<input data-value="person.address"></label>
             <label>Age:<input data-value="person.age"></label>
             <label>Company:<input data-value="person.company"></label>
-            <button data-action="history.back();">Back</button>
+            <button data-action="history.back();" type="button">Back</button>
         </form>
     </main>
     <script data-calc>

@@ -10,12 +10,64 @@
 
     <title>Reken - Single Page Application</title>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* css for fixed header, footer and scrollable main with content. */
+        body {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items:center;
+            width:100%;
+            height:100%;
+        }
+        body > header, body > footer {
+            flex-shrink: 0;
+            margin:0;
+            padding: 2vh 10%;
+            width: 100%;
+            max-width:100%;
+        }
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            min-height: 2em;
+            padding: 1vh 10%;
+            position: relative;
+            margin:0;
+            width: 100%;
+            max-width:100%;
+        }
+
+        /* css animated page transitions */
         main > section {
-            display:none;
+            transform: translateX(-100vw);
+            transition: transform 0.3s, opacity 0.3s;
+            position:absolute;
+            top: 0;
+            opacity:0;
         }
+
+        .slide-from-left {
+            transform: translateX(-100vw);
+        }
+
+        .slide-from-right {
+            transform: translateX(100vw);
+        }
+
         main > section.current {
-            display:inherit;
+            transform: translateX(0);
+            position:relative;
+            opacity:1;
         }
+        
+        /* css for button spacing */
         button {
             margin: 0.5em;
         }
@@ -30,22 +82,32 @@
     <main>
         <section id="page1" data-if="current:current=='page1'">
             <header><h1>Page 1</h1></header>
+            <main></main>
         </section>
-        <section id="page2"  data-if="current:current=='page2'">
+        <section id="page2" class="slide-from-right" data-if="current:current=='page2'">
             <header><h1>Page 2</h1></header>
         </section>
-        <section id="page3"  data-if="current:current=='page3'">
+        <section id="page3" class="slide-from-left" data-if="current:current=='page3'">
             <header><h1>Page 3</h1></header>
         </section>
     </main>
     <footer>
         <section>
-            <button data-attr-disabled="current=='page1'" data-action="current='page1'">Page 1</button>
-            <button data-attr-disabled="current=='page2'" data-action="current='page2'">Page 2</button>
-            <button data-attr-disabled="current=='page3'" data-action="current='page3'">Page 3</button>
+            <button data-component="nav_button" data-arg-title="Page 1" data-arg-page="page1"></button>
+            <button data-component="nav_button" data-arg-title="Page 2" data-arg-page="page2"></button>
+            <button data-component="nav_button" data-arg-title="Page 3" data-arg-page="page3"></button>
         </section>
+        <div id='henry' data-henry="henry-look"></div>
     </footer>
 </body>
+<template data-component="nav_button" data-arg-title data-arg-page >
+    <button 
+        data-text = "${title}"
+        data-action = "current=page"
+        data-attr-disabled="current==page"
+    >
+    </button>
+</template>
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

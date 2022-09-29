@@ -24,10 +24,11 @@
 * - data-rest: Takes a javascript variable and a rest service JSON endpoint. Once the rest service is resolved the javascript variable contains the object representing the json. An optional property path in the resultsset can be specified. When the url changes the rest call gets executed again. The url can is an evaluated template string. That is how you can parameterize your rest calls.
 * - data-rest-options: Takes a javascript variable with options to pass into the rest fetch call.
 * - data-calc: Set this attribute on an script tag that needs to be excuted everytime there is a model update. Use for example to recalculate formulas.
-* - data-component: Define and reference a component. Components can have members vars by defining them with "let varname = value" and component methods for internal use. by defining a script block in the component. To reexecute component state for every event add  script block with the calc attribute
+* - data-component: Define and reference a component. Components can have members vars by defining them with "let varname = value" and component methods for internal use. by defining a script block in the component. To reexecute component state for every event add  script block with the calc attribute.
 * - data-attr-*: Set element with attr value. If the attribute is a boolean attr eg. disabled, read-only; the value is evaluated as a boolean at the attr will be added it evaluates to true. 
 * - data-arg-*: Define component arguments. Values bind to the argument can be updated by the component.
 * - data-bind-*: Bind variable to a component binding. Values bind to the argument can be updated by the component.
+* - data-include: Include (import) external HTML into the current DOM. 
 */
 if (typeof rkn_server_generated === 'undefined')
     var rkn_server_generated = false;
@@ -331,12 +332,12 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     const [compDefinition, compStyle] = generateComponentClass(value, compInitCode, compControlCode, compEventCode, routeVars)
                     styles.push(...compStyle);
                     definition.push(...compDefinition)
-                    definition.push(`classRegistry['${value}']=${value}`)
+                    definition.push(`classRegistry['${value}']=${value.replace('-','_')}`)
                     generatedClass[value] = true;
                 }
 
                 //Add code for class initialization, root component instances in setup, childcomponent instances in class definition
-                initCode.push(`    ${compString}.rkn_class = new ${value}(${compString})`)
+                initCode.push(`    ${compString}.rkn_class = new ${value.replace('-','_')}(${compString})`)
 
                 controlCode.push("    {"); 
                 let args = []
@@ -425,7 +426,7 @@ const processComponentReferences = (elem) => {
     if (elem.tagName != 'TEMPLATE' && 'component' in elem.dataset) {
         let component = getComponent(elem.dataset.component)
         if (component != null) { //Should be there unless component definition does not exist.
-            let _slotElement = component.querySelector('[data-slot]')
+            let _slotElement = component.querySelector('slot')
             if (_slotElement !=null && elem.childNodes.length > 0) { // Process slot
                 let _beforeElement = _slotElement;
                 for (let i = elem.childNodes.length-1; i >= 0; i--) {
@@ -489,7 +490,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
 
     let output = []
     // Build constructor 
-    output.push(`class ${componentName} extends rkn_base{`);
+    output.push(`class ${componentName.replace('-', '_')} extends rkn_base{`);
     output.push('  constructor(root) {');
     output.push('  super()');
     output.push('    this.root = root;');
@@ -510,7 +511,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
 
     // Create static factory method
     output.push('  static createInstance(elem) {')
-    output.push(`    return new ${componentName}(elem);`)
+    output.push(`    return new ${componentName.replace('-', '_')}(elem);`)
     output.push('  }')
 
     // Get comp arguments
@@ -938,71 +939,187 @@ function uniqueID() {
     return 'rkn' + _ID++; // Change of collisions will super small
 }
 
-processComponentReferences(document.body.parentElement);
-
-if (!rkn_server_generated) {
-    let definition = [];
-    let controller = [];
-    //let setup = ['_r = document.body.parentElement'];
-    let setup = [];
-    let styles = ['template {display:none !important;}'];
-
-    function getParsedHash(hash) {
-        let routing_path = []
-        if (hash.length>2) {
-            const path = hash.substring(2)
-            routing_path = path.split("/");
+function substituteShortHandComponentNames(root, template) {
+    const compName = template.dataset.component;
+    root.querySelectorAll(compName).forEach((elem)=> {
+        const replaceElement = document.createElement(template.content.children[0].tagName)
+        for (let index = elem.attributes.length - 1; index >= 0; --index) {
+            let attr = elem.attributes[index];
+            if (template.hasAttribute('data-arg-'+attr.name)) {
+                replaceElement.setAttribute('data-arg-'+attr.name, elem.getAttribute(attr.name))
+                continue;
+            }
+            else if (template.hasAttribute('data-bind-'+attr.name)) {
+                replaceElement.setAttribute('data-bind-'+attr.name, elem.getAttribute(attr.name))
+                continue;
+            }
+            else {
+                replaceElement.attributes.setNamedItem(elem.attributes[index].cloneNode());
+            }
         }
-        routing_path.push('')
-        return routing_path;
-    }
-    var reken_routing_path = getParsedHash(window.location.hash);
-
-    window.addEventListener('hashchange', (e) => {
-        reken_routing_path = getParsedHash(window.location.hash);
-        document.body.parentElement.rkn_class.controller({})
+        // Copy reken element content
+        for (let i = elem.childNodes.length-1; i >= 0; i--) {
+            let child = elem.childNodes[i];
+            replaceElement.appendChild(child)
+        }
+        replaceElement.setAttribute('data-component', compName);
+        elem.parentElement.replaceChild(replaceElement, elem);
     })
-    
-    document.body.parentElement.setAttribute('data-component', '_main')
-    definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
-    buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [])
-    if (styles.length>0) {
-        const headElem = document.querySelector('head');
-        if (headElem == null) {
-            headElem = document.createElement('head');
-            document.body.parentElement.insertBefore(headElem, document.body)
+    return compName
+}
+function processShortHandComponentNames() {
+    let componentNames = []
+    document.querySelectorAll('template[data-component]').forEach((template)=> {
+        // Update main DOM
+        componentNames.push(substituteShortHandComponentNames(document, template))
+        // Update templates
+        document.querySelectorAll('template[data-component]').forEach((templateDoc)=>{
+            substituteShortHandComponentNames(templateDoc.content, template)
+        })
+    })
+    updateStyleSheetShortHandNames(componentNames);
+    componentNames.sort((a,b)=>b.length-a.length)
+}
+
+function updateStyleSheetShortHandNames(componentNames) {
+    document.querySelectorAll('head > style').forEach( style => {
+        const lines = style.textContent.split('\n')
+        const newLines = []
+        for (let line of lines) {
+            if (line.indexOf('{') >= 0) {
+                //debugger;
+                for (const name of componentNames) {
+                    let nameIndex = 0;
+
+                    while (nameIndex >= 0) {
+                        nameIndex = line.indexOf(name, nameIndex)
+
+                        if (nameIndex >= 0) {
+                            if ((nameIndex == 0 || '\t ,>+~]'.indexOf(line[nameIndex-1])>=0) && '\t ,.:{>+~['.indexOf(line[nameIndex+name.length])>=0) {
+                                line = line.substring(0,nameIndex) + '[data-component='+name+']' + line.substring(nameIndex+name.length)
+                                nameIndex += ('[data-component='+name+']').length
+                            }
+                            else {
+                                nameIndex++;
+                            }
+                        }
+                    }
+                }
+            }
+            newLines.push(line)
         }
-        const styleElem = document.createElement('style');
-        styleElem.textContent = styles.join('\n')
-        headElem.appendChild(styleElem);
-    }
+        style.textContent = newLines.join('\n');
+    })
+}
 
-    definition.push("let _mainInstance = _main.createInstance(document.body.parentElement)")
-    definition.push("document.body.parentElement.rkn_class = _mainInstance");
+function processIncludes(element, path) {
+    const promiseArray = []
+    element.querySelectorAll('div[data-include]').forEach(async (includeElem)=> {
+        let includeName = includeElem.dataset['include']
+        if (includeName) {
+            if (path && !includeName.startsWith('/')) {
+                includeName = path + '/' + includeName
+            }
+            const fetchPromise = fetch(includeName)
+            .then(response => {
+                if (response.ok) {
+                    return response.text()
+                }
+                else {
+                    throw Error(`${response.status} - ${response.statusText}`);
+                }
+            })
+            .then((html) => {
+                includeElem.innerHTML = html;
+                const pathArray = includeName.split('/');
+                if (pathArray.length>1) {
+                    pathArray.pop();
+                    path = pathArray.join('/')
+                };
+                return processIncludes(includeElem, path)})
+            .catch(() => {
+                includeElem.textContent = `File ${includeName} not found.`
+            });
+            promiseArray.push(fetchPromise);
+        }
+    })
+    return Promise.allSettled(promiseArray)
+}
 
-    definition.push("_mainInstance.controller({})")
-    let definitionString = definition.join('\n')
-    // console.log(definitionString)
-    let controllerFunction = new Function(definitionString);
-    controllerFunction();
-    if (rkn_generate_code) {
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' +
-            encodeURIComponent(
-                '<script>var rkn_server_generated = true</script>\n'+
-                '<script src="../src/reken.js"></script>\n'+
-                '<style>\n' +
-                  styles.join('\n') +
-                '</style>\n' +
-                '<script>\n' +
-                  definitionString +
-                '</script>\n'
-            ));
-            console.log(styles.join('\n'))
-            console.log(definitionString)
-        
-        element.setAttribute('download', document.title + '.txt');
-        element.textContent = "Download Reken page controller";
-        document.body.appendChild(element);
+var reken_routing_path;
+processIncludes(document.body.parentElement)
+.then((result) => {
+    processShortHandComponentNames();
+    processComponentReferences(document.body.parentElement);
+    init();
+});
+
+function init() {
+    if (!rkn_server_generated) {
+        let definition = [];
+        let controller = [];
+        //let setup = ['_r = document.body.parentElement'];
+        let setup = [];
+        let styles = ['template {display:none !important;}'];
+
+        function getParsedHash(hash) {
+            let routing_path = []
+            if (hash.length>2) {
+                const path = hash.substring(2)
+                routing_path = path.split("/");
+            }
+            routing_path.push('')
+            return routing_path;
+        }
+        reken_routing_path = getParsedHash(window.location.hash);
+
+        window.addEventListener('hashchange', (e) => {
+            reken_routing_path = getParsedHash(window.location.hash);
+            document.body.parentElement.rkn_class.controller({})
+        })
+
+        document.body.parentElement.setAttribute('data-component', '_main')
+        definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
+        buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [])
+        if (styles.length>0) {
+            const headElem = document.querySelector('head');
+            if (headElem == null) {
+                headElem = document.createElement('head');
+                document.body.parentElement.insertBefore(headElem, document.body)
+            }
+            const styleElem = document.createElement('style');
+            styleElem.textContent = styles.join('\n')
+            headElem.appendChild(styleElem);
+        }
+
+        definition.push("let _mainInstance = _main.createInstance(document.body.parentElement)")
+        definition.push("document.body.parentElement.rkn_class = _mainInstance");
+
+        definition.push("_mainInstance.controller({})")
+        let definitionString = definition.join('\n')
+        // console.log(definitionString)
+        let controllerFunction = new Function(definitionString);
+        controllerFunction();
+        document.body.dispatchEvent(new CustomEvent('rekenready', {}))
+        if (rkn_generate_code) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' +
+                encodeURIComponent(
+                    '<script>var rkn_server_generated = true</script>\n'+
+                    '<script src="../src/reken.js"></script>\n'+
+                    '<style>\n' +
+                    styles.join('\n') +
+                    '</style>\n' +
+                    '<script>\n' +
+                    definitionString +
+                    '</script>\n'
+                ));
+                console.log(styles.join('\n'))
+                console.log(definitionString)
+            
+            element.setAttribute('download', document.title + '.txt');
+            element.textContent = "Download Reken page controller";
+            document.body.appendChild(element);
+        }
     }
 }

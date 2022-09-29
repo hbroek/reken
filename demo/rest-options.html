@@ -65,7 +65,7 @@
     </header>
     <main>
         <section>
-            <form onsubmit="return false">
+            <form>
                 <h3>Fetch Options</h3>
                 <label>Method
                     <select data-value="options.method" type="text" data-for="method:methods">
@@ -74,7 +74,7 @@
                 </label>
                 <label data-if="options.method!='get'">Body<input placeholder="Fetch body" data-value="body"
                         type="text" /></label>
-                <button data-action="options.fetch=true" data-text="Fetch"></button>
+                <button type="button" data-action="options.fetch=true" data-text="Fetch"></button>
             </form>
         </section>
         <section data-rest="results:https://echo.zuplo.io/" data-rest-options="options">

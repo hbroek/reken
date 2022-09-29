@@ -28,23 +28,27 @@
         <section id="page3" data-route="/page3">
             <header><h1>Page 3</h1></header>
         </section>
+        <section data-arg-title="Page 3" data-route="/page3">
+        </section>
     </main>
     <footer>
         <section>
-            <button data-component="nav_button" data-arg-title="Page 1" data-arg-hash="#/"></button>
-            <button data-component="nav_button" data-arg-title="Page 2" data-arg-hash="#/page2"></button>
-            <button data-component="nav_button" data-arg-title="Page 3" data-arg-hash="#/page3"></button>
+            <nav-button hash="#/">Page 1</nav-button>
+            <nav-button hash="#/page2">Page 2</nav-button>
+            <nav-button hash="#/page3">Page 3</nav-button>
         </section>
     </footer>
 </body>
-<template data-component="nav_button" data-arg-title data-arg-hash>
+
+<template data-component="nav-button" data-bind-hash>
     <button 
-        data-text = "${title}"
         data-action = "location.href=hash"
         data-attr-disabled="hash===location.hash || (hash === '#/' && location.hash==='')"
     >
+        <slot></slot>
     </button>
 </template>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

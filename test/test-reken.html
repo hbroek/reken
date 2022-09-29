@@ -6,9 +6,14 @@
   <title>Reken - Tests</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+  <style>
+    short-hand2 {
+      background: rgb(0, 128, 0);
+    }
+  </style>
 </head>
 
-<body>
+<body data-on-rekenready="runRekenTests()">
   <div id="mocha"></div>
 
   <script src="https://unpkg.com/chai/chai.js"></script>
@@ -76,9 +81,6 @@
       }
       setTimeout(check, timeCheck)
     })
-
-  
-
   </script>
 
   <hr>
@@ -811,11 +813,76 @@
     <ul id="cp13" data-for="idx13:i13var">Uls
       <li data-component="comp13" data-arg-item="idx13.item"></li>
     </ul>
+  </section>
+  <hr>
+  <section>
+  <!-- Test component shorthand functionality  -->
+  <template data-component="short-hand1">
+    <div>short-hand1</div>
+  </template>
+  <short-hand1 id="sh1"></short-hand1>
 
-    </section>
-  <script src="../src/reken.js"></script>
+  <template data-component="short-hand2" data-arg-hand2>
+    <div data-text="${hand2}"></div>
+  </template>
+  <short-hand2 id="sh2" hand2="short-hand2"></short-hand2>
 
+  <template data-component="short-hand31" data-arg-sh31>
+    <div data-text="${sh31}"></div>
+  </template>
+  <template data-component="short-hand3" data-arg-sh3>
+    <div>
+      <short-hand31 sh31="sh3 - ${sh3}"></short-hand31>
+    </div>
+  </template>
+  <short-hand3 id="sh3" sh3="short-hand3"></short-hand3>
+  </section>
+  <hr>
+  <!-- Test component slot functionality  -->
+  <section>
+    <test-slot1 id="ts11"></test-slot1>
+    <test-slot1 id="ts12"><h2>Has slot text</h2></test-slot1>
+    <template data-component="test-slot1">
+      <div>
+        <slot>Has no slot test</slot>
+      </div>
+    </template>
+
+    <test-slot2>
+      <test-subslot2 id="ts21">
+        <h2>Hello from the subslot</h2>
+      </test-subslot2>
+    </test-slot2>
+    <template data-component="test-slot2">
+      <div>
+        <h1>Before</h1>
+        <slot>Has no slot test</slot>
+        <h1>After</h1>
+      </div>
+    </template>
+    <template data-component="test-subslot2">
+      <div>
+        <slot><h2>Subslot has not text</h2></slot>
+      </div>
+    </template>
+  </section>
+  <hr>
+  <!-- Test component component loading functionality  -->
+  <section>
+    <comp-include1 id="di1"><h3>h3 comp include1</h3></comp-include1>
+    <sub-lib1 id="sdi1"></sub-lib1>
+    <div data-include="includes/library.html"></div>
+    <comp-include2 id="di2"><h3>h3 comp include2</h3></comp-include2>
+    <sub-lib2 id="sdi2"></sub-lib2>
+    <div data-include="includes/library2.html"></div>
+    <div id="il0" data-include="includes/library3.html"></div>
+  </section>
   <script>
+  function runRekenTests() {
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const expect = chai.expect;
+
     var assert = chai.assert;
     var $ = ((id) => (document.getElementById(id)));
     describe('data-text tests', () => {
@@ -1961,6 +2028,70 @@
         expect(cp13ul.querySelectorAll('li')[1]).to.have.text('comp 13 name Mary');
         done();
       })
+    })
+    describe('shorthand tests', () => {
+      it('Verify the shorthand component is rendered', (done) => {
+        expect($('sh1')).to.have.text('short-hand1')
+        done();
+      })
+      it('Verify the shorthand component with argument is rendered', (done) => {
+        expect($('sh2')).to.have.text('short-hand2')
+        done();
+      })
+      it('Verify the shorthand component within a shorthand componentwith data-text is rendered', (done) => {
+        expect($('sh3').children[0]).to.have.text('sh3 - short-hand3')
+        done();
+      })
+      /* See short-hand2 style rule in header */
+      it('Verify the shorthand component with a short hand style selector gets applied', (done) => {
+        expect($('sh2')).to.have.style('background-color', 'rgb(0, 128, 0)');
+        done();
+      })
+    })
+    describe('slot tests', () => {
+      it('Check if default slot content is displayed', (done) => {
+        const slot1 =  $('ts11').querySelector('slot');
+        expect(slot1).to.have.text('Has no slot test') 
+        done();
+      })
+      it('Check if slot content is displayed', (done) => {
+        const ts12_h2 =  $('ts12').querySelector('h2');
+        expect(ts12_h2).to.have.text('Has slot text') 
+        done();
+      })
+      it('Check if sub component slot content is displayed', (done) => {
+        const ts2_h2 =  $('ts21').querySelector('h2');
+        expect(ts2_h2).to.have.text('Hello from the subslot') 
+        done();
+      })
+    })
+    describe('data-include tests', () => {
+      it('Check if component comp-include1 from library.html is loaded and rendered', (done) => {
+        const di_h1 =  $('di1').querySelector('h1');
+        expect(di_h1).to.have.text('comp-include1') 
+        const di_h3 =  $('di1').querySelector('h3');
+        expect(di_h3).to.have.text('h3 comp include1')
+        done();
+      })
+      it('Check if component sub-lib1 from sublibrary.html is loaded and rendered', (done) => {
+        expect($('sdi1')).to.have.text('sub-library1')
+        done();
+      }) 
+      it('Check if component comp-include2 from library2.html is loaded and rendered', (done) => {
+        const di_h2 =  $('di2').querySelector('h1');
+        expect(di_h2).to.have.text('comp-include2') 
+        const di_h23 =  $('di2').querySelector('h3');
+        expect(di_h23).to.have.text('h3 comp include2')
+        done();
+      })
+      it('Check if component sub-lib2 from sublibrary2.html is loaded and rendered', (done) => {
+        expect($('sdi2')).to.have.text('sub-library2')
+        done();
+      }) 
+      it('Check that not found text is rendered for a library that is not found', (done) => {
+        expect($('il0')).to.have.text('File includes/library3.html not found.')
+        done();
+      }) 
 
     })
     const fireEvent = (target, eventType, payLoad) => {
@@ -1975,9 +2106,13 @@
       event.target = target;
       _instance[target.dataset['event_'+eventType]](event)
     }
-  </script>
-  <script class="mocha-exec">
+    // Run the mocha tests
     mocha.run();
+  }
+  </script>
+  <script src="../src/reken.js"></script>
+
+  <script class="mocha-exec">
   </script>
 </body>
 

@@ -1,0 +1,11 @@
+<template data-component="comp-include1">
+    <style>
+        :host {
+            text-decoration: line-through solid rgb(0,0,0);
+        }
+    </style>
+    <div>
+    <h1>comp-include1</h1>
+    <slot></slot>
+</template>
+<div data-include="subincludes/sublibrary.html">
