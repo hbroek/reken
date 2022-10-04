@@ -36,7 +36,10 @@
 </head>
 
 <body>
-    <header><h3>Reken - Component demo</h3></header>
+    <header>
+        <h3>Reken - Component demo</h3>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
     <main data-rest="restResults:json/people.json">
         <section data-if="restResults.length==0">
             <h3>Loading...</h3>
@@ -51,6 +54,7 @@
 
 <!-- load components from includes/library.html file -->
 <div data-include="includes/library.html"></div>
+<div data-include="includes/demo-lib.html"></div>
 
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>

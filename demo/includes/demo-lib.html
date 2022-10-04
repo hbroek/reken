@@ -1,0 +1,43 @@
+<template data-component="source-code" data-arg-sourceurl>
+    <style>
+        :host section code {
+            white-space: pre-wrap;
+            max-height: 0px;
+            overflow: auto;
+            display: block;
+            text-align:start;
+            transition: max-height 0.5s;
+        }
+        :host section code.open {
+            max-height:20em;
+        }
+    </style>
+    <script>
+        let source = {}
+        source.show = false
+        source.text = ''
+
+        function noconversion(src) {
+            let output = []
+            let mainLevel =  0;
+            for (let line of src.split('\n')) {
+                if (line.indexOf("<main")>=0)
+                    mainLevel++;
+                if (mainLevel>0)
+                    output.push(line)
+                if (line.indexOf("</main")>=0)
+                    mainLevel--;
+            }
+            console.log(output.length)
+            return output.join('\n');
+        }
+    </script>
+    <div>
+        <section>
+            <button data-text="${source.show?'Hide Source':'Show Source'}" data-action="source.show=!source.show">Source</button>
+        </section>
+        <section>
+            <code data-if="open:source.show" data-text="${source.text}" data-rest="source.text:${sourceurl}" data-rest-options="{transformer:noconversion}"></code>
+        </section>
+    </div>
+</template>

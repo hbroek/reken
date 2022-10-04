@@ -47,25 +47,32 @@
 </head>
 
 <body>
-    <header><h1>Reken - create colors with HSL parameters</h1></header>
-    <section>
-        <form>
-            <header><h3>Choose HSL color settings</h3></header>
-            <label>Hue:<input data-value="hue" type="range" min="0" max="360" step="0" value="0" /><input data-value="hue" type="number"></label>
-        </form>
-    </section>
-    <section id="color-block">
-        <div data-for="sat:9">
-            <div data-for="light:9">
-                <div data-action="saturation=sat.index;lighten=light.index;" data-style="background:hsl(${hue},${(sat.index+1)*10}%,${(light.index+1)*10}%);"
-                    data-attr-title="hsl(${hue},${(sat.index+1)*10}%,${(light.index+1)*10}%)" data-class="selected:saturation==sat.index&&lighten==light.index"></div>
-            <div>
-        </div>
-    </section>
-    <section>
-        <div data-text="hsl(${hue},${(saturation+1)*10}%,${(lighten+1)*10}%)"></div>
-    </section> 
+    <header>
+        <h1>Reken - create colors with HSL parameters</h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+    <main>
+        <section>
+            <form>
+                <header><h3>Choose HSL color settings</h3></header>
+                <label>Hue:<input data-value="hue" type="range" min="0" max="360" step="0" value="0" /><input data-value="hue" type="number"></label>
+            </form>
+        </section>
+        <section id="color-block">
+            <div data-for="sat:9">
+                <div data-for="light:9">
+                    <div data-action="saturation=sat.index;lighten=light.index;" data-style="background:hsl(${hue},${(sat.index+1)*10}%,${(light.index+1)*10}%);"
+                        data-attr-title="hsl(${hue},${(sat.index+1)*10}%,${(light.index+1)*10}%)" data-class="selected:saturation==sat.index&&lighten==light.index"></div>
+                <div>
+            </div>
+        </section>
+        <section>
+            <div data-text="hsl(${hue},${(saturation+1)*10}%,${(lighten+1)*10}%)"></div>
+        </section>
+    </main>
 </body>
+<div data-include="includes/demo-lib.html"></div>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

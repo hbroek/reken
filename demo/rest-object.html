@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <link rel="stylesheet" href="../assets/reken.css"/>
+    <link rel="stylesheet" href="../assets/reken.css" />
 
     <script>
         var repo = {}
@@ -19,6 +19,7 @@
 <body>
     <header>
         <h1>Reken - Rest Object fetch example</h1>
+        <source-code sourceurl="document.location.href"></source-code>
     </header>
     <main>
         <section>
@@ -31,10 +32,13 @@
         <section>
             <div data-rest="repo:https://api.github.com/repos/${userName}/${repoName}">
                 ⭐️ <emp data-text="${repo.stargazers_count?repo.stargazers_count:'Not a valid repo'}"></emp> Stars
-            </ul>
+                </ul>
         </section>
     </main>
 </body>
+<div data-include="includes/demo-lib.html"></div>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
 </html>

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <link rel="stylesheet" href="../assets/reken.css"/>
+    <link rel="stylesheet" href="../assets/reken.css" />
 
     <title>Rotating squares with reken.js</title>
 
@@ -22,21 +22,32 @@
             padding: 2px;
         }
     </style>
-    <script>ran=0</script>
+    <script>ran = 0</script>
 </head>
 
 <body>
-    <header><h1>Reken - rotate 1000 divs with a slider</h1></header>
-    <section>
-        <form>
-            <header><h3>Rotation picker</h3></header>
-        <label>Select rotation:<input data-value="ran" type="range" min="0" max="360" step="5" value="0" /><span data-text="${ran}deg"></label>
-        </form>
-    </section>
-    <section  data-for="x:1000" class="flex">
-        <div data-style="transform: rotate(${ran}deg)" class="block" />
-    </section>
+    <header>
+        <h1>Reken - rotate 1000 divs with a slider</h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+    <main>
+        <section>
+            <form>
+                <header>
+                    <h3>Rotation picker</h3>
+                </header>
+                <label>Select rotation:<input data-value="ran" type="range" min="0" max="360" step="5" value="0" /><span
+                        data-text="${ran}deg"></label>
+            </form>
+        </section>
+        <section data-for="x:1000" class="flex">
+            <div data-style="transform: rotate(${ran}deg)" class="block" />
+        </section>
+    </main>
 </body>
+<div data-include="includes/demo-lib.html"></div>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
 </html>

@@ -14,15 +14,25 @@
   counter = 0
 </script>
 <body>
+    <header>
+      <h1>Using action buttons with Reken</h1>
+      <source-code sourceurl="document.location.href"></source-code>
+    </header>
+
     <main>
-        <h1>Using action buttons with Reken</h1>
-
+      <section>
         <div>Counter: <span data-text="${counter}"></span></div>
-        <button data-action="counter++">Increment</button>
-        <button data-action="counter--">Decrement</button>
-
+      </section>
+      <section>
+        <form>
+          <button type="button" data-action="counter--">Decrement</button>
+          <button type="button" data-action="counter++">Increment</button>
+        </form>
+      </section>
     </main>
-</body>
+  </body>
+  <div data-include="includes/demo-lib.html"></div>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

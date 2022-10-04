@@ -78,7 +78,10 @@
 </head>
 
 <body>
-    <header><h1>Reken - Single Page Application</h1></header>
+    <header>
+        <h1>Reken - Single Page Application</h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
     <main>
         <section id="page1" data-if="current:current=='page1'">
             <header><h1>Page 1</h1></header>
@@ -108,6 +111,8 @@
     >
     </button>
 </template>
+<div data-include="includes/demo-lib.html"></div>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

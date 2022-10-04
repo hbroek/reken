@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <link rel="stylesheet" href="../assets/reken.css"/>
+    <link rel="stylesheet" href="../assets/reken.css" />
 
     <title data-text="${title}">Weather Alerts for a State</title>
     <script>
@@ -15,54 +15,65 @@
     </script>
     <style>
         section#info aside {
-            background:lightyellow;
+            background: lightyellow;
         }
+
         .reken-rest-busy {
             opacity: 0.5;
             background: silver;
-            min-height:400px;
+            min-height: 400px;
             content: "Fetching..."
-            linear-gradient(lightgrey var(--card-height), transparent 0);
-  
+                linear-gradient(lightgrey var(--card-height), transparent 0);
+
         }
+
         #info.EMPTY {
-            min-height:400px;
-            background:lightgreen;
-            align-items: center;            
+            min-height: 400px;
+            background: lightgreen;
+            align-items: center;
         }
+
         #info.EMPTY::after {
             content: "No weather alerts for this state currently.";
         }
+
         #info.reken-rest-error {
             background: red;
         }
+
         #info.reken-rest-error::after {
             content: "Fetch error occurred";
         }
-
     </style>
 </head>
 <script>
-    title="Weather Alerts for a State"
+    title = "Weather Alerts for a State"
     selectedValue = "MA"
 </script>
 
 <body>
-    <main>
-        <header><h1 data-text="${title}"></h1></header>
+    <header>
+        <h1 data-text="${title}"></h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
 
+    <main>
         <section>
             <form>
-                <header><h3>State picker</h3></header>                
-                <label><span>Select State:</span><select id="selector" data-for="state:stateList" data-rest="stateList:json/states.json" data-value="selectedValue">
-                        <option data-attr-value="${state.item.abbreviation}" data-text="${state.item.name}"/>
+                <header>
+                    <h3>State picker</h3>
+                </header>
+                <label><span>Select State:</span><select id="selector" data-for="state:stateList"
+                        data-rest="stateList:json/states.json" data-value="selectedValue">
+                        <option data-attr-value="${state.item.abbreviation}" data-text="${state.item.name}" />
                     </select></label>
 
-                    <button data-action="alerts=[]" type="button">Remove warning.</button>
+                <button data-action="alerts=[]" type="button">Remove warning.</button>
             </form>
 
         </section>
-       <section id="info" data-class="EMPTY:alerts.length==0" data-for="alert:alerts" data-rest="alerts:features:https://api.weather.gov/alerts/active?area=${selectedValue}">
+        <section id="info" data-class="EMPTY:alerts.length==0" data-for="alert:alerts"
+            data-rest="alerts:features:https://api.weather.gov/alerts/active?area=${selectedValue}">
             <aside>
                 <h3 data-text="${alert.item.properties.headline}"></h3>
                 <p data-text="${alert.item.properties.description}"></p>
@@ -71,6 +82,9 @@
         </section>
     </main>
 </body>
+<div data-include="includes/demo-lib.html"></div>
+
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
 </html>
