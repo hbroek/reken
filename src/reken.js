@@ -381,7 +381,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 if (elem.dataset.restOptions) {
                     options = elem.dataset.restOptions
                 }
-                controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{" + _array + "=js" + path + ";_mainInstance.controller({})})");
+                controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof _main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";_mainInstance.controller({})})");
                 break;
 
             default: {
@@ -987,7 +987,6 @@ function updateStyleSheetShortHandNames(componentNames) {
         const newLines = []
         for (let line of lines) {
             if (line.indexOf('{') >= 0) {
-                //debugger;
                 for (const name of componentNames) {
                     let nameIndex = 0;
 

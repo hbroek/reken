@@ -13,11 +13,10 @@
         }
     </style>
     <script>
-        let source = {}
-        source.show = false
-        source.text = ''
+        let source = ''
+        let show = false;
 
-        function noconversion(src) {
+        function fetchMainSection(src) {
             let output = []
             let mainLevel =  0;
             for (let line of src.split('\n')) {
@@ -28,16 +27,15 @@
                 if (line.indexOf("</main")>=0)
                     mainLevel--;
             }
-            console.log(output.length)
             return output.join('\n');
         }
     </script>
     <div>
         <section>
-            <button data-text="${source.show?'Hide Source':'Show Source'}" data-action="source.show=!source.show">Source</button>
+            <button data-text="${show?'Hide Source':'Show Source'}" data-action="show=!show">Source</button>
         </section>
         <section>
-            <code data-if="open:source.show" data-text="${source.text}" data-rest="source.text:${sourceurl}" data-rest-options="{transformer:noconversion}"></code>
+            <code data-if="open:show" data-text="${source}" data-rest="source:${sourceurl}" data-rest-options="{transformer:fetchMainSection}"></code>
         </section>
     </div>
 </template>

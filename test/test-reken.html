@@ -546,6 +546,20 @@
 
     <div id="r7" data-text="${r7.theNumber}" data-rest="r7:json/one.txt" data-rest-options="r7_options"></div>
 
+    <script>
+      let rest8_0 = "json/rest8_0.json"
+      let rest8_1 = "json/rest8_1.json"
+    </script>
+
+    <rest8 id="r8_0" url="rest8_0"></rest8>
+    <rest8 id="r8_1" url="rest8_1"></rest8>
+    <template data-component="rest8" data-arg-url>
+      <script>
+        let result = '';
+      </script>
+      <div data-rest="result:${url}" data-text="${result!=''?result.content:'Loading'}">Rest 8</div>
+    </template>
+    
   </section>
   <hr>
   <section>
@@ -1707,6 +1721,14 @@
       it('Load text file and convert into an object', async function () {
         await waitFor(2000, () => checkForClass($('r7'), "reken-rest-done"));
         expect($('r7')).to.have.text('1')
+      })
+      it('Load json file in component r8_0 and check for the value', async function () {
+        await waitFor(2000, () => checkForClass($('r8_0'), "reken-rest-done"));
+        expect($('r8_0')).to.have.text('zero')
+      })
+      it('Load json file in component r8_1 and check for the value', async function () {
+        await waitFor(2000, () => checkForClass($('r8_1'), "reken-rest-done"));
+        expect($('r8_1')).to.have.text('one')
       })
     })
     describe('data-calc tests', () => {
