@@ -67,8 +67,6 @@
 
     f7_loop = 12
 
-    let cp2_0s = "data-text value"
-    
     var waitFor = (timeoutms, condition) => new Promise((r, j) => {
       let timeCheck = 1
       var check = () => {
@@ -548,18 +546,17 @@
 
     <script>
       let rest8_0 = "json/rest8_0.json"
-      let rest8_1 = "json/rest8_1.json"
     </script>
 
-    <rest8 id="r8_0" url="rest8_0"></rest8>
-    <rest8 id="r8_1" url="rest8_1"></rest8>
+    <rest8 id="r8_0" url="${rest8_0}"></rest8>
+    <rest8 id="r8_1" url="json/rest8_1.json"></rest8>
     <template data-component="rest8" data-arg-url>
       <script>
         let result = '';
       </script>
       <div data-rest="result:${url}" data-text="${result!=''?result.content:'Loading'}">Rest 8</div>
     </template>
-    
+
   </section>
   <hr>
   <section>
@@ -567,7 +564,11 @@
     <template data-component="comp0"><div>Component 0</div></template>
     <div id="cp0" data-component="comp0"></div>
 
-    <template data-component="comp1" data-arg-arg1="default value" data-arg-arg2=""><div data-text="${arg1}${arg2}"></div>
+    <script>
+      let cp2_0s = "data-text value"
+    </script>
+    <template data-component="comp1" data-arg-arg1="default value" data-arg-arg2="">
+      <div data-text="${arg1}${arg2}"></div>
     </template>
     <div id="cp1" data-component="comp1"></div>
     <div id="cp1_0" data-component="comp1" data-arg-arg1="arg passed in"></div>
@@ -604,7 +605,7 @@
       </script>
       <div>
         <input data-value="vr4"/>
-        <div data-component="comp40" data-arg-arg1="arg" data-arg-arg2="vr4"> </div>
+        <div data-component="comp40" data-arg-arg1="arg" data-arg-arg2="${vr4}"> </div>
       </div>
     </template>
     <template data-component="comp40" data-arg-arg1 data-arg-arg2>
@@ -1743,7 +1744,7 @@
         expect($('cp0')).to.have.text('Component 0')
         done();
       })
-      it('Verify components argumenta', (done) => {
+      it('Verify components arguments', (done) => {
         expect($('cp1')).to.have.text('default valueundefined')
         expect($('cp1_0')).to.have.text('arg passed inundefined')
         expect($('cp1_1')).to.have.text('data-text valueundefined')

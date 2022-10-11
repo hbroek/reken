@@ -346,9 +346,9 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         let arg = attr.substring(3).toLowerCase()
                         if (attr.startsWith('bind'))
                             arg = attr.substring(4).toLowerCase()
-                        let value = elem.dataset[attr]
+                        let value = elem.dataset[attr]                 
                         //Check if variable
-                        if (/^[a-zA-Z_$][0-9a-zA-Z_$/.]*$/.test(value)) {
+                        if (/^[a-zA-Z_$][0-9a-zA-Z_$.]*$/.test(value)) {
                             controlCode.push("      let " + arg + " = (typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "']?"+value+":'"+value+"')")
                             if (attr.startsWith('bind')) // Only bind parameters send bind events.
                                 initCode.push(indent + compString + ".addEventListener('"+arg+"', (e) => {"+value+" = e.detail.value})")
@@ -359,9 +359,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                         }
                         //Otherwise template string
                         else
-                            controlCode.push("      let " + arg + ' = ' + "`"+value+"`")
-                        args.push(`${arg}`)
+                            controlCode.push("      let " + arg + " = `"+value+"`")
 
+                        args.push(`${arg}`)
+                        
                     }
                 }
                 controlCode.push(`      ${elemString}.rkn_class.controller({${args.join(',')}})`)
