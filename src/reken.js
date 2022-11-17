@@ -29,6 +29,8 @@
 * - data-arg-*: Define component arguments. Values bind to the argument can be updated by the component.
 * - data-bind-*: Bind variable to a component binding. Values bind to the argument can be updated by the component.
 * - data-include: Include (import) external HTML into the current DOM. 
+* - data-timer: Execute code after a specific amount of time.
+* - data-interval: Repeatedly executes code at a specific intervals.
 */
 if (typeof rkn_server_generated === 'undefined')
     var rkn_server_generated = false;
@@ -90,7 +92,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
         if (keys.indexOf('component')>=0) {
             let filteredKeys = ['component']
             for (let key of keys) {
-                if (key.startsWith('arg') || key.startsWith('bind') > 0)
+                if (key.startsWith('arg') || key.startsWith('bind') > 0  || key.startsWith('action1') > 0)
                     filteredKeys.push(key)
             }
             keys = filteredKeys;
@@ -98,7 +100,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['component', 'style', 'if', 'for', 'calc', 'attr-value', 'value']; // Need to be first in that order.
+    let firsts = ['action1', 'component', 'style', 'if', 'for', 'calc', 'attr-value', 'value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
@@ -242,22 +244,83 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     
                 }
                 break;
-            case "action": {
-                    let eventName = "click";
+            case "action":
+            case "action1": {
+                if (key == "action1" && componentRoot)
+                    break;
+                let eventName = "click";
+                let eventId = eventName+"_"+uniqueID();
+                initCode.push(compString + ".dataset.event_" + eventName + " = (" + compString + ".dataset.event_" + eventName + "??'')+'" + eventId+"'+':'");
+
+                eventCode.push({
+                    'elemId':(topForString === undefined ? compString : topForString),
+                    'eventType':eventName,
+                    'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + ".indexOf('" + eventId + "')<0) return;",
+                    'handlerName': eventId,
+                    'handlerCode':value,
+                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                })
+            }
+            break;
+            
+            case "timer": {
+                const valueArray = value.split(':');
+                let [delay, condition] = valueArray;
+                let code = undefined;
+                if (valueArray.length>2)
+                    code = valueArray.slice(2).join(':');
+
+                if (typeof delay === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
+                    console.error(`data-timer: [${value}] incorrect amount of arguments`)
+                else {
+                    let eventName = "timer";
                     let eventId = eventName+"_"+uniqueID();
                     initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
-
+    
                     eventCode.push({
                         'elemId':(topForString === undefined ? compString : topForString),
                         'eventType':eventName,
-                        'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
+                        'handlerEventCheck': "",
                         'handlerName': eventId,
-                        'handlerCode':value,
+                        'handlerCode':code,
                         'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                     })
+                    controlCode.push(`{const _l = ${elemString}`);
+                    controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('timerID')) _l.timerID = setTimeout(()=>{this.${eventId}({'target':_l});delete _l.timerID;_mainInstance.controller({})}, ${delay})`);
+                    controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('timerID')) {clearTimeout(_l.timerID); delete _l.timerID}}`);
+                }
+            }
+            break;
+
+            case "interval": {
+                const valueArray = value.split(':');
+                let [interval, condition] = valueArray;
+                let code = undefined;
+                if (valueArray.length>2)
+                    code = valueArray.slice(2).join(':');
+
+                if (typeof interval === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
+                    console.error('data-interval: ['+value+'] incorrect amount of arguments')
+                else {
+                    let eventName = "interval";
+                    let eventId = eventName+"_"+uniqueID();
+                    initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+    
+                    eventCode.push({
+                        'elemId':(topForString === undefined ? compString : topForString),
+                        'eventType':eventName,
+                        'handlerEventCheck': "",
+                        'handlerName': eventId,
+                        'handlerCode':code,
+                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                    })
+                    controlCode.push(`{const _l = ${elemString}`);
+                    controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('intervalID')) _l.intervalID = setInterval(()=>{this.${eventId}({'target':_l});_mainInstance.controller({})}, ${interval})`);
+                    controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('intervalID')) {clearInterval(_l.intervalID); delete _l.intervalID}}`);
                 }
                 break;
-    
+            }
+
             case "for":
                 if (topForString === undefined)
                     topForString = elemString
@@ -314,7 +377,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     let compInitCode = [];
                     let compControlCode = [];
                     let compEventCode = [];
-
+                    
                     buildClasses(true, elem, "this.root", "this.root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
 
                     if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
@@ -368,6 +431,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 controlCode.push(`      ${elemString}.rkn_class.controller({${args.join(',')}})`)
                 controlCode.push('    }')
                 break;
+
             case "rest":
                 let _array = value.substring(0, value.indexOf(':'));
                 let _url = value.substring(value.indexOf(':') + 1);
@@ -418,7 +482,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             i++
         }
         if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
-            controlCode.push('}')
+            controlCode.push('} else {disableTimers('+elemString+')}')
     }        
 }
 
@@ -438,6 +502,10 @@ const processComponentReferences = (elem) => {
                 _slotElement.parentElement.removeChild(_slotElement)
             }
             for (let attr of elem.getAttributeNames()) { //Copy the attributes
+                if (attr == 'data-action') {
+                    component.setAttribute(attr+'1', elem.getAttribute(attr))
+                    continue;
+                }
                 if (component.getAttribute(attr)==null) {
                     if (elem.getAttribute(attr)!=null) {
                         component.setAttribute(attr, elem.getAttribute(attr))
@@ -447,8 +515,7 @@ const processComponentReferences = (elem) => {
                     if (attr.startsWith('data-arg') || attr.startsWith('data-bind'))
                         component.setAttribute(attr, elem.getAttribute(attr))
                     if (attr == 'class')
-                        component.classList.add(elem.getAttribute('class'))
-                        
+                        component.classList.add(elem.getAttribute('class'))                        
                 }
             }
             elem.parentElement.replaceChild(component, elem)
@@ -601,7 +668,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
         for (let _var of stateVars)
             output.push(`    this.${_var} = ${_var}`)
         
-        if (!event.deferredUpdate) 
+        if (!(event.deferredUpdate || event.eventType === 'timer'|| event.eventType === 'interval')) 
             output.push("    _mainInstance.controller({})");
         output.push("  }");
     }
@@ -899,7 +966,6 @@ function updateForChildren(elem, array) {
             _childElem.removeAttribute('id');
 
         })
-        let _childTemplate = _firstChild.cloneNode(true);
 
         for (let i = 0; i < array.length; i++) {
             let _child;
@@ -915,11 +981,37 @@ function updateForChildren(elem, array) {
             if (_children[i].style.display !== '')
                 _children[i].style.display = '';
         }
+        let checkForTimers=true;
         for (let i = array.length; i < _numberOfChildren; i++) {
-            if (_children[i].style.display !== 'none')
+            if (_children[i].style.display !== 'none') {                
                 _children[i].style.display = 'none';
+                if (checkForTimers) {
+                    if (disableTimers(_children[i])==0)
+                        checkForTimers = false;
+                }
+            }
+            else
+                continue;
         }
     }
+}
+function disableTimers(elem) {
+    let count = 0
+    if (elem.hasOwnProperty('intervalID')) {
+        clearInterval(elem.intervalID);
+        delete elem.intervalID;
+        count++;
+    }
+    if (elem.hasOwnProperty('timerID')) {
+        clearInterval(elem.timerID);
+        delete elem.timerID;
+        count++
+    }
+    let _children = elem.children;
+    for (let i = 0; i < _children.length; i++) {
+        count+=disableTimers(_children[i])
+    }
+    return count;
 }
 
 let initComponentElement = (elem) => {

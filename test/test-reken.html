@@ -882,6 +882,97 @@
     </template>
   </section>
   <hr>
+  <section>
+    <h3>data-timer tests</h3>
+    <script>
+      let tib0 = false;
+      let tii0 = 0;
+      let tib1 = false;
+      let tii1 = 0;
+      let tib2 = true;
+      let tib3 = false;
+      let tib4 = false;
+      tib4_cnt = 0;
+    </script>
+    <div data-timer="1:tib0:tii0++"></div>
+    <input id="ti0" type="checkbox" data-value="tib0">
+
+    <div data-if="tib1" data-timer="1:true:tii1++"></div>
+    <input id="ti1" type="checkbox" data-value="tib1">
+
+    <ul id="ti2" data-for="i:3">
+      <li data-timer="1:tib2:if (e.target.dataset.timed=='done') tib2=false;e.target.dataset.timed='done';" data-text="${i.index} - Item${i.index}"></li>
+    </ul>
+
+    <template data-component="tic3" data-bind-atib3="false">
+      <script>
+        let count = 0;
+      </script>  
+      <div data-timer="1:atib3:count++;atib3=false" data-text="Count:${count}"></div>
+    </template>
+    <tic3 id="tic3" atib3="tib3"></tic3>
+    <input id="ti3" type="checkbox" data-value="tib3">
+
+    <template data-component="tic4" data-bind-atib4="false">
+      <script>
+        let timer = 0;
+      </script>
+      <div data-timer="1:atib4&&timer<1:timer++;" data-text="Count:${timer}"></div>
+    </template>
+    <div id="tic4" id="" data-for="i:2">
+      <tic4 atib4="tib4"></tic4>
+    </div>
+    <input id="ti4" type="checkbox" data-value="tib4">
+  </section>
+  <hr>
+  <section>
+    <h3>data-interval tests</h3>
+    <script>
+      let inb0 = false;
+      let ini0 = 0;
+
+      let inb1 = false;
+      let ini1 = 0;
+
+      let inb2 = true;
+
+      let inb3 = false;
+
+      let inb4 = false;
+    </script>
+    <div data-interval="1:inb0:ini0++"></div>
+    <input id="in0" type="checkbox" data-value="inb0">
+
+    <div data-if="inb1" data-interval="1:true:ini1++"></div>
+    <input id="in1" type="checkbox" data-value="inb1">
+
+    <ul id="in2" data-for="i:3">
+      <li data-interval="5:inb2:e.target.dataset.timed=e.target.dataset.timed?parseInt(e.target.dataset.timed)+1:0" data-text="${i.index} - Item${i.index}"></li>
+    </ul>
+    <input id="ini2" type="checkbox" data-value="inb2">
+
+    <template data-component="inc3" data-bind-ainb3="false">
+      <script>
+        let count = 0;
+      </script>  
+      <div data-interval="1:ainb3:count++;ainb3=false" data-text="Count:${count}"></div>
+    </template>
+    <inc3 id="inc3" ainb3="inb3"></inc3>
+    <input id="in3" type="checkbox" data-value="inb3">
+
+    <template data-component="inc4" data-bind-ainb4="false">
+      <script>
+        let timer = 0;
+      </script>
+      <div data-timer="1:ainb4&&timer<2:timer++;" data-text="Count:${timer}"></div>
+    </template>
+    <div id="inc4" id="" data-for="i:2">
+      <inc4 ainb4="inb4"></inc4>
+    </div>
+    <input id="in4" type="checkbox" data-value="inb4">
+  </section>
+<hr>
+  
   <!-- Test component component loading functionality  -->
   <section>
     <comp-include1 id="di1"><h3>h3 comp include1</h3></comp-include1>
@@ -2115,8 +2206,103 @@
         expect($('il0')).to.have.text('File includes/library3.html not found.')
         done();
       }) 
-
     })
+    describe('data-timer tests', () => {
+      it('Check that timer adds increments an integer', async function () {
+        const ti0_i0 =  $('ti0');
+        ti0_i0.checked = true;
+        ti0_i0.dispatchEvent(new Event('change'));
+        await waitFor(20, () => tii0>0)
+        // Stop the timer now
+        ti0_i0.checked = false;
+        ti0_i0.dispatchEvent(new Event('change'));
+      })
+      it('Check that hidden timer not fires and then does when shown', async function () {
+        await waitFor(20, () => tii1==0)
+        const ti1_i0 =  $('ti1');
+        ti1_i0.checked = true;
+        ti1_i0.dispatchEvent(new Event('change'));
+        await waitFor(20, () => tii1>0)
+        // Stop the timer now
+        ti1_i0.checked = false;
+        ti1_i0.dispatchEvent(new Event('change'));
+
+      })
+      it('Check timers on for children each fire', async function () {
+        const ti2 =  $('ti2');
+        await waitFor(20, () => ti2.children.item(0).dataset.timed=='done')
+        await waitFor(20, () => ti2.children.item(1).dataset.timed=='done')
+        await waitFor(20, () => ti2.children.item(2).dataset.timed=='done')
+      })
+
+      it('Check component timer', async function () {
+        const ti3_b =  $('ti3');
+        const tmr3 = $('tic3')
+        ti3_b.checked = true;
+        ti3_b.dispatchEvent(new Event('change'));
+        await waitFor(20, () => tmr3.textContent == "Count:1")
+      })
+
+      it('Check component timers in for loop', async function () {
+        const ti4_b =  $('ti4');
+        ti4_b.checked = true;
+        ti4_b.dispatchEvent(new Event('change'));
+
+        await waitFor(20, () => tic4.children.item(0).textContent=='Count:1')
+        await waitFor(20, () => tic4.children.item(1).textContent=='Count:1')
+      })
+    })
+    describe('data-interval tests', () => {
+      it('Check that interval increments an integer', async function () {
+        const in0_0 =  $('in0');
+        in0_0.checked = true;
+        in0_0.dispatchEvent(new Event('change'));
+        await waitFor(20, () => ini0>0)
+        // Stop the timer now
+        in0_0.checked = false;
+        in0_0.dispatchEvent(new Event('change'));
+      })
+      it('Check that hidden interval not fires and then does when shown', async function () {
+        await waitFor(20, () => ini1==0)
+        const inb1_0 =  $('in1');
+        inb1_0.checked = true;
+        inb1_0.dispatchEvent(new Event('change'));
+        await waitFor(20, () => ini1>0)
+        // Stop the timer now
+        inb1_0.checked = false;
+        inb1_0.dispatchEvent(new Event('change'));
+      })
+      it('Check timers on for children each fire', async function () {
+        const in2 =  $('in2');
+        const ini2 =  $('ini2');
+        ini2.checked = true;
+        ini2.dispatchEvent(new Event('change'));
+        await waitFor(5, () => parseInt(in2.children.item(0).dataset.timed)>1)
+        await waitFor(5, () => parseInt(in2.children.item(1).dataset.timed)>1)
+        await waitFor(5, () => parseInt(in2.children.item(2).dataset.timed)>1)
+        ini2.checked = false;
+        ini2.dispatchEvent(new Event('change'));
+      })
+
+      it('Check component timer', async function () {
+        const in3_b =  $('in3');
+        const inc3 = $('inc3')
+        in3_b.checked = true;
+        in3_b.dispatchEvent(new Event('change'));
+        await waitFor(20, () => inc3.textContent == "Count:1")
+      })
+
+      it('Check component timers in for loop', async function () {
+        const in4_b =  $('in4');
+        const inc4 =  $('inc4');
+        in4_b.checked = true;
+        in4_b.dispatchEvent(new Event('change'));
+
+        await waitFor(20, () => inc4.children.item(0).textContent=='Count:2')
+        await waitFor(20, () => inc4.children.item(1).textContent=='Count:2')
+      })
+    })
+    
     const fireEvent = (target, eventType, payLoad) => {
       let classRoot = target.parentElement;
       while (classRoot !== null && !('rkn_class' in classRoot) ) {
@@ -2127,7 +2313,10 @@
       if (payLoad)
         event = {...payLoad};
       event.target = target;
-      _instance[target.dataset['event_'+eventType]](event)
+      let eventRefs = target.dataset['event_'+eventType].split(':')
+      for (let ref of eventRefs) {
+        if (ref!='' && _instance[ref]) _instance[ref](event)
+      }
     }
     // Run the mocha tests
     mocha.run();

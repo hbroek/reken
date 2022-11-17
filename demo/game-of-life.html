@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css" />
+
+    <title>Reken - Game of Life</title>
+    <style>
+        div.cell {
+            width: 1em;
+            height: 1em;
+            border: 1px solid silver;
+            padding: 0;
+        }
+
+        div.cell.alive {
+            background: black;
+        }
+
+        .rows {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        section.buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5em;
+        }
+
+        button.selected {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h3>Reken - Game of Life</h3>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+    <main>
+        <section>
+            <h3 data-text="Generation: ${generationCount}"></h3>
+        </section>
+        <section data-interval="parseInt(1000/fps):evolving:array=nextGeneration(array)">
+            <div class="rows" data-for="outside:array">
+                <div class="row" data-for="inside:outside.item">
+                    <div data-action="array[outside.index][inside.index]=array[outside.index][inside.index]?0:1"
+                        class="cell" data-class="alive:inside.item>0"></div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div>Click a square to toggle state</div>
+        </section>
+        <section class="buttons">
+            <button data-action="evolving=!evolving" type="button" data-text="${evolving?'Stop':'Start'}"></button>
+            <button data-if='!evolving' data-action="array=nextGeneration(array);" type="button">Next</button>
+            <button data-if='!evolving' data-action="array=seedGeneration(axisLength, axisLength, 0)"
+                type="button">Clear</button>
+            <button data-if='!evolving' data-action="array=seedGeneration(axisLength, axisLength)"
+                type="button">Random</button>
+        </section>
+        <section>
+            <div>Based on <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life.</a>
+            </div>
+            <script>
+                let generationCount = 0;
+
+                function seedGeneration(rows, cols, value) {
+                    const random = (typeof value === 'undefined')
+                    const newArray = []
+                    for (let r = 0; r < rows; r++) {
+                        const newRow = []
+                        for (let c = 0; c < cols; c++) {
+                            newRow.push(random ? Math.round(Math.random()) : value)
+                        }
+                        newArray.push(newRow)
+                    }
+                    generationCount = 0;
+                    return newArray
+                }
+                function countAliveNeighbors(arr, row, col) {
+                    let count = 0;
+                    for (let r = -1; r < 2; r++) {
+                        if (row + r > arr.length - 1 || row + r < 0)
+                            continue;
+                        for (let c = -1; c < 2; c++) {
+                            if (r == 0 && c == 0)
+                                continue;
+                            const value = arr[row + r][col + c]
+                            count += parseInt(arr[row + r][col + c] ?? 0) //out of array bound = 0
+                        }
+                    }
+                    return count;
+                }
+                function nextGeneration(oldArray) {
+                    const newArray = [];
+                    for (let row = 0; row < oldArray.length; row++) {
+                        const newRow = []
+                        for (let col = 0; col < oldArray[row].length; col++) {
+                            const neighborsAlive = countAliveNeighbors(oldArray, row, col);
+                            let alive = oldArray[row][col]
+                            alive = (alive && neighborsAlive === 2) || neighborsAlive === 3
+                            newRow.push(alive ? 1 : 0)
+                        }
+                        newArray.push(newRow)
+                    }
+                    generationCount++
+                    return newArray
+                }
+                let axisLength = 15;
+                let array = seedGeneration(axisLength, axisLength);
+                let fps = 5;
+                let evolving = false;
+            </script>
+    </main>
+</body>
+<div data-include="includes/demo-lib.html"></div>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
+</html>

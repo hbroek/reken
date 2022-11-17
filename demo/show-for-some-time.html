@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css"/>
+
+    <title>Reken - Show an element for some time</title>
+    <style>
+        .circle {
+            width:20em;
+            height:20em;
+            background:darkblue;
+            border-radius:50%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h3>Reken - Show an element for some time.</h3>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+    <main>
+        <section><form>
+            <label>Seconds to show: <input data-value="timeout" input="number"></label>
+            <button data-action="startTimer=true" data-attr-disabled="startTimer" type="button">Start</button>
+        </form></section>
+        <section data-timer="timeout*1000:startTimer:startTimer=false">
+            <div data-if="startTimer" class="circle">
+            </div>
+        </section>
+        <script>
+            let startTimer=false;
+            let timeout=1;
+        </script>
+    </main>
+</body>
+<div data-include="includes/demo-lib.html"></div>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+</html>
