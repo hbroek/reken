@@ -74,56 +74,57 @@
         <section>
             <div>Based on <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life.</a>
             </div>
-            <script>
-                let generationCount = 0;
+        </section>
+        <script>
+            let generationCount = 0;
 
-                function seedGeneration(rows, cols, value) {
-                    const random = (typeof value === 'undefined')
-                    const newArray = []
-                    for (let r = 0; r < rows; r++) {
-                        const newRow = []
-                        for (let c = 0; c < cols; c++) {
-                            newRow.push(random ? Math.round(Math.random()) : value)
-                        }
-                        newArray.push(newRow)
+            function seedGeneration(rows, cols, value) {
+                const random = (typeof value === 'undefined')
+                const newArray = []
+                for (let r = 0; r < rows; r++) {
+                    const newRow = []
+                    for (let c = 0; c < cols; c++) {
+                        newRow.push(random ? Math.round(Math.random()) : value)
                     }
-                    generationCount = 0;
-                    return newArray
+                    newArray.push(newRow)
                 }
-                function countAliveNeighbors(arr, row, col) {
-                    let count = 0;
-                    for (let r = -1; r < 2; r++) {
-                        if (row + r > arr.length - 1 || row + r < 0)
+                generationCount = 0;
+                return newArray
+            }
+            function countAliveNeighbors(arr, row, col) {
+                let count = 0;
+                for (let r = -1; r < 2; r++) {
+                    if (row + r > arr.length - 1 || row + r < 0)
+                        continue;
+                    for (let c = -1; c < 2; c++) {
+                        if (r == 0 && c == 0)
                             continue;
-                        for (let c = -1; c < 2; c++) {
-                            if (r == 0 && c == 0)
-                                continue;
-                            const value = arr[row + r][col + c]
-                            count += parseInt(arr[row + r][col + c] ?? 0) //out of array bound = 0
-                        }
+                        const value = arr[row + r][col + c]
+                        count += parseInt(arr[row + r][col + c] ?? 0) //out of array bound = 0
                     }
-                    return count;
                 }
-                function nextGeneration(oldArray) {
-                    const newArray = [];
-                    for (let row = 0; row < oldArray.length; row++) {
-                        const newRow = []
-                        for (let col = 0; col < oldArray[row].length; col++) {
-                            const neighborsAlive = countAliveNeighbors(oldArray, row, col);
-                            let alive = oldArray[row][col]
-                            alive = (alive && neighborsAlive === 2) || neighborsAlive === 3
-                            newRow.push(alive ? 1 : 0)
-                        }
-                        newArray.push(newRow)
+                return count;
+            }
+            function nextGeneration(oldArray) {
+                const newArray = [];
+                for (let row = 0; row < oldArray.length; row++) {
+                    const newRow = []
+                    for (let col = 0; col < oldArray[row].length; col++) {
+                        const neighborsAlive = countAliveNeighbors(oldArray, row, col);
+                        let alive = oldArray[row][col]
+                        alive = (alive && neighborsAlive === 2) || neighborsAlive === 3
+                        newRow.push(alive ? 1 : 0)
                     }
-                    generationCount++
-                    return newArray
+                    newArray.push(newRow)
                 }
-                let axisLength = 15;
-                let array = seedGeneration(axisLength, axisLength);
-                let fps = 5;
-                let evolving = false;
-            </script>
+                generationCount++
+                return newArray
+            }
+            let axisLength = 15;
+            let array = seedGeneration(axisLength, axisLength);
+            let fps = 5;
+            let evolving = false;
+        </script>
     </main>
 </body>
 <div data-include="includes/demo-lib.html"></div>
