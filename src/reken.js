@@ -842,7 +842,120 @@ const parseIfExpression = (value) => {
     }
     return [_expr, _class];
 }
+
+var _ID = 0;
+function uniqueID() {
+    return 'rkn' + _ID++; // Change of collisions will super small
+}
+
+function substituteShortHandComponentNames(root, template) {
+    const compName = template.dataset.component;
+    root.querySelectorAll(compName).forEach((elem)=> {
+        const replaceElement = document.createElement(template.content.children[0].tagName)
+        for (let index = elem.attributes.length - 1; index >= 0; --index) {
+            let attr = elem.attributes[index];
+            if (template.hasAttribute('data-arg-'+attr.name)) {
+                replaceElement.setAttribute('data-arg-'+attr.name, elem.getAttribute(attr.name))
+                continue;
+            }
+            else if (template.hasAttribute('data-bind-'+attr.name)) {
+                replaceElement.setAttribute('data-bind-'+attr.name, elem.getAttribute(attr.name))
+                continue;
+            }
+            else {
+                replaceElement.attributes.setNamedItem(elem.attributes[index].cloneNode());
+            }
+        }
+        // Copy reken element content
+        for (let i = elem.childNodes.length-1; i >= 0; i--) {
+            let child = elem.childNodes[i];
+            replaceElement.appendChild(child)
+        }
+        replaceElement.setAttribute('data-component', compName);
+        elem.parentElement.replaceChild(replaceElement, elem);
+    })
+    return compName
+}
+function processShortHandComponentNames() {
+    let componentNames = []
+    document.querySelectorAll('template[data-component]').forEach((template)=> {
+        // Update main DOM
+        componentNames.push(substituteShortHandComponentNames(document, template))
+        // Update templates
+        document.querySelectorAll('template[data-component]').forEach((templateDoc)=>{
+            substituteShortHandComponentNames(templateDoc.content, template)
+        })
+    })
+    updateStyleSheetShortHandNames(componentNames);
+    componentNames.sort((a,b)=>b.length-a.length)
+}
+
+function updateStyleSheetShortHandNames(componentNames) {
+    document.querySelectorAll('head > style').forEach( style => {
+        const lines = style.textContent.split('\n')
+        const newLines = []
+        for (let line of lines) {
+            if (line.indexOf('{') >= 0) {
+                for (const name of componentNames) {
+                    let nameIndex = 0;
+
+                    while (nameIndex >= 0) {
+                        nameIndex = line.indexOf(name, nameIndex)
+
+                        if (nameIndex >= 0) {
+                            if ((nameIndex == 0 || '\t ,>+~]'.indexOf(line[nameIndex-1])>=0) && '\t ,.:{>+~['.indexOf(line[nameIndex+name.length])>=0) {
+                                line = line.substring(0,nameIndex) + '[data-component='+name+']' + line.substring(nameIndex+name.length)
+                                nameIndex += ('[data-component='+name+']').length
+                            }
+                            else {
+                                nameIndex++;
+                            }
+                        }
+                    }
+                }
+            }
+            newLines.push(line)
+        }
+        style.textContent = newLines.join('\n');
+    })
+}
 /* Runtime Helpers *********************************************************************************************************/
+function processIncludes(element, path) {
+    const promiseArray = []
+    if (!rkn_server_generated) {
+        element.querySelectorAll('div[data-include]').forEach(async (includeElem)=> {
+            let includeName = includeElem.dataset['include']
+            if (includeName) {
+                if (path && !includeName.startsWith('/')) {
+                    includeName = path + '/' + includeName
+                }
+                const fetchPromise = fetch(includeName)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text()
+                    }
+                    else {
+                        throw Error(`${response.status} - ${response.statusText}`);
+                    }
+                })
+                .then((html) => {
+                    includeElem.innerHTML = html;
+                    const pathArray = includeName.split('/');
+                    if (pathArray.length>1) {
+                        pathArray.pop();
+                        path = pathArray.join('/')
+                    };
+                    return processIncludes(includeElem, path)})
+                .catch(() => {
+                    includeElem.textContent = `File ${includeName} not found.`
+                });
+                promiseArray.push(fetchPromise);
+            }
+        })
+    }
+    return Promise.allSettled(promiseArray)
+}
+
 function processRestCall(elem, _url, _options, modelUpdate) {
     // Url request is the same as last time, no need to fetch again and thus nothing do here.
     if (_options && typeof _options.fetch !== 'undefined') {
@@ -1026,149 +1139,39 @@ let initComponentElement = (elem) => {
     }
 }
 
-var _ID = 0;
-function uniqueID() {
-    //    return 'rkn' +parseInt(Math.random()*Number.MAX_SAFE_INTEGER) // Change of collisions will super small
-    return 'rkn' + _ID++; // Change of collisions will super small
-}
-
-function substituteShortHandComponentNames(root, template) {
-    const compName = template.dataset.component;
-    root.querySelectorAll(compName).forEach((elem)=> {
-        const replaceElement = document.createElement(template.content.children[0].tagName)
-        for (let index = elem.attributes.length - 1; index >= 0; --index) {
-            let attr = elem.attributes[index];
-            if (template.hasAttribute('data-arg-'+attr.name)) {
-                replaceElement.setAttribute('data-arg-'+attr.name, elem.getAttribute(attr.name))
-                continue;
-            }
-            else if (template.hasAttribute('data-bind-'+attr.name)) {
-                replaceElement.setAttribute('data-bind-'+attr.name, elem.getAttribute(attr.name))
-                continue;
-            }
-            else {
-                replaceElement.attributes.setNamedItem(elem.attributes[index].cloneNode());
-            }
-        }
-        // Copy reken element content
-        for (let i = elem.childNodes.length-1; i >= 0; i--) {
-            let child = elem.childNodes[i];
-            replaceElement.appendChild(child)
-        }
-        replaceElement.setAttribute('data-component', compName);
-        elem.parentElement.replaceChild(replaceElement, elem);
-    })
-    return compName
-}
-function processShortHandComponentNames() {
-    let componentNames = []
-    document.querySelectorAll('template[data-component]').forEach((template)=> {
-        // Update main DOM
-        componentNames.push(substituteShortHandComponentNames(document, template))
-        // Update templates
-        document.querySelectorAll('template[data-component]').forEach((templateDoc)=>{
-            substituteShortHandComponentNames(templateDoc.content, template)
-        })
-    })
-    updateStyleSheetShortHandNames(componentNames);
-    componentNames.sort((a,b)=>b.length-a.length)
-}
-
-function updateStyleSheetShortHandNames(componentNames) {
-    document.querySelectorAll('head > style').forEach( style => {
-        const lines = style.textContent.split('\n')
-        const newLines = []
-        for (let line of lines) {
-            if (line.indexOf('{') >= 0) {
-                for (const name of componentNames) {
-                    let nameIndex = 0;
-
-                    while (nameIndex >= 0) {
-                        nameIndex = line.indexOf(name, nameIndex)
-
-                        if (nameIndex >= 0) {
-                            if ((nameIndex == 0 || '\t ,>+~]'.indexOf(line[nameIndex-1])>=0) && '\t ,.:{>+~['.indexOf(line[nameIndex+name.length])>=0) {
-                                line = line.substring(0,nameIndex) + '[data-component='+name+']' + line.substring(nameIndex+name.length)
-                                nameIndex += ('[data-component='+name+']').length
-                            }
-                            else {
-                                nameIndex++;
-                            }
-                        }
-                    }
-                }
-            }
-            newLines.push(line)
-        }
-        style.textContent = newLines.join('\n');
-    })
-}
-
-function processIncludes(element, path) {
-    const promiseArray = []
-    element.querySelectorAll('div[data-include]').forEach(async (includeElem)=> {
-        let includeName = includeElem.dataset['include']
-        if (includeName) {
-            if (path && !includeName.startsWith('/')) {
-                includeName = path + '/' + includeName
-            }
-            const fetchPromise = fetch(includeName)
-            .then(response => {
-                if (response.ok) {
-                    return response.text()
-                }
-                else {
-                    throw Error(`${response.status} - ${response.statusText}`);
-                }
-            })
-            .then((html) => {
-                includeElem.innerHTML = html;
-                const pathArray = includeName.split('/');
-                if (pathArray.length>1) {
-                    pathArray.pop();
-                    path = pathArray.join('/')
-                };
-                return processIncludes(includeElem, path)})
-            .catch(() => {
-                includeElem.textContent = `File ${includeName} not found.`
-            });
-            promiseArray.push(fetchPromise);
-        }
-    })
-    return Promise.allSettled(promiseArray)
-}
-
 var reken_routing_path;
 processIncludes(document.body.parentElement)
 .then((result) => {
-    processShortHandComponentNames();
-    processComponentReferences(document.body.parentElement);
+    if (!rkn_server_generated) {
+        processShortHandComponentNames();
+        processComponentReferences(document.body.parentElement);
+    }
     init();
 });
 
 function init() {
+    function getParsedHash(hash) {
+        let routing_path = []
+        if (hash.length>2) {
+            const path = hash.substring(2)
+            routing_path = path.split("/");
+        }
+        routing_path.push('')
+        return routing_path;
+    }
+    reken_routing_path = getParsedHash(window.location.hash);
+
+    window.addEventListener('hashchange', (e) => {
+        reken_routing_path = getParsedHash(window.location.hash);
+        document.body.parentElement.rkn_class.controller({})
+    })
+
     if (!rkn_server_generated) {
         let definition = [];
         let controller = [];
         //let setup = ['_r = document.body.parentElement'];
         let setup = [];
         let styles = ['template {display:none !important;}'];
-
-        function getParsedHash(hash) {
-            let routing_path = []
-            if (hash.length>2) {
-                const path = hash.substring(2)
-                routing_path = path.split("/");
-            }
-            routing_path.push('')
-            return routing_path;
-        }
-        reken_routing_path = getParsedHash(window.location.hash);
-
-        window.addEventListener('hashchange', (e) => {
-            reken_routing_path = getParsedHash(window.location.hash);
-            document.body.parentElement.rkn_class.controller({})
-        })
 
         document.body.parentElement.setAttribute('data-component', '_main')
         definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
@@ -1188,23 +1191,37 @@ function init() {
         definition.push("document.body.parentElement.rkn_class = _mainInstance");
 
         definition.push("_mainInstance.controller({})")
+        definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
+
         let definitionString = definition.join('\n')
         // console.log(definitionString)
         let controllerFunction = new Function(definitionString);
-        controllerFunction();
-        document.body.dispatchEvent(new CustomEvent('rekenready', {}))
-        if (rkn_generate_code) {
+        if (!rkn_generate_code)
+            controllerFunction();
+        if (rkn_generate_code && !rkn_server_generated) {
             var element = document.createElement('a');
+            let html = document.body.parentElement.innerHTML.split('\n');
+            let newHTML = []
+            for (let line of html) {
+                if (line.indexOf('reken.js')>=0) {
+                    line = ''
+                }
+                newHTML.push(line)
+            }
+            html = newHTML;
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' +
                 encodeURIComponent(
-                    '<script>var rkn_server_generated = true</script>\n'+
-                    '<script src="../src/reken.js"></script>\n'+
+                    '<html>' +
+                    html.join('\n') +
+                    '<script>var rkn_server_generated = true</script>'+
+                    '<script src="../src/reken.js"></script>'+                  
                     '<style>\n' +
                     styles.join('\n') +
                     '</style>\n' +
                     '<script>\n' +
                     definitionString +
-                    '</script>\n'
+                    '</script>\n'+
+                    '</html>'
                 ));
                 console.log(styles.join('\n'))
                 console.log(definitionString)

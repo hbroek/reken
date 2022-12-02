@@ -2245,11 +2245,13 @@
 
       it('Check component timers in for loop', async function () {
         const ti4_b =  $('ti4');
+        const tmr4 = $('tic4');
+
         ti4_b.checked = true;
         ti4_b.dispatchEvent(new Event('change'));
 
-        await waitFor(20, () => tic4.children.item(0).textContent=='Count:1')
-        await waitFor(20, () => tic4.children.item(1).textContent=='Count:1')
+        await waitFor(20, () => tmr4.children.item(0).textContent=='Count:1')
+        await waitFor(20, () => tmr4.children.item(1).textContent=='Count:1')
       })
     })
     describe('data-interval tests', () => {
@@ -2323,9 +2325,6 @@
   }
   </script>
   <script src="../src/reken.js"></script>
-
-  <script class="mocha-exec">
-  </script>
 </body>
 
 </html>
