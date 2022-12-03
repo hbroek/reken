@@ -6,15 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <link rel="stylesheet" href="../assets/reken.css"/>
+    <link rel="stylesheet" href="../assets/reken.css" />
     <title>Reken - Array based table examples</title>
     <style>
         input {
             margin-bottom: 0;
         }
+
         section {
-            flex-direction:column;
-            align-items:center;
+            flex-direction: column;
+            align-items: center;
         }
     </style>
     <script>
@@ -22,8 +23,7 @@
             { firstName: "John", lastName: "Mills", steps: 560 },
             { firstName: "Cathy", lastName: "Brooks", steps: 10001 }
         ]
-        selectedRow = '1';
-        selectedRow2 = ['1'];
+        selectedRow = ['1'];
     </script>
 </head>
 
@@ -49,7 +49,7 @@
                     <tbody data-for="objA:myObjects">
                         <tr>
                             <td><input type="checkbox" name="checkboxes" data-attr-value="${objA.index}"
-                                    data-value="selectedRow2"></td>
+                                    data-value="selectedRow"></td>
                             <td data-text="${objA.index}"></td>
                             <td data-text="${objA.item.firstName}"></td>
                             <td data-text="${objA.item.lastName}"></td>
@@ -60,9 +60,9 @@
                     </tbody>
                 </table>
             </div>
-            <div data-text="Selected row: ${selectedRow2}"></div>
+            <div data-text="Selected rows: [${selectedRow}]"></div>
             <div data-text="${JSON.stringify(myObjects)}"></div>
-            <hr/>
+            <hr />
         </section>
 
     </main>
@@ -71,4 +71,5 @@
 
 <script src="../src/reken.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
 </html>

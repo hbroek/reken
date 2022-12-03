@@ -100,7 +100,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['action1', 'component', 'style', 'if', 'for', 'calc', 'attr-value', 'value']; // Need to be first in that order.
+    let firsts = ['action1', 'component', 'style', 'if', 'for', 'calc', 'attrValue', 'value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
@@ -255,7 +255,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
                     'eventType':eventName,
-                    'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + ".indexOf('" + eventId + "')<0) return;",
+                    'handlerEventCheck': "  if (!e.target.dataset.event_" + eventName + "|| e.target.dataset.event_" + eventName + ".indexOf('" + eventId + "')<0) return;",
                     'handlerName': eventId,
                     'handlerCode':value,
                     'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"

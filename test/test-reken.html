@@ -204,6 +204,20 @@
       </label>
       <span id="v11_1" data-text="${vselect11}"></span>
     </div>
+
+    <script>
+      let vcheckbox12 = ['2', '4']
+    </script>
+    <div>for checkbox12:
+      <span id="v12_0" data-text="${vcheckbox12}"></span>
+        <ul id="v12" data-for="vfor12:5">
+          <li>
+            <input type="checkbox" name="vcheckbox12" data-value="vcheckbox12" data-attr-value="${vfor12.index}">
+              <span data-text="T${vfor12.index}"></span>
+          </li>
+        </ul>
+      <span id="v12_1" data-text="${vcheckbox12}"></span>
+    </div>
   </section>
   <section>
     <h3>data-style tests</h3>
@@ -1113,7 +1127,7 @@
         assert($('v5_2').checked == false, "Value is unchecked")
         assert($('v5_3').checked == true, "Value is unchecked")
         expect($('v5_0')).to.have.text("" + testCheckbox5.toString());
-        expect($('v5_1')).to.have.text("" + testCheckbox5.toString());
+        expect($('v5_1')).to.have.text("" + testCheckbox5.toString());  
 
         $('v5').checked = false
         $('v5').dispatchEvent(new Event('change'));
@@ -1217,6 +1231,34 @@
         expect($('v11_1')).to.have.text(testString11);
         done();
       })
+      it('On a data-for generated list with checkbox 2 pre-selected.', (done) => {
+        let testString12 = '2,4'
+        expect($('v12_0')).to.have.text(testString12);
+        expect($('v12_1')).to.have.text(testString12);
+        const v_ul12 = $('v12')
+        const v12inputs = v_ul12.querySelectorAll('input');
+        assert(v12inputs[0].checked == false, "Value is unchecked")
+        assert(v12inputs[1].checked == false, "Value is unchecked")
+        assert(v12inputs[2].checked == true, "Value is checked")
+        assert(v12inputs[3].checked == false, "Value is unchecked")
+        assert(v12inputs[4].checked == true, "Value is checked")
+
+        v12inputs[0].checked = true;
+        fireEvent(v12inputs[0],'value')
+
+        testString12 = '2,4,0'
+        expect($('v12_0')).to.have.text(testString12);
+        expect($('v12_1')).to.have.text(testString12);
+        
+        assert(v12inputs[0].checked == true, "Value is checked")
+        assert(v12inputs[1].checked == false, "Value is unchecked")
+        assert(v12inputs[2].checked == true, "Value is checked")
+        assert(v12inputs[3].checked == false, "Value is unchecked")
+        assert(v12inputs[4].checked == true, "Value is checked")
+
+        done();
+      })
+
     })
     describe('data-style tests', () => {
       it('width, heigh background', (done) => {
