@@ -45,9 +45,6 @@
     var sheight = 48
     var sbackground = 'silver'
 
-    let a0 = 0
-    let a1 = 10
-
     let f4 = ['Monkey', "Elephant", "Lion"];
 
     let f5 = [
@@ -338,9 +335,17 @@
 
   <hr>
   <section>
+  <script>
+    let a0 = 0
+    let a1 = 10
+    let a2 = 20
+    let a3 = 30
+ </script>
   <h3>data-action tests</h3>
   <button type="button" data-action="a0=a0+1" id="a0">Increment a0</button>
   <button type="button" data-action="a1=a1-1" id="a1" data-text="Decrement a1 = ${a1}"></button>
+  <button type="button"><div data-action="a2=a2+1" id="a2">Increment a2</div></button>
+  <button type="button" id="a3b" data-action="a3=a3+1"><div id="a3">Increment a3</div></button>
   </section>
   <hr>
  
@@ -1554,7 +1559,6 @@
         expect($('rt6')).to.be.displayed;
         expect($('rt61')).not.to.be.displayed;
       })
-
     })
 
     async function waitForNewHash(hash) {
@@ -1583,6 +1587,27 @@
         expect($('a1')).to.have.text('Decrement a1 = 9')
         done();
       })
+      it('Press div with data-action to increment js number a2', (done) => {
+        expect(a2).to.equal(20);
+
+        $('a2').dispatchEvent(new Event('click'));
+
+        expect(a2).to.equal(21);
+        done();
+      })
+      it('Press div in button with data-action to increment js number a3', (done) => {
+        expect(a3).to.equal(30);
+
+        $('a3b').dispatchEvent(new Event('click'));
+        expect(a3).to.equal(31);
+
+        $('a3b').setAttribute('disabled', '')
+        $('a3b').dispatchEvent(new Event('click')); //should not execute
+        expect(a3).to.equal(31); // and number stays the same
+
+        done();
+      })
+
     })
     describe('data-attr tests, initial value and after updated width and height js vars', () => {
       it('Init img dimenions from vars and then change with button press', (done) => {

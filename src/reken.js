@@ -170,7 +170,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
                     'eventType':eventType,
-                    'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
+                    'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                     'handlerName': eventId,
                     'handlerCode': (elem.type === 'file') ?
                         (valueValue + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")") :
@@ -255,7 +255,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 eventCode.push({
                     'elemId':(topForString === undefined ? compString : topForString),
                     'eventType':eventName,
-                    'handlerEventCheck': "  if (!e.target.dataset.event_" + eventName + "|| e.target.dataset.event_" + eventName + ".indexOf('" + eventId + "')<0) return;",
+                    'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                     'handlerName': eventId,
                     'handlerCode':value,
                     'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
@@ -466,7 +466,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     eventCode.push({
                         'elemId':(topForString === undefined ? compString : topForString),
                         'eventType':eventName,
-                        'handlerEventCheck': "  if (e.target.dataset.event_" + eventName + " !== '" + eventId + "') return;",
+                        'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                         'handlerName': eventId,
                         'handlerCode':handler,
                         'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
@@ -1056,6 +1056,16 @@ function indexesInForAncestors(elem, indexes) {
             indexes.push(indexOf(parent.children, elem));
     }
     return indexes;
+}
+
+function isEventHandler(elem, eventType, eventId) {
+    const eventName = 'event_'+eventType;
+    if (elem.dataset[eventName] && elem.dataset[eventName].indexOf(eventId)>=0) {
+        return !(elem.hasAttribute('disabled') || elem.hasAttribute('readonly'));
+    }
+    if (elem.parentElement == null)
+        return false;
+    return isEventHandler(elem.parentElement, eventType, eventId)
 }
 
 function indexOf(list, item) {
