@@ -1242,3 +1242,7 @@ function init() {
         }
     }
 }
+/* Force executing the controller, only call as last resort for example after async model updates */
+const rekenForceCalculate = () => {
+    document.body.parentElement.rkn_class.controller({})
+}
