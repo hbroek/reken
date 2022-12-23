@@ -325,6 +325,8 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 if (topForString === undefined)
                     topForString = elemString
 
+                initCode.push(compString + ".dataset.leafCount=" + elem.children.length);
+
                 if (elem.dataset.if !== undefined && elem.children.length>0) {
                     controlCode.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                     indent = '  ' + indent
@@ -338,24 +340,23 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 }
                 else
                     controlCode.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
-                controlCode.push(indent+'updateForChildren(' + elemString + ',' + _arrayName + ')');
+                controlCode.push(indent+'updateForChildren(' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
 
                 // At runtime loop thru the direct children
                 let _forVar = "rkn_forElem_" + uniqueID();
                 let _forIndex = "rkn_counter_" + uniqueID();
-                controlCode.push(indent+"let " + _forIndex + " = 0");
+                controlCode.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
 
-                controlCode.push(indent+"for (let " + _forVar + " of " + elemString + ".children){");
                 controlCode.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
                 controlCode.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "]}"); // Set the var context
-
+                controlCode.push(indent+"let "+ _forVar)
                 let i = 0;
                 for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                    controlCode.push(indent+ _forVar + " = " + elemString+".children["+_forIndex+"*"+elem.children.length+"+"+i+"]")
                     buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars)
                     i++;
                 }
-                controlCode.push(indent+_forIndex + "+=1");
-                controlCode.push(indent+'}' + '// End loop ' + _forVar);
+                controlCode.push(indent+'}' + '// End loop ' + _forIndex);
 
                 if (elem.dataset.if !== undefined && elem.children.length>0) {
                     indent = indent.substring(2);
@@ -1053,7 +1054,7 @@ function indexesInForAncestors(elem, indexes) {
     if (parent != null) {
         indexesInForAncestors(parent, indexes);
         if (typeof parent.dataset.for != 'undefined')
-            indexes.push(indexOf(parent.children, elem));
+            indexes.push(Math.floor(indexOf(parent.children, elem)/parent.dataset.leafCount));
     }
     return indexes;
 }
@@ -1078,43 +1079,52 @@ function indexOf(list, item) {
     return -1;
 }
 
-function updateForChildren(elem, array) {
+function updateForChildren(elem, array, leafs) {
     let _children = elem.children;
-    let _numberOfChildren = _children.length;
+    let _numberOfChildren = _children.length/leafs;
     if (_numberOfChildren > 0) {
         
-        let _firstChild = _children[0];
-        _firstChild.removeAttribute('id');
-        _firstChild.querySelectorAll('[id]').forEach(_childElem => {
-            _childElem.removeAttribute('id');
-
-        })
+        let _firstChilds = [] 
+        for (let l = 0; l < leafs; l++) {
+            _firstChilds[l] = _children[l];
+            _firstChilds[l].removeAttribute('id');
+            _firstChilds[l].querySelectorAll('[id]').forEach(_childElem => {
+                _childElem.removeAttribute('id');
+            })
+        }
 
         for (let i = 0; i < array.length; i++) {
             let _child;
-            if (i < _numberOfChildren) { // There is an element for this array instance
-                _child = _children[i];
-            }
-            else { // No child yet create it
-                _child = _firstChild.cloneNode(true);
-                initComponentElement(_child)
+            for (let l = 0; l < leafs; l++) {
+                let elemIndex = i*leafs+l;
+                if (i < _numberOfChildren) { // There is an element for this array instance
+                    _child = _children[elemIndex];
+                }
+                else { // No child yet create it
+                    _child = _firstChilds[l].cloneNode(true);
+                    initComponentElement(_child)
 
-                elem.appendChild(_child);
+                    elem.appendChild(_child);
+                }
+                if (_child.style.display !== '')
+                    _child.style.display = '';
             }
-            if (_children[i].style.display !== '')
-                _children[i].style.display = '';
         }
         let checkForTimers=true;
         for (let i = array.length; i < _numberOfChildren; i++) {
-            if (_children[i].style.display !== 'none') {                
-                _children[i].style.display = 'none';
-                if (checkForTimers) {
-                    if (disableTimers(_children[i])==0)
-                        checkForTimers = false;
+            for (let l = 0; l < leafs; l++) {
+                let elemIndex = i*leafs+l;
+
+                if (_children[elemIndex].style.display !== 'none') {                
+                    _children[elemIndex].style.display = 'none';
+                    if (checkForTimers) {
+                        if (disableTimers(_children[elemIndex])==0)
+                            checkForTimers = false;
+                    }
                 }
+                else
+                    continue;
             }
-            else
-                continue;
         }
     }
 }

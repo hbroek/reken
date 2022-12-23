@@ -483,6 +483,32 @@
       </div>
     </div>
 
+    <script>
+      let for11StringArray = ['Charlie', 'Foxtrot', 'Tango']
+    </script>
+    <div id="f11" data-for="f11:for11StringArray">
+      <span data-text="${f11.index}"></span>
+      <span data-text="${f11.item}"></span>
+      <input data-value="f11.item">
+    </div>
+
+    <script>
+      let button_f12 = 0
+      let outer12Var = 0;
+      let inner12Var = 0;
+    </script>
+    <div id="f12">
+      <div data-for="outer12:3">
+        <div data-for="inner12:3">
+          <button data-action="button_f12=0;outer12Var=outer12.index;inner12Var=inner12.index;" data-text="${outer12.index}-${inner12.index}-0"></button>
+          <button data-action="button_f12=1;outer12Var=outer12.index;inner12Var=inner12.index;" data-text="${outer12.index}-${inner12.index}-1"></button>
+          <button data-action="button_f12=2;outer12Var=outer12.index;inner12Var=inner12.index;" data-text="${outer12.index}-${inner12.index}-2"></button>
+      </div>
+    </div>
+    <div id="f121" data-text="${outer12Var} - ${inner12Var} - ${button_f12}"></div>
+    </div>
+
+
   </section>
   <hr>
   <section>
@@ -1799,6 +1825,26 @@
         expect(document.querySelectorAll('#f10 div span')).to.contain.text(['Charlie','Alpha','Tango'])
         done();
       })
+
+      it('String array For loop with text output and input control in 3 for loop leaf elements', (done) => {
+        expect($('f11')).to.have.length(9)
+        expect(document.querySelectorAll('#f11 span')).to.contain.text(['0','1','2'])
+        expect(document.querySelectorAll('#f11 span')).to.contain.text(['Charlie','Foxtrot','Tango'])
+        let f11_2ndRowInput  = document.querySelectorAll('#f11 > input')[1];
+        f11_2ndRowInput.value = 'Alpha'
+        fireEvent(f11_2ndRowInput, "value");
+        expect(document.querySelectorAll('#f11 span')).to.contain.text(['Charlie','Alpha','Tango'])
+        done();
+      })
+      it('Render 2 nested for loops with context action on an inner for loop with 3 direct children', (done) => {
+
+      expect($('f121')).to.have.text("0 - 0 - 0")
+      const f12Button1_1_1 = document.querySelector('#f12 > div > div:nth-child(2) > button:nth-child(5)')
+      fireEvent(f12Button1_1_1, "click")
+      expect($('f121')).to.have.text("1 - 1 - 1")
+      done();
+      })
+
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
