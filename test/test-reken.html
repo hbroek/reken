@@ -10,8 +10,14 @@
     short-hand2 {
       background: rgb(0, 128, 0);
     }
+    #cp14_2.comp14-border {
+      border: 10px green solid;
+    }
+
   </style>
+
 </head>
+
 
 <body data-on-rekenready="runRekenTests()">
   <div id="mocha"></div>
@@ -873,29 +879,134 @@
     <ul id="cp13" data-for="idx13:i13var">Uls
       <li data-component="comp13" data-arg-item="idx13.item"></li>
     </ul>
-  </section>
+
+    <script>
+      let comp14_3Show = true
+      let comp14_4Show = true
+    </script>
+    <template data-component="comp14" data-arg-arg1 data-arg-arg2="true">
+      <style>
+        :host {
+          background: blue;
+          color:white;
+        }
+        .comp14 {
+          border: 1px solid red;
+        }
+      </style>
+      <div class="comp14" data-text="${arg1}" data-if="arg2">Default</div>
+    </template>
+    <comp14 id="cp14_0" arg1="Untouched"></comp14>
+    <comp14 id="cp14_1" data-style="background:yellow;color:black;" arg1="Override style"></comp14>
+    <comp14 id="cp14_2" data-class="comp14-border:true" arg1="Override class"></comp14>
+    <label>Show component: <input id="cp14_3c" type="checkbox" data-value="comp14_3Show"></label>
+    <comp14 data-if="comp14_3Show" id="cp14_3" arg1="${comp14_3Show?'Shown':'Hidden'}" arg2="true"></comp14>
+
+    <label>Show component: <input id="cp14_4c" type="checkbox" data-value="comp14_4Show"></label>
+    <comp14 data-if="comp14_4Show" id="cp14_4" arg1="${comp14_4Show?'Shown':'Hidden'}" arg2="false"></comp14>
+
+    <br>
+    <script>
+      let cp15text = ''
+    </script>
+    <template data-component="cp15button">
+      <button data-action="cp15text='inner'"><slot>cp15button</slot></button>
+    </template>
+    <div id="cp15text" data-text="${cp15text}"></div>
+    <cp15button id="cp15_0">default action</cp15button>
+    <cp15button id="cp15_1" data-action="cp15text='outer'">instance action</cp15button>
+
+    <br>
+    <script>
+      let cp16text = ''
+    </script>
+    <template data-component="cp16button">
+      <button data-on-click="cp16text='inner'"><slot>cp16button</slot></button>
+    </template>
+    <div id="cp16text" data-text="${cp16text}"></div>
+    <cp16button id="cp16_0">default action</cp16button>
+    <cp16button id="cp16_1" data-on-click="cp16text='outer'">instance action</cp16button>
+    <br>
+    <script>
+      let cp17text = ''
+    </script>
+    <template data-component="cp17button">
+      <button data-attr-disabled="false"><slot>cp17button</slot></button>
+    </template>
+    <div id="cp17text" data-text="${cp17text}"></div>
+    <cp17button id="cp17_0">default attribute</cp17button>
+    <cp17button id="cp17_1" data-attr-disabled="true">instance disabled</cp17button>
+    <br>
+    <script>
+      color18_0 = "orange"
+      color18_1 = color18_0
+      doColor18_0 = false;
+      doColor18_1 = false;
+    </script>
+    <template data-component="cp18circle" data-arg-color="orange">
+      <div data-text="${color}" data-timer="1:doColor18_0:color18_0='blue';doColor18_0=false;"></div>
+    </template>
+    <input id="cp18_0cb" type="checkbox" data-value="doColor18_0"/><cp18circle id="cp18_0" color="${color18_0}"></cp18circle>
+    <input id="cp18_1cb" type="checkbox" data-value="doColor18_1"/><cp18circle id="cp18_1" data-timer="1:doColor18_1:color18_1='pink';doColor18_1=false" id="cp18_1" color="${color18_1}"></cp18circle>
+    <br>
+    <script>
+      color19_0 = "orange"
+      color19_1 = color19_0
+      doColor19_0 = false;
+      doColor19_1 = false;
+    </script>
+    <template data-component="cp19circle" data-arg-color="orange">
+      <div data-text="${color}" data-interval="1:doColor19_0:color19_0='blue';doColor19_0=false;"></div>
+    </template>
+    <input id="cp19_0cb" type="checkbox" data-value="doColor19_0"/><cp19circle id="cp19_0" color="${color19_0}"></cp19circle>
+    <input id="cp19_1cb" type="checkbox" data-value="doColor19_1"/><cp19circle id="cp19_1" data-interval="1:doColor19_1:color19_1='pink';doColor19_1=false" id="cp19_1" color="${color19_1}"></cp19circle>
+    <br>
   <hr>
-  <section>
-  <!-- Test component shorthand functionality  -->
-  <template data-component="short-hand1">
-    <div>short-hand1</div>
-  </template>
-  <short-hand1 id="sh1"></short-hand1>
-
-  <template data-component="short-hand2" data-arg-hand2>
-    <div data-text="${hand2}"></div>
-  </template>
-  <short-hand2 id="sh2" hand2="short-hand2"></short-hand2>
-
-  <template data-component="short-hand31" data-arg-sh31>
-    <div data-text="${sh31}"></div>
-  </template>
-  <template data-component="short-hand3" data-arg-sh3>
+  <template data-component="cp20route">
     <div>
-      <short-hand31 sh31="sh3 - ${sh3}"></short-hand31>
+      <h1>cp20root</h1>
     </div>
   </template>
-  <short-hand3 id="sh3" sh3="short-hand3"></short-hand3>
+
+  <cp20route id="cp20route" data-route="cp20route:/comp-route"></cp20route>
+
+  <script>
+    let cp21_options = {fetch:false};
+    let cp21Var = {};
+  </script>
+  <template data-component="cp21rest" data-arg-arg1>
+    <div data-text="${arg1?arg1.theNumber:'Loading'}">
+    </div>
+  </template>
+  <h3><cp21rest id="cp21" data-rest="cp21Var:json/one.json" arg1="cp21Var"></cp21rest></h3>
+
+  <script>let cp22 = '0'</script>
+  <template data-component="cp22div">
+    <div data-number="0" data-text="${cp22}"></div>
+  </template>
+  <cp22div id="cp22div" data-calc="cp22=elem.dataset.number;elem.dataset.number=parseInt(elem.dataset.number)+1"></cp22div>
+
+  <section>
+    <!-- Test component shorthand functionality  -->
+    <template data-component="short-hand1">
+      <div>short-hand1</div>
+    </template>
+    <short-hand1 id="sh1"></short-hand1>
+
+    <template data-component="short-hand2" data-arg-hand2>
+      <div data-text="${hand2}"></div>
+    </template>
+    <short-hand2 id="sh2" hand2="short-hand2"></short-hand2>
+
+    <template data-component="short-hand31" data-arg-sh31>
+      <div data-text="${sh31}"></div>
+    </template>
+    <template data-component="short-hand3" data-arg-sh3>
+      <div>
+        <short-hand31 sh31="sh3 - ${sh3}"></short-hand31>
+      </div>
+    </template>
+    <short-hand3 id="sh3" sh3="short-hand3"></short-hand3>
   </section>
   <hr>
   <!-- Test component slot functionality  -->
@@ -1636,7 +1747,7 @@
 
     })
     describe('data-attr tests, initial value and after updated width and height js vars', () => {
-      it('Init img dimenions from vars and then change with button press', (done) => {
+      it('Init img dimensions from vars and then change with button press', (done) => {
         expect($('at0')).to.have.attribute('width', '64')
         expect($('at0')).to.have.attribute('height', '48')
 
@@ -2255,7 +2366,180 @@
         expect(cp13ul.querySelectorAll('li')[1]).to.have.text('comp 13 name Mary');
         done();
       })
+      it('Verify a component has the right component styling and text', (done) => {
+        let cp14div = $('cp14_0')
+        expect(cp14div).to.have.text('Untouched');
+        expect(cp14div).to.have.style('border-color', 'rgb(255, 0, 0)');
+        expect(cp14div).to.have.style('border-width', '1px');
+        expect(cp14div).to.have.style('border-style', 'solid');
+        expect(cp14div).to.have.style('background-color', 'rgb(0, 0, 255)');
+        expect(cp14div).to.have.style('color', 'rgb(255, 255, 255)');
+        done();
+      })
+      it('Override component style', (done) => {
+        let cp14div = $('cp14_1')
+        expect(cp14div).to.have.text('Override style');
+        expect(cp14div).to.have.style('border-color', 'rgb(255, 0, 0)');
+        expect(cp14div).to.have.style('border-width', '1px');
+        expect(cp14div).to.have.style('border-style', 'solid');
+        expect(cp14div).to.have.style('background-color', 'rgb(255, 255, 0)');
+        expect(cp14div).to.have.style('color', 'rgb(0, 0, 0)');
+        done();
+      })
+      it('Override component class', (done) => {
+        let cp14div = $('cp14_2')
+        expect(cp14div).to.have.text('Override class');
+        expect(cp14div).to.have.style('border-color', 'rgb(0, 128, 0)');
+        expect(cp14div).to.have.style('border-width', '10px');
+        expect(cp14div).to.have.style('border-style', 'solid');
+        expect(cp14div).to.have.style('background-color', 'rgb(0, 0, 255)');
+        expect(cp14div).to.have.style('color', 'rgb(255, 255, 255)');
+        done();
+      })
+      it('Hide component with if', (done) => {
+        let cp14div = $('cp14_3')
+        expect(cp14div).to.have.text('Shown');
+        expect(cp14div).to.have.style('display', 'block');
+
+        let cp14Checkbox = $('cp14_3c')
+        cp14Checkbox.checked=false;
+        cp14Checkbox.dispatchEvent(new Event('change'));
+        expect(cp14div).to.have.text('Shown');
+        expect(cp14div).to.have.style('display', 'none');
+        done();
+      })
+      it('Component internally hidden should stay hidden', (done) => {
+        let cp14div = $('cp14_4')
+        expect(cp14div).to.have.text('Default');
+        expect(cp14div).to.have.style('display', 'none');
+
+        let cp14Checkbox = $('cp14_4c')
+        cp14Checkbox.checked=false;
+        cp14Checkbox.dispatchEvent(new Event('change'));
+        expect(cp14div).to.have.text('Default');
+        expect(cp14div).to.have.style('display', 'none');
+        done();
+      })
+      it('Use component default action', (done) => {
+        let cp16text = $('cp16text')
+        expect(cp16text).to.have.text('');
+        let cp16div = $('cp16_0')
+        expect(cp16div).to.have.text('default action');
+        cp16div.dispatchEvent(new Event('click'));
+        expect(cp16text).to.have.text('inner');
+        done();
+      })
+      it('Override component action', (done) => {
+        let cp16text = $('cp16text')
+        expect(cp16text).to.have.text('inner');
+        let cp16div = $('cp16_1')
+        expect(cp16div).to.have.text('instance action');
+        cp16div.dispatchEvent(new Event('click'));
+        expect(cp16text).to.have.text('outer');
+        done();
+      })
+      it('Override component data-attr', (done) => {
+        expect($('cp17_0')).to.not.have.attribute('disabled')
+        expect($('cp17_1')).to.have.attribute('disabled')
+        done();
+      })
+      it('Set component instance with data-calc ', (done) => {
+        expect($('cp22div')).to.not.have.text('0');
+        done();
+      })
     })
+    describe('data-component timer/interval tests', () => {
+      it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
+        const cp18_0 =  $('cp18_0');
+        expect(cp18_0).to.have.text('orange');
+        const cp18_1 =  $('cp18_1');
+        expect(cp18_1).to.have.text('orange');
+
+        cp18_0cb.checked = true;
+        cp18_0cb.dispatchEvent(new Event('change'));
+        await waitFor(200, () => cp18_0.textContent =='blue')
+        expect(cp18_1).to.have.text('orange');
+
+        cp18_1cb.checked = true;
+        cp18_1cb.dispatchEvent(new Event('change'));
+        await waitFor(200, () => cp18_1.textContent =='pink')        
+      })
+     it('Check that timer we can add a component instance interval on top of a component interval ', async function () {
+        const cp19_0 =  $('cp19_0');
+        expect(cp19_0).to.have.text('orange');
+        const cp19_1 =  $('cp19_1');
+        expect(cp19_1).to.have.text('orange');
+
+        cp19_0cb.checked = true;
+        cp19_0cb.dispatchEvent(new Event('change'));
+        await waitFor(200, () => cp19_0.textContent =='blue')
+        expect(cp19_1).to.have.text('orange');
+
+        cp19_1cb.checked = true;
+        cp19_1cb.dispatchEvent(new Event('change'));
+        await waitFor(200, () => cp19_1.textContent =='pink')        
+      })
+    })
+
+//     describe('data-component timer/interval tests', () => {
+//       it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
+//         const cp18_0 =  $('cp18_0');
+//         expect(cp18_0.querySelector('circle')).to.have.attribute('fill', 'orange')
+//         const cp18_1 =  $('cp18_1');
+//         expect(cp18_1.querySelector('circle')).to.have.attribute('fill', 'orange')
+
+//         cp18_0cb.checked = true;
+//         cp18_0cb.dispatchEvent(new Event('change'));
+//         await waitFor(200, () => cp18_0.querySelector('circle').getAttribute('fill')=='blue')
+//         expect(cp18_1.querySelector('circle')).to.have.attribute('fill', 'orange')
+
+//         cp18_1cb.checked = true;
+//         cp18_1cb.dispatchEvent(new Event('change'));
+//         window.requestAnimationFrame(() => {
+//           console.log('COLOR', cp18_1.querySelector('circle').getAttribute('fill'));
+//         })
+//         window.requestAnimationFrame(() => {
+//           console.log('COLOR', cp18_1.querySelector('circle').getAttribute('fill'));
+//         })
+// //        await waitFor(200, () => cp18_1.querySelector('circle').getAttribute('fill')=='pink')        
+// //        await waitFor(200, () => {console.log("!!!!",cp18_1text.textContent);return cp18_1text.textContent=='pink'})        
+//       })
+      // it('Check that interval we can add a component instance interval on top of a component interval ', async function () {
+      //   const cp19_0 =  $('cp19_0');
+      //   expect(cp19_0.querySelector('circle')).to.have.attribute('fill', 'orange')
+      //   const cp19_1 =  $('cp19_1');
+      //   expect(cp19_1.querySelector('circle')).to.have.attribute('fill', 'orange')
+      //   cp19_0cb.checked = true;
+      //   cp19_0cb.dispatchEvent(new Event('change'));
+      //   await waitFor(20, () => cp19_0.querySelector('circle').getAttribute('fill')=='blue')
+      //   expect(cp19_1.querySelector('circle')).to.have.attribute('fill', 'orange')
+      //   cp19_1cb.checked = true;
+      //   cp19_1cb.dispatchEvent(new Event('change'));
+      //  // await waitFor(20, () => cp19_1.querySelector('circle').getAttribute('fill')=='pink')        
+      // })
+ //   })
+
+    //   })
+    //})
+
+    describe('data-component data-route tests', (done) => {
+      it('change hash', async function () {
+        await waitForNewHash('#/comp-route')
+        expect(document.location.hash === '#/comp-route')
+        expect($('cp20route')).to.have.class('cp20route');
+      })
+    })
+
+    describe('data-component data-rest tests', () => {
+      it('Put data-rest on a component instance', async function () {
+
+        await waitFor(2000, () => checkForClass($('cp21'), "reken-rest-done"));
+        
+        expect($('cp21')).to.have.text('1')
+
+      })
+    })
+
     describe('shorthand tests', () => {
       it('Verify the shorthand component is rendered', (done) => {
         expect($('sh1')).to.have.text('short-hand1')

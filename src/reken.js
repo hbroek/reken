@@ -92,7 +92,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
         if (keys.indexOf('component')>=0) {
             let filteredKeys = ['component']
             for (let key of keys) {
-                if (key.startsWith('arg') || key.startsWith('bind') > 0  || key.startsWith('action1') > 0)
+                if (key.startsWith('arg') || key.startsWith('bind') || key.startsWith('action1') || key.startsWith('style1')
+                    || key.startsWith('class1') || key.startsWith('if1') || key.startsWith('on1') || key.startsWith('attr1')
+                    || key.startsWith('timer1') || key.startsWith('interval1') || key.startsWith('route1') 
+                    || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1'))
                     filteredKeys.push(key)
             }
             keys = filteredKeys;
@@ -100,7 +103,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['action1', 'component', 'style', 'if', 'for', 'calc', 'attrValue', 'value']; // Need to be first in that order.
+    let firsts = ['style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'component', 'style', 'if', 'for', 'calc', 'attrValue', 'value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
@@ -179,9 +182,18 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     "deferredUpdate": elem.type === 'file'
                 })
                 break;
+            case "style1": {
+                if (componentRoot)
+                    break;
+            }    
             case "style":
                 controlCode.push("_v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== _v) " + elemString + ".setAttribute('style',  _v)"); // Update DOM element with HTML Element from template string if different
                 break;
+
+            case "class1": {
+                if (componentRoot)
+                    break;
+            }    
             case "class":
                 const classPairs = value.split(';')
                 for (const classPair of classPairs) {
@@ -196,6 +208,11 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                 }
                 break;
+
+            case "route1": {
+                if (componentRoot)
+                    break;
+            }    
             case "route":
                 {
                     let [_expr, _class] = parseIfExpression(value);
@@ -227,7 +244,11 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 }
                 // Notice we drop into the if case to process the routing expression
 
-            case "if":
+                case "if1": {
+                    if (componentRoot)
+                        break;
+                }
+                case "if":
                 {
                     let [_expr, _class] = parseIfExpression(value);
                     if (_class)
@@ -238,16 +259,16 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                     }
 
                     if (!elem.dataset.for) { // Elements with For process their own children
-                        if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
+                        if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined || elem.dataset.route !== undefined)
                             controlCode.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                    }
-                    
+                    }                    
                 }
                 break;
-            case "action":
             case "action1": {
-                if (key == "action1" && componentRoot)
+                if (componentRoot)
                     break;
+            }
+            case "action": {
                 let eventName = "click";
                 let eventId = eventName+"_"+uniqueID();
                 initCode.push(compString + ".dataset.event_" + eventName + " = (" + compString + ".dataset.event_" + eventName + "??'')+'" + eventId+"'+':'");
@@ -263,6 +284,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             }
             break;
             
+            case "timer1": {
+                if (componentRoot)
+                    break;
+            }
             case "timer": {
                 const valueArray = value.split(':');
                 let [delay, condition] = valueArray;
@@ -292,6 +317,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             }
             break;
 
+            case "interval1": {
+                if (componentRoot)
+                    break;
+            }
             case "interval": {
                 const valueArray = value.split(':');
                 let [interval, condition] = valueArray;
@@ -327,7 +356,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
 
                 initCode.push(compString + ".dataset.leafCount=" + elem.children.length);
 
-                if (elem.dataset.if !== undefined && elem.children.length>0) {
+                if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
                     controlCode.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                     indent = '  ' + indent
                 }
@@ -358,12 +387,16 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 }
                 controlCode.push(indent+'}' + '// End loop ' + _forIndex);
 
-                if (elem.dataset.if !== undefined && elem.children.length>0) {
+                if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
                     indent = indent.substring(2);
                     controlCode.push(indent+'}') //Close if statement
                 }
-
                 break;
+
+            case "calc1": {
+                if (componentRoot)
+                    break;
+            }
             case "calc":
                 if (elem.tagName === 'SCRIPT')
                     controlCode.unshift(elem.textContent.trim());
@@ -388,10 +421,9 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                             buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
                             i++
                         }
-                        if (elem.dataset.if !== undefined) {
+                        if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) {
                             compControlCode.push('}') //Close if statement
                         }
-                    
                     }
                     const [compDefinition, compStyle] = generateComponentClass(value, compInitCode, compControlCode, compEventCode, routeVars)
                     styles.push(...compStyle);
@@ -433,6 +465,10 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 controlCode.push('    }')
                 break;
 
+            case "rest1": {
+                    if (componentRoot)
+                        break;
+                }
             case "rest":
                 let _array = value.substring(0, value.indexOf(':'));
                 let _url = value.substring(value.indexOf(':') + 1);
@@ -447,19 +483,22 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 if (elem.dataset.restOptions) {
                     options = elem.dataset.restOptions
                 }
+                if (elem.dataset.restOptions1) {
+                    options = elem.dataset.restOptions1
+                }
                 controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof _main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";_mainInstance.controller({})})");
                 break;
 
             default: {
-                if (key.startsWith('attr')) {
-                    let _attr = key.substring(4).toLowerCase();
+                if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
+                    let _attr = key.substring(key.startsWith('attr1')?5:4).toLowerCase();
                     if (booleanAttrs.includes(_attr.toLowerCase()))
                         controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
                     else
                       controlCode.push("if (" + elemString + ".getAttribute('" + _attr + "') !== `" + value + "`) " + elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
                 }
-                else if (key.startsWith('on')) {
-                    let eventName = key.substring(2).toLowerCase();
+                else if (key.startsWith('on') || (key.startsWith('on1') && !componentRoot)) {
+                    let eventName = key.substring(key.startsWith('on1')?3:2).toLowerCase();
                     let handler = value;
                     let eventId = eventName+"_"+uniqueID();
                     initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
@@ -483,7 +522,12 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             i++
         }
         if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
+            controlCode.push('}else {disableTimers('+elemString+')}')
+    }
+    else {
+        if (elem.dataset.if1 != undefined && !componentRoot) {
             controlCode.push('} else {disableTimers('+elemString+')}')
+        }
     }        
 }
 
@@ -502,9 +546,19 @@ const processComponentReferences = (elem) => {
                 }
                 _slotElement.parentElement.removeChild(_slotElement)
             }
+            let instanceAttributes = ['data-action', 'data-style', 'data-class', 'data-if', 'data-timer', 'data-interval',
+                                        'data-route', 'data-rest', 'data-rest-options', 'data-calc']
             for (let attr of elem.getAttributeNames()) { //Copy the attributes
-                if (attr == 'data-action') {
+                if (instanceAttributes.indexOf(attr)>=0) {
                     component.setAttribute(attr+'1', elem.getAttribute(attr))
+                    continue;
+                }
+                if (attr.startsWith('data-on')) {
+                    component.setAttribute('data-on1'+attr.substring(7), elem.getAttribute(attr))
+                    continue;
+                }
+                if (attr.startsWith('data-attr')) {
+                    component.setAttribute('data-attr1'+attr.substring(9), elem.getAttribute(attr))
                     continue;
                 }
                 if (component.getAttribute(attr)==null) {
@@ -600,7 +654,6 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
     output.push(`  controller({${initParams.join(',')}}) {`)
     // if (componentName === '_main')
     //     output.push('console.time("controller")');
-
 
     for (let _var of stateVars)
         output.push(`    let ${_var} = this.${_var}`)
@@ -772,7 +825,9 @@ function getStyle(templateElement) {
                     let _hostPosition = _styleLines[i].indexOf(':host')
                     if (_hostPosition >= 0)
                         _styleLines[i] = _styleLines[i].substring(_hostPosition+5)
-                    _styleLines[i] = `[data-component=${componentName}]` + _styleLines[i];
+                    let _selector = _styleLines[i].trim();
+                    if ('.#[:'.indexOf(_selector[0])<0) _selector = ' '+_selector;
+                    _styleLines[i] = `[data-component=${componentName}]` + _selector;
                 }
             }
             return _styleLines;
