@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="../assets/reken.css"/>
 
     <script>
-        var address = {
-            ip: 0,
-            latitude: 0,
-            longitude: 0,
-        };
+        let address = null;
         weather = [];
         function formatDate(date) {
             var hours = date.getHours();
@@ -48,12 +44,15 @@
         <source-code sourceurl="document.location.href"></source-code>
     </header>
     <main>
-        <section>
+        <section  data-rest="address:http://ipwho.is/">
             <header>
-                <h1>Get my geo location based on my IP</h1>
+                <h1 data-if="address">Location based on my IP</h1>
+                <h1 data-if="!address">Fetching IP and Location...</h1>
             </header>
-            <div data-rest="address:https://freegeoip.app/json/">
+            <div data-if="address">
                 <article>IP Address: <emp data-text="${address.ip?address.ip:'No IP'}"></emp>
+                </article>
+                <article>Location: <emp data-text="${address.city}, ${address.region}, ${address.country}"></emp>
                 </article>
                 <article>Geo Location: (Lat <emp data-text="${address.latitude?address.latitude:'No Latitude'}, "></emp>
                     <emp data-text="Lon ${address.longitude?address.longitude:'No Longitude'})"></emp>
@@ -61,9 +60,10 @@
             </div>
         </section>
 
-        <section>
+        <section data-if="address" >
             <header>
-                <h1>Get my forecast</h1>
+                <h1 data-if="weather.length">Forecast</h1>
+                <h1 data-if="!weather.length">Fetching forecast...</h1>
             </header>
             <div data-for="time:weather"
                 data-rest="weather:dataseries:https://www.7timer.info/bin/astro.php?lon=${address.longitude}&lat=${address.latitude}&ac=0&unit=metric&output=json&tzshift=0">
