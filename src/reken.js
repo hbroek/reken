@@ -132,13 +132,13 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                 break;
             case "value":
                 if (elem.type == 'checkbox') {
-                    if (elem.getAttribute('name'))
+                    if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
                         controlCode.push(indent + elemString + ".checked = " + value + ".indexOf(" + elemString + ".value) > -1");
                     else
                         controlCode.push(indent + elemString + ".checked = " + value);
                 }
                 else if (elem.type == 'radio') {
-                    if (elem.getAttribute('name'))
+                    if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
                         controlCode.push(indent + elemString + ".checked = " + value + " == " + elemString + ".value");
                     else
                         controlCode.push(indent + elemString + ".checked = " + value);
@@ -491,7 +491,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
 
             default: {
                 if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
-                    let _attr = key.substring(key.startsWith('attr1')?5:4).toLowerCase();
+                    let _attr = capCharToHyphen(key.substring(key.startsWith('attr1')?5:4));
                     if (booleanAttrs.includes(_attr.toLowerCase()))
                         controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
                     else
@@ -529,6 +529,18 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
             controlCode.push('} else {disableTimers('+elemString+')}')
         }
     }        
+}
+// Used to convert dateset attribute names back to html attribute name
+function capCharToHyphen(string) {
+    let newString = ''
+    for (const l of string) {
+        
+        if (l.match(/[a-z]/i) && l === l.toUpperCase() && newString.length>0) {
+            newString += '-'
+        }
+        newString += l.toLowerCase();
+    }
+    return newString;
 }
 
 const processComponentReferences = (elem) => {

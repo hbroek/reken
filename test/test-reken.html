@@ -221,6 +221,19 @@
         </ul>
       <span id="v12_1" data-text="${vcheckbox12}"></span>
     </div>
+    <script>
+      let vradio13 = 2
+    </script>
+    <div>for radios13:
+      <span id="v13_0" data-text="${vradio13}"></span>
+        <ul id="v13" data-for="vfor13:5">
+          <li>
+            <input type="radio" data-attr-name="vcheckbox13" data-value="vradio13" data-attr-value="${vfor13.index}">
+              <span data-text="T${vfor13.index}"></span>
+          </li>
+        </ul>
+      <span id="v13_1" data-text="${vradio13}"></span>
+    </div>
   </section>
   <section>
     <h3>data-style tests</h3>
@@ -368,6 +381,9 @@
 
     <!-- test boolean attrs-->
     <button id="at2" data-action="at2_disabled = true" data-attr-disabled="at2_disabled" type="button">Click to disable</button>
+
+    <!-- test hyphened attribute -->
+    <div id="at3" data-attr-data-at3="${'data-a3'}">AT3</div>
 
   </section>
   <hr>
@@ -1400,7 +1416,32 @@
 
         done();
       })
+      it('Start with multiple connected by data-attr-name radio 2 checked, then set radio 0', (done) => {
+        let testString13 = '2'
+        expect($('v13_0')).to.have.text(testString13);
+        expect($('v13_1')).to.have.text(testString13);
+        const v_ul13 = $('v13')
+        const v13inputs = v_ul13.querySelectorAll('input');
+        assert(v13inputs[0].checked == false, "Value is unchecked")
+        assert(v13inputs[1].checked == false, "Value is unchecked")
+        assert(v13inputs[2].checked == true, "Value is checked")
+        assert(v13inputs[3].checked == false, "Value is unchecked")
+        assert(v13inputs[4].checked == false, "Value is unchecked")
 
+        v13inputs[0].checked = true;
+        fireEvent(v13inputs[0],'value')
+
+        testString13 = '0'
+        expect($('v13_0')).to.have.text(testString13);
+        expect($('v13_1')).to.have.text(testString13);
+        
+        assert(v13inputs[0].checked == true, "Value is checked")
+        assert(v13inputs[1].checked == false, "Value is unchecked")
+        assert(v13inputs[2].checked == false, "Value is unchecked")
+        assert(v13inputs[3].checked == false, "Value is unchecked")
+        assert(v13inputs[4].checked == false, "Value is unchecked")
+        done();
+      })
     })
     describe('data-style tests', () => {
       it('width, heigh background', (done) => {
@@ -1765,6 +1806,10 @@
 
         expect($('at2')).to.have.attribute('disabled')
 
+        done();
+      })
+      it('Check hyphenated attribute gets created', (done) => {
+        expect($('at3x')).to.have.attribute('data-at3','data-a3')
         done();
       })
     })
@@ -2527,6 +2572,7 @@
         await waitForNewHash('#/comp-route')
         expect(document.location.hash === '#/comp-route')
         expect($('cp20route')).to.have.class('cp20route');
+        window.location.hash=""
       })
     })
 
