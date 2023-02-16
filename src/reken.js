@@ -32,6 +32,7 @@
 * - data-timer: Execute code after a specific amount of time.
 * - data-interval: Repeatedly executes code at a specific intervals.
 */
+const rekenVersion = '0.8.2';
 if (typeof rkn_server_generated === 'undefined')
     var rkn_server_generated = false;
 if (typeof rkn_generate_code === 'undefined')
@@ -103,7 +104,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     } 
 
     let orderedKeys = []
-    let firsts = ['style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'component', 'style', 'if', 'for', 'calc', 'attrValue', 'value']; // Need to be first in that order.
+    let firsts = ['style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'component', 'style', 'if', 'for', 'calc', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
     for (let first of firsts) {
         let indexInKeys = keys.indexOf(first);
         if (indexInKeys >= 0) {
@@ -421,7 +422,7 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                             buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
                             i++
                         }
-                        if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) {
+                        if (elem.dataset.if !== undefined) {
                             compControlCode.push('}') //Close if statement
                         }
                     }
@@ -768,6 +769,8 @@ function getStateVars(templateElement) {
 // Load first template script and isolate the function methods
 function getMethods(templateElement, stateVars, initArgs) {
     let methods = []
+    methods.push('let dispatch = (type, content)=>this.dispatch(type, content)')
+
     let initCode = []
     let beforeFunctions = true;
     if (templateElement) {

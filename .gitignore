@@ -1,3 +1,4 @@
 **/.DS_Store
 **/settings.json
 **/*.code-workspace
+playground/**

@@ -46,6 +46,8 @@
     var vselect8 = 'T2'
     var vtextarea9 = ''
     var vtextarea10 = 'The first words count'
+    var vnumber14 = 150
+
 
     var swidth = 64
     var sheight = 48
@@ -234,6 +236,13 @@
         </ul>
       <span id="v13_1" data-text="${vradio13}"></span>
     </div>
+    <div>
+      <span id="v14_0" data-text="${vnumber14}"></span>
+      <label>vnumber14:
+        <input id="v14" type="range" data-attr-min="100" data-attr-max="250" data-value="vnumber14" value="not used">
+      </label>
+      <span id="v14_1" data-text="${vnumber14}"></span>
+    </div>
   </section>
   <section>
     <h3>data-style tests</h3>
@@ -327,6 +336,11 @@
 
     <div id="i6" data-if="if6" data-text="${if6}">check data-text is not executed</div>
     <label>if6:<input id="i6_1" type="checkbox" data-value="if6"></label>
+
+    <test-if7 id="i7" data-if="true"/>
+    <template data-component="test-if7">
+      <div>test-if7</div>
+    </template>
 
   </section>
   <hr>
@@ -1002,6 +1016,19 @@
   </template>
   <cp22div id="cp22div" data-calc="cp22=elem.dataset.number;elem.dataset.number=parseInt(elem.dataset.number)+1"></cp22div>
 
+  <!-- dispatch event from component -->
+  <script>
+    let cp23 = 0
+    let cp23Detail = ''
+  </script>
+  <template data-component="cp23div">
+    <div>
+      <button type="button" data-action="dispatch('cp23event', 'OK')">Fire Event</button>
+    </div>
+  </template>
+  <cp23div id="cp23div" data-on-cp23event="cp23++;cp23Detail=e.detail"></cp23div>
+  <div id='cp23_div' data-text="${cp23}-${cp23Detail}"></div>
+
   <section>
     <!-- Test component shorthand functionality  -->
     <template data-component="short-hand1">
@@ -1442,6 +1469,20 @@
         assert(v13inputs[4].checked == false, "Value is unchecked")
         done();
       })
+      it('Start with range number value 150 with a data-attr-min of 100 and data-attr-max of 250 ', (done) => {
+        let testNumber14 = 150
+        assert($('v14').value == testNumber14, "Value is 150")
+        expect($('v14_0')).to.have.text("" + testNumber14);
+        expect($('v14_1')).to.have.text("" + testNumber14);
+        testNumber14 = 50
+        $('v14').value = testNumber14
+        $('v14').dispatchEvent(new Event('input'));
+        assert($('v14').value != testNumber14, `Value set to ${testNumber14}`)
+        expect($('v14_0')).to.not.have.text("" + testNumber14);
+        expect($('v14_1')).to.not.have.text("" + testNumber14);
+        done();
+      })
+
     })
     describe('data-style tests', () => {
       it('width, heigh background', (done) => {
@@ -1586,6 +1627,12 @@
         $('i6_1').dispatchEvent(new Event('change'));
         expect($('i6')).to.be.displayed;
         expect($('i6')).to.have.text('true');
+        done();
+      })      
+
+      it('Make sure component with data-if renders', (done) => {
+        expect($('i7')).to.be.displayed;
+        expect($('i7')).to.have.text('test-if7');
         done();
       })      
 
@@ -1809,7 +1856,7 @@
         done();
       })
       it('Check hyphenated attribute gets created', (done) => {
-        expect($('at3x')).to.have.attribute('data-at3','data-a3')
+        expect($('at3')).to.have.attribute('data-at3','data-a3')
         done();
       })
     })
@@ -2490,6 +2537,13 @@
       })
       it('Set component instance with data-calc ', (done) => {
         expect($('cp22div')).to.not.have.text('0');
+        done();
+      })
+      it('Fire custom event from component', (done) => {
+        expect($('cp23_div')).to.have.text('0-');
+        const cp23button = $('cp23div').querySelector('button')
+        cp23button.dispatchEvent(new Event('click'));
+        expect($('cp23_div')).to.have.text('1-OK');
         done();
       })
     })
