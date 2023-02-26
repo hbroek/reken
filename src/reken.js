@@ -70,448 +70,496 @@ let booleanAttrs = [
     'truespeed'
 ]
 
-function buildClasses(componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars) {
+function buildClasses(componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars) {
     if (elem.tagName == "TEMPLATE")
         return; //Ignore template tags
 
     // Fetch any data-attrs and order them in the processing order
     let keys = Object.keys(elem.dataset).sort();
-
-    if (componentRoot) {
-        let keysToRemove = ['component']
+    if (keys.indexOf('data-component')) {
+        let hasBind = false;
         for (let key of keys) {
-            if (key.startsWith('arg') > 0 || key.startsWith('bind') > 0)
-                keysToRemove.push(key)
+            if (key.startsWith('bind')) {
+                elem.setAttribute('data-on1-'+key.substring(4),elem.dataset[key]+"=e.detail.value");
+                hasBind = true;
+            }
         }
-        for (let key of keysToRemove) {
-            let componentIndex = keys.indexOf(key)
-            if (componentIndex >= 0)
-                keys.splice(componentIndex, 1)
-        }
+        if (hasBind)
+            keys = Object.keys(elem.dataset).sort();
     }
-    else {
-        if (keys.indexOf('component')>=0) {
-            let filteredKeys = ['component']
+
+    if (keys.length>0) {
+
+        if (componentRoot) {
+            let keysToRemove = ['component']
             for (let key of keys) {
-                if (key.startsWith('arg') || key.startsWith('bind') || key.startsWith('action1') || key.startsWith('style1')
-                    || key.startsWith('class1') || key.startsWith('if1') || key.startsWith('on1') || key.startsWith('attr1')
-                    || key.startsWith('timer1') || key.startsWith('interval1') || key.startsWith('route1') 
-                    || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1'))
-                    filteredKeys.push(key)
+                if (key.startsWith('arg') > 0 || key.startsWith('bind') > 0)
+                    keysToRemove.push(key)
             }
-            keys = filteredKeys;
+            for (let key of keysToRemove) {
+                let componentIndex = keys.indexOf(key)
+                if (componentIndex >= 0)
+                    keys.splice(componentIndex, 1)
+            }
         }
-    } 
+        else {
+            if (keys.indexOf('component')>=0) {                
+                let filteredKeys = ['component']
+                for (let key of keys) {
+                    if (key.startsWith('arg') || key.startsWith('bind') || key.startsWith('action1') || key.startsWith('style1')
+                        || key.startsWith('class1') || key.startsWith('if1') || key.startsWith('on1') || key.startsWith('attr1')
+                        || key.startsWith('timer1') || key.startsWith('interval1') || key.startsWith('route1') 
+                        || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1'))
+                        filteredKeys.push(key)
+                }
+                keys = filteredKeys;
+            }
+        } 
 
-    let orderedKeys = []
-    let firsts = ['style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'component', 'style', 'if', 'for', 'calc', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
-    for (let first of firsts) {
-        let indexInKeys = keys.indexOf(first);
-        if (indexInKeys >= 0) {
-            orderedKeys.push(first)
-            keys.splice(indexInKeys,1)
+        let orderedKeys = []
+        let firsts = ['style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
+        for (let first of firsts) {
+            let indexInKeys = keys.indexOf(first);
+            if (indexInKeys >= 0) {
+                orderedKeys.push(first)
+                keys.splice(indexInKeys,1)
+            }
         }
-    }
-    for (let key of keys) {
-        orderedKeys.push(key)
-    }
-    let indent = "    "
-    for (let key of orderedKeys) {
-        let value = elem.dataset[key];
-        let transformerFunctionReference = ""
+        for (let key of keys) {
+            orderedKeys.push(key)
+        }
+        let indent = "    "
+        for (let key of orderedKeys) {
+            let value = elem.dataset[key];
+            let transformerFunctionReference = ""
 
 
-        if (elem.id != '' && elemString != "this.root" && elemString === compString)
-            elemString = "document.getElementById('"+elem.id+"')"
+            if (elem.id != '' && elemString != "this.root" && elemString === compString)
+                elemString = "document.getElementById('"+elem.id+"')"
 
-        switch (key) {
-            case "text":
-                controlCode.push(indent+"_v = `" + value + "`;\n    if (" + elemString + ".textContent !== _v)\n      " + elemString + ".textContent = _v"); // Update DOM element with HTML Element from template string if different
-                break;
-            case "html":
-                controlCode.push("_v=`" + value + "`;if (" + elemString + ".innerHTML !== _v) " + elemString + ".innerHTML = _v"); // Update DOM element with HTML Element from template string if different
-                break;
-            case "value":
-                if (elem.type == 'checkbox') {
-                    if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
-                        controlCode.push(indent + elemString + ".checked = " + value + ".indexOf(" + elemString + ".value) > -1");
-                    else
-                        controlCode.push(indent + elemString + ".checked = " + value);
-                }
-                else if (elem.type == 'radio') {
-                    if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
-                        controlCode.push(indent + elemString + ".checked = " + value + " == " + elemString + ".value");
-                    else
-                        controlCode.push(indent + elemString + ".checked = " + value);
-                }
-                else if (elem.type == 'file') {
-                    let transformerIndex = value.indexOf(':')
-                    if (transformerIndex >= 0) {
-                        transformerFunctionReference = value.substring(transformerIndex+1)
-                        value = value.substring(0, transformerIndex)
-                    }
-                }
-                else
-                    controlCode.push(indent + elemString + ".value = " + value);
-                let eventType = "change";
-                if (elem.tagName === 'TEXTAREA' || elem.type === 'range') {
-                    eventType = 'input';
-                }
-
-                const eventName = 'value' // Create pseudo eventName for data-value handlers, so a real change or input event can still be registered on the element
-                let eventId = eventName+"_"+uniqueID();
-                initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
-
-                const eventContext = getEventContext(elem)
-                let valueValue = value;
-                
-                if (eventContext.forContext) {
-                    const {forIterator, contextVar, idxName} = eventContext.forContext;
-                    if (valueValue == contextVar+'.item') { // in case of value array update the reference to it.
-                        valueValue = forIterator + '[' + idxName + ']'
-                    }
-                }
-                eventCode.push({
-                    'elemId':(topForString === undefined ? compString : topForString),
-                    'eventType':eventType,
-                    'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
-                    'handlerName': eventId,
-                    'handlerCode': (elem.type === 'file') ?
-                        (valueValue + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")") :
-                        (valueValue + "=typedReturn(e.target," + valueValue + ");"),
-                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + eventContext.contextString + ";",
-                    "deferredUpdate": elem.type === 'file'
-                })
-                break;
-            case "style1": {
-                if (componentRoot)
+            switch (key) {
+                case "text":
+                    controlCode.push(indent+"_v = `" + value + "`;\n    if (" + elemString + ".textContent !== _v)\n      " + elemString + ".textContent = _v"); // Update DOM element with HTML Element from template string if different
                     break;
-            }    
-            case "style":
-                controlCode.push("_v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== _v) " + elemString + ".setAttribute('style',  _v)"); // Update DOM element with HTML Element from template string if different
-                break;
-
-            case "class1": {
-                if (componentRoot)
+                case "html":
+                    controlCode.push("_v=`" + value + "`;if (" + elemString + ".innerHTML !== _v) " + elemString + ".innerHTML = _v"); // Update DOM element with HTML Element from template string if different
                     break;
-            }    
-            case "class":
-                const classPairs = value.split(';')
-                for (const classPair of classPairs) {
-                    let _class, _expr;
-                    if (classPair.indexOf(':') >= 0) {
-                        _class = classPair.substring(0, classPair.indexOf(':'));
-                        _expr = classPair.substring(classPair.indexOf(':') + 1);
-                    }
-                    else {
-                        _class = _expr = classPair; //Shorthand for set class based on the name of the boolean var.
-                    }
-                    controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
-                }
-                break;
-
-            case "route1": {
-                if (componentRoot)
-                    break;
-            }    
-            case "route":
-                {
-                    let [_expr, _class] = parseIfExpression(value);
-                    value =  _expr
-
-                    if (value.startsWith('/')) {
-                        route = []
-                        value = value.substring(1);
-                    }
-
-                    let subroute = value.split('/');
-                    if (subroute.length===0)
-                        subroute.push('')
-
-                    route = route.concat(subroute)
-                    value = "reken_routing_path.length>="+route.length+""
-                    for (let i = 0; i < route.length; i++) {
-                        if (route[i].startsWith('#')) {
-                            let routeAssignment = `let ${route[i].substring(1)} = reken_routing_path[${i}]`
-                            if (controlCode.indexOf(routeAssignment) < 0) {
-                                routeVars.push(routeAssignment)
-                            }
-                        }
+                case "value":
+                    if (elem.type == 'checkbox') {
+                        if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
+                            controlCode.push(indent + elemString + ".checked = " + value + ".indexOf(" + elemString + ".value) > -1");
                         else
-                            value += `&&reken_routing_path[${i}] === '${route[i]}'`
+                            controlCode.push(indent + elemString + ".checked = " + value);
                     }
-                    if (_class)
-                        value = _class + ':' + value
-                }
-                // Notice we drop into the if case to process the routing expression
-
-                case "if1": {
-                    if (componentRoot)
-                        break;
-                }
-                case "if":
-                {
-                    let [_expr, _class] = parseIfExpression(value);
-                    if (_class)
-                        controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
-                    else {
-                        controlCode.push("_v=(" + value + "?'':'none');");
-                        controlCode.push("if ("+elemString + ".style.display!==_v) " + elemString + ".style.display=_v;");
+                    else if (elem.type == 'radio') {
+                        if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
+                            controlCode.push(indent + elemString + ".checked = " + value + " == " + elemString + ".value");
+                        else
+                            controlCode.push(indent + elemString + ".checked = " + value);
+                    }
+                    else if (elem.type == 'file') {
+                        let transformerIndex = value.indexOf(':')
+                        if (transformerIndex >= 0) {
+                            transformerFunctionReference = value.substring(transformerIndex+1)
+                            value = value.substring(0, transformerIndex)
+                        }
+                    }
+                    else
+                        controlCode.push(indent + elemString + ".value = " + value);
+                    let eventType = "change";
+                    if (elem.tagName === 'TEXTAREA' || elem.type === 'range') {
+                        eventType = 'input';
                     }
 
-                    if (!elem.dataset.for) { // Elements with For process their own children
-                        if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined || elem.dataset.route !== undefined)
-                            controlCode.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                    }                    
-                }
-                break;
-            case "action1": {
-                if (componentRoot)
-                    break;
-            }
-            case "action": {
-                let eventName = "click";
-                let eventId = eventName+"_"+uniqueID();
-                initCode.push(compString + ".dataset.event_" + eventName + " = (" + compString + ".dataset.event_" + eventName + "??'')+'" + eventId+"'+':'");
-
-                eventCode.push({
-                    'elemId':(topForString === undefined ? compString : topForString),
-                    'eventType':eventName,
-                    'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
-                    'handlerName': eventId,
-                    'handlerCode':value,
-                    'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
-                })
-            }
-            break;
-            
-            case "timer1": {
-                if (componentRoot)
-                    break;
-            }
-            case "timer": {
-                const valueArray = value.split(':');
-                let [delay, condition] = valueArray;
-                let code = undefined;
-                if (valueArray.length>2)
-                    code = valueArray.slice(2).join(':');
-
-                if (typeof delay === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
-                    console.error(`data-timer: [${value}] incorrect amount of arguments`)
-                else {
-                    let eventName = "timer";
+                    const eventName = 'value' // Create pseudo eventName for data-value handlers, so a real change or input event can still be registered on the element
                     let eventId = eventName+"_"+uniqueID();
                     initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
-    
-                    eventCode.push({
-                        'elemId':(topForString === undefined ? compString : topForString),
-                        'eventType':eventName,
-                        'handlerEventCheck': "",
-                        'handlerName': eventId,
-                        'handlerCode':code,
-                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
-                    })
-                    controlCode.push(`{const _l = ${elemString}`);
-                    controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('timerID')) _l.timerID = setTimeout(()=>{this.${eventId}({'target':_l});delete _l.timerID;_mainInstance.controller({})}, ${delay})`);
-                    controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('timerID')) {clearTimeout(_l.timerID); delete _l.timerID}}`);
-                }
-            }
-            break;
 
-            case "interval1": {
-                if (componentRoot)
-                    break;
-            }
-            case "interval": {
-                const valueArray = value.split(':');
-                let [interval, condition] = valueArray;
-                let code = undefined;
-                if (valueArray.length>2)
-                    code = valueArray.slice(2).join(':');
-
-                if (typeof interval === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
-                    console.error('data-interval: ['+value+'] incorrect amount of arguments')
-                else {
-                    let eventName = "interval";
-                    let eventId = eventName+"_"+uniqueID();
-                    initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
-    
-                    eventCode.push({
-                        'elemId':(topForString === undefined ? compString : topForString),
-                        'eventType':eventName,
-                        'handlerEventCheck': "",
-                        'handlerName': eventId,
-                        'handlerCode':code,
-                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
-                    })
-                    controlCode.push(`{const _l = ${elemString}`);
-                    controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('intervalID')) _l.intervalID = setInterval(()=>{this.${eventId}({'target':_l});_mainInstance.controller({})}, ${interval})`);
-                    controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('intervalID')) {clearInterval(_l.intervalID); delete _l.intervalID}}`);
-                }
-                break;
-            }
-
-            case "for":
-                if (topForString === undefined)
-                    topForString = elemString
-
-                initCode.push(compString + ".dataset.leafCount=" + elem.children.length);
-
-                if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
-                    controlCode.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                    indent = '  ' + indent
-                }
-    
-                let _var = value.substring(0, value.indexOf(':'));
-                let _data = value.substring(value.indexOf(':') + 1);
-                let _arrayName = '_arr_' + uniqueID();
-                if (isNaN(_data)) {
-                    controlCode.push(indent+'let ' +_arrayName + ' = (typeof ('+_data+') !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
-                }
-                else
-                    controlCode.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
-                controlCode.push(indent+'updateForChildren(' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
-
-                // At runtime loop thru the direct children
-                let _forVar = "rkn_forElem_" + uniqueID();
-                let _forIndex = "rkn_counter_" + uniqueID();
-                controlCode.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
-
-                controlCode.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
-                controlCode.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "]}"); // Set the var context
-                controlCode.push(indent+"let "+ _forVar)
-                let i = 0;
-                for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                    controlCode.push(indent+ _forVar + " = " + elemString+".children["+_forIndex+"*"+elem.children.length+"+"+i+"]")
-                    buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars)
-                    i++;
-                }
-                controlCode.push(indent+'}' + '// End loop ' + _forIndex);
-
-                if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
-                    indent = indent.substring(2);
-                    controlCode.push(indent+'}') //Close if statement
-                }
-                break;
-
-            case "calc1": {
-                if (componentRoot)
-                    break;
-            }
-            case "calc":
-                if (elem.tagName === 'SCRIPT')
-                    controlCode.unshift(elem.textContent.trim());
-                else
-                    controlCode.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
-                break;
-
-            case "component":
-                topForString = undefined; //Reset the outermost for-loop.
-                if (!generatedClass[value]) {
-
-                    let compInitCode = [];
-                    let compControlCode = [];
-                    let compEventCode = [];
+                    const eventContext = getEventContext(elem)
+                    let valueValue = value;
                     
-                    buildClasses(true, elem, "this.root", "this.root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
-
-                    if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
-                        let i = 0;
-                        for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                            let elemString = "this.root"
-                            buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars)
-                            i++
-                        }
-                        if (elem.dataset.if !== undefined) {
-                            compControlCode.push('}') //Close if statement
+                    if (eventContext.forContext) {
+                        const {forIterator, contextVar, idxName} = eventContext.forContext;
+                        if (valueValue == contextVar+'.item') { // in case of value array update the reference to it.
+                            valueValue = forIterator + '[' + idxName + ']'
                         }
                     }
-                    const [compDefinition, compStyle] = generateComponentClass(value, compInitCode, compControlCode, compEventCode, routeVars)
-                    styles.push(...compStyle);
-                    definition.push(...compDefinition)
-                    definition.push(`classRegistry['${value}']=${value.replace('-','_')}`)
-                    generatedClass[value] = true;
-                }
+                    eventCode.push({
+                        'elemId':(topForString === undefined ? compString : topForString),
+                        'eventType':eventType,
+                        'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                        'handlerName': eventId,
+                        'handlerCode': (elem.type === 'file') ?
+                            (valueValue + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")") :
+                            (valueValue + "=typedReturn(e.target," + valueValue + ");"),
+                        'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + eventContext.contextString + ";",
+                        "deferredUpdate": elem.type === 'file'
+                    })
+                    break;
+                case "style1": {
+                    if (componentRoot)
+                        break;
+                }    
+                case "style":
+                    controlCode.push("_v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== _v) " + elemString + ".setAttribute('style',  _v)"); // Update DOM element with HTML Element from template string if different
+                    break;
 
-                //Add code for class initialization, root component instances in setup, childcomponent instances in class definition
-                initCode.push(`    ${compString}.rkn_class = new ${value.replace('-','_')}(${compString})`)
-
-                controlCode.push("    {"); 
-                let args = []
-                for (let attr of Object.keys(elem.dataset)) {
-                    if (attr.startsWith("arg") || attr.startsWith('bind')) {
-                        let arg = attr.substring(3).toLowerCase()
-                        if (attr.startsWith('bind'))
-                            arg = attr.substring(4).toLowerCase()
-                        let value = elem.dataset[attr]                 
-                        //Check if variable
-                        if (/^[a-zA-Z_$][0-9a-zA-Z_$.]*$/.test(value)) {
-                            controlCode.push("      let " + arg + " = (typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "']?"+value+":'"+value+"')")
-                            if (attr.startsWith('bind')) // Only bind parameters send bind events.
-                                initCode.push(indent + compString + ".addEventListener('"+arg+"', (e) => {"+value+" = e.detail.value})")
+                case "class1": {
+                    if (componentRoot)
+                        break;
+                }    
+                case "class":
+                    const classPairs = value.split(';')
+                    for (const classPair of classPairs) {
+                        let _class, _expr;
+                        if (classPair.indexOf(':') >= 0) {
+                            _class = classPair.substring(0, classPair.indexOf(':'));
+                            _expr = classPair.substring(classPair.indexOf(':') + 1);
                         }
-                            //Check if number
-                        else if (!isNaN(value)) {
-                            controlCode.push("      let " + arg + ' = ' +value)
+                        else {
+                            _class = _expr = classPair; //Shorthand for set class based on the name of the boolean var.
                         }
-                        //Otherwise template string
-                        else
-                            controlCode.push("      let " + arg + " = `"+value+"`")
-
-                        args.push(`${arg}`)
-                        
+                        controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                     }
-                }
-                controlCode.push(`      ${elemString}.rkn_class.controller({${args.join(',')}})`)
-                controlCode.push('    }')
-                break;
+                    break;
 
-            case "rest1": {
+                case "route1": {
+                    if (componentRoot)
+                        break;
+                }    
+                case "route":
+                    {
+                        let [_expr, _class] = parseIfExpression(value);
+                        value =  _expr
+
+                        if (value.startsWith('/')) {
+                            route = []
+                            value = value.substring(1);
+                        }
+
+                        let subroute = value.split('/');
+                        if (subroute.length===0)
+                            subroute.push('')
+
+                        route = route.concat(subroute)
+                        value = "reken_routing_path.length>="+route.length+""
+                        for (let i = 0; i < route.length; i++) {
+                            if (route[i].startsWith('#')) {
+                                let routeAssignment = `let ${route[i].substring(1)} = reken_routing_path[${i}]`
+                                if (controlCode.indexOf(routeAssignment) < 0) {
+                                    routeVars.push(routeAssignment)
+                                }
+                            }
+                            else
+                                value += `&&reken_routing_path[${i}] === '${route[i]}'`
+                        }
+                        if (_class)
+                            value = _class + ':' + value
+                    }
+                    // Notice we drop into the if case to process the routing expression
+
+                    case "if1": {
+                        if (componentRoot)
+                            break;
+                    }
+                    case "if":
+                    {
+                        let [_expr, _class] = parseIfExpression(value);
+                        if (_class)
+                            controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
+                        else {
+                            controlCode.push("_v=(" + value + "?'':'none');");
+                            controlCode.push("if ("+elemString + ".style.display!==_v) " + elemString + ".style.display=_v;");
+                        }
+
+                        if (!elem.dataset.for) { // Elements with For process their own children
+                            if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined || elem.dataset.route !== undefined)
+                                controlCode.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                        }                    
+                    }
+                    break;
+                case "action1": {
                     if (componentRoot)
                         break;
                 }
-            case "rest":
-                let _array = value.substring(0, value.indexOf(':'));
-                let _url = value.substring(value.indexOf(':') + 1);
-                let path = '';
-                let nextTokenIndex = _url.indexOf(':')
-                if (nextTokenIndex > 0 && !_url.startsWith('http')) {
-                    path = '.' + _url.substring(0, nextTokenIndex);
-                    _url = _url.substring(nextTokenIndex + 1);
-                }
-                // get rest options if available
-                let options = '{}'
-                if (elem.dataset.restOptions) {
-                    options = elem.dataset.restOptions
-                }
-                if (elem.dataset.restOptions1) {
-                    options = elem.dataset.restOptions1
-                }
-                controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof _main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";_mainInstance.controller({})})");
-                break;
-
-            default: {
-                if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
-                    let _attr = capCharToHyphen(key.substring(key.startsWith('attr1')?5:4));
-                    if (booleanAttrs.includes(_attr.toLowerCase()))
-                        controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
-                    else
-                      controlCode.push("if (" + elemString + ".getAttribute('" + _attr + "') !== `" + value + "`) " + elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
-                }
-                else if (key.startsWith('on') || (key.startsWith('on1') && !componentRoot)) {
-                    let eventName = key.substring(key.startsWith('on1')?3:2).toLowerCase();
-                    let handler = value;
+                case "action": {
+                    let eventName = "click";
                     let eventId = eventName+"_"+uniqueID();
-                    initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
-    
+                    initCode.push(compString + ".dataset.event_" + eventName + " = (" + compString + ".dataset.event_" + eventName + "??'')+'" + eventId+"'+':'");
+
                     eventCode.push({
                         'elemId':(topForString === undefined ? compString : topForString),
                         'eventType':eventName,
                         'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                         'handlerName': eventId,
-                        'handlerCode':handler,
+                        'handlerCode':value,
                         'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                     })
+                }
+                break;
+                
+                case "timer1": {
+                    if (componentRoot)
+                        break;
+                }
+                case "timer": {
+                    const valueArray = value.split(':');
+                    let [delay, condition] = valueArray;
+                    let code = undefined;
+                    if (valueArray.length>2)
+                        code = valueArray.slice(2).join(':');
+
+                    if (typeof delay === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
+                        console.error(`data-timer: [${value}] incorrect amount of arguments`)
+                    else {
+                        let eventName = "timer";
+                        let eventId = eventName+"_"+uniqueID();
+                        initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+        
+                        eventCode.push({
+                            'elemId':(topForString === undefined ? compString : topForString),
+                            'eventType':eventName,
+                            'handlerEventCheck': "",
+                            'handlerName': eventId,
+                            'handlerCode':code,
+                            'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                        })
+                        controlCode.push(`{const _l = ${elemString}`);
+                        controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('timerID')) _l.timerID = setTimeout(()=>{this.${eventId}({'target':_l});delete _l.timerID;_mainInstance.controller({})}, ${delay})`);
+                        controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('timerID')) {clearTimeout(_l.timerID); delete _l.timerID}}`);
+                    }
+                }
+                break;
+
+                case "interval1": {
+                    if (componentRoot)
+                        break;
+                }
+                case "interval": {
+                    const valueArray = value.split(':');
+                    let [interval, condition] = valueArray;
+                    let code = undefined;
+                    if (valueArray.length>2)
+                        code = valueArray.slice(2).join(':');
+
+                    if (typeof interval === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
+                        console.error('data-interval: ['+value+'] incorrect amount of arguments')
+                    else {
+                        let eventName = "interval";
+                        let eventId = eventName+"_"+uniqueID();
+                        initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+        
+                        eventCode.push({
+                            'elemId':(topForString === undefined ? compString : topForString),
+                            'eventType':eventName,
+                            'handlerEventCheck': "",
+                            'handlerName': eventId,
+                            'handlerCode':code,
+                            'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                        })
+                        controlCode.push(`{const _l = ${elemString}`);
+                        controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('intervalID')) _l.intervalID = setInterval(()=>{this.${eventId}({'target':_l});_mainInstance.controller({})}, ${interval})`);
+                        controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('intervalID')) {clearInterval(_l.intervalID); delete _l.intervalID}}`);
+                    }
+                    break;
+                }
+
+                case "for":
+                    if (topForString === undefined)
+                        topForString = elemString
+
+                    initCode.push(compString + ".dataset.leafCount=" + elem.children.length);
+
+                    if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
+                        controlCode.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                        indent = '  ' + indent
+                    }
+        
+                    let _var = value.substring(0, value.indexOf(':'));
+                    let _data = value.substring(value.indexOf(':') + 1);
+                    let _arrayName = '_arr_' + uniqueID();
+                    if (isNaN(_data)) {
+                        controlCode.push(indent+'let ' +_arrayName + ' = (typeof ('+_data+') !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
+                    }
+                    else
+                        controlCode.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
+                    controlCode.push(indent+'updateForChildren(' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
+
+                    // At runtime loop thru the direct children
+                    let _forVar = "rkn_forElem_" + uniqueID();
+                    let _forIndex = "rkn_counter_" + uniqueID();
+                    controlCode.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
+
+                    controlCode.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
+                    controlCode.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "]}"); // Set the var context
+                    forVars += (forVars!=''?',':'') + _var
+                    controlCode.push(indent+"let "+ _forVar)
+                    let i = 0;
+                    for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                        controlCode.push(indent+ _forVar + " = " + elemString+".children["+_forIndex+"*"+elem.children.length+"+"+i+"]")
+                        buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars)
+                        i++;
+                    }
+                    controlCode.push(indent+'}' + '// End loop ' + _forIndex);
+
+                    if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
+                        indent = indent.substring(2);
+                        controlCode.push(indent+'}') //Close if statement
+                    }
+                    break;
+
+                case "calc1": {
+                    if (componentRoot)
+                        break;
+                }
+                case "calc":
+                    if (elem.tagName === 'SCRIPT')
+                        controlCode.unshift(elem.textContent.trim());
+                    else
+                        controlCode.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
+                    break;
+
+                case "component":
+                    let oldTopForString = topForString
+                    topForString = undefined; //Reset the outermost for-loop.
+                    let className = value;
+                    if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
+                        let compInitCode = [];
+                        let compControlCode = [];
+                        let compEventCode = [];
+                        
+                        buildClasses(true, elem, "this.root", "this.root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
+
+                        if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
+                            let i = 0;
+                            for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                                let elemString = "this.root"
+                                buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
+                                i++
+                            }
+                            if (elem.dataset.if !== undefined) {
+                                compControlCode.push('}') //Close if statement
+                            }
+                        }
+                        if (!generatedClass[value]) { //Create base class
+                            const [compDefinition, compStyle] = generateComponentClass(value, value, compInitCode, compControlCode, compEventCode, routeVars, "")
+                            styles.push(...compStyle);
+                            definition.push(...compDefinition)
+                            definition.push(`classRegistry['${className}']=${className.replace('-','_')}`)
+                            generatedClass[className] = true;        
+                        }
+                        if (elem.dataset.hasSlot=='true' || forVars != '') {
+                            className = value+'_'+uniqueID();
+                            const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
+                            definition.push(...compDefinition)
+                            definition.push(`classRegistry['${className}']=${className.replace('-','_')}`)
+                            generatedClass[className] = true;
+                        }
+                        else {
+                            if (value !== '_main') {
+                                className = value+'_static';
+                                if (!generatedClass[className]) {
+                                    const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
+                                    definition.push(...compDefinition)
+                                    definition.push(`classRegistry['${className}']=${className.replace('-','_')}`)
+                                    generatedClass[className] = true;
+                                }
+                            }
+
+                        }
+                    }
+                    else {
+                        className = value+'_static'
+                    }
+                    elem.dataset.className = className;
+
+                    //Add code for class initialization, root component instances in setup, childcomponent instances in class definition
+                    initCode.push(`    ${compString}.rkn_class = new ${className.replace('-','_')}(${compString})`)
+
+                    controlCode.push("    {"); 
+                    let args = []
+                    for (let attr of Object.keys(elem.dataset)) {
+                        if (attr.startsWith("arg") || attr.startsWith('bind')) {
+                            let arg = attr.substring(3).toLowerCase()
+                            if (attr.startsWith('bind'))
+                                arg = attr.substring(4).toLowerCase()
+                            let value = elem.dataset[attr]                 
+                            //Check if variable
+                            let argValue = uniqueID();
+                            if (/^[a-zA-Z_$][0-9a-zA-Z_$.]*$/.test(value)) {
+                                controlCode.push("      let " + argValue + " = (typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "']?"+value+":'"+value+"')")
+//                                if (attr.startsWith('bind')) // Only bind parameters send bind events.
+//                                    elem.setAttribute('data-on-'+arg, value+" = e.detail.value");
+//                                    initCode.push(indent + (oldTopForString === undefined ? compString : oldTopForString) + ".addEventListener('"+arg+"', (e) => {\n"+value+" = e.detail.value\n})")
+//                                    initCode.push(indent + compString + ".addEventListener('"+arg+"', (e) => {"+value+" = e.detail.value})")
+                            }
+                                //Check if number
+                            else if (!isNaN(value)) {
+                                controlCode.push("      let " + argValue + ' = ' +value)
+                            }
+                            //Otherwise template string
+                            else
+                                controlCode.push("      let " + argValue + " = `"+value+"`")
+
+                            args.push(`${arg}:${argValue}`)
+                            
+                        }
+                    }
+                    let _stringArgs = args.join(',');
+                    if (args.length > 0)
+                        _stringArgs += ','
+                    _stringArgs += forVars
+                    controlCode.push(`      ${elemString}.rkn_class.controller({${_stringArgs}})`)
+                    controlCode.push('    }')
+                    break;
+
+                case "rest1": {
+                        if (componentRoot)
+                            break;
+                    }
+                case "rest":
+                    let _array = value.substring(0, value.indexOf(':'));
+                    let _url = value.substring(value.indexOf(':') + 1);
+                    let path = '';
+                    let nextTokenIndex = _url.indexOf(':')
+                    if (nextTokenIndex > 0 && !_url.startsWith('http')) {
+                        path = '.' + _url.substring(0, nextTokenIndex);
+                        _url = _url.substring(nextTokenIndex + 1);
+                    }
+                    // get rest options if available
+                    let options = '{}'
+                    if (elem.dataset.restOptions) {
+                        options = elem.dataset.restOptions
+                    }
+                    if (elem.dataset.restOptions1) {
+                        options = elem.dataset.restOptions1
+                    }
+                    controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof _main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";_mainInstance.controller({})})");
+                    break;
+
+                default: {
+                    if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
+                        let _attr = capCharToHyphen(key.substring(key.startsWith('attr1')?5:4));
+                        if (booleanAttrs.includes(_attr.toLowerCase()))
+                            controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
+                        else
+                        controlCode.push("if (" + elemString + ".getAttribute('" + _attr + "') !== `" + value + "`) " + elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
+                    }
+                    else if (key.startsWith('on') || (key.startsWith('on1') && !componentRoot)) {
+                        let eventName = key.substring(key.startsWith('on1')?3:2).toLowerCase();
+                        let handler = value;
+                        let eventId = eventName+"_"+uniqueID();
+                        initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
+        
+                        eventCode.push({
+                            'elemId':(topForString === undefined ? compString : topForString),
+                            'eventType':eventName,
+                            'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                            'handlerName': eventId,
+                            'handlerCode':handler,
+                            'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                        })
+                    }
                 }
             }
         }
@@ -519,11 +567,11 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
     if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
         let i = 0;
         for (let child of elem.children) { 
-            buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars)
+            buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars)
             i++
         }
         if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
-            controlCode.push('}else {disableTimers('+elemString+')}')
+            controlCode.push('} else {disableTimers('+elemString+')}')
     }
     else {
         if (elem.dataset.if1 != undefined && !componentRoot) {
@@ -549,15 +597,21 @@ const processComponentReferences = (elem) => {
     if (elem.tagName != 'TEMPLATE' && 'component' in elem.dataset) {
         let component = getComponent(elem.dataset.component)
         if (component != null) { //Should be there unless component definition does not exist.
+            for (let child of elem.children) {
+                processComponentReferences(child)
+            }
+
             let _slotElement = component.querySelector('slot')
             if (_slotElement !=null && elem.childNodes.length > 0) { // Process slot
+                component.dataset.hasSlot='true'
+
                 let _beforeElement = _slotElement;
                 for (let i = elem.childNodes.length-1; i >= 0; i--) {
                     let child = elem.childNodes[i];
                     _slotElement.parentElement.insertBefore(child, _beforeElement)
                     _beforeElement = child;
                 }
-                _slotElement.parentElement.removeChild(_slotElement)
+                    _slotElement.parentElement.removeChild(_slotElement)
             }
             let instanceAttributes = ['data-action', 'data-style', 'data-class', 'data-if', 'data-timer', 'data-interval',
                                         'data-route', 'data-rest', 'data-rest-options', 'data-calc']
@@ -621,34 +675,15 @@ const getComponent = (componentName) => {
     return componentClone;
 }
 
-function generateComponentClass(componentName, compInitCode, compControlCode, compEventCode, routeVars) {
-    let templateElement = document.querySelector("template[data-component='"+componentName+"']")
+function generateComponentClass(componentName, templateName, compInitCode, compControlCode, compEventCode, routeVars, forVars) {
+    let templateElement = document.querySelector("template[data-component='"+templateName+"']")
 
+    const isBaseClass = (componentName == templateName || componentName == '_main')
     let output = []
-    // Build constructor 
-    output.push(`class ${componentName.replace('-', '_')} extends rkn_base{`);
-    output.push('  constructor(root) {');
-    output.push('  super()');
-    output.push('    this.root = root;');
-    // Add references to top descendant classes
-    output.push(...compInitCode)
+
     // State initialization
     const [stateVars, initCode] = getStateVars(templateElement)
     stateVars.push("root")
-    output.push(...initCode)
-    for (let _var of stateVars)
-        output.push(`    this.${_var} = ${_var}`)
-
-    //Add event registrations
-    for (let event of compEventCode)
-        output.push('    '+event.elemId + ".addEventListener('" + event.eventType + "', event => this."+event.handlerName+"(event))");
-
-    output.push('  }')
-
-    // Create static factory method
-    output.push('  static createInstance(elem) {')
-    output.push(`    return new ${componentName.replace('-', '_')}(elem);`)
-    output.push('  }')
 
     // Get comp arguments
     const initArgs = getInitParams(templateElement, 'arg')
@@ -661,10 +696,56 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
  
     // Add method calls
     const [methods, methodCode] = getMethods(templateElement, stateVars, initParams)
-    output.push(...methodCode)
+
+
+    // Build constructor
+    output.push('//==============================================================================')
+    output.push(`class ${componentName.replace('-', '_')} extends ${isBaseClass?'rkn_base':templateName.replace('-','_')} {`);
+    //    output.push(`class ${componentName.replace('-', '_')} extends rkn_base {`);
+
+    if (isBaseClass && componentName != '_main') {
+        output.push(...methodCode)
+        output.push('  constructor(root) {');
+        output.push('  super(root)');
+    
+        output.push('    this.root = root;');
+
+    
+        output.push(...initCode)
+        for (let _var of stateVars)
+        output.push(`    this.${_var} = ${_var}`)
+
+        output.push('  }')
+
+        output.push('  }');
+        return [output, getStyle(templateElement)]
+    }
+        
+    output.push('  constructor(root) {');
+    output.push('  super(root)');
+
+    output.push('    this.root = root;');
+    // Add references to top descendant classes
+    output.push(...compInitCode)
+
+    //Add event registrations
+    for (let event of compEventCode)
+        output.push('    '+event.elemId + ".addEventListener('" + event.eventType + "', event => this."+event.handlerName+"(event))");
+    output.push('  }')
+
+    // Create static factory method
+    output.push('  static createInstance(elem) {')
+    output.push(`    return new ${componentName.replace('-', '_')}(elem);`)
+    output.push('  }')
+    
+    let stringParams = initParams.join(',')
+    if (initParams.length > 0)
+        stringParams+=','
+    stringParams += forVars
 
     // Build controller
-    output.push(`  controller({${initParams.join(',')}}) {`)
+    output.push(`  controller({${stringParams}}) {`)
+
     // if (componentName === '_main')
     //     output.push('console.time("controller")');
 
@@ -683,9 +764,11 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
     //inject script code
     output.push(...getScript(templateElement))
 
-    if (compControlCode.length>0)
-        output.push(`    let _v, elem`)
+    if (compControlCode.length>0) {
+        output.push('    let _v, elem')
         output.push(...compControlCode)
+
+    }
 
     // save potentially updated argument state
     for (let paramAssign of initParams) {
@@ -697,12 +780,11 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
     for (let _var of stateVars)
         output.push(`    this.${_var} = ${_var}`)
 
-
     // if (componentName === '_main')
     // output.push('console.timeEnd("controller")');
     output.push('  }')
 
-    // Build events
+    // Build event handlers
     for (let event of compEventCode) {
         output.push("  "+ event.handlerName+"(e) {")
         output.push("  " + event.handlerEventCheck);
@@ -721,7 +803,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
         for (let _method of methods)
             output.push(_method)
 
-    
+
         //Add for loop context(s)
         output.push("    " + event.forContext);
         //Add event handler code
@@ -729,9 +811,9 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
 
         //Notify if value argument has changed
         for (let valueVar of bindKeys) {
-            output.push("    if ("+valueVar+"!==this."+valueVar+") root.dispatchEvent(new CustomEvent('"+valueVar+"', {detail:{value:"+valueVar+"}}))");
+            output.push("    if ("+valueVar+"!==this."+valueVar+") root.dispatchEvent(new CustomEvent('"+valueVar+"', {detail:{'value':"+valueVar+"},bubbles: true}))");
         }
-    
+
         for (let _var of stateVars)
             output.push(`    this.${_var} = ${_var}`)
         
@@ -739,6 +821,7 @@ function generateComponentClass(componentName, compInitCode, compControlCode, co
             output.push("    _mainInstance.controller({})");
         output.push("  }");
     }
+
     //end class
     output.push('}')
     return [output, getStyle(templateElement)]
@@ -769,7 +852,7 @@ function getStateVars(templateElement) {
 // Load first template script and isolate the function methods
 function getMethods(templateElement, stateVars, initArgs) {
     let methods = []
-    methods.push('let dispatch = (type, content)=>this.dispatch(type, content)')
+    methods.push('    let dispatch = (type, content)=>this.dispatch(type, content)')
 
     let initCode = []
     let beforeFunctions = true;
@@ -786,17 +869,17 @@ function getMethods(templateElement, stateVars, initArgs) {
                     let _funcName = line.substring(0,line.indexOf('(')).trim()
                     let _params = line.substring(_funcName.length+1, line.indexOf(')')+1).trim()
 
-                    initCode.push('    '+line); // Add state init code to class constructor
+                    initCode.push('  '+line.trim()); // Add state init code to class constructor
                     for (let _var of stateVars)
                         initCode.push(`    let ${_var} = this.${_var}`)
 
                     for (let _method of methods)
-                        initCode.push('    '+_method)
+                        initCode.push('  '+_method)
 
 
                     for (let argAssign of initArgs) { // Comp arguments
                         let arg = argAssign.substring(0,argAssign.indexOf('='))
-                        initCode.push("    let " + arg +" = this." + arg) 
+                        initCode.push("  let " + arg +" = this." + arg) 
                     }
                     methods.push(`let ${_funcName} = ${_params}=>this.${_funcName}${_params}`)
                     continue;
@@ -811,17 +894,19 @@ function getMethods(templateElement, stateVars, initArgs) {
 }
 
 // Find the component arguments
-function getInitParams(templateElement, paramType) {
+function getInitParams(templateElement, paramType, withValue=true, separator='=') {
     let args = []
     if (templateElement) {
         for (let attr of Object.keys(templateElement.dataset)) {
             if (attr.startsWith(paramType)) {
                 let arg = attr.substring(paramType.length).toLowerCase()
-                let value = templateElement.dataset[attr]
-                if (value != "")
-                    arg += `=${isNaN(value)?"'"+value+"'":value}`
-                else
-                    arg += '=undefined' // Default is empty string
+                if (withValue) {
+                    let value = templateElement.dataset[attr]
+                    if (value != "")
+                        arg += `${separator}${isNaN(value)?"'"+value+"'":value}`
+                    else
+                        arg += `${separator}undefined` // Default is empty string
+                }
                 args.push(arg)
             }
         }
@@ -922,7 +1007,15 @@ function uniqueID() {
 function substituteShortHandComponentNames(root, template) {
     const compName = template.dataset.component;
     root.querySelectorAll(compName).forEach((elem)=> {
-        const replaceElement = document.createElement(template.content.children[0].tagName)
+        // Find the non style, script tag
+        let tagName = 'DIV'
+        for (const elem of template.content.children) {
+            if (elem.tagName != 'SCRIPT' && elem.tagName !== 'STYLE') {
+                tagName = elem.tagName
+                break;
+            }
+        }
+        const replaceElement = document.createElement(tagName)
         for (let index = elem.attributes.length - 1; index >= 0; --index) {
             let attr = elem.attributes[index];
             if (template.hasAttribute('data-arg-'+attr.name)) {
@@ -934,13 +1027,26 @@ function substituteShortHandComponentNames(root, template) {
                 continue;
             }
             else {
+                if (attr.name.startsWith('data-attr')) {
+                    // If a short-hand attribute is set with data-attr-xxxx then just make it an attribute data-arg-xxxx
+                    const name = attr.name.substring(10);
+                    if (template.hasAttribute('data-arg-'+name)) { //only useful for arg not bind as bind needs a variable name.
+                        replaceElement.setAttribute('data-arg-'+name, elem.getAttribute(attr.name))
+                        continue;
+                    }
+                }
                 replaceElement.attributes.setNamedItem(elem.attributes[index].cloneNode());
             }
         }
         // Copy reken element content
+        let beforeChild;
         for (let i = elem.childNodes.length-1; i >= 0; i--) {
-            let child = elem.childNodes[i];
-            replaceElement.appendChild(child)
+            let child = elem.childNodes[i]; 
+            if (replaceElement.childNodes.length == 0)
+                replaceElement.appendChild(child)
+            else
+                replaceElement.insertBefore(child, beforeChild)
+            beforeChild = child;
         }
         replaceElement.setAttribute('data-component', compName);
         elem.parentElement.replaceChild(replaceElement, elem);
@@ -1220,7 +1326,7 @@ function disableTimers(elem) {
 let initComponentElement = (elem) => {
     if (elem.dataset.component !== undefined) {
         if (elem.rkn_class === undefined) {
-            elem.rkn_class = classRegistry[elem.dataset.component].createInstance(elem)
+            elem.rkn_class = classRegistry[elem.dataset.className].createInstance(elem)
         }
         return;
     }
@@ -1265,7 +1371,7 @@ function init() {
 
         document.body.parentElement.setAttribute('data-component', '_main')
         definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
-        buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [])
+        buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '')
         if (styles.length>0) {
             const headElem = document.querySelector('head');
             if (headElem == null) {

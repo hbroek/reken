@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css" />
+
+    <title>Reken - Simple design system with nested components</title>
+
+</head>
+
+<body>
+    <header>
+        <h1 data-text="Reken - Simple design system with nested components"></h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+
+    <main>
+        <Align x="Center" y="Center">
+            <Box width="Vw(50)" background="hsl(200, 80%, 80%)" padding="10" shadow="Medium"
+                data-for="box:3">
+                <Align x="${box.index==0?'Start':box.index==1?'End':'Center'}">
+                    <Box background="hsl(200, 80%, 50%)" padding="${2+box.index*2}" margin="2"
+                        radius="${box.index==0?'Full':box.index==1?'Rounded':''}" shadow="Large">
+                        <Text color="white" size="${box.index==0?'Small':box.index==1?'Large':'XLarge'}" weight="Medium">
+                            Hello World: <span data-text="${box.index+1}"></span>
+                        </Text>
+                    </Box>
+                </Align>
+            </Box>
+        </Align>
+
+        <!-- Component definitions -->
+        <!-- Align -->
+        <template data-component="Align" data-arg-x="Center" data-arg-y="Center">
+            <style>
+                :host {
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                }
+            </style>
+            <div
+                data-style="justify-content:${x==='Start'?'flex-start':x==='End'?'flex-end':'center'};align-items:${y==='Start'?'flex-start':y==='End'?'flex-end':'center'} ">
+                <slot></slot>
+            </div>
+        </template>
+        <!-- Box -->
+        <template data-component="Box" data-arg-width="Auto" data-arg-height="Auto" data-arg-border="Zero"
+            data-arg-padding="1" data-arg-margin="0" data-arg-background data-arg-radius="Zero" data-arg-shadow="Zero">
+            <style>
+                :host {
+                    position: relative;
+                    flex-shrink: 0;
+                    background: white;
+                    border-style: none;
+                }
+            </style>
+            <script>
+                function getBorder(borderString) {
+                    let borderSize = 1;
+                    if (borderString.startsWith('One('))
+                        borderSize = 1;
+                    else if (borderString.startsWith('Two('))
+                        borderSize = 2
+                    else return 'none'
+                    const color = borderString.slice(4, -1)
+                    return `${borderSize}px solid ${color}`
+                }
+
+                function getSize(size) {
+                    switch (size) {
+                        case 'Full':
+                        case 'Fluid':
+                            return '100%'
+                        case 'Auto':
+                            return 'auto'
+                        default:
+                            let parse = size.split('(')
+                            if (parse.length < 2)
+                                return 'auto'
+                            let valueString = parse[1].split(')')[0]
+                            switch (parse[0]) {
+                                case 'Pct':
+                                    return valueString + '%'
+                                case 'Fixed':
+                                    return valueString + 'px'
+                                case 'Em':
+                                    return valueString + 'em'
+                                case 'Vh':
+                                    return valueString + 'vh'
+                                case 'Vw':
+                                    return valueString + 'vw'
+                                default:
+                                    'auto'
+                            }
+                    }
+                }
+                function getRadius(borderRadius) {
+                    switch (borderRadius) {
+                        case 'Rounded':
+                            return 'border-radius:5%;'
+                        case 'Full':
+                            return 'border-radius:50%;'
+                        default:
+                            return ''
+                    }
+                }
+                function getShadow(boxShadow) {
+                    switch (boxShadow) {
+                        case 'Small':
+                            return 'box-shadow:0 4px 10px hsla(0, 0%, 0%, 0.05);'
+                        case 'Medium':
+                            return 'box-shadow:0 4px 10px hsla(0, 0%, 0%, 0.1);'
+                        case 'Large':
+                            return 'box-shadow:0 6px 24px hsla(0, 0%, 0%, 0.1);'
+                        default:
+                            return ''
+                    }
+                }
+                function getBackground(bg) {
+                    if (typeof bg !== 'undefined')
+                        return `background:${bg};`
+                    else
+                        return ''
+                }
+            </script>
+            <div
+                data-style="width:${getSize(width)};max-width:${getSize(width)};height:${getSize(height)};max-height:${getSize(height)};border:${getBorder(border)};padding:${padding*4}px;margin:${margin*4}px;${getBackground(background)};${getRadius(radius)}${getShadow(shadow)}">
+                <slot></slot>
+            </div>
+        </template>
+        <template data-component="Text" data-arg-size="Small" data-arg-color data-arg-weight="Regular"
+            data-arg-align="Left">
+            <script>
+                function getSize(fontSize) {
+                    const sizes = {
+                        XSmall: 12,
+                        Small: 14,
+                        Medium: 16,
+                        Large: 22,
+                        XLarge: 36,
+                        XXLarge: 48,
+                        XXXLarge: 72
+                    }
+                    const pixels = sizes[fontSize] ?? -1
+
+                    if (pixels)
+                        return `font-size: ${pixels}px;`
+                    else
+                        return ''
+                }
+
+                function getWeight(fontWeight) {
+                    const weights = {
+                        'Thin': 100,
+                        'Light': 200,
+                        'Regular': 300,
+                        'Medium': 400,
+                        'Semibold': 500,
+                        'Bold': 600,
+                        'Extrabold': 700,
+                        'Black': 800
+                    }
+                    const fontSize = weights[fontWeight] ?? 300;
+                    return `font-weight: ${fontSize};`
+                }
+
+                function getColor(fontColor) {
+                    if (fontColor)
+                        return `color: ${fontColor};`
+                    else
+                        return ''
+                }
+
+                function getAlign(fontAlign) {
+                    const aligns = {
+                        'Left': 'left',
+                        'Right': 'right',
+                        'Justify': 'justify',
+                        'Center': 'center'
+                    }
+                    const alignment = aligns[fontAlign] ?? 'Left'
+                    return `text-align: ${alignment};`
+                }
+            </script>
+            <span data-style="${getSize(size)}${getColor(color)}${getWeight(weight)}${getAlign(align)}">
+                <slot></slot>
+            </span>
+        </template>
+    </main>
+</body>
+
+<div data-include="includes/demo-lib.html"></div>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
+</html>

@@ -352,7 +352,6 @@
     <div id="rt0" data-route="/">rt0</div>
     <div id="rt1" data-route="/rt1">rt1</div>
     <div id="rt2" data-route="/rt2">
-      rt2 > 
       <span id="srt2_0" data-route="">srt0</span>
       <span id="srt2_1" data-route="srt1"></span>
       <span id="srt2_2" data-route="srt2"></span>
@@ -1029,6 +1028,151 @@
   <cp23div id="cp23div" data-on-cp23event="cp23++;cp23Detail=e.detail"></cp23div>
   <div id='cp23_div' data-text="${cp23}-${cp23Detail}"></div>
 
+  <!-- Nested slot same component -->
+  <script>
+  </script>
+  <template data-component="nested24" data-arg-arg1="argument 1" data-bind-bind1="bind 1">
+    <div><span data-text="${arg1}"></span>
+        <slot></slot>
+        <span data-text="${bind1}"></span>
+    </div>
+  </template>
+  <nested24 id="cp24">
+    <nested24 arg1="Hello" bind1="US">
+      Henry
+    </nested24>
+  </nested24>
+
+  <!-- Nested 2 different components -->
+  <template data-component="nested25a" data-arg-arg1="argument 1" data-bind-bind1="bind 1">
+    <div><span data-text="a - ${arg1}"></span>
+        <slot></slot>
+        <span data-text="a - ${bind1}"></span>
+    </div>
+  </template>
+  <template data-component="nested25b" data-arg-arg1="argument 1" data-bind-bind1="bind 1">
+    <div><span data-text="b - ${arg1}"></span>
+        <slot></slot>
+        <span data-text="b - ${bind1}"></span>
+    </div>
+  </template>
+  <nested25a id="cp25a">
+    <nested25b>
+      <nested25a>
+        <nested25b>
+        </nested25b>
+      </nested25a>
+    </nested25b>
+  </nested25a>
+
+  <!-- Nested component inside for loops -->
+    <script>
+      let cpOutput26 = ''
+    </script>
+  <template data-component="nested26a" data-arg-arga>
+    <div>
+      <span data-text="pre - ${arga}"></span>
+      <slot></slot>
+      <button type="button" data-action="cpOutput26=`26a ${arga}-button`" data-text="26a ${arga}-button"></button>
+      <span data-text="post - ${arga}"></span>
+  </template>
+  <template data-component="nested26b" data-arg-arga data-arg-argb>
+    <div>
+      <span data-text="pre - ${arga}:${argb}"></span>
+      <slot></slot>
+      <button type="button" data-action="cpOutput26=`26b ${arga}:${argb}-button`" data-text="26b ${arga}:${argb}-button"></button>
+      <span data-text="post - ${arga}:${argb}"></span>
+  </template>
+
+  <span id="cp26Text" data-text="${cpOutput26}"></span>
+  <div id="cp26" data-for="l26a:2">
+    <nested26a arga="${l26a.index}">
+      <button type="button" data-action="cpOutput26=`26a slot ${l26a.index}-button`" data-text="26a slot ${l26a.index}-button"></button>      
+      <div data-for="l26b:2">
+        <nested26b arga="${l26a.index}" argb="${l26b.index}"></nested26b>
+      </div>
+    </nested26a>
+  </div>
+
+  <!-- Nested component containing for loops -->
+  <template data-component="nested27a">
+    <div>
+      <div data-for="l27a:2">
+        <span data-text="pre - ${l27a.index}"></span>
+          <slot></slot>
+        <span data-text="post - ${l27a.index}"></span>
+    </div>
+  </template>
+  <template data-component="nested27b" data-arg-arga>
+    <div>
+      <div data-for="l27b:2">
+        <span data-text="pre - ${arga}:${l27b.index}"></span>
+          <slot></slot>
+        <span data-text="post - ${arga}:${l27b.index}"></span>
+      </div>
+  </template>
+
+  <nested27a id="cp27">
+    <nested27b arga="${l27a.index}">
+      <span data-text="span27 ${l27a.index}:${l27b.index}"></span>
+    </nested26b>
+  </nested27a>
+
+  <!-- Nested component with actions -->
+    <script>
+      let cpOutput28 = ''
+    </script>
+    <template data-component="nested28a" data-arg-label="some text">
+      <div>
+        <button type="button" data-action="cpOutput28=`28a ${label}-before`" data-text="28a ${label}-before"></button>
+        <slot></slot>
+        <button type="button" data-action="cpOutput28=`28a ${label}-after`" data-text="28a ${label}-after">28a after</button>
+    </template>
+
+    <span id="cp28aText" data-text="${cpOutput28}"></span>
+    <nested28a id="cp28a" label="outer">
+      <button type="button" data-action="cpOutput28=`28a ${label}-slot`" data-text="28a ${label}-slot">28a slot</button>
+      <nested28a label="inner">
+        <button type="button" data-action="cpOutput28=`28a ${label}-slot`" data-text="28a ${label}-slot">28a slot</button>
+      </nested28a>
+    </nested28a>
+  
+    <!-- Nested slot pass arg and bind value through -->
+    <script>
+        let cpInput29 = 'value29'
+    </script>
+    <template data-component="nested29" data-bind-bindvar data-arg-argvar>
+      <div><span data-text="${bindvar}-${argvar}"></span>
+          <slot></slot>
+          <span data-text="${bindvar}-${argvar}"></span>
+          <label>bindvar: <input type="text" data-value="bindvar"/></label>
+      </div>
+    </template>
+    <span id="cp29Text" data-text="${cpInput29}"></span>
+    <nested29 id="nested29" bindvar="cpInput29" argvar="42">
+        <nested29 bindvar="bindvar" argvar="argvar"></nested29>
+    </nested29>
+
+    <template data-component="nested30" data-arg-padding="1em">
+      <style>
+        :host.inner {
+          background: hsl(200,80%,50%);
+        }
+        :host.outer {
+          background: hsl(200,80%,90%);
+        }
+        :host.component {
+          border: solid 1px black;
+        }
+      </style>
+      <div data-style="padding:${padding}" class="component">
+        <slot></slot>
+      </div>
+    </template>
+    <nested30 id="nested30" class="outer" padding="48px">
+      <nested30 class="inner" padding="32px">Hello</nested30>
+    </nested30>
+
   <section>
     <!-- Test component shorthand functionality  -->
     <template data-component="short-hand1">
@@ -1079,6 +1223,7 @@
         <slot><h2>Subslot has not text</h2></slot>
       </div>
     </template>
+
   </section>
   <hr>
   <section>
@@ -2546,6 +2691,148 @@
         expect($('cp23_div')).to.have.text('1-OK');
         done();
       })
+      it('Nest same component with slot', (done) => {
+        expect($('cp24')).to.have.length(3);
+        expect($('cp24').children[0]).to.have.text('argument 1')
+        expect($('cp24').children[2]).to.have.text('bind 1')
+        expect($('cp24').children[1].children[0]).to.have.text('Hello');
+        expect($('cp24').children[1]).to.contain.text('Henry');
+        expect($('cp24').children[1].children[1]).to.have.text('US');
+        done();
+      })
+      it('Nest 2 different components with slot', (done) => {
+        expect($('cp25a')).to.have.length(3);
+        expect($('cp25a').children[0]).to.have.text('a - argument 1')
+        expect($('cp25a').children[2]).to.have.text('a - bind 1')
+        expect($('cp25a').children[1].children[0]).to.have.text('b - argument 1');
+        expect($('cp25a').children[1].children[2]).to.have.text('b - bind 1');
+        expect($('cp25a').children[1].children[1].children[0]).to.have.text('a - argument 1');
+        expect($('cp25a').children[1].children[1].children[2]).to.have.text('a - bind 1');
+        expect($('cp25a').children[1].children[1].children[1].children[0]).to.have.text('b - argument 1');
+        expect($('cp25a').children[1].children[1].children[1].children[1]).to.have.text('b - bind 1');
+        done();
+      })
+
+      it('Nest 2 different components within for-loops', (done) => {
+        expect($('cp26')).to.have.length(2);
+        expect($('cp26').children[0].children[0]).to.have.text('pre - 0')
+        expect($('cp26').children[0].children[1]).to.have.text('26a slot 0-button')
+        expect($('cp26').children[0].children[2].children[0].children[0]).to.have.text('pre - 0:0')
+        expect($('cp26').children[0].children[2].children[0].children[2]).to.have.text('26b 0:0-button')
+        expect($('cp26').children[0].children[3]).to.have.text('26a 0-button')
+        expect($('cp26').children[0].children[4]).to.have.text('post - 0')
+        expect($('cp26').children[1].children[0]).to.have.text('pre - 1')
+        expect($('cp26').children[1].children[1]).to.have.text('26a slot 1-button')
+        expect($('cp26').children[1].children[2].children[1].children[2]).to.have.text('26b 1:1-button')
+        expect($('cp26').children[1].children[2].children[1].children[3]).to.have.text('post - 1:1')
+        expect($('cp26').children[1].children[4]).to.have.text('post - 1')
+
+        fireEvent($('cp26').children[0].children[3],'click');
+        expect($('cp26Text')).to.have.text('26a 0-button')
+
+        fireEvent($('cp26').children[0].children[2].children[0].children[2],'click');
+        expect($('cp26Text')).to.have.text('26b 0:0-button')
+
+        fireEvent($('cp26').children[1].children[2].children[1].children[2],'click');
+        expect($('cp26Text')).to.have.text('26b 1:1-button')
+
+        fireEvent($('cp26').children[0].children[1],'click');
+        expect($('cp26Text')).to.have.text('26a slot 0-button')
+
+        fireEvent($('cp26').children[1].children[1],'click');
+        expect($('cp26Text')).to.have.text('26a slot 1-button')
+
+        done();
+      })
+
+      it('Nest 2 different components with embeddedfor-loops', (done) => {
+        expect($('cp27')).to.have.length(1);
+        expect($('cp27').children[0]).to.have.length(6);
+        expect($('cp27').children[0].children[0]).to.have.text('pre - 0')
+        expect($('cp27').children[0].children[5]).to.have.text('post - 1')
+        expect($('cp27').children[0].children[4]).to.have.length(1);
+        expect($('cp27').children[0].children[4].children[0]).to.have.length(6);
+        expect($('cp27').children[0].children[4].children[0].children[0]).to.have.text('pre - 1:0')
+        expect($('cp27').children[0].children[4].children[0].children[5]).to.have.text('post - 1:1')
+        expect($('cp27').children[0].children[4].children[0].children[1]).to.have.text('span27 1:0')
+        expect($('cp27').children[0].children[4].children[0].children[4]).to.have.text('span27 1:1')
+        done();
+      })
+      it('Nested component with actions', (done) => {
+        const cp28 = $('cp28a');
+        const cp28Text = $('cp28aText')
+        fireEvent(cp28.children[0], 'click');
+        expect(cp28Text).to.have.text('28a outer-before')
+
+        fireEvent(cp28.children[1], 'click');
+        expect(cp28Text).to.have.text('28a outer-slot')
+
+        fireEvent(cp28.children[3], 'click');
+        expect(cp28Text).to.have.text('28a outer-after')
+
+        fireEvent(cp28.children[2].children[0], 'click');
+        expect(cp28Text).to.have.text('28a inner-before')
+
+        fireEvent(cp28.children[2].children[1], 'click');
+        expect(cp28Text).to.have.text('28a inner-slot')
+
+        fireEvent(cp28.children[2].children[2], 'click');
+        expect(cp28Text).to.have.text('28a inner-after')
+
+        done();
+      })
+      it('Nested slot pass arg and bind value through', (done) => {
+        const cp29 = $('nested29');
+        const cp29Text = $('cp29Text')
+
+        expect(cp29Text).to.have.text('value29')
+
+        expect(cp29).to.have.length(4);
+        expect(cp29.children[0]).to.have.text('value29-42')
+        expect(cp29.children[2]).to.have.text('value29-42')
+        expect(cp29.children[3].children[0]).to.have.value('value29')
+
+        const cp29Nested = cp29.children[1];
+        expect(cp29Nested).to.have.length(4);
+        expect(cp29Nested.children[0]).to.have.text('value29-42')
+        expect(cp29Nested.children[2]).to.have.text('value29-42')
+        expect(cp29Nested.children[3].children[0]).to.have.value('value29')
+
+        // Change input value in outer input control
+        cp29.children[3].children[0].value = 'value29_1'
+        fireEvent(cp29.children[3].children[0], 'value')
+
+        expect(cp29Text).to.have.text('value29_1')
+        expect(cp29.children[0]).to.have.text('value29_1-42')
+        expect(cp29Nested.children[2]).to.have.text('value29_1-42')
+        expect(cp29Nested.children[3].children[0]).to.have.value('value29_1')
+
+        // Change input value in inner input control
+        cp29Nested.children[3].children[0].value = 'value29_2'
+        fireEvent(cp29Nested.children[3].children[0], 'value')
+
+        expect(cp29Text).to.have.text('value29_2')
+        expect(cp29.children[0]).to.have.text('value29_2-42')
+        expect(cp29Nested.children[2]).to.have.text('value29_2-42')
+        expect(cp29.children[3].children[0]).to.have.value('value29_2')
+
+        done();
+      })
+      it('Nested slots classes and styles', (done) => {
+        const cp30 = $('nested30');
+        const cp30Nested = cp30.children[0];
+ 
+        expect(cp30).to.have.class('outer')
+        expect(cp30).to.have.class('component')
+        expect(cp30).to.have.style('padding', '48px')
+        
+
+        expect(cp30Nested).to.have.class('inner')
+        expect(cp30Nested).to.have.class('component')
+        expect(cp30Nested).to.have.style('padding', '32px')
+
+        done();
+      })
     })
     describe('data-component timer/interval tests', () => {
       it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
@@ -2579,47 +2866,6 @@
         await waitFor(200, () => cp19_1.textContent =='pink')        
       })
     })
-
-//     describe('data-component timer/interval tests', () => {
-//       it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
-//         const cp18_0 =  $('cp18_0');
-//         expect(cp18_0.querySelector('circle')).to.have.attribute('fill', 'orange')
-//         const cp18_1 =  $('cp18_1');
-//         expect(cp18_1.querySelector('circle')).to.have.attribute('fill', 'orange')
-
-//         cp18_0cb.checked = true;
-//         cp18_0cb.dispatchEvent(new Event('change'));
-//         await waitFor(200, () => cp18_0.querySelector('circle').getAttribute('fill')=='blue')
-//         expect(cp18_1.querySelector('circle')).to.have.attribute('fill', 'orange')
-
-//         cp18_1cb.checked = true;
-//         cp18_1cb.dispatchEvent(new Event('change'));
-//         window.requestAnimationFrame(() => {
-//           console.log('COLOR', cp18_1.querySelector('circle').getAttribute('fill'));
-//         })
-//         window.requestAnimationFrame(() => {
-//           console.log('COLOR', cp18_1.querySelector('circle').getAttribute('fill'));
-//         })
-// //        await waitFor(200, () => cp18_1.querySelector('circle').getAttribute('fill')=='pink')        
-// //        await waitFor(200, () => {console.log("!!!!",cp18_1text.textContent);return cp18_1text.textContent=='pink'})        
-//       })
-      // it('Check that interval we can add a component instance interval on top of a component interval ', async function () {
-      //   const cp19_0 =  $('cp19_0');
-      //   expect(cp19_0.querySelector('circle')).to.have.attribute('fill', 'orange')
-      //   const cp19_1 =  $('cp19_1');
-      //   expect(cp19_1.querySelector('circle')).to.have.attribute('fill', 'orange')
-      //   cp19_0cb.checked = true;
-      //   cp19_0cb.dispatchEvent(new Event('change'));
-      //   await waitFor(20, () => cp19_0.querySelector('circle').getAttribute('fill')=='blue')
-      //   expect(cp19_1.querySelector('circle')).to.have.attribute('fill', 'orange')
-      //   cp19_1cb.checked = true;
-      //   cp19_1cb.dispatchEvent(new Event('change'));
-      //  // await waitFor(20, () => cp19_1.querySelector('circle').getAttribute('fill')=='pink')        
-      // })
- //   })
-
-    //   })
-    //})
 
     describe('data-component data-route tests', (done) => {
       it('change hash', async function () {
