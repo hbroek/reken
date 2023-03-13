@@ -1386,6 +1386,7 @@ function init() {
         definition.push("let _mainInstance = _main.createInstance(document.body.parentElement)")
         definition.push("document.body.parentElement.rkn_class = _mainInstance");
 
+        definition.push("document.body.dispatchEvent(new CustomEvent('rekeninitialized', {}))")
         definition.push("_mainInstance.controller({})")
         definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
