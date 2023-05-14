@@ -69,6 +69,44 @@ let booleanAttrs = [
     'selected',
     'truespeed'
 ]
+const jsReservedWords = [
+    'break',
+    'case',
+    'catch',
+    'class',
+    'const',
+    'continue',
+    'debugger',
+    'default',
+    'delete',
+    'do',
+    'else',
+    'export',
+    'extends',
+    //'false',It is an expression so ok for arguments check
+    'finally',
+    'for',
+    'function',
+    'if',
+    'import',
+    'in',
+    'instanceof',
+    'new',
+    'null',
+    'return',
+    'super',
+    'switch',
+    'this',
+    'throw',
+   // 'true',It is an expression so ok for arguments check
+    'try',
+    'typeof',
+    'var',
+    'void',
+    'while',
+    'with'
+]
+const isReservedWord = (word) => jsReservedWords.indexOf(word)>=0
 
 function buildClasses(componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars) {
     if (elem.tagName == "TEMPLATE")
@@ -486,12 +524,13 @@ function buildClasses(componentRoot, elem, elemString, compString, topForString,
                             let value = elem.dataset[attr]                 
                             //Check if variable
                             let argValue = uniqueID();
-                            if (/^[a-zA-Z_$][0-9a-zA-Z_$.]*$/.test(value)) {
-                                controlCode.push("      let " + argValue + " = (typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "']?"+value+":'"+value+"')")
-//                                if (attr.startsWith('bind')) // Only bind parameters send bind events.
-//                                    elem.setAttribute('data-on-'+arg, value+" = e.detail.value");
-//                                    initCode.push(indent + (oldTopForString === undefined ? compString : oldTopForString) + ".addEventListener('"+arg+"', (e) => {\n"+value+" = e.detail.value\n})")
-//                                    initCode.push(indent + compString + ".addEventListener('"+arg+"', (e) => {"+value+" = e.detail.value})")
+                            if (/^[a-zA-Z_$][0-9a-zA-Z_$.\[\]\']*$/.test(value)) {
+                                if (isReservedWord(value))
+                                    controlCode.push("      let " + argValue + " = '"+value+"'")
+                                else if (value.indexOf('\'')>0)
+                                    controlCode.push("      let " + argValue + " = "+value+"") //If it contains a single quote, assume it will be a object qualifier
+                                else
+                                    controlCode.push("      let " + argValue + " = ((typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "'])||typeof "+value+"=='function'?"+value+":'"+value+"')")
                             }
                                 //Check if number
                             else if (!isNaN(value)) {
@@ -922,12 +961,18 @@ function getStyle(templateElement) {
             let _styleLines =  rekenStyle.textContent.split(/\r?\n/); // Create array of styles
             for (let i = 0; i < _styleLines.length; i++) {
                 if (_styleLines[i].indexOf('{')>0) {
-                    let _hostPosition = _styleLines[i].indexOf(':host')
-                    if (_hostPosition >= 0)
-                        _styleLines[i] = _styleLines[i].substring(_hostPosition+5)
-                    let _selector = _styleLines[i].trim();
-                    if ('.#[:'.indexOf(_selector[0])<0) _selector = ' '+_selector;
-                    _styleLines[i] = `[data-component=${componentName}]` + _selector;
+                    let selectors = _styleLines[i].split(',');
+                    let selectorArray = []
+                    for (let selector of selectors) {
+                        let _hostPosition = selector.indexOf(':host')
+                        if (_hostPosition >= 0)
+                            selector = selector.substring(_hostPosition+5)
+                        let _selector = selector.trim();
+                        if ('.#[:'.indexOf(_selector[0])<0) _selector = ' '+_selector;
+                        selector = `[data-component=${componentName}]` + _selector;
+                        selectorArray.push(selector);
+                    }
+                    _styleLines[i]=selectorArray.join(',')
                 }
             }
             return _styleLines;

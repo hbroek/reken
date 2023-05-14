@@ -31,7 +31,7 @@
                 <button type="button" data-action="if (newTodo !== '')todoList.push(newTodo);newTodo=''"
                     data-attr-disabled="newTodo === ''">Add Todo</button>
                 <button type="button" data-action="todoList = []" data-attr-disabled="todoList.length==0">Clear</button>
-                <label>Add Todo<input placeholder="Type todo item" data-value="newTodo" type="text" autofocus /></label>
+                <label>Add Todo<input placeholder="Type todo item" data-on-input="newTodo=e.target.value" data-value="newTodo" type="text" autofocus /></label>
             </form>
         </section>
         <section>

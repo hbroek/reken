@@ -1172,7 +1172,20 @@
     <nested30 id="nested30" class="outer" padding="48px">
       <nested30 class="inner" padding="32px">Hello</nested30>
     </nested30>
+    <!-- Test js reserved words can be used as string argument values-->
+    <template data-component="cp31" data-arg-arg31_0>
+      <div data-text="${arg31_0}">Should not be here</div>
+    </template>
+    <cp31 id="cp31" arg31_0="delete"></cp31>
 
+    <!-- Test support for passing array and obj refs-->
+    <template data-component="cp32" data-arg-arg32_0>
+      <div data-text="${arg32_0}">Should not be here</div>
+    </template>
+    <script>
+      let cp32Array = [{'a':10},{'b':20}]
+    </script>
+    <cp32 id="cp32" arg32_0="cp32Array[1]['b']"></cp32>
   <section>
     <!-- Test component shorthand functionality  -->
     <template data-component="short-hand1">
@@ -2826,13 +2839,21 @@
         expect(cp30).to.have.class('component')
         expect(cp30).to.have.style('padding', '48px')
         
-
         expect(cp30Nested).to.have.class('inner')
         expect(cp30Nested).to.have.class('component')
         expect(cp30Nested).to.have.style('padding', '32px')
 
         done();
       })
+      it('Pass javascript reserved word as an argument, treated as a string', (done) => {
+        expect(cp31).to.have.text('delete')
+        done();
+      })
+      it('Pass array and object index value in obj argument', (done) => {
+        expect(cp32).to.have.text('20')
+        done();
+      })
+
     })
     describe('data-component timer/interval tests', () => {
       it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
