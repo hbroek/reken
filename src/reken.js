@@ -32,7 +32,7 @@
 * - data-timer: Execute code after a specific amount of time.
 * - data-interval: Repeatedly executes code at a specific intervals.
 */
-const rekenVersion = '0.8.2';
+const rekenVersion = '0.8.3';
 if (typeof rkn_server_generated === 'undefined')
     var rkn_server_generated = false;
 if (typeof rkn_generate_code === 'undefined')
@@ -1387,10 +1387,10 @@ processIncludes(document.body.parentElement)
         processShortHandComponentNames();
         processComponentReferences(document.body.parentElement);
     }
-    init();
+    _rekenInit();
 });
 
-function init() {
+function _rekenInit() {
     function getParsedHash(hash) {
         let routing_path = []
         if (hash.length>2) {
