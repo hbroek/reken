@@ -10,26 +10,47 @@
     <title>Index of Reken demos</title>
 </head>
 <style>
-    a {
+    a.demo {
         text-transform: capitalize;
     }
 </style>
 <script>
-    links = []
+    let links = []
+    let filteredLinks = links
+    let tags = []
+    let tagValue = ""
 </script>
 
 <body>
     <script data-calc>
     links.sort();
+    if (tags.length==0 && links.length>0) {
+        for (let link of links) {
+            for (let tag of link.tags) {
+                if (tags.indexOf(tag)<0)
+                    tags.push(tag)                
+            }
+        }
+        tags.sort();
+        tags.unshift('')
+    }
+    filteredLinks = links.filter((item)=>item.tags.indexOf(tagValue)>=0||tagValue==='');
     </script>
     <header>
         <h1>Index of Reken demos</h1>
         <source-code sourceurl="document.location.href"></source-code>
     </header>
     <main>
+        <section data-if="tags.length>0">
+            <label>Show demos using:
+                <select data-for="tag:tags" data-value="tagValue">
+                    <option data-text="${tag.item}">tag.item</option>
+                </select>
+            </label>
+        </section>
         <section>
-            <ol data-for="link:links" data-rest="links:json/index.json">
-                <li><a data-attr-href="${link.item}" data-text="${link.item.replace(/\.html/,'')}"></a></li>
+            <ol data-for="link:filteredLinks" data-rest="links:json/index.json">
+                <li><a class="demo" data-attr-href="${link.item.name}" data-text="${link.item.name.replace(/\.html/,'')}"></a></li>
             </ol>
         </section>
     </main>
