@@ -23,6 +23,10 @@ main {
     padding: 0.5em;
 }
 
+p:has(code) {
+    overflow-x:hidden;
+}
+
 code.example {
     text-align: left;
     color: #FCFCFC;

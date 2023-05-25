@@ -54,6 +54,14 @@
         <p><sup>Quick start</sup> Add this code near the bottom of your HTML
             file:<br><br><code>&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt/script&gt;</code>
         </p>
+        <script>
+            let scriptCopied=false;
+            let rekenLoadScript='<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"><\/script>'
+        </script>
+        <button data-action="navigator.clipboard.writeText(`${rekenLoadScript}`);scriptCopied=true"
+            data-text="${scriptCopied?'Copied':'Copy'}"
+            data-timer="500:scriptCopied:scriptCopied=false;">
+        </button>
     </header>
     <main>
         <hr>
@@ -69,11 +77,11 @@
                 <span data-text="Counter: ${counter}"></span>
                 <button data-action="counter++">Increase Counter</button>
             </aside>
-            <header><code class="example">
+            <header><p><code class="example">
                 &lt;script&gt;counter = 0&lt;/script&gt;<br/>
                 &lt;span <mark>data-text="Counter: ${counter}"</mark>&gt;&lt;/span&gt;<br/>
                 &lt;button <mark>data-action="counter++"</mark>&gt;Increase Counter&lt;/button&gt;
-            </code></header>
+            </code></p></header>
         </section>
         <section>
             <aside>
@@ -164,7 +172,7 @@
                     library. Added the following tag at the bottom of your html page between the closing body and html
                     tag. <br /><br />Off course you can also host the library yourself.</p>
             </aside>
-            <header><code class="example">
+            <header><p><code class="example">
                 &nbsp;&nbsp;...<br/>
                 &nbsp;&lt;/body&gt;<br/>
                 &nbsp;&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt;/script&gt;<br/>
