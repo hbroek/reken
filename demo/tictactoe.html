@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css"/>
+    <title>Reken - Tic Tac Toe</title>
+</head>
+<body>
+    <header>
+        <h1>Reken - Tic Tac Toe</h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+
+    <main>
+        <!-- Inspired by https://react.dev/learn/tutorial-tic-tac-toe -->
+        <section>
+            <board></board>
+        </section>
+
+        <template data-component="square" data-arg-value>
+            <style>
+                :host {
+                    all: unset;
+                    width: 2em;
+                    height: 2em;
+                    font-weight:bold;
+                    background-color: white;
+                    text-align:center;
+                    vertical-align:center;
+                    font-size: 3em;
+                }
+            </style>
+            <button class="square" data-text="${value}">
+            </button>
+        </template>
+        
+        <template data-component="board">
+            <style>
+                :host {
+                    display:flex;
+                    flex-direction: column;
+                    gap:1em;
+                    align-items: center;
+                }
+                :host > .squares {
+                    display: inline-grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    background-color:black;
+                    gap: 1px;
+                }
+            </style>
+            <script>
+                let squares = Array(9);
+                let xIsNext = true;
+                let winner = "";
+                let status = ""
+        
+                function calculateWinner(blocks) {
+                    const lines = [
+                        [0, 1, 2],
+                        [3, 4, 5],
+                        [6, 7, 8],
+                        [0, 3, 6],
+                        [1, 4, 7],
+                        [2, 5, 8],
+                        [0, 4, 8],
+                        [2, 4, 6],
+                    ];
+                    for (let i = 0; i < lines.length; i++) {
+                        const [a, b, c] = lines[i];
+                        if (blocks[a] && blocks[a] === blocks[b] && blocks[a] === blocks[c]) {
+                            return blocks[a];
+                        }
+                    }
+                    return null;
+                }
+                function handleClick(i, next) {
+                    squares[i] = next?'X':'O'
+                    next = !next;
+                    return next;
+                }
+            </script>
+            <script data-calc>
+                winner = calculateWinner(squares)
+                if (winner) {
+                    status = 'Winner: ' + winner;
+                } else {
+                    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+                }
+            </script>
+            <div class="board">
+                <div class="status" data-text="${status}"></div>
+                <div class="squares" data-for="square:squares">
+                    <square value="${square.item??''}" data-action="if(!square.item) xIsNext = handleClick(square.index, xIsNext)"></square>
+                </div>
+                <button data-action="xIsNext=true;squares=new Array(9)">Reset</button>
+            </div>
+        </template>
+    </main>
+</body>
+<div data-include="includes/demo-lib.html"></div>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+</html>

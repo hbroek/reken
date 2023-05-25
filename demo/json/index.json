@@ -26,5 +26,6 @@
     {"name": "spa.html", "tags":["data-if","data-arg-","data-action","data-attr-"]},
     {"name": "spa-with-routing.html", "tags":["data-route","data-arg-","data-component","data-action","data-attr-","data-text"]},
     {"name": "svg.html", "tags":["data-value","data-for","data-attr-"]},
+    {"name": "tictactoe.html", "tags":["data-component","data-arg-","data-text","data-calc","data-for","data-action"]},
     {"name": "weather-alerts.html", "tags":["data-text","data-for","data-rest","data-value","data-attr-","data-action","data-class"]}
 ]
