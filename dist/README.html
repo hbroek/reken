@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>![Reken logo; blue html representing elements intertwined with orange reken elements](/assets/reken-logo.png) Reken website Why use Reken? Who is Reken for? How does Reken work? Here an example Installation Browser support Reken supports the following attributes Acknowledgments License</title>
+<title>![Reken logo; blue html representing elements intertwined with orange reken elements](/assets/reken-logo.png) Reken website Why use Reken? Who is Reken for? How does Reken work? Here an example Installation Browser support Reken supports the following attributes Reken provides the following API Acknowledgments License</title>
 <style>
 .markdown-body .octicon {
   display: inline-block;
@@ -1183,6 +1183,14 @@ You can also specify component state by specifying a script tag and initialize v
 </li>
 </ul>
 <p>Look at the demos and the Reken REPL for more examples and usages.</p>
+<h1><a id="user-content-reken-provides-the-following-api" class="anchor" aria-hidden="true" href="#reken-provides-the-following-api"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reken provides the following API</h1>
+<p>On the global namespace you can find the reken object. It has the following public members:</p>
+<ul>
+<li>
+<strong>version</strong> property; The Reken version number</li>
+<li>
+<strong>forceCalculate</strong> function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call <strong>reken.forceCalculate()</strong>.</li>
+</ul>
 <h1><a id="user-content-acknowledgments" class="anchor" aria-hidden="true" href="#acknowledgments"><span aria-hidden="true" class="octicon octicon-link"></span></a>Acknowledgments</h1>
 <h2><a id="user-content-mvpcss" class="anchor" aria-hidden="true" href="#mvpcss"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://andybrewer.github.io/mvp/" rel="nofollow">MVP.css</a></h2>
 <p>A semantic HTML stylesheet. Create good looking and concise demos.</p>
