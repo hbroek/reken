@@ -118,6 +118,12 @@ You can also specify component state by specifying a script tag and initialize v
 
 Look at the demos and the Reken REPL for more examples and usages. 
 
+# Reken provides the following API
+On the global namespace you can find the reken object. It has the following public members:
+- **version** property; The Reken version number
+- **forceCalculate** function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call **reken.forceCalculate()**.
+
+
 # Acknowledgments
 ## [MVP.css](https://andybrewer.github.io/mvp/)
 A semantic HTML stylesheet. Create good looking and concise demos.
