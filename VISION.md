@@ -8,7 +8,7 @@
 
 1. Reken functionality should support typical dynamic HTML operations: creation, deletion, text changes, attribute modification, styling, classes, and values. It does by attribute-based: assignments, conditions, looping, loaders, routing, and timer definition.
 
-1. Support reuse of dynamic HTML fragments using via components.
+1. Support reuse of dynamic HTML fragments with reusable components that act like HTML tags.
 
 1. Provide an easy way to respond to events and update the page state, which should result in an automatic update of the UI.
 
