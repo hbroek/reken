@@ -6,12 +6,11 @@ Please read the following guidelines for you to determine where and how can you 
 
 ## Table of Contents
 
-0. [Types of contributions we're looking for](#types-of-contributions-were-looking-for)
-0. [Ground rules & expectations](#ground-rules--expectations)
-0. [How to contribute](#how-to-contribute)
-0. [Style guide](#style-guide)
-0. [Setting up your environment](#setting-up-your-environment)
-0. [Community](#community)
+1. [Types of Contributions we're looking for](#types-of-contributions-we-are-looking-for)
+1. [Ground rules & expectations](#ground-rules--expectations)
+1. [How to contribute](#how-to-contribute)
+1. [Setting up your environment](#setting-up-your-environment)
+1. [Community](#community)
 
 ## Types of Contributions we are looking for
 
@@ -22,7 +21,7 @@ Please read the following guidelines for you to determine where and how can you 
 
 Note: Reken's philosophy is to have as little dependencies as possible, hence any new dependencies need to have a really good reason to be introduced. 
  
-## Contribution rules
+## Ground rules & expectations
 * Be kind and thoughtful in your conversations around this project. We all come from different backgrounds and projects, which means we likely have different perspectives on "how open source is done." Try to listen to others rather than convince them that your way is correct.
 * Open Source Guides are released with a [Contributor Code of Conduct](./CODE_OF_CONDUCT.md). By participating in this project, you agree to abide by its terms.
 * Please ensure that your contribution passes all tests if you open a pull request. If there are test failures, you will need to address them before we can merge your contribution. (note this does not apply yet, but hopefully in the future runtime / designtime / demo / repl pull requests are accepted)
