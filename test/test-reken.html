@@ -1340,6 +1340,43 @@
     <div data-include="includes/library2.html"></div>
     <div id="il0" data-include="includes/library3.html"></div>
   </section>
+  <hr>
+
+  <!-- Github issues test section   -->
+  <!-- -------------- ------------- -->
+
+  <!-- https://github.com/hbroek/reken/issues/17                   -->
+  <!-- Verify application scope names are not overriding by Reken  -->
+  <section>
+    <script>
+      let root = 'root';
+      let _v = '_v';
+      let isEventHandler = 'isEventHandler';
+      let indexesInForAncestors = 'indexesInForAncestors';
+      let ctxIdx = 'ctxIdx';
+      let _l = '_l';
+      let classRegistry = 'classRegistry';
+      let _main = '_main';
+      let processRestCall = 'processRestCall';
+      let disableTimers = 'disableTimers';
+      let _mainInstance = '_mainInstance';
+    </script>
+    <div>
+      <div id="issue17_0" data-text="${root}"></div>
+      <div id="issue17_1" data-text="${_v}"></div>
+      <div id="issue17_2" data-text="${isEventHandler}"></div>
+      <div id="issue17_3" data-text="${indexesInForAncestors}"></div>
+      <div id="issue17_4" data-text="${ctxIdx}"></div>
+      <div id="issue17_5" data-text="${_l}"></div>
+      <div id="issue17_6" data-text="${classRegistry}"></div>
+      <div id="issue17_7" data-text="${_main}"></div>
+      <div id="issue17_8" data-text="${processRestCall}"></div>
+      <div id="issue17_9" data-text="${disableTimers}"></div>
+     <div id="issue17_10" data-text="${_mainInstance}"></div>
+    </div>
+  </section>
+  <hr>
+
   <script>
   function runRekenTests() {
     mocha.setup('bdd');
@@ -3068,13 +3105,30 @@
         await waitFor(20, () => inc4.children.item(1).textContent=='Count:2')
       })
     })
+
+    describe('issue 17 test', () => {
+      it('Test if global application variables are not shielded by reken local vars', (done) => {
+        expect($('issue17_0')).to.contain.text('root');
+        expect($('issue17_1')).to.contain.text('_v');
+        expect($('issue17_2')).to.contain.text('isEventHandler');
+        expect($('issue17_3')).to.contain.text('indexesInForAncestors');
+        expect($('issue17_4')).to.contain.text('ctxIdx');
+        expect($('issue17_5')).to.contain.text('_l');
+        expect($('issue17_6')).to.contain.text('classRegistry');
+        expect($('issue17_7')).to.contain.text('_main');
+        expect($('issue17_8')).to.contain.text('processRestCall');
+        expect($('issue17_9')).to.contain.text('disableTimers');
+        expect($('issue17_10')).to.contain.text('_mainInstance');
+        done();
+      })
+    })
     
     const fireEvent = (target, eventType, payLoad) => {
       let classRoot = target.parentElement;
-      while (classRoot !== null && !('rkn_class' in classRoot) ) {
+      while (classRoot !== null && !('$class' in classRoot) ) {
         classRoot = classRoot.parentElement;
       }
-      let _instance = classRoot.rkn_class
+      let _instance = classRoot.$class
       let event = {}
       if (payLoad)
         event = {...payLoad};

@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.0';
+    reken.version = '0.9.1';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -49,8 +49,8 @@
         'async',
         'autofocus',
         'autoplay',
-        'checked',
         'controls',
+        'checked',
         'default',
         'defer',
         'disabled',
@@ -174,15 +174,15 @@
                 let transformerFunctionReference = ""
 
 
-                if (elem.id != '' && elemString != "this.root" && elemString === compString)
+                if (elem.id != '' && elemString != "this.$root" && elemString === compString)
                     elemString = "document.getElementById('"+elem.id+"')"
 
                 switch (key) {
                     case "text":
-                        controlCode.push(indent+"_v = `" + value + "`;\n    if (" + elemString + ".textContent !== _v)\n      " + elemString + ".textContent = _v"); // Update DOM element with HTML Element from template string if different
+                        controlCode.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".textContent = $v"); // Update DOM element with HTML Element from template string if different
                         break;
                     case "html":
-                        controlCode.push("_v=`" + value + "`;if (" + elemString + ".innerHTML !== _v) " + elemString + ".innerHTML = _v"); // Update DOM element with HTML Element from template string if different
+                        controlCode.push("$v=`" + value + "`;if (" + elemString + ".innerHTML !== $v) " + elemString + ".innerHTML = $v"); // Update DOM element with HTML Element from template string if different
                         break;
                     case "value":
                         if (elem.type == 'checkbox') {
@@ -212,7 +212,7 @@
                         }
 
                         const eventName = 'value' // Create pseudo eventName for data-value handlers, so a real change or input event can still be registered on the element
-                        let eventId = eventName+"_"+uniqueID();
+                        let eventId = uniqueID(eventName);
                         initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
 
                         const eventContext = getEventContext(elem)
@@ -227,12 +227,12 @@
                         eventCode.push({
                             'elemId':(topForString === undefined ? compString : topForString),
                             'eventType':eventType,
-                            'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                            'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                             'handlerName': eventId,
                             'handlerCode': (elem.type === 'file') ?
-                                (valueValue + "=e.target.files[0];importData(e.target, ()=>{_mainInstance.controller({})}, "+transformerFunctionReference+")") :
-                                (valueValue + "=typedReturn(e.target," + valueValue + ");"),
-                            'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + eventContext.contextString + ";",
+                                (valueValue + "=e.target.files[0];$importData(e.target, ()=>{$mainInstance.controller({})}, "+transformerFunctionReference+")") :
+                                (valueValue + "=$typedReturn(e.target," + valueValue + ");"),
+                            'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + eventContext.contextString + ";",
                             "deferredUpdate": elem.type === 'file'
                         })
                         break;
@@ -241,7 +241,7 @@
                             break;
                     }    
                     case "style":
-                        controlCode.push("_v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== _v) " + elemString + ".setAttribute('style',  _v)"); // Update DOM element with HTML Element from template string if different
+                        controlCode.push("$v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== $v) " + elemString + ".setAttribute('style',  $v)"); // Update DOM element with HTML Element from template string if different
                         break;
 
                     case "class1": {
@@ -308,8 +308,8 @@
                             if (_class)
                                 controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                             else {
-                                controlCode.push("_v=(" + value + "?'':'none');");
-                                controlCode.push("if ("+elemString + ".style.display!==_v) " + elemString + ".style.display=_v;");
+                                controlCode.push("$v=(" + value + "?'':'none');");
+                                controlCode.push("if ("+elemString + ".style.display!==$v) " + elemString + ".style.display=$v;");
                             }
 
                             if (!elem.dataset.for) { // Elements with For process their own children
@@ -324,16 +324,16 @@
                     }
                     case "action": {
                         let eventName = "click";
-                        let eventId = eventName+"_"+uniqueID();
+                        let eventId = uniqueID(eventName);
                         initCode.push(compString + ".dataset.event_" + eventName + " = (" + compString + ".dataset.event_" + eventName + "??'')+'" + eventId+"'+':'");
 
                         eventCode.push({
                             'elemId':(topForString === undefined ? compString : topForString),
                             'eventType':eventName,
-                            'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                            'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                             'handlerName': eventId,
                             'handlerCode':value,
-                            'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                            'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                         })
                     }
                     break;
@@ -353,7 +353,7 @@
                             console.error(`data-timer: [${value}] incorrect amount of arguments`)
                         else {
                             let eventName = "timer";
-                            let eventId = eventName+"_"+uniqueID();
+                            let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
             
                             eventCode.push({
@@ -362,11 +362,11 @@
                                 'handlerEventCheck': "",
                                 'handlerName': eventId,
                                 'handlerCode':code,
-                                'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                                'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                             })
-                            controlCode.push(`{const _l = ${elemString}`);
-                            controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('timerID')) _l.timerID = setTimeout(()=>{this.${eventId}({'target':_l});delete _l.timerID;_mainInstance.controller({})}, ${delay})`);
-                            controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('timerID')) {clearTimeout(_l.timerID); delete _l.timerID}}`);
+                            controlCode.push(`{const $l = ${elemString}`);
+                            controlCode.push(`if ((${condition}) && !$l.hasOwnProperty('timerID')) $l.timerID = setTimeout(()=>{this.${eventId}({'target':$l});delete $l.timerID;$mainInstance.controller({})}, ${delay})`);
+                            controlCode.push(`if (!(${condition}) && $l.hasOwnProperty('timerID')) {clearTimeout($l.timerID); delete $l.timerID}}`);
                         }
                     }
                     break;
@@ -386,7 +386,7 @@
                             console.error('data-interval: ['+value+'] incorrect amount of arguments')
                         else {
                             let eventName = "interval";
-                            let eventId = eventName+"_"+uniqueID();
+                            let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
             
                             eventCode.push({
@@ -395,11 +395,11 @@
                                 'handlerEventCheck': "",
                                 'handlerName': eventId,
                                 'handlerCode':code,
-                                'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                                'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                             })
-                            controlCode.push(`{const _l = ${elemString}`);
-                            controlCode.push(`if ((${condition}) && !_l.hasOwnProperty('intervalID')) _l.intervalID = setInterval(()=>{this.${eventId}({'target':_l});_mainInstance.controller({})}, ${interval})`);
-                            controlCode.push(`if (!(${condition}) && _l.hasOwnProperty('intervalID')) {clearInterval(_l.intervalID); delete _l.intervalID}}`);
+                            controlCode.push(`{const $l = ${elemString}`);
+                            controlCode.push(`if ((${condition}) && !$l.hasOwnProperty('intervalID')) $l.intervalID = setInterval(()=>{this.${eventId}({'target':$l});$mainInstance.controller({})}, ${interval})`);
+                            controlCode.push(`if (!(${condition}) && $l.hasOwnProperty('intervalID')) {clearInterval($l.intervalID); delete $l.intervalID}}`);
                         }
                         break;
                     }
@@ -417,17 +417,17 @@
             
                         let _var = value.substring(0, value.indexOf(':'));
                         let _data = value.substring(value.indexOf(':') + 1);
-                        let _arrayName = '_arr_' + uniqueID();
+                        let _arrayName = uniqueID('arr');
                         if (isNaN(_data)) {
                             controlCode.push(indent+'let ' +_arrayName + ' = (typeof ('+_data+') !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
                         }
                         else
                             controlCode.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
-                        controlCode.push(indent+'updateForChildren(' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
+                        controlCode.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
 
                         // At runtime loop thru the direct children
-                        let _forVar = "rkn_forElem_" + uniqueID();
-                        let _forIndex = "rkn_counter_" + uniqueID();
+                        let _forVar = uniqueID("forElem");
+                        let _forIndex = uniqueID("counter");
                         controlCode.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
 
                         controlCode.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
@@ -468,12 +468,12 @@
                             let compControlCode = [];
                             let compEventCode = [];
                             
-                            buildClasses(true, elem, "this.root", "this.root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
+                            buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
 
                             if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
                                 let i = 0;
                                 for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                                    let elemString = "this.root"
+                                    let elemString = "this.$root"
                                     buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
                                     i++
                                 }
@@ -485,23 +485,23 @@
                                 const [compDefinition, compStyle] = generateComponentClass(value, value, compInitCode, compControlCode, compEventCode, routeVars, "")
                                 styles.push(...compStyle);
                                 definition.push(...compDefinition)
-                                definition.push(`classRegistry['${className}']=${className.replace('-','_')}`)
+                                definition.push(`$classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                 generatedClass[className] = true;        
                             }
                             if (elem.dataset.hasSlot=='true' || forVars != '') {
-                                className = value+'_'+uniqueID();
+                                className = uniqueID(value);
                                 const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
                                 definition.push(...compDefinition)
-                                definition.push(`classRegistry['${className}']=${className.replace('-','_')}`)
+                                definition.push(`$classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                 generatedClass[className] = true;
                             }
                             else {
-                                if (value !== '_main') {
+                                if (value !== '$main') {
                                     className = value+'_static';
                                     if (!generatedClass[className]) {
                                         const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
                                         definition.push(...compDefinition)
-                                        definition.push(`classRegistry['${className}']=${className.replace('-','_')}`)
+                                        definition.push(`$classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                         generatedClass[className] = true;
                                     }
                                 }
@@ -514,7 +514,7 @@
                         elem.dataset.className = className;
 
                         //Add code for class initialization, root component instances in setup, childcomponent instances in class definition
-                        initCode.push(`    ${compString}.rkn_class = new ${className.replace('-','_')}(${compString})`)
+                        initCode.push(`    ${compString}.$class = new ${(className=='$main'?'':'$')+className.replace('-','_')}(${compString})`)
 
                         controlCode.push("    {"); 
                         let args = []
@@ -525,7 +525,7 @@
                                     arg = attr.substring(4).toLowerCase()
                                 let value = elem.dataset[attr]                 
                                 //Check if variable
-                                let argValue = uniqueID();
+                                let argValue = uniqueID('arg');
                                 if (/^[a-zA-Z_$][0-9a-zA-Z_$.\[\]\']*$/.test(value)) {
                                     if (isReservedWord(value))
                                         controlCode.push("      let " + argValue + " = '"+value+"'")
@@ -550,7 +550,7 @@
                         if (args.length > 0)
                             _stringArgs += ','
                         _stringArgs += forVars
-                        controlCode.push(`      ${elemString}.rkn_class.controller({${_stringArgs}})`)
+                        controlCode.push(`      ${elemString}.$class.controller({${_stringArgs}})`)
                         controlCode.push('    }')
                         break;
 
@@ -575,7 +575,7 @@
                         if (elem.dataset.restOptions1) {
                             options = elem.dataset.restOptions1
                         }
-                        controlCode.push("    processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof _main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";_mainInstance.controller({})})");
+                        controlCode.push("    $processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
                         break;
 
                     default: {
@@ -589,16 +589,16 @@
                         else if (key.startsWith('on') || (key.startsWith('on1') && !componentRoot)) {
                             let eventName = key.substring(key.startsWith('on1')?3:2).toLowerCase();
                             let handler = value;
-                            let eventId = eventName+"_"+uniqueID();
+                            let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
             
                             eventCode.push({
                                 'elemId':(topForString === undefined ? compString : topForString),
                                 'eventType':eventName,
-                                'handlerEventCheck': "  if (!isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                                'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                                 'handlerName': eventId,
                                 'handlerCode':handler,
-                                'forContext': "let ctxIdx = indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                                'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
                             })
                         }
                     }
@@ -612,11 +612,11 @@
                 i++
             }
             if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
-                controlCode.push('} else {disableTimers('+elemString+')}')
+                controlCode.push('} else {$disableTimers('+elemString+')}')
         }
         else {
             if (elem.dataset.if1 != undefined && !componentRoot) {
-                controlCode.push('} else {disableTimers('+elemString+')}')
+                controlCode.push('} else {$disableTimers('+elemString+')}')
             }
         }        
     }
@@ -715,12 +715,12 @@
     const generateComponentClass = (componentName, templateName, compInitCode, compControlCode, compEventCode, routeVars, forVars) => {
         let templateElement = document.querySelector("template[data-component='"+templateName+"']")
 
-        const isBaseClass = (componentName == templateName || componentName == '_main')
+        const isBaseClass = (componentName == templateName || componentName == '$main')
         let output = []
 
         // State initialization
         const [stateVars, initCode] = getStateVars(templateElement)
-        stateVars.push("root")
+        stateVars.push("$root")
 
         // Get comp arguments
         const initArgs = getInitParams(templateElement, 'arg')
@@ -736,20 +736,20 @@
 
         // Build constructor
         output.push('//==============================================================================')
-        output.push(`class ${componentName.replace('-', '_')} extends ${isBaseClass?'rkn_base':templateName.replace('-','_')} {`);
-        //    output.push(`class ${componentName.replace('-', '_')} extends rkn_base {`);
+        output.push(`class ${(componentName=='$main'?'':'$')+componentName.replace('-', '_')} extends ${isBaseClass?'$base':'$'+templateName.replace('-','_')} {`);
+        //    output.push(`class ${componentName.replace('-', '_')} extends $base {`);
 
-        if (isBaseClass && componentName != '_main') {
+        if (isBaseClass && componentName != '$main') {
             output.push(...methodCode)
-            output.push('  constructor(root) {');
-            output.push('  super(root)');
+            output.push('  constructor($root) {');
+            output.push('  super($root)');
         
-            output.push('    this.root = root;');
+            output.push('    this.$root = $root;');
 
         
             output.push(...initCode)
-            for (let _var of stateVars)
-            output.push(`    this.${_var} = ${_var}`)
+            for (let _var of stateVars.filter((_v)=>_v!='$root'))
+                output.push(`    this.${_var} = ${_var}`)
 
             output.push('  }')
 
@@ -757,10 +757,10 @@
             return [output, getStyle(templateElement)]
         }
             
-        output.push('  constructor(root) {');
-        output.push('  super(root)');
+        output.push('  constructor($root) {');
+        output.push('  super($root)');
 
-        output.push('    this.root = root;');
+        output.push('    this.$root = $root;');
         // Add references to top descendant classes
         output.push(...compInitCode)
 
@@ -771,7 +771,7 @@
 
         // Create static factory method
         output.push('  static createInstance(elem) {')
-        output.push(`    return new ${componentName.replace('-', '_')}(elem);`)
+        output.push(`    return new ${(componentName=='$main'?'':'$')+componentName.replace('-', '_')}(elem);`)
         output.push('  }')
         
         let stringParams = initParams.join(',')
@@ -782,7 +782,7 @@
         // Build controller
         output.push(`  controller({${stringParams}}) {`)
 
-        // if (componentName === '_main')
+        // if (componentName === '$main')
         //     output.push('console.time("controller")');
 
         for (let _var of stateVars)
@@ -791,7 +791,7 @@
         for (let _method of methods)
             output.push(_method)
 
-        if (componentName === '_main') {
+        if (componentName === '$main') {
             for (let _routeVar of routeVars) {
                 output.push("    "+_routeVar)
             }
@@ -801,7 +801,7 @@
         output.push(...getScript(templateElement))
 
         if (compControlCode.length>0) {
-            output.push('    let _v, elem')
+            output.push('    let $v, elem')
             output.push(...compControlCode)
 
         }
@@ -813,17 +813,19 @@
         }
 
         // save potentially updated member state
-        for (let _var of stateVars)
+        for (let _var of stateVars.filter((_v)=>_v!='$root'))
             output.push(`    this.${_var} = ${_var}`)
 
-        // if (componentName === '_main')
+        // if (componentName === '$main')
         // output.push('console.timeEnd("controller")');
         output.push('  }')
 
         // Build event handlers
         for (let event of compEventCode) {
             output.push("  "+ event.handlerName+"(e) {")
-            output.push("  " + event.handlerEventCheck);
+            if ((event.handlerEventCheck??'').trim()!=='') {
+                output.push("  " + event.handlerEventCheck);
+            }
 
             // set state vars
             for (let _var of stateVars)
@@ -847,14 +849,14 @@
 
             //Notify if value argument has changed
             for (let valueVar of bindKeys) {
-                output.push("    if ("+valueVar+"!==this."+valueVar+") root.dispatchEvent(new CustomEvent('"+valueVar+"', {detail:{'value':"+valueVar+"},bubbles: true}))");
+                output.push("    if ("+valueVar+"!==this."+valueVar+") $root.dispatchEvent(new CustomEvent('"+valueVar+"', {detail:{'value':"+valueVar+"},bubbles: true}))");
             }
 
-            for (let _var of stateVars)
+            for (let _var of stateVars.filter((_v)=>_v!='$root'))
                 output.push(`    this.${_var} = ${_var}`)
             
             if (!(event.deferredUpdate || event.eventType === 'timer'|| event.eventType === 'interval')) 
-                output.push("    _mainInstance.controller({})");
+                output.push("    $mainInstance.controller({})");
             output.push("  }");
         }
 
@@ -1002,7 +1004,7 @@
 
             if (typeof _parent.dataset.for !== 'undefined') {
                 eventContext.forContext = getForContext(_parent);
-                const idxName = 'ctxIdx[' + (eventContext.idx++) + ']'
+                const idxName = '$ctxIdx[' + (eventContext.idx++) + ']'
 
                 eventContext.forContext.idxName = idxName;
                 const {forIterator, contextVar} = eventContext.forContext;
@@ -1042,8 +1044,8 @@
     }
 
     let _ID = 0;
-    const uniqueID = () => {
-        return 'rkn' + _ID++;
+    const uniqueID = (label) => {
+        return `$${label??''}` + _ID++;
     }
 
     const substituteShortHandComponentNames = (root, template) => {
@@ -1294,7 +1296,7 @@
         return -1;
     }
 
-    const updateForChildren = (elem, array, leafs) => {
+    const updateForChildren = (registry, disableTimers, elem, array, leafs) => {
         let _children = elem.children;
         let _numberOfChildren = _children.length/leafs;
         if (_numberOfChildren > 0) {
@@ -1317,7 +1319,7 @@
                     }
                     else { // No child yet create it
                         _child = _firstChilds[l].cloneNode(true);
-                        initComponentElement(_child)
+                        initComponentElement(registry, _child)
 
                         elem.appendChild(_child);
                     }
@@ -1362,15 +1364,15 @@
         return count;
     }
 
-    const initComponentElement = (elem) => {
+    const initComponentElement = (registry, elem) => {
         if (elem.dataset.component !== undefined) {
-            if (elem.rkn_class === undefined) {
-                elem.rkn_class = classRegistry[elem.dataset.className].createInstance(elem)
+            if (elem.$class === undefined) {
+                elem.$class = registry[elem.dataset.className].createInstance(elem)
             }
             return;
         }
         for (let child of elem.children) {
-            initComponentElement(child)
+            initComponentElement(registry, child)
         }
     }
 
@@ -1388,7 +1390,7 @@
 
         window.addEventListener('hashchange', (e) => {
             reken.routing_path = getParsedHash(window.location.hash);
-            document.body.parentElement.rkn_class.controller({})
+            document.body.parentElement.$class.controller({})
         })
 
         if (!isServerGenerated()) {
@@ -1398,8 +1400,8 @@
             let setup = [];
             let styles = ['template {display:none !important;}'];
 
-            document.body.parentElement.setAttribute('data-component', '_main')
-            definition.push('class rkn_base { dispatch(type, content){this.root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
+            document.body.parentElement.setAttribute('data-component', '$main')
+            definition.push('class $base { dispatch(type, content){this.$root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
             buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '')
             if (styles.length>0) {
                 const headElem = document.querySelector('head');
@@ -1412,15 +1414,15 @@
                 headElem.appendChild(styleElem);
             }
 
-            definition.push("let _mainInstance = _main.createInstance(document.body.parentElement)")
-            definition.push("document.body.parentElement.rkn_class = _mainInstance");
+            definition.push("let $mainInstance = $main.createInstance(document.body.parentElement)")
+            definition.push("document.body.parentElement.$class = $mainInstance");
             definition.push("document.body.dispatchEvent(new CustomEvent('rekeninitialized', {}))")
-            definition.push("_mainInstance.controller({})")
+            definition.push("$mainInstance.controller({})")
             definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
             let definitionString = definition.join('\n')
-            // console.log(definitionString)
-            let controllerFunction = new Function('reken', 'classRegistry', 'updateForChildren', 'disableTimers', 'processRestCall', 'indexesInForAncestors', 'isEventHandler', 'typedReturn', 'importData', definitionString);
+            console.log(definitionString)
+            let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', definitionString);
             if (!doGenerateCode())
                 controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData);
             if (doGenerateCode() && !isServerGenerated()) {
@@ -1459,7 +1461,7 @@
     }
     /* Force executing the controller, only call as last resort for example after async model updates */
     reken.forceCalculate = () => {
-        document.body.parentElement.rkn_class.controller({})
+        document.body.parentElement.$class.controller({})
     }
     // Export the reken global object
     globalThis.reken = reken;
