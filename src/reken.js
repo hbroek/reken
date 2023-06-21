@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.8.4';
+    reken.version = '0.9.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -1043,7 +1043,7 @@
 
     let _ID = 0;
     const uniqueID = () => {
-        return 'rkn' + _ID++; // Change of collisions will super small
+        return 'rkn' + _ID++;
     }
 
     const substituteShortHandComponentNames = (root, template) => {
