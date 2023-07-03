@@ -1178,6 +1178,9 @@ You can also specify component state by specifying a script tag and initialize v
 <li>
 <p><strong>data-include</strong>: Include an external HTML file into the HTML document with the data-include element. This allows you to import a component library or import commonly used HTML fragments like a header and/or a footer. The syntax is: <em>&lt;div data-include="mylibrary.html"&gt;</em>. It also support subfolders such as: <em>&lt;div data-include="includes/mylibrary.html"&gt;</em>. Included files themselves may include other HTML files. Note use wisely as the more includes the longer it takes for a page to render.</p>
 </li>
+<li>
+<p><strong>data-ref</strong>: With the data-ref attribute, you can specify the variable name Reken will assign the element reference of the attribute's HTMLElement. For example <em>&lt;input data-ref="inputControl"/&gt;.</em> The already declared variables <em>inputControl</em> will refer to the input control HTMLElement, so that its properties and methods can be accessed. Note, when applying Reken properly there should be many usecases to use this. Some usecases are: setting/checking focus on an element or working with 3rd-party libraries that need a reference to an HTML element.</p>
+</li>
 </ul>
 <p>Look at the demos and the Reken REPL for more examples and usages.</p>
 <h2><a id="user-content-javascript-api" class="anchor" aria-hidden="true" href="#javascript-api"><span aria-hidden="true" class="octicon octicon-link"></span></a>JavaScript API</h2>
@@ -1187,7 +1190,9 @@ You can also specify component state by specifying a script tag and initialize v
 <li>
 <strong>version</strong> property; The Reken version number</li>
 <li>
-<strong>forceCalculate</strong> function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call <code>reken.forceCalculate()</code>.</li>
+<strong>force_calculate</strong> function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call <code>reken.force_calculate()</code>.</li>
+<li>
+<strong>forceCalculate</strong> function; Deprecated. See <code>force_calculate</code>.</li>
 </ul>
 <h2><a id="user-content-acknowledgments" class="anchor" aria-hidden="true" href="#acknowledgments"><span aria-hidden="true" class="octicon octicon-link"></span></a>Acknowledgments</h2>
 <ul>
