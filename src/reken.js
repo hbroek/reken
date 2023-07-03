@@ -184,8 +184,6 @@
                     }
 
                     case "ref":
-//                        if (forVars!="" && !elem.dataset.for) {
-                        // if (forVars!="" && typeof topForString !== 'undefined') {
                         if (typeof topForString !== 'undefined') {
                             console.error(elemString, compString, value);
                             refArray.push([value, elemString.split('.').slice(1).join('.')])
@@ -1340,17 +1338,19 @@
     const updateForChildren = (registry, disableTimers, elem, array, leafs) => {
         let _children = elem.children;
         let _numberOfChildren = _children.length/leafs;
-        if (_numberOfChildren > 0) {
+        if (_numberOfChildren > 0 || elem.childrenStore) {
             
-            let _firstChilds = [] 
-            for (let l = 0; l < leafs; l++) {
-                _firstChilds[l] = _children[l];
-                _firstChilds[l].removeAttribute('id');
-                _firstChilds[l].querySelectorAll('[id]').forEach(_childElem => {
-                    _childElem.removeAttribute('id');
-                })
+            if (!elem.childrenStore) { // Initialize store for prototype child elements
+                elem.childrenStore = []
+                let _firstChilds = elem.childrenStore;
+                for (let l = 0; l < leafs; l++) {
+                    _firstChilds[l] = _children[l]; // store
+                    _firstChilds[l].removeAttribute('id'); // to avoid duplicate ids remove them all including from the descendants.
+                    _firstChilds[l].querySelectorAll('[id]').forEach(_childElem => {
+                        _childElem.removeAttribute('id');
+                    })
+                }
             }
-
             for (let i = 0; i < array.length; i++) {
                 let _child;
                 for (let l = 0; l < leafs; l++) {
@@ -1359,22 +1359,21 @@
                         _child = _children[elemIndex];
                     }
                     else { // No child yet create it
-                        _child = _firstChilds[l].cloneNode(true);
+                        _child = elem.childrenStore[l].cloneNode(true)
                         initComponentElement(registry, _child)
 
                         elem.appendChild(_child);
                     }
-                    if (_child && _child.style.display !== '')
-                        _child.style.display = '';
                 }
             }
             let checkForTimers=true;
+            const _toDelete = [] // This will need to save the first (set of) element(s) when length = 0; 
             for (let i = array.length; i < _numberOfChildren; i++) {
                 for (let l = 0; l < leafs; l++) {
                     let elemIndex = i*leafs+l;
 
-                    if (_children[elemIndex] && _children[elemIndex].style.display !== 'none') {                
-                        _children[elemIndex].style.display = 'none';
+                    if (_children[elemIndex]) {                
+                        _toDelete.push(_children[elemIndex]); //save for removal
                         if (checkForTimers) {
                             if (disableTimers(_children[elemIndex])==0)
                                 checkForTimers = false;
@@ -1384,6 +1383,7 @@
                         continue;
                 }
             }
+           _toDelete.forEach(child=>{elem.removeChild(child)})
         }
     }
     const disableTimers = (elem) => {
@@ -1464,7 +1464,7 @@
             definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
             let definitionString = definition.join('\n')
-            // console.log(definitionString)
+            console.log(definitionString)
             let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', definitionString);
             if (!doGenerateCode())
                 controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData);

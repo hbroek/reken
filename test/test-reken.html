@@ -2201,10 +2201,9 @@
         let f6_1_button = document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(7) > button');
         //call delete click handler on the for node
         fireEvent(f6_1_button, "click");
-        expect($('f6')).to.have.length(3)
+        expect($('f6')).to.have.length(2)
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2'])
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','Maria'])
-        expect(document.querySelector('#f6 > tr:nth-child(3)')).not.to.be.displayed
         done();
       })
       it('Render 12 li\'s', (done) => {
@@ -2474,8 +2473,7 @@
         //Remove 2nd row with button
         const cp63button = document.querySelector('#cp6 > ul > li:nth-child(2) > button.delete')
         fireEvent(cp63button, "click")
-        // Reken does not remove unused for elements just hides them.
-        expect(document.querySelector('#cp6 > ul > li:nth-child(3)')).not.to.be.displayed
+        expect(cp6Ul).to.have.length(2);
         expect(cp6Summary).to.have.text('arr_elems: 10,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 30'])
 
