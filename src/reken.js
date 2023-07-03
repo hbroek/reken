@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.1';
+    reken.version = '0.9.2';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -110,7 +110,7 @@
     ]
     const isReservedWord = (word) => jsReservedWords.indexOf(word)>=0
 
-    const buildClasses = (componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars) => {
+    const buildClasses = (componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray) => {
         if (elem.tagName == "TEMPLATE")
             return; //Ignore template tags
 
@@ -149,7 +149,7 @@
                         if (key.startsWith('arg') || key.startsWith('bind') || key.startsWith('action1') || key.startsWith('style1')
                             || key.startsWith('class1') || key.startsWith('if1') || key.startsWith('on1') || key.startsWith('attr1')
                             || key.startsWith('timer1') || key.startsWith('interval1') || key.startsWith('route1') 
-                            || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1'))
+                            || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1') || key.startsWith('ref1'))
                             filteredKeys.push(key)
                     }
                     keys = filteredKeys;
@@ -157,7 +157,7 @@
             } 
 
             let orderedKeys = []
-            let firsts = ['style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
+            let firsts = ['ref1', 'style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'ref', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
             for (let first of firsts) {
                 let indexInKeys = keys.indexOf(first);
                 if (indexInKeys >= 0) {
@@ -178,24 +178,42 @@
                     elemString = "document.getElementById('"+elem.id+"')"
 
                 switch (key) {
+                    case "ref1": {
+                        if (componentRoot)
+                            break;
+                    }
+
+                    case "ref":
+//                        if (forVars!="" && !elem.dataset.for) {
+                        // if (forVars!="" && typeof topForString !== 'undefined') {
+                        if (typeof topForString !== 'undefined') {
+                            console.error(elemString, compString, value);
+                            refArray.push([value, elemString.split('.').slice(1).join('.')])
+                            controlCode.third.push(indent+value + " = " + elemString +";");
+                            console.error('ref add ' + value + elemString)
+                        }
+                        else {
+                            controlCode.first.push(indent+value + " = " + elemString +";");
+                        }
+                        break;
                     case "text":
-                        controlCode.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".textContent = $v"); // Update DOM element with HTML Element from template string if different
+                        controlCode.third.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".textContent = $v"); // Update DOM element with HTML Element from template string if different
                         break;
                     case "html":
-                        controlCode.push("$v=`" + value + "`;if (" + elemString + ".innerHTML !== $v) " + elemString + ".innerHTML = $v"); // Update DOM element with HTML Element from template string if different
+                        controlCode.third.push("$v=`" + value + "`;if (" + elemString + ".innerHTML !== $v) " + elemString + ".innerHTML = $v"); // Update DOM element with HTML Element from template string if different
                         break;
                     case "value":
                         if (elem.type == 'checkbox') {
                             if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
-                                controlCode.push(indent + elemString + ".checked = " + value + ".indexOf(" + elemString + ".value) > -1");
+                                controlCode.third.push(indent + elemString + ".checked = " + value + ".indexOf(" + elemString + ".value) > -1");
                             else
-                                controlCode.push(indent + elemString + ".checked = " + value);
+                                controlCode.third.push(indent + elemString + ".checked = " + value);
                         }
                         else if (elem.type == 'radio') {
                             if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
-                                controlCode.push(indent + elemString + ".checked = " + value + " == " + elemString + ".value");
+                                controlCode.third.push(indent + elemString + ".checked = " + value + " == " + elemString + ".value");
                             else
-                                controlCode.push(indent + elemString + ".checked = " + value);
+                                controlCode.third.push(indent + elemString + ".checked = " + value);
                         }
                         else if (elem.type == 'file') {
                             let transformerIndex = value.indexOf(':')
@@ -205,7 +223,7 @@
                             }
                         }
                         else
-                            controlCode.push(indent + elemString + ".value = " + value);
+                            controlCode.third.push(indent + elemString + ".value = " + value);
                         let eventType = "change";
                         if (elem.tagName === 'TEXTAREA' || elem.type === 'range') {
                             eventType = 'input';
@@ -232,8 +250,9 @@
                             'handlerCode': (elem.type === 'file') ?
                                 (valueValue + "=e.target.files[0];$importData(e.target, ()=>{$mainInstance.controller({})}, "+transformerFunctionReference+")") :
                                 (valueValue + "=$typedReturn(e.target," + valueValue + ");"),
-                            'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + eventContext.contextString + ";",
-                            "deferredUpdate": elem.type === 'file'
+                            'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + eventContext.contextString + ";",
+                            "deferredUpdate": elem.type === 'file',
+                            "refs" : refArray
                         })
                         break;
                     case "style1": {
@@ -241,7 +260,7 @@
                             break;
                     }    
                     case "style":
-                        controlCode.push("$v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== $v) " + elemString + ".setAttribute('style',  $v)"); // Update DOM element with HTML Element from template string if different
+                        controlCode.third.push("$v=`" + value + "`;if (" + elemString + ".getAttribute('style') !== $v) " + elemString + ".setAttribute('style',  $v)"); // Update DOM element with HTML Element from template string if different
                         break;
 
                     case "class1": {
@@ -259,7 +278,7 @@
                             else {
                                 _class = _expr = classPair; //Shorthand for set class based on the name of the boolean var.
                             }
-                            controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
+                            controlCode.third.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                         }
                         break;
 
@@ -286,7 +305,7 @@
                             for (let i = 0; i < route.length; i++) {
                                 if (route[i].startsWith('#')) {
                                     let routeAssignment = `let ${route[i].substring(1)} = reken.routing_path[${i}]`
-                                    if (controlCode.indexOf(routeAssignment) < 0) {
+                                    if (controlCode.third.indexOf(routeAssignment) < 0) {
                                         routeVars.push(routeAssignment)
                                     }
                                 }
@@ -306,15 +325,15 @@
                         {
                             let [_expr, _class] = parseIfExpression(value);
                             if (_class)
-                                controlCode.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
+                                controlCode.third.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                             else {
-                                controlCode.push("$v=(" + value + "?'':'none');");
-                                controlCode.push("if ("+elemString + ".style.display!==$v) " + elemString + ".style.display=$v;");
+                                controlCode.third.push("$v=(" + value + "?'':'none');");
+                                controlCode.third.push("if ("+elemString + ".style.display!==$v) " + elemString + ".style.display=$v;");
                             }
 
                             if (!elem.dataset.for) { // Elements with For process their own children
                                 if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined || elem.dataset.route !== undefined)
-                                    controlCode.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                                    controlCode.third.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                             }                    
                         }
                         break;
@@ -333,7 +352,8 @@
                             'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                             'handlerName': eventId,
                             'handlerCode':value,
-                            'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                            'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                            "refs" : refArray
                         })
                     }
                     break;
@@ -362,11 +382,12 @@
                                 'handlerEventCheck': "",
                                 'handlerName': eventId,
                                 'handlerCode':code,
-                                'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                                'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                                "refs" : refArray
                             })
-                            controlCode.push(`{const $l = ${elemString}`);
-                            controlCode.push(`if ((${condition}) && !$l.hasOwnProperty('timerID')) $l.timerID = setTimeout(()=>{this.${eventId}({'target':$l});delete $l.timerID;$mainInstance.controller({})}, ${delay})`);
-                            controlCode.push(`if (!(${condition}) && $l.hasOwnProperty('timerID')) {clearTimeout($l.timerID); delete $l.timerID}}`);
+                            controlCode.third.push(`{const $l = ${elemString}`);
+                            controlCode.third.push(`if ((${condition}) && !$l.hasOwnProperty('timerID')) $l.timerID = setTimeout(()=>{this.${eventId}({'target':$l});delete $l.timerID;$mainInstance.controller({})}, ${delay})`);
+                            controlCode.third.push(`if (!(${condition}) && $l.hasOwnProperty('timerID')) {clearTimeout($l.timerID); delete $l.timerID}}`);
                         }
                     }
                     break;
@@ -395,23 +416,26 @@
                                 'handlerEventCheck': "",
                                 'handlerName': eventId,
                                 'handlerCode':code,
-                                'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                                'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                                "refs" : refArray
                             })
-                            controlCode.push(`{const $l = ${elemString}`);
-                            controlCode.push(`if ((${condition}) && !$l.hasOwnProperty('intervalID')) $l.intervalID = setInterval(()=>{this.${eventId}({'target':$l});$mainInstance.controller({})}, ${interval})`);
-                            controlCode.push(`if (!(${condition}) && $l.hasOwnProperty('intervalID')) {clearInterval($l.intervalID); delete $l.intervalID}}`);
+                            controlCode.third.push(`{const $l = ${elemString}`);
+                            controlCode.third.push(`if ((${condition}) && !$l.hasOwnProperty('intervalID')) $l.intervalID = setInterval(()=>{this.${eventId}({'target':$l});$mainInstance.controller({})}, ${interval})`);
+                            controlCode.third.push(`if (!(${condition}) && $l.hasOwnProperty('intervalID')) {clearInterval($l.intervalID); delete $l.intervalID}}`);
                         }
                         break;
                     }
 
                     case "for":
-                        if (topForString === undefined)
+                        if (topForString === undefined) {
                             topForString = elemString
+                            refArray = [];
+                        }
 
                         initCode.push(compString + ".dataset.leafCount=" + elem.children.length);
 
                         if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
-                            controlCode.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                            controlCode.third.push(indent+'if ('+ parseIfExpression(elem.dataset.if)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                             indent = '  ' + indent
                         }
             
@@ -419,32 +443,32 @@
                         let _data = value.substring(value.indexOf(':') + 1);
                         let _arrayName = uniqueID('arr');
                         if (isNaN(_data)) {
-                            controlCode.push(indent+'let ' +_arrayName + ' = (typeof ('+_data+') !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
+                            controlCode.third.push(indent+'let ' +_arrayName + ' = (typeof ('+_data+') !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
                         }
                         else
-                            controlCode.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
-                        controlCode.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
+                            controlCode.third.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
+                        controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
 
                         // At runtime loop thru the direct children
                         let _forVar = uniqueID("forElem");
                         let _forIndex = uniqueID("counter");
-                        controlCode.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
+                        controlCode.third.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
 
-                        controlCode.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
-                        controlCode.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "]}"); // Set the var context
+                        controlCode.third.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
+                        controlCode.third.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "]}"); // Set the var context
                         forVars += (forVars!=''?',':'') + _var
-                        controlCode.push(indent+"let "+ _forVar)
+                        controlCode.third.push(indent+"let "+ _forVar)
                         let i = 0;
                         for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                            controlCode.push(indent+ _forVar + " = " + elemString+".children["+_forIndex+"*"+elem.children.length+"+"+i+"]")
-                            buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars)
+                            controlCode.third.push(indent+ _forVar + " = " + elemString+".children["+_forIndex+"*"+elem.children.length+"+"+i+"]")
+                            buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
                             i++;
                         }
-                        controlCode.push(indent+'}' + '// End loop ' + _forIndex);
+                        controlCode.third.push(indent+'}' + '// End loop ' + _forIndex);
 
                         if ((elem.dataset.if !== undefined || elem.dataset.if1 !== undefined) && elem.children.length>0) {
                             indent = indent.substring(2);
-                            controlCode.push(indent+'}') //Close if statement
+                            controlCode.third.push(indent+'}') //Close if statement
                         }
                         break;
 
@@ -454,9 +478,9 @@
                     }
                     case "calc":
                         if (elem.tagName === 'SCRIPT')
-                            controlCode.unshift(elem.textContent.trim());
+                            controlCode.second.push(elem.textContent.trim());
                         else
-                            controlCode.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
+                            controlCode.third.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
                         break;
 
                     case "component":
@@ -465,20 +489,23 @@
                         let className = value;
                         if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
                             let compInitCode = [];
-                            let compControlCode = [];
+                            //first array contains all generated ref code
+                            //second array contains all the script code
+                            //third array contains all the remaining code
+                            let compControlCode = {first:[],second:[],third:[]};
                             let compEventCode = [];
                             
-                            buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
+                            buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
 
                             if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
                                 let i = 0;
                                 for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                                     let elemString = "this.$root"
-                                    buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars)
+                                    buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
                                     i++
                                 }
                                 if (elem.dataset.if !== undefined) {
-                                    compControlCode.push('}') //Close if statement
+                                    compControlCode.third.push('}') //Close if statement
                                 }
                             }
                             if (!generatedClass[value]) { //Create base class
@@ -516,7 +543,7 @@
                         //Add code for class initialization, root component instances in setup, childcomponent instances in class definition
                         initCode.push(`    ${compString}.$class = new ${(className=='$main'?'':'$')+className.replace('-','_')}(${compString})`)
 
-                        controlCode.push("    {"); 
+                        controlCode.third.push("    {"); 
                         let args = []
                         for (let attr of Object.keys(elem.dataset)) {
                             if (attr.startsWith("arg") || attr.startsWith('bind')) {
@@ -528,19 +555,19 @@
                                 let argValue = uniqueID('arg');
                                 if (/^[a-zA-Z_$][0-9a-zA-Z_$.\[\]\']*$/.test(value)) {
                                     if (isReservedWord(value))
-                                        controlCode.push("      let " + argValue + " = '"+value+"'")
+                                        controlCode.third.push("      let " + argValue + " = '"+value+"'")
                                     else if (value.indexOf('\'')>0)
-                                        controlCode.push("      let " + argValue + " = "+value+"") //If it contains a single quote, assume it will be a object qualifier
+                                        controlCode.third.push("      let " + argValue + " = "+value+"") //If it contains a single quote, assume it will be a object qualifier
                                     else
-                                        controlCode.push("      let " + argValue + " = ((typeof " + value + "!== 'undefined' && " + value + " !== window['" + value + "'])||typeof "+value+"=='function'?"+value+":'"+value+"')")
+                                    controlCode.third.push("      let " + argValue + " = ((typeof " + value + "!== 'undefined' && !(" + value + " instanceof Element))||typeof "+value+"=='function'?"+value+":'"+value+"')")
                                 }
                                     //Check if number
                                 else if (!isNaN(value)) {
-                                    controlCode.push("      let " + argValue + ' = ' +value)
+                                    controlCode.third.push("      let " + argValue + ' = ' +value)
                                 }
                                 //Otherwise template string
                                 else
-                                    controlCode.push("      let " + argValue + " = `"+value+"`")
+                                    controlCode.third.push("      let " + argValue + " = `"+value+"`")
 
                                 args.push(`${arg}:${argValue}`)
                                 
@@ -550,8 +577,8 @@
                         if (args.length > 0)
                             _stringArgs += ','
                         _stringArgs += forVars
-                        controlCode.push(`      ${elemString}.$class.controller({${_stringArgs}})`)
-                        controlCode.push('    }')
+                        controlCode.third.push(`      ${elemString}.$class.controller({${_stringArgs}})`)
+                        controlCode.third.push('    }')
                         break;
 
                     case "rest1": {
@@ -575,16 +602,16 @@
                         if (elem.dataset.restOptions1) {
                             options = elem.dataset.restOptions1
                         }
-                        controlCode.push("    $processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
+                        controlCode.third.push("    $processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
                         break;
 
                     default: {
                         if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
                             let _attr = capCharToHyphen(key.substring(key.startsWith('attr1')?5:4));
                             if (booleanAttrs.includes(_attr.toLowerCase()))
-                                controlCode.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
+                                controlCode.third.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
                             else
-                            controlCode.push("if (" + elemString + ".getAttribute('" + _attr + "') !== `" + value + "`) " + elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
+                            controlCode.third.push("if (" + elemString + ".getAttribute('" + _attr + "') !== `" + value + "`) " + elemString + ".setAttribute('" + _attr + "', `" + value + "`)");
                         }
                         else if (key.startsWith('on') || (key.startsWith('on1') && !componentRoot)) {
                             let eventName = key.substring(key.startsWith('on1')?3:2).toLowerCase();
@@ -598,7 +625,8 @@
                                 'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                                 'handlerName': eventId,
                                 'handlerCode':handler,
-                                'forContext': "let $ctxIdx = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";"
+                                'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                                "refs" : refArray
                             })
                         }
                     }
@@ -608,15 +636,15 @@
         if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
             let i = 0;
             for (let child of elem.children) { 
-                buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars)
+                buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
                 i++
             }
             if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
-                controlCode.push('} else {$disableTimers('+elemString+')}')
+                controlCode.third.push('} else {$disableTimers('+elemString+')}')
         }
         else {
             if (elem.dataset.if1 != undefined && !componentRoot) {
-                controlCode.push('} else {$disableTimers('+elemString+')}')
+                controlCode.third.push('} else {$disableTimers('+elemString+')}')
             }
         }        
     }
@@ -654,7 +682,7 @@
                     }
                         _slotElement.parentElement.removeChild(_slotElement)
                 }
-                let instanceAttributes = ['data-action', 'data-style', 'data-class', 'data-if', 'data-timer', 'data-interval',
+                let instanceAttributes = ['data-ref', 'data-action', 'data-style', 'data-class', 'data-if', 'data-timer', 'data-interval',
                                             'data-route', 'data-rest', 'data-rest-options', 'data-calc']
                 for (let attr of elem.getAttributeNames()) { //Copy the attributes
                     if (instanceAttributes.indexOf(attr)>=0) {
@@ -800,10 +828,11 @@
         //inject script code
         output.push(...getScript(templateElement))
 
-        if (compControlCode.length>0) {
+        output.push(...compControlCode.first)
+        if (compControlCode.third.length+compControlCode.second.length>0) {
             output.push('    let $v, elem')
-            output.push(...compControlCode)
-
+            output.push(...compControlCode.second)
+            output.push(...compControlCode.third)
         }
 
         // save potentially updated argument state
@@ -826,6 +855,7 @@
             if ((event.handlerEventCheck??'').trim()!=='') {
                 output.push("  " + event.handlerEventCheck);
             }
+            output.push("    let $elem");
 
             // set state vars
             for (let _var of stateVars)
@@ -844,6 +874,15 @@
 
             //Add for loop context(s)
             output.push("    " + event.forContext);
+
+            //Add reference code if there are any.
+            if (event.refs) {
+                event.refs.forEach((ref) => {
+                    const [value, elemString] = ref;
+                    output.push(`    ${value} = $elem${elemString===''?'':'.'}${elemString}`);
+                })
+            }
+
             //Add event handler code
             output.push("    " + event.handlerCode)   
 
@@ -1004,7 +1043,9 @@
 
             if (typeof _parent.dataset.for !== 'undefined') {
                 eventContext.forContext = getForContext(_parent);
-                const idxName = '$ctxIdx[' + (eventContext.idx++) + ']'
+                const idxName  = '$ctxIdx[' + (eventContext.idx) + ']'
+                const elemName = '$ctxElems[' + (eventContext.idx) + ']'
+                eventContext.idx += 1;
 
                 eventContext.forContext.idxName = idxName;
                 const {forIterator, contextVar} = eventContext.forContext;
@@ -1012,7 +1053,7 @@
                 let _forContextString =  "let " + contextVar + "= {index:" + idxName + "};"
                 _forContextString += "if (typeof ("+ forIterator +") !== 'number' && typeof ("+ forIterator +") !== 'undefined')"+ contextVar+"['item'] = "+ forIterator  + "[" + idxName + "];"
                 eventContext.contextString = eventContext.contextString + _forContextString;
-
+                eventContext.contextString += "$elem = " + elemName + ";"
                 return eventContext;
             }
         }
@@ -1264,16 +1305,16 @@
         fileread.readAsText(file_to_read);
     };
 
-    const indexesInForAncestors = (elem, indexes) => {
-        if (typeof indexes === 'undefined')
-            indexes = [];
+    const indexesInForAncestors = (elem, indexes = [], elems = []) => {
         let parent = elem.parentElement;
         if (parent != null) {
-            indexesInForAncestors(parent, indexes);
-            if (typeof parent.dataset.for != 'undefined')
+            [indexes, elems] = indexesInForAncestors(parent, indexes);
+            if (typeof parent.dataset.for != 'undefined') {
+                elems.push(elem)
                 indexes.push(Math.floor(indexOf(parent.children, elem)/parent.dataset.leafCount));
+            }
         }
-        return indexes;
+        return [indexes, elems];
     }
 
     const isEventHandler = (elem, eventType, eventId) => {
@@ -1323,7 +1364,7 @@
 
                         elem.appendChild(_child);
                     }
-                    if (_child.style.display !== '')
+                    if (_child && _child.style.display !== '')
                         _child.style.display = '';
                 }
             }
@@ -1332,7 +1373,7 @@
                 for (let l = 0; l < leafs; l++) {
                     let elemIndex = i*leafs+l;
 
-                    if (_children[elemIndex].style.display !== 'none') {                
+                    if (_children[elemIndex] && _children[elemIndex].style.display !== 'none') {                
                         _children[elemIndex].style.display = 'none';
                         if (checkForTimers) {
                             if (disableTimers(_children[elemIndex])==0)
@@ -1395,14 +1436,16 @@
 
         if (!isServerGenerated()) {
             let definition = [];
-            let controller = [];
+            let controller = {first:[],second:[],third:[]};
             //let setup = ['_r = document.body.parentElement'];
             let setup = [];
             let styles = ['template {display:none !important;}'];
 
             document.body.parentElement.setAttribute('data-component', '$main')
             definition.push('class $base { dispatch(type, content){this.$root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
-            buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '')
+            let refArray = []
+            buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '', refArray)
+
             if (styles.length>0) {
                 const headElem = document.querySelector('head');
                 if (headElem == null) {
@@ -1460,8 +1503,12 @@
         }
     }
     /* Force executing the controller, only call as last resort for example after async model updates */
-    reken.forceCalculate = () => {
+    reken.force_calculate = () => {
         document.body.parentElement.$class.controller({})
+    }
+    reken.forceCalculate = () => {
+        console.warn('reken.forceCalculate is deprecated; please use reken.force_calculate. [as of 0.9.2]')
+        reken.force_calculate();
     }
     // Export the reken global object
     globalThis.reken = reken;

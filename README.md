@@ -119,6 +119,7 @@ You can also specify component state by specifying a script tag and initialize v
 - **data-bind-***: You can create bind variables to a component's bindable arguments using the data-bind-&lt;name> attribute. For example: _&lt;div data-component="mycomponent" data-bind-myattr="myVar">_. In the component definition you will need to specify the attribute and can then use it in the component definition.  _&lt;template data-component="mycomponent" data-bind-myattr>..._  You can now refer to the attribute in the template html, if the attribute gets updated in the component, the variable that is bind to it will also automatically update.
   - When using the shorthand reference to a component one can ignore data-bind for the arguments. The example above would become: _&lt;mycomponent myattr="myvar">..._
 - **data-include**: Include an external HTML file into the HTML document with the data-include element. This allows you to import a component library or import commonly used HTML fragments like a header and/or a footer. The syntax is: _&lt;div data-include="mylibrary.html">_. It also support subfolders such as: _&lt;div data-include="includes/mylibrary.html">_. Included files themselves may include other HTML files. Note use wisely as the more includes the longer it takes for a page to render.
+- **data-ref**: With the data-ref attribute, you can specify the variable name Reken will assign the element reference of the attribute's HTMLElement. For example _&lt;input data-ref="inputControl"/>._ The already declared variables _inputControl_ will refer to the input control HTMLElement, so that its properties and methods can be accessed. Note, when applying Reken properly there should be many usecases to use this. Some usecases are: setting/checking focus on an element or working with 3rd-party libraries that need a reference to an HTML element.
 
 Look at the demos and the Reken REPL for more examples and usages. 
 
@@ -128,7 +129,9 @@ On the global namespace you can find the `reken` object.
 
 It has the following public members:
 - **version** property; The Reken version number
-- **forceCalculate** function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call `reken.forceCalculate()`.
+- **force_calculate** function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call `reken.force_calculate()`.
+- **forceCalculate** function; Deprecated. See `force_calculate`.
+
 
 ## Acknowledgments
 

@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css" />
 
-    <script>
-        let todoList = [];
-        let newTodo = ''
-        let editing = -1
-    </script>
     <title>Reken - array manipulation with action buttons</title>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 </head>
@@ -23,6 +18,12 @@
         <source-code sourceurl="document.location.href"></source-code>
     </header>
     <main>
+        <script>
+            let todoList = [];
+            let newTodo = ''
+            let editing = -1
+            let todoInputElement
+        </script>
         <section>
             <form onsubmit="return false">
                 <header>
@@ -41,7 +42,8 @@
                         data-on-click="editing=todo.index"></label>
                     <input data-if="editing==todo.index" data-on-change="editing=-1" data-value="todo.item"
                         data-change="editing=-1"
-                        data-calc="if (todo.index == editing && elem != document.activeComponent) elem.focus()" />
+                        data-ref="todoInputElement"
+                        data-calc="if (todo.index == editing && todoInputElement != document.activeComponent) todoInputElement.focus()" />
                 </li>
             </ul>
         </section>

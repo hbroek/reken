@@ -1,6 +1,6 @@
 [
     {"name": "action.html", "tags":["data-action", "data-text"]},
-    {"name": "array-and-buttons.html", "tags":["data-action","data-attr-", "data-on-", "data-value", "data-for", "data-if", "data-change", "data-calc"]},
+    {"name": "array-and-buttons.html", "tags":["data-action","data-attr-", "data-on-", "data-value", "data-for", "data-if", "data-change", "data-calc", "data-ref"]},
     {"name": "array-and-selections.html", "tags":["data-action","data-attr-", "data-value", "data-for"]},
     {"name": "asteroids.html", "tags":["data-attr-", "data-on-", "data-value", "data-for", "data-if", "data-change", "data-calc", "data-rest"]},
     {"name": "chart-css.html", "tags":["data-value","data-action","data-attr-","data-text","data-style"]},

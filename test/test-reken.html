@@ -552,11 +552,11 @@
     <script data-calc>c0=10</script>
     <div id="ca0" data-text="${c0}"></div>
 
-    <script>let ca10=1;</script>
+    <script>let ca10=1;let ca11</script>
     <div id="ca1" data-text="${ca11}"></div>
     <input id="ca1_0" type="number" data-value="ca10">
     <button id="ca1_1" data-action="ca10=21">Set ca10 to 21</button>
-    <script data-calc>let ca11=ca10+10</script>
+    <script data-calc>ca11=ca10+10</script>
  
     <script>let ca20 = true</script>
     <div>
@@ -1328,7 +1328,51 @@
     </div>
     <input id="in4" type="checkbox" data-value="inb4">
   </section>
-<hr>
+  <hr>
+
+  <section>
+    <h3>data-ref tests</h3>
+    <script>
+      let rf0
+    </script>
+    <div id="rf0" data-ref="rf0">Hello ref0</div>
+
+    <script>
+      let ref1
+      let ref1Save
+      let ref1s = []
+    </script>
+    <div id="rf1" data-for="r1:3">
+      <button type="button" data-calc="if (ref1s.indexOf(ref1) < 0) ref1s.push(ref1)" // Add only 1 unique reference
+        data-ref="ref1" data-text="ref1 btn ${r1.index}" data-action="ref1Save = ref1"></button>
+    </div>
+
+    <script>
+      let ref2
+      let ref2Save
+      let ref2s = []
+    </script>
+    <div id="rf2" data-for="r2:2">
+      <span data-for="r21:2">
+        <button type="button" data-calc="if (ref2s.indexOf(ref1) < 0) ref2s.push(ref2)" // Add only 1 unique reference
+          data-ref="ref2" data-text="ref2 btn ${r2.index}-${r21.index}" data-action="ref2Save = ref2"></button>
+      </span>
+    </div>
+
+    <script>
+      let ref3
+      let ref3Comp
+    </script>
+    <ref3-comp id="rf3" data-ref="ref3"></ref3-comp>
+    <template data-component="ref3-comp">
+      <script>let ref3_span</script>
+      <div data-ref="ref3Comp" data-calc="ref3Comp.dataset.refValue3=20" data-for="rf:3">
+        <span data-calc="ref3_span.dataset.refValue3=(rf.index+1)*10" data-ref="ref3_span" data-text="ref: ${rf.index+1}"></span>
+      </div>
+    </template>
+  </section>
+  <hr>
+
   
   <!-- Test component component loading functionality  -->
   <section>
@@ -3104,6 +3148,45 @@
         await waitFor(20, () => inc4.children.item(0).textContent=='Count:2')
         await waitFor(20, () => inc4.children.item(1).textContent=='Count:2')
       })
+    })
+
+    describe('data-ref tests', () => {
+      it('Verify namespace reference on regular div works', (done) => {
+        expect(rf0).to.have.text('Hello ref0')
+        done();
+      })
+      it('Verify data-ref in for-loop', (done) => {
+        ref1s.forEach((elem, index) => {assert(elem === rf1.children[index], "indexed ref != rf1 ")})
+        done();
+      })
+      it('Verify data-ref loop action event', (done) => {
+        fireEvent(rf1.children[1], "click");
+        assert(ref1Save === rf1.children[1], "Incorrect ref after click")
+        done();
+      })
+      it('Verify data-ref in nested for-loop', (done) => {
+        assert(ref2s[0]===rf2.children[0].children[0]);
+        assert(ref2s[3]===rf2.children[1].children[1]);
+        done();
+      })
+      it('Verify data-ref nested loop action event', (done) => {
+        fireEvent(rf2.children[1].children[1], "click");
+        assert(ref2Save === rf2.children[1].children[1], "Incorrect ref after click")
+        done();
+      })
+
+      it('Check component data-ref', (done) => {
+        assert(ref3 === rf3, "Incorrect component instance ref")
+        done();
+      })
+
+      it('Check component internal refs', (done) => {
+        assert(rf3.dataset.refValue3==="20", "Incorrect top component ref value")
+        assert(rf3.children[0].dataset.refValue3==="10", "Incorrect child component ref value")
+        assert(rf3.children[2].dataset.refValue3==="30", "Incorrect child component ref value")
+        done();
+      })
+
     })
 
     describe('issue 17 test', () => {
