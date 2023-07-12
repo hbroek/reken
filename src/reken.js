@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.2';
+    reken.version = '0.9.3';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -605,7 +605,9 @@
 
                     default: {
                         if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
-                            let _attr = capCharToHyphen(key.substring(key.startsWith('attr1')?5:4));
+                            let _attr = lowercaseFirstLetter(key.substring(key.startsWith('attr1')?5:4));
+                            if (_attr.startsWith('data'))
+                                _attr = capCharToHyphen(_attr)
                             if (booleanAttrs.includes(_attr.toLowerCase()))
                                 controlCode.third.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
                             else
@@ -646,7 +648,7 @@
             }
         }        
     }
-    // Used to convert dateset attribute names back to html attribute name
+    // Used to convert dataset attribute names back to html attribute name
     const capCharToHyphen = (string) => {
         let newString = ''
         for (const l of string) {
@@ -657,6 +659,9 @@
             newString += l.toLowerCase();
         }
         return newString;
+    }
+    const lowercaseFirstLetter = (string) => {
+        return string.charAt(0).toLowerCase() + string.slice(1);
     }
 
     const processComponentReferences = (elem) => {

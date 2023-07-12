@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css" />
+
+    <title>Reken - SVG based sparkline component</title>
+
+</head>
+
+<body>
+    <header>
+        <h1>Reken - SVG based sparkline component</h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+    <main>
+        <script>
+            let data1 = Array(30).fill(0).map(() => Math.random() * 100)
+            let data2 = Array(30).fill(0).map(() => Math.random() * 100)
+            let data3 = Array(30).fill(0).map(() => Math.random() * 100)        
+        </script>
+
+        <section>
+            <aside>
+                <header>
+                    <h2>Inline data</h2>
+                </header>
+                <sparkline id="green" color="green" data="20 35 5 95 15 50 18 20 9 35 78" width="4em" height="1em"></sparkline>
+                Provide data via space separated string of numbers.
+            </aside>
+            <aside>
+                <header>
+                    <h2>Javascript array</h2>
+                </header>
+                <sparkline id="orange" color="orange" width="4em" height="1em" data="data1"></sparkline>
+                Provide data via an array of numbers.
+            </aside>
+            <aside>
+                <header>
+                    <h2>Update Javascript array</h2>
+                </header>
+                <sparkline id="red" color="red"
+                    data-timer="Math.random()*1000:true:data3[Math.floor(Math.random()*data3.length)]=Math.random()*100"
+                    width="4em" height="1em" data="data3"></sparkline>
+                Provide data via an array of numbers. Every so often one of the numbers gets updated.
+            </aside>
+            <aside>
+                <header>
+                    <h2>Streamed Javascript array</h2>
+                </header>
+                <sparkline id="blue" color="blue" data-interval="1000/24:true:data2.push(Math.random()*100);data2.shift()"
+                    width="4em" height="1em" data="data2"></sparkline>
+                Provide data via an array of numbers. 24 times per second the array shifts one number.
+            </aside>
+            <aside>
+                <header>
+                    <h2>Customize sparkline</h2>
+                </header>
+                <sparkline id="purple" color="purple" width="100%" height="4em" data="data1"></sparkline>
+                Customize sparkline with the width, height and color attributes.
+            </aside>
+        </section>
+        <section>
+            <div>Based on <a href="https://alexplescan.com/posts/2023/07/08/easy-svg-sparklines/">Easy SVG sparkline.</a>
+            </div>
+        </section>
+
+    </main>
+</body>
+
+<template data-component="sparkline" data-arg-data="" data-arg-color="black">
+    <script>let datapoints = []</script>
+    <script data-calc>
+        if (typeof data === 'string')
+            datapoints = data.split(' ').map((val) => Number(val));
+        else if (Array.isArray(data)) {
+            datapoints = [...data]
+        }
+
+        const max = Math.max(...datapoints);
+        datapoints = datapoints.map((val) => max - val);
+        datapoints = datapoints.map((val, index) => `${index ? 'L' : 'M'} ${index} ${val}`)
+    </script>
+    <svg data-attr-view-box="0 0 ${datapoints.length-1} ${max}" preserveAspectRatio="none">
+        <path data-attr-d="${datapoints.join(' ')} L ${datapoints.length-1} ${max} L 0 ${max} Z" stroke="transparent"
+            data-attr-fill="${color}" style="opacity:30%" />
+        <path data-attr-d="${datapoints.join(' ')}" stroke-width="2" data-attr-stroke="${color}" fill="transparent"
+            vector-effect="non-scaling-stroke" />
+    </svg>
+</template>
+<div data-include="includes/demo-lib.html"></div>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
+</html>
