@@ -13,6 +13,16 @@
 </head>
 
 <body>
+    <script>
+        let stars = null;
+        let starPositions = []
+    </script>
+    <script data-calc>
+        if (starPositions.length==0 && stars && stars.stargazers_count) {
+            let starCount = parseInt(stars.stargazers_count)
+            starPositions = Array(starCount).fill(0).map(() => { return { left: Math.random() * 100, top: Math.random() * 100, width: 80 + Math.random() * 100 } })
+        }
+    </script>
     <header>
         <nav>
             <a href="/"><img alt="Logo" src="./assets/reken-logo.png" height="105"></a>
@@ -39,7 +49,7 @@
                     </ul>
                 </li>
             </ul>
-        </nav>
+        </nav>     
         <h1>Fast <i>reactive</i> <u>HTML compliant</u> web pages</h1>
         <p><mark>without</mark> virtual DOM overhead or the need for build tools</p>
         <br>
@@ -49,8 +59,17 @@
             <a download="reken.min.js.gz" href="dist/reken.min.js.gz" target="_blank"><b>Download reken.min.js (5kb)
                     ↗</b></a>
         </p>
-        <br />
-        <br />
+        <br/>
+        <section data-rest="stars:https://api.github.com/repos/hbroek/reken">
+            <h1 data-if="stars && stars.stargazers_count%50===0">
+                Reken is celebrating <span data-text="${stars.stargazers_count}"></span> ⭐️s on <a href="https://github.com/hbroek/reken">GitHub
+            </h1>
+            <div data-if="stars && stars.stargazers_count%50===0" data-for="star:starPositions">
+                <star data-attr-width="${star.item.width}px"
+                    data-style="animation-delay:${star.index*1000/starPositions.length}ms;left:${star.item.left}vw;top:${star.item.top}vh;"></star>
+            </div>
+        </section>
+        <br/>
         <p><sup>Quick start</sup> Add this code near the bottom of your HTML
             file:<br><br><code>&lt;script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"&gt;&lt/script&gt;</code>
         </p>
@@ -205,6 +224,20 @@
         </section>
     </main>
 </body>
+<template data-component="star">
+    <style>
+        :host {
+            position: absolute;
+            left: 50vw;
+            top: 50vh;
+        }
+    </style>
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 50 50">
+        <path style="opacity:0.8" stroke="#333"
+            d="m0.06289,19.14272l19.0504,0l5.88671,-18.95483l5.88672,18.95483l19.05039,0l-15.41206,11.7146l5.887,18.95479l-15.41205,-11.7149l-15.41206,11.7149l5.88702,-18.95479l-15.41206,-11.7146l0,0l-0.00001,0z"
+            stroke-width="1" fill="gold" />
+    </svg>
+</template>
 <script src="dist/reken.min.js"></script>
 <script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
 </html>

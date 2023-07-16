@@ -33,3 +33,23 @@ code.example {
     background: black;
     padding: 1em;
 }
+
+[data-component=star] {
+    opacity: 0;
+    animation: blink 3s;
+}
+@keyframes blink {
+    from {
+        opacity:0;
+    }
+    20% {
+        opacity:1;
+    }
+    80% {
+        opacity:1;
+    }
+    to {
+        opacity:0;
+    }
+}
+
