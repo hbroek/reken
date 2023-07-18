@@ -48,8 +48,12 @@ code.example {
     80% {
         opacity:1;
     }
-    to {
+    99% {
         opacity:0;
+
+    }
+    100% {
+        display:none;
     }
 }
 
