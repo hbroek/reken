@@ -16,6 +16,7 @@
     <script>
         let stars = null;
         let starPositions = []
+        let showStarSection = true;
     </script>
     <script data-calc>
         if (starPositions.length==0 && stars && stars.stargazers_count) {
@@ -60,7 +61,7 @@
                     ↗</b></a>
         </p>
         <br/>
-        <section data-rest="stars:https://api.github.com/repos/hbroek/reken">
+        <section data-if="showStarSection" data-timer="4000:stars&&stars.stargazers_count>0:showStarSection=false;" data-rest="stars:https://api.github.com/repos/hbroek/reken">
             <h1 data-if="stars && stars.stargazers_count%50===0">
                 Reken is celebrating <span data-text="${stars.stargazers_count}"></span> ⭐️s on <a href="https://github.com/hbroek/reken">GitHub</a>
             </h1>
