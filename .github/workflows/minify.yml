@@ -42,7 +42,7 @@ jobs:
         uses: natescherer/markdown-to-html-with-github-style-action@v1.1.0
         with:
           #path: README.md,CHANGELOG.md,docs\doc1.md
-          path: README.md
+          path: README.md,documentation/developer-guide/*.md
           outputpath: dist
 
       # Auto commits minified files to the repository
