@@ -5,7 +5,7 @@
 ### Status: Draft
 
 ## Table of Contents
-1. [Introduction](chapter-1.md)
+1. [Introduction](chapter-1.html)
    - What is Reken?
    - Key Features
    - Who Should Use Reken?
