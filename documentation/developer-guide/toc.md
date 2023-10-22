@@ -11,15 +11,16 @@
    - Who Should Use Reken?
    - Getting Started
    
-2. Installation and Setup
+2. [Installation and Setup](chapter-2.html)
    - Downloading Reken
    - Adding Reken to Your Project
    - Compatibility
    
-3. Basics
+3. [Basics](chapter-3.html)
    - Understanding Reken Attributes
    - Creating Your First Dynamic Element
    - Conditional Rendering
+   - Render Iterations
    - Handling User Input
    - Working with REST APIs
    
