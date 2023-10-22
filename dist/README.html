@@ -1009,12 +1009,12 @@
 </head>
 <body>
 <article class="markdown-body">
-<h1><a id="" class="anchor" aria-hidden="true" href="#"><span aria-hidden="true" class="octicon octicon-link"></span></a><a target="_blank" rel="noopener noreferrer" href="/assets/reken-logo.png"><img src="/assets/reken-logo.png" alt="Reken logo; blue html representing elements intertwined with orange reken elements" style="max-width: 100%;"></a></h1>
+<h1 id=""><a class="heading-link" href="#"><img src="/assets/reken-logo.png" alt="Reken logo; blue html representing elements intertwined with orange reken elements" style="max-width: 100%;"><span aria-hidden="true" class="octicon octicon-link"></span></a></h1>
 <p><strong>Reken</strong> <em>Dutch singular verb for calculate. Pronounce: <strong>Ray - ken</strong></em></p>
 <p><strong>With Reken you can create fast, reactive, HTML compliant web pages without virtual DOM overhead or the need for build tools.</strong></p>
 <p>For live demos, REPL and more information, visit the <a href="http://www.reken.dev" rel="nofollow">Reken website</a>.</p>
-<h2><a id="user-content-why-use-reken" class="anchor" aria-hidden="true" href="#why-use-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why use Reken?</h2>
-<h3><a id="user-content-easy-creation-of-dynamic-web-pages-with-just-html-css-and-a-few--sprinkles-of-javascript" class="anchor" aria-hidden="true" href="#easy-creation-of-dynamic-web-pages-with-just-html-css-and-a-few--sprinkles-of-javascript"><span aria-hidden="true" class="octicon octicon-link"></span></a>Easy creation of Dynamic Web pages with just HTML, CSS and a few  sprinkles of Javascript.</h3>
+<h2 id="user-content-why-use-reken"><a class="heading-link" href="#why-use-reken">Why use Reken?<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<h3 id="user-content-easy-creation-of-dynamic-web-pages-with-just-html-css-and-a-few--sprinkles-of-javascript"><a class="heading-link" href="#easy-creation-of-dynamic-web-pages-with-just-html-css-and-a-few--sprinkles-of-javascript">Easy creation of Dynamic Web pages with just HTML, CSS and a few  sprinkles of Javascript.<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
 <ul>
 <li>Build dynamic DOM based standard HTML with a few Reken HTML attributes.</li>
 <li>No need to learn new markup such as JSX or TSX.</li>
@@ -1025,14 +1025,14 @@
 <li>HTML compliant web pages.</li>
 <li>Can hydrate search engine friendly server side generated content.</li>
 </ul>
-<h3><a id="user-content-who-is-reken-for" class="anchor" aria-hidden="true" href="#who-is-reken-for"><span aria-hidden="true" class="octicon octicon-link"></span></a>Who is Reken for?</h3>
+<h3 id="user-content-who-is-reken-for"><a class="heading-link" href="#who-is-reken-for">Who is Reken for?<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
 <ul>
 <li>HTML page developers, that need some interactivity.</li>
 <li>UX designers, that want to make their UI mockups come alive</li>
 <li>Developers looking to build a quick prototype or minimal viable product.</li>
 <li>Web app builders building light-weight apps.</li>
 </ul>
-<h3><a id="user-content-how-does-reken-work" class="anchor" aria-hidden="true" href="#how-does-reken-work"><span aria-hidden="true" class="octicon octicon-link"></span></a>How does Reken work?</h3>
+<h3 id="user-content-how-does-reken-work"><a class="heading-link" href="#how-does-reken-work">How does Reken work?<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
 <p>Reken relies on a few <code>data-*</code> attributes that empower any HTML element to:</p>
 <ul>
 <li>Render dynamic content, attributes and styles.</li>
@@ -1045,19 +1045,19 @@
 <p>When a page with Reken attributes is loaded, Reken will build a setup controller and a runtime controller.</p>
 <p>It will then run the setup controller once to register any event listeners.</p>
 <p>After setup is completed it will run the runtime controller which will update any dynamic DOM when needed. The runtime controller will run again after any Reken-managed event listener fires or rest call finishes.</p>
-<h2><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h2>
+<h2 id="user-content-example"><a class="heading-link" href="#example">Example<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
     <span class="pl-k">let</span> <span class="pl-s1">name</span> <span class="pl-c1">=</span> <span class="pl-s">'World'</span><span class="pl-kos">;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 
 <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello ${name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span></pre></div>
-<h2><a id="user-content-installation" class="anchor" aria-hidden="true" href="#installation"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+<h2 id="user-content-installation"><a class="heading-link" href="#installation">Installation<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p>Install Reken.js on your server and add a script tag <strong>at the bottom of your web page</strong> between the the end body and before the end html tag.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
-<h2><a id="user-content-browser-support" class="anchor" aria-hidden="true" href="#browser-support"><span aria-hidden="true" class="octicon octicon-link"></span></a>Browser support</h2>
+<h2 id="user-content-browser-support"><a class="heading-link" href="#browser-support">Browser support<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p>Reken relies on a number of ES6 features and therefor supports the following browsers:</p>
 <ul>
 <li>Chrome</li>
@@ -1065,7 +1065,7 @@
 <li>Firefox</li>
 <li>Chrome Edge</li>
 </ul>
-<h2><a id="user-content-attribute-api" class="anchor" aria-hidden="true" href="#attribute-api"><span aria-hidden="true" class="octicon octicon-link"></span></a>Attribute API</h2>
+<h2 id="user-content-attribute-api"><a class="heading-link" href="#attribute-api">Attribute API<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <ul>
 <li>
 <p><strong>data-text</strong>; Update the textContent of the element with the evaluated template string. <em>data-text="text before ${expression} regular text"</em></p>
@@ -1183,7 +1183,7 @@ You can also specify component state by specifying a script tag and initialize v
 </li>
 </ul>
 <p>Look at the demos and the Reken REPL for more examples and usages.</p>
-<h2><a id="user-content-javascript-api" class="anchor" aria-hidden="true" href="#javascript-api"><span aria-hidden="true" class="octicon octicon-link"></span></a>JavaScript API</h2>
+<h2 id="user-content-javascript-api"><a class="heading-link" href="#javascript-api">JavaScript API<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p>On the global namespace you can find the <code>reken</code> object.</p>
 <p>It has the following public members:</p>
 <ul>
@@ -1194,7 +1194,7 @@ You can also specify component state by specifying a script tag and initialize v
 <li>
 <strong>forceCalculate</strong> function; Deprecated. See <code>force_calculate</code>.</li>
 </ul>
-<h2><a id="user-content-acknowledgments" class="anchor" aria-hidden="true" href="#acknowledgments"><span aria-hidden="true" class="octicon octicon-link"></span></a>Acknowledgments</h2>
+<h2 id="user-content-acknowledgments"><a class="heading-link" href="#acknowledgments">Acknowledgments<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <ul>
 <li>
 <a href="https://andybrewer.github.io/mvp/" rel="nofollow"><strong>MVP.css</strong></a>: A semantic HTML stylesheet. Create good looking and concise demos.</li>
@@ -1207,7 +1207,7 @@ You can also specify component state by specifying a script tag and initialize v
 <li>
 <a href="https://www.chaijs.com/plugins/chai-dom/" rel="nofollow"><strong>Chai-dom</strong></a>: DOM Assertions in the Reken tests.</li>
 </ul>
-<h2><a id="user-content-license" class="anchor" aria-hidden="true" href="#license"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+<h2 id="user-content-license"><a class="heading-link" href="#license">License<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p>Distributed under the MIT license. See <a href="./LICENSE">the License file</a> for details.</p>
 
 </article>
