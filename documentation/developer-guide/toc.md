@@ -24,7 +24,7 @@
    - Handling User Input
    - Working with REST APIs
    
-4. Attribute Reference
+4. Reken Attribute Reference
    - `data-text`
    - `data-html`
    - `data-value`

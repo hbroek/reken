@@ -79,7 +79,7 @@ Reken relies on modern JavaScript features and ES6 syntax. As a result, it is su
 - Apple Safari
 - Microsoft Edge
 
-It's essential to keep this in mind, especially if you're working on projects that may need to support older browsers. You may need to provide alternative solutions or transpile your code to ensure compatibility with older browser versions.
+It's essential to keep this in mind, especially if you're working on projects that may need to support older browsers. You may need to provide alternative solutions with older browser versions.
 
 ## 2.5 Upgrading Reken
 
