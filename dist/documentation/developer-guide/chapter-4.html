@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>DRAFT - Chapter 4: Reken Attribute Reference</title>
+<style>
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body .anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body h1:hover .anchor .octicon-link:before,
+.markdown-body h2:hover .anchor .octicon-link:before,
+.markdown-body h3:hover .anchor .octicon-link:before,
+.markdown-body h4:hover .anchor .octicon-link:before,
+.markdown-body h5:hover .anchor .octicon-link:before,
+.markdown-body h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: #24292e;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: initial;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr:after,
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body :checked+.radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.markdown-body .border {
+  border: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .border-0 {
+  border: 0!important;
+}
+
+.markdown-body .border-bottom {
+  border-bottom: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .rounded-1 {
+  border-radius: 3px!important;
+}
+
+.markdown-body .bg-white {
+  background-color: #fff!important;
+}
+
+.markdown-body .bg-gray-light {
+  background-color: #fafbfc!important;
+}
+
+.markdown-body .text-gray-light {
+  color: #6a737d!important;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-top: 8px!important;
+  margin-bottom: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+}
+
+.markdown-body .pl-3,
+.markdown-body .px-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .px-3 {
+  padding-right: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .f6 {
+  font-size: 12px!important;
+}
+
+.markdown-body .lh-condensed {
+  line-height: 1.25!important;
+}
+
+.markdown-body .text-bold {
+  font-weight: 600!important;
+}
+
+.markdown-body .pl-c {
+  color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #6f42c1;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
+  color: #24292e;
+}
+
+.markdown-body .pl-ent {
+  color: #22863a;
+}
+
+.markdown-body .pl-k {
+  color: #d73a49;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.markdown-body .pl-smw,
+.markdown-body .pl-v {
+  color: #e36209;
+}
+
+.markdown-body .pl-bu {
+  color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.markdown-body .pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.markdown-body .pl-c2:before {
+  content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.markdown-body .pl-ml {
+  color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.markdown-body .pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.markdown-body .pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.markdown-body .pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.markdown-body .pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.markdown-body .pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.markdown-body .pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.markdown-body .pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.markdown-body .pl-ba {
+  color: #586069;
+}
+
+.markdown-body .pl-sg {
+  color: #959da5;
+}
+
+.markdown-body .pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-bottom: 8px!important;
+}
+
+.markdown-body .my-2 {
+  margin-top: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+}
+
+.markdown-body .pl-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .pl-7 {
+  padding-left: 48px!important;
+}
+
+.markdown-body .pl-8 {
+  padding-left: 64px!important;
+}
+
+.markdown-body .pl-9 {
+  padding-left: 80px!important;
+}
+
+.markdown-body .pl-10 {
+  padding-left: 96px!important;
+}
+
+.markdown-body .pl-11 {
+  padding-left: 112px!important;
+}
+
+.markdown-body .pl-12 {
+  padding-left: 128px!important;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body:after,
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  clear: both;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body details,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-size: .85em;
+  color: #6a737d;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: initial;
+  background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.markdown-body .commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.markdown-body .full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.markdown-body .blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-body .blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.markdown-body .blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27,31,35,.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.markdown-body .blob-num:hover {
+  color: rgba(27,31,35,.6);
+}
+
+.markdown-body .blob-num:before {
+  content: attr(data-line-number);
+}
+
+.markdown-body .blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.markdown-body .blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.markdown-body .pl-token.active,
+.markdown-body .pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.markdown-body .tab-size[data-tab-size="1"] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="2"] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.markdown-body .tab-size[data-tab-size="3"] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.markdown-body .tab-size[data-tab-size="4"] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.markdown-body .tab-size[data-tab-size="5"] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.markdown-body .tab-size[data-tab-size="6"] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.markdown-body .tab-size[data-tab-size="7"] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.markdown-body .tab-size[data-tab-size="8"] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.markdown-body .tab-size[data-tab-size="9"] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.markdown-body .tab-size[data-tab-size="10"] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.markdown-body .tab-size[data-tab-size="11"] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.markdown-body .tab-size[data-tab-size="12"] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 .2em .25em -1.6em;
+  vertical-align: middle;
+}
+
+</style>
+<style>
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+<article class="markdown-body">
+<h1 id="user-content-draft---chapter-4-reken-attribute-reference"><a class="heading-link" href="#draft---chapter-4-reken-attribute-reference">DRAFT - Chapter 4: Reken Attribute Reference<span aria-hidden="true" class="octicon octicon-link"></span></a></h1>
+<p>In this chapter, we'll dive deeper into Reken's attributes and explore their functionality. These attributes provide the building blocks for creating dynamic and interactive web pages. Understanding how each attribute works and how to use them effectively is crucial for harnessing the power of Reken.</p>
+<h2 id="user-content-41-data-text"><a class="heading-link" href="#41-data-text">4.1 <code>data-text</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-text</code>="[template string]"</strong></p>
+<p>The <code>data-text</code> attribute allows you to update the <code>textContent</code> of an HTML element with an evaluated template string. This attribute is commonly used for rendering dynamic text content. The syntax of the template string is compatible with the javascript template string expressions.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, ${userName}!</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example, the text content of the <code>&lt;p&gt;</code> element will be updated with the value of the <code>userName</code> JavaScript variable.</p>
+<p>Since <code>data-text</code> is updating the HTML Element's <code>textContent</code>, It is considered a <strong>safe</strong> DOM update, even when using untrusted data.</p>
+<p><em>Note: Any (text/HTML) content of the HTML element with the <code>data-text</code> attribute is overriden</em></p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, I win</span>"<span class="pl-kos">&gt;</span>This will be overriden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, I win as well</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>the h1 and span tags will be overriden by the data-text's expression as well.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span>p<span class="pl-kos">&gt;</span></pre></div>
+<h2 id="user-content-42-data-html"><a class="heading-link" href="#42-data-html">4.2 <code>data-html</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-html</code>="[template string]"</strong></p>
+<p>The <code>data-html</code> attribute enables you to update the <code>innerHTML</code> of an HTML element with an evaluated template string. It's useful when you want to inject dynamic HTML content into an element. The syntax of the template string is compatible with the javascript template string expressions.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;em&gt;${empVar}&lt;/em&gt;&lt;span&gt;${descVar}&lt;/span&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>Here, the <code>&lt;div&gt;</code> element's content will be replaced with the HTML content generated with the <code>empVar</code> and <code>descVar</code> variables.</p>
+<p>Since <code>data-html</code> is updating the HTML Element's <code>innerHTML</code>, it is considered a <strong>UNSAFE</strong> DOM update. Use with caution!</p>
+<p><em>Note: Any (text/HTML) content of the HTML element with the <code>data-html</code> attribute is overriden</em></p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>This will be overriden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win as well&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>the h1 and span tags will be overriden by the data-text's expression as well.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span>p<span class="pl-kos">&gt;</span></pre></div>
+<h2 id="user-content-43-data-value"><a class="heading-link" href="#43-data-value">4.3 <code>data-value</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-value</code>="[variable name]"</strong></p>
+<p>The <code>data-value</code> attribute is used for binding a JavaScript variable to an input element, creating two-way data binding. It supports various input types, such as text, number, checkbox, radio, file, and more. The event used to update the bind value is the <code>change</code> event, except for input type <code>range</code> and <code>textarea</code> which use the <code>input</code> event.</p>
+<h3 id="user-content-431-typetext"><a class="heading-link" href="#431-typetext">4.3.1 <code>type='text'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>With input types <code>text</code> and similarly <code>search</code>, <code>email</code>, <code>password</code>, <code>tel</code> and <code>url</code> all bind to a string. They differ in that they have some validation and/or additional affordances on the control.</p>
+<p>When using the <code>data-value</code> attribute the javascript string value will be applied to the input control and when the value is changed in the input control, the variable gets updated.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userName</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>Likewise with the input type number field, but instead of binding a string value, we bind a integer or number value. The input control typically has additional affordance to increment or decrement the value.</p>
+<h3 id="user-content-432-typenumber"><a class="heading-link" href="#432-typenumber">4.3.2 <code>type='number'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>When the user interacts with the input field, the <code>age</code> variable will be updated automatically, and changes to the variable will reflect in the input field.</p>
+<h3 id="user-content-433-typedate"><a class="heading-link" href="#433-typedate">4.3.3 <code>type='date'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>With input types <code>text</code> and similarly <code>datetime-local</code>, <code>month</code>, <code>time</code>, and <code>week</code> all bind to a string representing date and/or time. They differ in that they have some validation and/or additional affordances on the control. Note is is important to initialize the variable with a string value that is compatible to the date format that is expected.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">date</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">birthday</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>When the user interacts with the input field, the <code>birthday</code> variable will be updated automatically, and changes to the variable will reflect in the input field.</p>
+<h3 id="user-content-434-typecolor"><a class="heading-link" href="#434-typecolor">4.3.4 <code>type='color'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>Input type <code>color</code> binds to a string representing hex value of a color. Note it is important to initialize the variable with a string value that is empty or also a six digit RGB hex-value preceded with a <code>#</code>. i.e. <code>#762828</code></p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">favoriteColor</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>When the user interacts with the input field, the <code>favoriteColor</code> variable will be updated automatically, and changes to the variable will reflect in the input field.</p>
+<h3 id="user-content-435-typerange"><a class="heading-link" href="#435-typerange">4.3.5 <code>type='range'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>Input type <code>range</code> binds to a integer variable. As mentioned earlier when binding a variable to a <code>type=range</code> input control, the variable gets updated through a <code>input event</code>. Which means that user manipulates the range control (typically via slider control)  the bound variable updates instantly. Not when he finishes. The advantage is that the UI can react in realtime to the updating variable.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>When the user move the slider with the input field, the <code>age</code> variable will be updated automatically, and changes to the variable will reflect in the input field.</p>
+<h3 id="user-content-436-typeradio"><a class="heading-link" href="#436-typeradio">4.3.6 <code>type='radio'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>A radio input control works in concert with other radio input controls, which are grouped together by the same <code>name</code> attribute (a set). The function of the radio controls is to have the user select one of the values. By clicking an unselected value it is selected, and the previously selected value is deselected. To bind the set of radio controls to a javascript value, specify on each of the radio control with a <code>data-value</code> with the same variable name.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">female</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">male</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">other</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;</pre></div>
+<p>When the user selects one of radio controls, the <code>genderValue</code> variable will be updated automatically with the <code>value</code> specified in the control, and changes to the variable will be represented by the appropriate radio control being checked.</p>
+<h3 id="user-content-436-typecheckbox"><a class="heading-link" href="#436-typecheckbox">4.3.6 <code>type='checkbox'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>The checkbox input control can be bound in two ways.</p>
+<p>First, similar to the radio input control, the checkbox can work in concert with other checkbox input controls,  grouped together by the same <code>name</code> attribute (a set). The function of the checkbox controls is to have the user select zero, one, or more of the values.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">nuts</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"/&gt;
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">dust</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"/&gt;
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">bees</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"/&gt;</pre></div>
+<p>When the user selects one or more of the checkboxes, the <code>allergyValues</code> variable will be updated automatically with the values specified in the controls by an array, and changes to the variable array will be represented by the appropriate checkboxes being checked.</p>
+<p>Second, the checkbox can work by itself (ie no <code>name</code> attribute). In this case its <code>data-value</code> is bound to a <code>boolean</code> variable.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">vegetarianValue</span>"/&gt;</pre></div>
+<p>When the user selects the checkbox, the <code>vegetarianValue</code> variable will be automatically set to <code>true</code> and when unchecked set to <code>false</code>. Changes to the boolean variable will either check or uncheck the checkbox depending on the boolean value it is set to.</p>
+<h3 id="user-content-438-typefile"><a class="heading-link" href="#438-typefile">4.3.8 <code>type='file'</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>Input type <code>file</code> data binding works a little different than the other input controls. It is not a 2-way binding. It is a 1-way binding. The user picks a file and then the binding variable gets updated with a File object. The File object will contain at least a <code>data</code> property wich is the object representation of the JSON string that is loaded.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">file</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">fileObject</span>" <span class="pl-c1">accept</span>="<span class="pl-s">.json</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>When the user chooses a file, the <code>fileObject</code> variable will be updated with information about the file. It will be populated with the following properties:</p>
+<ul>
+<li>
+<code>name</code>: name of the file.</li>
+<li>
+<code>lastModified</code>: date the file was last modified.</li>
+<li>
+<code>size</code>: the size of the file.</li>
+<li>
+<code>data</code>: the object representing the JSON from the file.</li>
+</ul>
+<p>By default the <code>type=file</code> input control data binding assumes the file that is loaded is a valid <code>JSON</code> representation. If it is not you can specify a reference to a transformer function in the <code>data-value</code> attribute.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">file</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">fileObject:csvConverter</span>" <span class="pl-c1">accept</span>="<span class="pl-s">.csv</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>After the user selected a CSV file the csvConverter function is called with the arguments: <code>content</code> and <code>fileObject</code>, the csvConverter function should return a javscript object or array representing the CSV content.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* Naive csv to array of objects converter */</span>
+<span class="pl-k">function</span> <span class="pl-en">csvConverter</span><span class="pl-kos">(</span><span class="pl-s1">contentText</span><span class="pl-kos">,</span> <span class="pl-s1">fileObject</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-k">return</span> <span class="pl-s1">contentText</span><span class="pl-kos">.</span><span class="pl-en">split</span><span class="pl-kos">(</span><span class="pl-s">'\n'</span><span class="pl-kos">)</span>
+    <span class="pl-kos">.</span><span class="pl-en">map</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">csvRow</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-s1">csvRow</span><span class="pl-kos">.</span><span class="pl-en">split</span><span class="pl-kos">(</span><span class="pl-s">','</span><span class="pl-kos">)</span>
+      <span class="pl-kos">.</span><span class="pl-en">reduce</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">obj</span><span class="pl-kos">,</span> <span class="pl-s1">field</span><span class="pl-kos">,</span> <span class="pl-s1">index</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-kos">{</span><span class="pl-s1">obj</span><span class="pl-kos">[</span><span class="pl-s">'f'</span><span class="pl-c1">+</span><span class="pl-s1">index</span><span class="pl-kos">]</span><span class="pl-c1">=</span><span class="pl-s1">field</span><span class="pl-kos">;</span><span class="pl-k">return</span> <span class="pl-s1">obj</span><span class="pl-kos">}</span><span class="pl-kos">,</span> <span class="pl-kos">{</span><span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">}</span></pre></div>
+<h3 id="user-content-439-textarea"><a class="heading-link" href="#439-textarea">4.3.9 <code>textarea</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
+<p>By binding a value to the textarea control the string variable gets updated in realtime.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">textarea</span> <span class="pl-c1">data-value</span>="<span class="pl-s">comment</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">textarea</span><span class="pl-kos">&gt;</span></pre></div>
+<p>When the user interacts with the textarea field, the <code>comment</code> variable will be updated in realtime, and changes to the variable will reflect in the input field.</p>
+<h2 id="user-content-44-data-style"><a class="heading-link" href="#44-data-style">4.4 <code>data-style</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-style</code>="[template string]"</strong></p>
+<p>With the <code>data-style</code> attribute, you can update the <code>style</code> attribute of an element using an evaluated template string. This is particularly helpful for dynamically modifying CSS styles.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">width:${width}px;height:${height}px</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example, the width and height of the <code>&lt;div&gt;</code> element will be set based on the value of the <code>width</code> JavaScript variable.</p>
+<h2 id="user-content-45-data-attr-attr"><a class="heading-link" href="#45-data-attr-attr">4.5 <code>data-attr-[attr]</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-attr-[attrName]</code>="[template string] | [boolean expression]"</strong></p>
+<p>The <code>data-attr-[attr]</code> attribute allows you to dynamically set any HTML element's attribute value. You can update the attribute with a template string.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${imageUrl}</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>Here, the <code>src</code> attribute of the <code>&lt;img&gt;</code> element will be set to the value of the <code>imageUrl</code> JavaScript variable.</p>
+<p>Boolean HTML attributes such as <code>disabled</code>, <code>readonly</code> etc should be bound to a boolean variable.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">${isDisabled}</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>When the <code>isDisabled</code> variable is true than the <code>disabled</code> HTML attribute is set on the <code>input</code> component, preventing the user from interacting with it.</p>
+<h2 id="user-content-46-data-class"><a class="heading-link" href="#46-data-class">4.6 <code>data-class</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-class</code>="[classname](:[boolean expression])"</strong></p>
+<p>The <code>data-class</code> attribute is used to add or remove CSS classes based on a boolean expression. It is separated by a colon, and the class is applied when the expression is <code>true</code> and removed when it's <code>false</code>.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">highlight:grade&gt;8</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>highlight</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>grade</code> variable is larger than 8.</p>
+<p>You can add multiple class expressions in one <code>data-class</code> by seperating them with a semicolon.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">bolded:isBold;cursive:isCursive</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>bolded</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>isBold</code> variable is <code>true</code>, and the <code>cursive</code> class is added when the <code>isCursive</code> variable is true.</p>
+<p>There is also a shortform for defining <code>data-class</code> expressions. To define this just specify specify a boolean variable name. The class will have the same name as the variable.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">halted</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>halted</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>halted</code> javascript variable is <code>true</code>.</p>
+<h2 id="user-content-47-data-if"><a class="heading-link" href="#47-data-if">4.7 <code>data-if</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-if</code>="([classname]:)[boolean expression]"</strong></p>
+<p>The <code>data-if</code> attribute is used for conditional rendering. It shows or hides an element based on a boolean expression. When an element is hidden with a false boolean expression, none of the descendant elements attributes are off course hidden as well, but their Reken attributes are not executed as well.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isLoggedIn</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>&lt;div&gt;</code> element will only be displayed if the <code>isLoggedIn</code> variable is <code>true</code>.</p>
+<p>To control how an element is shown, a class name preceding the expression can be provided.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">fadein:isActive</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>&lt;div&gt;</code> element will have a class <code>fadeIn</code> when the <code>isActive</code> variable is <code>true</code>. Note it is the developer's responsibility to indicate that the <code>div</code> is inactive. All the descendant elements with <code>Reken</code> attributes are inactive too. Even if they they may be visible.</p>
+<h2 id="user-content-48-data-for"><a class="heading-link" href="#48-data-for">4.8 <code>data-for</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-for</code>="[iteratorVariable]:[integer]|[iterable object]"</strong></p>
+<p>The <code>data-for</code> attribute is used for creating repeating elements. It takes a variable name, followed by a colon, and an iterable JavaScript object or a number. All children of the element are replicated according to the iterable object's length or the specified number.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">vrb:5</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">class</span>="<span class="pl-s">star</span>"<span class="pl-kos">&gt;</span>?<span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>This example generates 5 spans each containing a star emoji.</p>
+<p>During iterating the variable name contains a property <code>index</code>. With the <code>index</code> property you have access to index of the current element.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">vrb:5</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${vrb.index}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we are using the variable's <code>index</code> property to set the text with the current index number of the span<code>span</code>,</p>
+<p>When an array is specified to iterate over, the iterator variable also contains an <code>item</code> property that contains the current array element.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-k">let</span> <span class="pl-s1">fruits</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-s">'apple'</span><span class="pl-kos">,</span> <span class="pl-s">'orange'</span><span class="pl-kos">,</span> <span class="pl-s">'peach'</span><span class="pl-kos">]</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">vrb:fruits</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${vrb.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we are using the variable's <code>item</code> property to set the current array value on the <code>li</code>,</p>
+<p>Elements with <code>data-for</code> can be nested, creating nested loops.
+<strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">movies</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+    <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Lord of the Rings'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">5</span> <span class="pl-kos">}</span><span class="pl-kos">,</span>
+    <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Harry Potter'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">2</span> <span class="pl-kos">}</span><span class="pl-kos">,</span>
+    <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Avatar'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">4</span> <span class="pl-kos">}</span>
+  <span class="pl-kos">]</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+...
+<span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">data-for</span>="<span class="pl-s">movie:movies</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${movie.item.name}</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">tomato:movie.item.rating</span>"<span class="pl-kos">&gt;</span>
+      <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>??<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we are using the iterator variable <code>movie</code>'s <code>item</code> property to create an <code>h1</code> element with the movie name. A second loop is created that uses the <code>rating</code> property to render the number of tomatoes.</p>
+<h2 id="user-content-49-data-action"><a class="heading-link" href="#49-data-action">4.9 <code>data-action</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-action</code>="[code to execute]"</strong></p>
+<p>The <code>data-action</code> attribute allows you to execute JavaScript code in response to a click event. Basically it is a convenience wrapper around a native <code>click</code> event handler, which also invokes the <code>Reken</code> model to execute.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+let counter = 0;
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">counter=counter+1</span>"<span class="pl-kos">&gt;</span>Increment<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>=<span class="pl-s">${counter}</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
+<p>When the button is clicked, the <code>counter</code> variable is increased by <code>1</code>. The <code>output</code> Element is updated with the new <code>counter</code> value.</p>
+<p>You have access to the native event details through the <code>e</code> variable in the event handling code. With the event object methods such as <code>stopPropagation</code> and <code>preventDefault</code> can be called to influence the flow of the event.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">console.log(e);e.preventDefault();</span>"<span class="pl-kos">&gt;</span>Log Event Object<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<p>After the button is clicked, the native click event is logged on the console. The default click behavior is prevented with the <code>preventDefault</code> call.</p>
+<h2 id="user-content-410-data-on-"><a class="heading-link" href="#410-data-on-">4.10 <code>data-on-</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-on-[event]</code>="[code to execute]"</strong></p>
+<p>The <code>data-on-</code> attribute is similar to <code>data-action</code> but is used for executing JavaScript code in response to any native event. Similar to the <code>data-action</code> attribute the <code>e</code> variable provides access to the event details.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+let x = y = 0;
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-on-mousemove</span>="<span class="pl-s">x=e.clientX;y=e.clientY</span>" <span class="pl-c1">style</span>="<span class="pl-s">width:200px;height:200px;background:red;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${x},${y}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
+<p>This code updates the <code>x</code> and <code>y</code> variables with the <code>clientX</code> and <code>clientY</code> properties from the <code>mousemove</code> event, when mousing over the red <code>div</code> square. The <code>output</code> element text content gets updated with the new values;</p>
+<p>Like with <code>data-action</code> event flow can be controlled by calling <code>preventDefault</code> and/or <code>stopPropagation</code>.</p>
+<div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('div')</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">https://www.reken.dev</span>"
+      <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('a href'); e.stopPropagation();e.preventDefault();</span>"<span class="pl-kos">&gt;</span>
+      Click here !
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>This example displays a message on the console when the link is clicked. The call to <code>prevenDefault</code> prevents the link to be followed. And the call to <code>stopPropagation</code> stop the click on the div to be triggered.</p>
+<h2 id="user-content-411-data-timer"><a class="heading-link" href="#411-data-timer">4.11 <code>data-timer</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-timer</code>="[time in ms]:[start/stop boolean expression]:[code to execute]"</strong></p>
+<p>The <code>data-timer</code> attribute allows you to execute JavaScript code after a specified time. It has three parts: the time in milliseconds, a boolean expression to trigger the timer, and the code to execute.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">isActive</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isActive</span>"<span class="pl-kos">&gt;</span>Message is displayed<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span>
+  <span class="pl-c1">data-timer</span>="<span class="pl-s">5000:isActive:isActive=false</span>"
+  <span class="pl-c1">data-action</span>="<span class="pl-s">isActive=true;</span>"<span class="pl-kos">&gt;</span>Start Message
+<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<p>This code will display the "Message is displayed" <code>div</code> for five seconds after the user clicks the "Show Message" <code>button</code>. The <code>button</code> timer gets started once the <code>isActive</code> boolean is set to true. After 5 seconds the timer executes the code to set the <code>isActive</code> boolean to <code>false</code> and the <code>div</code> is hidden per its <code>data-if</code> attribute,</p>
+<p>Note if the boolean trigger expression is still true when the timer is executed; it will start a new timer. The timer can be interrupted any time by setting the boolean trigger expression to <code>false</code>.</p>
+<h2 id="user-content-412-data-interval"><a class="heading-link" href="#412-data-interval">4.12 <code>data-interval</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-interval</code>="[time in ms]:[start/stop boolean expression]:[code to execute]"</strong></p>
+<p>Similar to <code>data-timer</code>, the <code>data-interval</code> attribute allows you to execute code at regular intervals. It includes the interval time, a boolean expression to start / stop the intervals, and the code to execute.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">isRunning</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
+<span class="pl-k">let</span> <span class="pl-s1">counter</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-interval</span>="<span class="pl-s">1000:isRunning:counter++;</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${counter}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">isRunning=!isRunning;</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${isRunning?'Stop':'Start'}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<p>After the user clicks the "Start" button the counter will increment every second, which will be represented by the <code>div</code> element being updated. The text of the <code>button</code> will change to "stop". When the user clicks the "Stop" <code>button</code> the counter will stop.</p>
+<h2 id="user-content-413-data-rest"><a class="heading-link" href="#413-data-rest">4.13 <code>data-rest</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-rest</code>="[variable]:[template string url]"</strong></p>
+<p>The <code>data-rest</code> attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It supports parameterization of the endpoint URL and handles the API call status.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/api/user/123</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example, data is fetched from <code>/api/user/123</code> and stored in the <code>userData</code> variable.</p>
+<h2 id="user-content-414-data-rest-options"><a class="heading-link" href="#414-data-rest-options">4.14 <code>data-rest-options</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-rest-options</code>="[object variable]"</strong></p>
+<p>The <code>data-rest-options</code> attribute allows you to specify options for the Fetch call initiated by the <code>data-rest</code> attribute. You can customize the REST request as needed.</p>
+<h2 id="user-content-415-data-calc"><a class="heading-link" href="#415-data-calc">4.15 <code>data-calc</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-calc</code></strong></p>
+<p>The <code>data-calc</code> attribute is used to execute code every time there is a model update. It's helpful for recalculating formulas or making transformations to data loaded by a REST service.</p>
+<h2 id="user-content-416-data-route"><a class="heading-link" href="#416-data-route">4.16 <code>data-route</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax:</strong>
+<strong><code>data-route</code>="[routename]([#variable])"</strong></p>
+<p>The <code>data-route</code> attribute is used to show or hide parts of a page based on the URL hash. It's particularly useful for creating single-page applications (SPAs) with different views.</p>
+<h2 id="user-content-417-data-component"><a class="heading-link" href="#417-data-component">4.17 <code>data-component</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>data-component</code> attribute allows you to create reusable components. You define a component in a template and can then insert it into your document using the attribute. Components can include HTML, CSS, and even JavaScript state.</p>
+<h2 id="user-content-418-data-arg--and-data-bind-"><a class="heading-link" href="#418-data-arg--and-data-bind-">4.18 <code>data-arg-*</code> and <code>data-bind-*</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>These attributes are used for</p>
+<p>passing arguments to components and binding variables to component attributes. They make it easy to create reusable and configurable components.</p>
+<h2 id="user-content-419-data-include"><a class="heading-link" href="#419-data-include">4.19 <code>data-include</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>data-include</code> attribute allows you to import external HTML files into your document, making it easier to manage component libraries and common HTML fragments.</p>
+<h2 id="user-content-420-data-ref"><a class="heading-link" href="#420-data-ref">4.20 <code>data-ref</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>data-ref</code> attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or using third-party libraries.</p>
+<p>In this chapter, we've provided a comprehensive reference for Reken's attributes, explaining their functions and how to use them effectively in your web development projects. These attributes offer a wide range of functionality for creating dynamic and interactive web pages. Understanding when and how to use them is key to harnessing the full potential of Reken.</p>
+
+</article>
+</body>
+</html>
