@@ -1255,12 +1255,13 @@ let x = y = 0;
 <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${x},${y}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This code updates the <code>x</code> and <code>y</code> variables with the <code>clientX</code> and <code>clientY</code> properties from the <code>mousemove</code> event, when mousing over the red <code>div</code> square. The <code>output</code> element text content gets updated with the new values;</p>
 <p>Like with <code>data-action</code> event flow can be controlled by calling <code>preventDefault</code> and/or <code>stopPropagation</code>.</p>
-<div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('div')</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">https://www.reken.dev</span>"
-      <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('a href'); e.stopPropagation();e.preventDefault();</span>"<span class="pl-kos">&gt;</span>
-      Click here !
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('div')</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">https://www.reken.dev</span>"
+    <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('a href'); e.stopPropagation();e.preventDefault();</span>"<span class="pl-kos">&gt;</span>
+    Click here !
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This example displays a message on the console when the link is clicked. The call to <code>prevenDefault</code> prevents the link to be followed. And the call to <code>stopPropagation</code> stop the click on the div to be triggered.</p>
 <h2 id="user-content-411-data-timer"><a class="heading-link" href="#411-data-timer">4.11 <code>data-timer</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
@@ -1290,26 +1291,151 @@ let x = y = 0;
 <h2 id="user-content-413-data-rest"><a class="heading-link" href="#413-data-rest">4.13 <code>data-rest</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p><strong>Syntax:</strong>
-<strong><code>data-rest</code>="[variable]:[template string url]"</strong></p>
-<p>The <code>data-rest</code> attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It supports parameterization of the endpoint URL and handles the API call status.</p>
+<strong><code>data-rest</code>="[variable]:(objectProperty:)[rest template string url]"</strong></p>
+<p>The <code>data-rest</code> attribute is used to fetch data from a REST API <code>url</code> endpoint and stores it in the JavaScript variable <code>variable</code>. It supports parameterization of the endpoint URL and handles the API call automatically by parsing the returned JSON. By specifying an optional <code>object property</code> path, a subset of the object can be loaded into the <code>variable</code>.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/api/user/123</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">userData</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span><span class="pl-kos">}</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/api/user/123</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Name: $(userData.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, data is fetched from <code>/api/user/123</code> and stored in the <code>userData</code> variable.</p>
+<p>When only a subset of the object is need, an optional object path as the 2nd parameter can be provided.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-json"><pre><span class="pl-ii">// person.json</span>
+{
+  <span class="pl-ent">"name"</span>: <span class="pl-s"><span class="pl-pds">"</span>Johny Walker<span class="pl-pds">"</span></span>,
+  <span class="pl-ent">"address"</span>: {
+    <span class="pl-ent">"street"</span>: <span class="pl-s"><span class="pl-pds">"</span>42 Liquor Rd<span class="pl-pds">"</span></span>,
+    <span class="pl-ent">"city"</span>: <span class="pl-s"><span class="pl-pds">"</span>Whiskey Town<span class="pl-pds">"</span></span>,
+    <span class="pl-ent">"state"</span>: <span class="pl-s"><span class="pl-pds">"</span>Kentucky<span class="pl-pds">"</span></span>
+  } 
+}</pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">addressData</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span><span class="pl-kos">}</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">addressData:address:/api/person.json</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Street: $(addressData.street}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">City: $(addressData.city}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">State: $(addressData.state}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The rest call populates the <code>addressData</code> variable with the <code>address</code> subtree from the JSON file. As a result the expressions to get the address data can just specify <code>addressData.propName</code> instead of <code>addressData.address.propName</code></p>
 <h2 id="user-content-414-data-rest-options"><a class="heading-link" href="#414-data-rest-options">4.14 <code>data-rest-options</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p><strong>Syntax:</strong>
 <strong><code>data-rest-options</code>="[object variable]"</strong></p>
-<p>The <code>data-rest-options</code> attribute allows you to specify options for the Fetch call initiated by the <code>data-rest</code> attribute. You can customize the REST request as needed.</p>
+<p>The <code>data-rest-options</code> attribute allows you to specify options for the Fetch call initiated by the <code>data-rest</code> attribute. Note these options are passed into the underlying REST Fetch call. The following options can be set:</p>
+<ul>
+<li>
+<code>fetch</code> - a boolean when set to true forces the rest call to execute again.</li>
+<li>all the fetch call options; for example: <code>method</code> or <code>headers</code>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">orderData</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+  <span class="pl-c1">customerNumber</span>: <span class="pl-c1">12345</span><span class="pl-kos">,</span>
+  <span class="pl-c1">products</span> : <span class="pl-kos">[</span>
+    <span class="pl-kos">{</span><span class="pl-c1">id</span>: <span class="pl-s">'3456'</span><span class="pl-kos">,</span> <span class="pl-c1">amount</span>: <span class="pl-c1">8</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
+    <span class="pl-kos">{</span><span class="pl-c1">id</span>: <span class="pl-s">'5673'</span><span class="pl-kos">,</span> <span class="pl-c1">amount</span>: <span class="pl-c1">3</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
+  <span class="pl-kos">]</span>
+<span class="pl-kos">}</span><span class="pl-kos">;</span>
+<span class="pl-k">let</span> <span class="pl-s1">fetchOptions</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+  <span class="pl-c1">fetch</span>: <span class="pl-c1">false</span><span class="pl-kos">,</span>
+  <span class="pl-c1">method</span>: <span class="pl-s">'POST'</span><span class="pl-kos">,</span>
+<span class="pl-kos">}</span>
+<span class="pl-k">let</span> <span class="pl-s1">orderResult</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">orderResult:/api/orders</span>" <span class="pl-c1">data-rest-options</span>="<span class="pl-s">fetchOptions</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">fetchOptions.body=JSON.stringify(orderData);fetchOptions.fetch=true;</span>"<span class="pl-kos">&gt;</span>Order<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we setup a rest call to <code>/api/orders</code> and have the result put in the variable <code>orderResult</code>.</p>
+<p>We also specify the rest call options with the variable <code>fetchOptions</code>. Which at the start have the properties: <code>fetch</code> and <code>method</code>.</p>
+<p>With <code>fetch</code> being <code>false</code> means not to execute the fetch call yet. And with <code>method</code> set to <code>POST</code> means if the call gets executed use <code>POST</code> instead of the default <code>GET</code> method.</p>
+<p>When the "Order" <code>button</code> is pressed we add a <code>body</code> property with the order content and set the <code>fetch</code> property to <code>true</code> to force the rest call.</p>
+<p>It then returns the result of the order API call in the <code>orderResult</code> variable.</p>
 <h2 id="user-content-415-data-calc"><a class="heading-link" href="#415-data-calc">4.15 <code>data-calc</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p><strong>Syntax:</strong>
 <strong><code>data-calc</code></strong></p>
-<p>The <code>data-calc</code> attribute is used to execute code every time there is a model update. It's helpful for recalculating formulas or making transformations to data loaded by a REST service.</p>
+<p>The <code>data-calc</code> attribute is used to mark a script to have its contents to executed when there is a model update. It's helpful for recalculating formulas or making transformations to data loaded by a REST service.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+let fahrenheit = 0;
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+
+<span class="pl-c1">&lt;</span><span class="pl-s1">script</span> <span class="pl-s1">data</span><span class="pl-c1">-</span><span class="pl-s1">calc</span><span class="pl-c1">&gt;</span>
+<span class="pl-s1">let</span> <span class="pl-s1">celcius</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">fahrenheit</span> <span class="pl-c1">-</span> <span class="pl-c1">32</span><span class="pl-kos">)</span> <span class="pl-c1">*</span> <span class="pl-c1">5</span> <span class="pl-c1">/</span> <span class="pl-c1">9</span><span class="pl-kos">;</span>
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Fahrenheit:
+  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-value</span>="<span class="pl-s">fahrenheit</span>" <span class="pl-c1">type</span>="<span class="pl-s">number</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">input</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Celcius:
+  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${celcius}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example to user can enter a value in the Fahrenheit <code>input</code> control, resulting in an updated <code>fahrenheit</code> variable. The input control change triggers a model update, which recalculates the <code>celcius</code>. The updated <code>celcius</code> value updates the output control Element's textContent via the <code>data-text</code> attribute.</p>
 <h2 id="user-content-416-data-route"><a class="heading-link" href="#416-data-route">4.16 <code>data-route</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p><strong>Syntax:</strong>
-<strong><code>data-route</code>="[routename]([#variable])"</strong></p>
+<strong><code>data-route</code>="([classname]:)[routename]([#variable])"</strong></p>
 <p>The <code>data-route</code> attribute is used to show or hide parts of a page based on the URL hash. It's particularly useful for creating single-page applications (SPAs) with different views.</p>
+<p>A route can also reference a variable by preceding it with a #. In this way parameterized urls can be created.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>=""<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Default page<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page1</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 1<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page2</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 2<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page3</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 3<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/</span>"<span class="pl-kos">&gt;</span>[ Default ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page1</span>"<span class="pl-kos">&gt;</span>[ 1 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page2</span>"<span class="pl-kos">&gt;</span>[ 2 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page3</span>"<span class="pl-kos">&gt;</span>[ 3 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we define four pages with the <code>main</code> tag. With its <code>data-route</code> attribute we specify the hash to access the page. With an empty <code>data-route</code> attribute we specify a default page that gets shown when there is no or empty hash on the url.</p>
+<p>In the <code>nav</code> tag we specify four links to get to navigate to a specific page. The url to navigate to a route page consists of the <code>data-route</code> value preceded by <code>#/</code></p>
+<p>Not the pages that are not active are not processed in the UI update cycle.</p>
+<p>Like the <code>data-if</code> attribute, the <code>data-route</code> value can be proceded by a classname. When a classname is specified the page is not hidden/shown but the class is added to the page which is currently routed. This can be useful to animate pages in view.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
+  .<span class="pl-c1">active</span> {
+    <span class="pl-c1">background</span><span class="pl-kos">:</span> green;
+    <span class="pl-c1">color</span><span class="pl-kos">:</span> white;
+  }
+<span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Default page<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:page1</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 1<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:page2</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 2<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:page3</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 3<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/</span>"<span class="pl-kos">&gt;</span>[ Default ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page1</span>"<span class="pl-kos">&gt;</span>[ 1 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page2</span>"<span class="pl-kos">&gt;</span>[ 2 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page3</span>"<span class="pl-kos">&gt;</span>[ 3 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span></pre></div>
+<p>This example is similar to the previous <code>data-route</code> example, except now each <code>data-route</code> value has the 'active' classname specified.</p>
+<p>When the user now routes to the page with that route name the classname <code>active</code> is added to the <code>main</code> element of the active route. With the style class definition for the <code>active</code> class makes the background green and font color white.</p>
+<p>To create a parameterized page create a variable to will contain the parameter value and include it preceded by a hash in the <code>data-route</code> attribute.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">orderNumber</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">#orderNumber</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Order number:
+    <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${orderNumber}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">iVar:5</span>"<span class="pl-kos">&gt;</span>Orders:
+  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">#/${iVar.index+1000}</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${iVar.index+1000}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we create a <code>main</code> element that shows an <code>output</code> tag that displays the value of <code>orderNumber</code> variable. The example also creates a list of order numbers with links with the <code>data-for</code> and <code>data-attr-href</code> and <code>data-text</code> attributes. When the user clicks on one of the order number links, the page url gets updated and the <code>output</code> tag displays the selected order number.</p>
 <h2 id="user-content-417-data-component"><a class="heading-link" href="#417-data-component">4.17 <code>data-component</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p>The <code>data-component</code> attribute allows you to create reusable components. You define a component in a template and can then insert it into your document using the attribute. Components can include HTML, CSS, and even JavaScript state.</p>
