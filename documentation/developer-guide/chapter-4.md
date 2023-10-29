@@ -412,13 +412,14 @@ This code updates the `x` and `y` variables with the `clientX` and `clientY` pro
 
 Like with `data-action` event flow can be controlled by calling `preventDefault` and/or `stopPropagation`.
 
+**Example:**
 ```html
-  <div data-on-click="console.log('div')">
-    <a href="https://www.reken.dev"
-      data-on-click="console.log('a href'); e.stopPropagation();e.preventDefault();">
-      Click here !
-    </a>
-  </div>
+<div data-on-click="console.log('div')">
+  <a href="https://www.reken.dev"
+    data-on-click="console.log('a href'); e.stopPropagation();e.preventDefault();">
+    Click here !
+  </a>
+</div>
 ```
 
 This example displays a message on the console when the link is clicked. The call to `prevenDefault` prevents the link to be followed. And the call to `stopPropagation` stop the click on the div to be triggered. 
@@ -468,36 +469,215 @@ After the user clicks the "Start" button the counter will increment every second
 
 ## 4.13 `data-rest`
 **Syntax:**
-**`data-rest`="[variable]:[template string url]"**
+**`data-rest`="[variable]:(objectProperty:)[rest template string url]"**
 
 
-The `data-rest` attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It supports parameterization of the endpoint URL and handles the API call status.
+The `data-rest` attribute is used to fetch data from a REST API `url` endpoint and stores it in the JavaScript variable `variable`. It supports parameterization of the endpoint URL and handles the API call automatically by parsing the returned JSON. By specifying an optional `object property` path, a subset of the object can be loaded into the `variable`.
 
 **Example:**
+```javascript
+let userData = {}
+```
+
 ```html
 <div data-rest="userData:/api/user/123"></div>
+<output data-text="Name: $(userData.name}"></output>
 ```
 
 In this example, data is fetched from `/api/user/123` and stored in the `userData` variable.
+
+When only a subset of the object is need, an optional object path as the 2nd parameter can be provided.
+
+**Example:**
+```json
+// person.json
+{
+  "name": "Johny Walker",
+  "address": {
+    "street": "42 Liquor Rd",
+    "city": "Whiskey Town",
+    "state": "Kentucky"
+  } 
+}
+```
+
+```javascript
+let addressData = {}
+```
+
+```html
+<div data-rest="addressData:address:/api/person.json"></div>
+<output data-text="Street: $(addressData.street}"></output>
+<output data-text="City: $(addressData.city}"></output>
+<output data-text="State: $(addressData.state}"></output>
+```
+
+The rest call populates the `addressData` variable with the `address` subtree from the JSON file. As a result the expressions to get the address data can just specify `addressData.propName` instead of `addressData.address.propName`
+
+
 
 ## 4.14 `data-rest-options`
 **Syntax:**
 **`data-rest-options`="[object variable]"**
 
-The `data-rest-options` attribute allows you to specify options for the Fetch call initiated by the `data-rest` attribute. You can customize the REST request as needed.
+The `data-rest-options` attribute allows you to specify options for the Fetch call initiated by the `data-rest` attribute. Note these options are passed into the underlying REST Fetch call. The following options can be set:
+- `fetch` - a boolean when set to true forces the rest call to execute again.
+- all the fetch call options; for example: `method` or `headers`
+
+**Example:**
+```javascript
+let orderData = {
+  customerNumber: 12345,
+  products : [
+    {id: '3456', amount: 8},
+    {id: '5673', amount: 3},
+  ]
+};
+let fetchOptions = {
+  fetch: false,
+  method: 'POST',
+}
+let orderResult;
+
+```
+
+```html
+<div data-rest="orderResult:/api/orders" data-rest-options="fetchOptions"></div>
+<button data-action="fetchOptions.body=JSON.stringify(orderData);fetchOptions.fetch=true;">Order</button>
+```
+
+In this example we setup a rest call to `/api/orders` and have the result put in the variable `orderResult`.
+
+We also specify the rest call options with the variable `fetchOptions`. Which at the start have the properties: `fetch` and `method`.
+
+With `fetch` being `false` means not to execute the fetch call yet. And with `method` set to `POST` means if the call gets executed use `POST` instead of the default `GET` method.
+
+When the "Order" `button` is pressed we add a `body` property with the order content and set the `fetch` property to `true` to force the rest call.
+
+It then returns the result of the order API call in the `orderResult` variable.
 
 ## 4.15 `data-calc`
 **Syntax:**
 **`data-calc`**
 
-The `data-calc` attribute is used to execute code every time there is a model update. It's helpful for recalculating formulas or making transformations to data loaded by a REST service.
+The `data-calc` attribute is used to mark a script to have its contents to executed when there is a model update. It's helpful for recalculating formulas or making transformations to data loaded by a REST service.
+
+**Example:**
+```javascript
+<script>
+let fahrenheit = 0;
+</script>
+
+<script data-calc>
+let celcius = (fahrenheit - 32) * 5 / 9;
+</script>
+```
+
+```html
+<label>Fahrenheit:
+  <input data-value="fahrenheit" type="number"></input>
+</label>
+<label>Celcius:
+  <output data-text="${celcius}"></output>
+</label>
+```
+In this example to user can enter a value in the Fahrenheit `input` control, resulting in an updated `fahrenheit` variable. The input control change triggers a model update, which recalculates the `celcius`. The updated `celcius` value updates the output control Element's textContent via the `data-text` attribute.
 
 ## 4.16 `data-route`
 **Syntax:**
-**`data-route`="[routename]([#variable]\)"**
+**`data-route`="([classname]:)[routename]([#variable]\)"**
 
 
 The `data-route` attribute is used to show or hide parts of a page based on the URL hash. It's particularly useful for creating single-page applications (SPAs) with different views.
+
+A route can also reference a variable by preceding it with a #. In this way parameterized urls can be created.
+
+**Example:**
+```html
+<main data-route="">
+  <h1>Default page</h1>
+</main>
+<main data-route="page1">
+  <h1>Page 1</h1>
+</main>
+<main data-route="page2">
+  <h1>Page 2</h1>
+</main>
+<main data-route="page3">
+  <h1>Page 3</h1>
+</main>
+<nav>
+  <a href="#/">[ Default ]</a>
+  <a href="#/page1">[ 1 ]</a>
+  <a href="#/page2">[ 2 ]</a>
+  <a href="#/page3">[ 3 ]</a>
+</nav>
+```
+
+In this example we define four pages with the `main` tag. With its `data-route` attribute we specify the hash to access the page. With an empty `data-route` attribute we specify a default page that gets shown when there is no or empty hash on the url.
+
+In the `nav` tag we specify four links to get to navigate to a specific page. The url to navigate to a route page consists of the `data-route` value preceded by `#/`
+
+Not the pages that are not active are not processed in the UI update cycle.
+
+Like the `data-if` attribute, the `data-route` value can be proceded by a classname. When a classname is specified the page is not hidden/shown but the class is added to the page which is currently routed. This can be useful to animate pages in view.
+
+**Example:**
+```html
+<style>
+  .active {
+    background: green;
+    color: white;
+  }
+</style>
+```
+
+```html
+<main data-route="active:">
+  <h1>Default page</h1>
+</main>
+<main data-route="active:page1">
+  <h1>Page 1</h1>
+</main>
+<main data-route="active:page2">
+  <h1>Page 2</h1>
+</main>
+<main data-route="active:page3">
+  <h1>Page 3</h1>
+</main>
+<nav>
+  <a href="#/">[ Default ]</a>
+  <a href="#/page1">[ 1 ]</a>
+  <a href="#/page2">[ 2 ]</a>
+  <a href="#/page3">[ 3 ]</a>
+</nav>
+```
+
+This example is similar to the previous `data-route` example, except now each `data-route` value has the 'active' classname specified.
+
+When the user now routes to the page with that route name the classname `active` is added to the `main` element of the active route. With the style class definition for the `active` class makes the background green and font color white.
+
+To create a parameterized page create a variable to will contain the parameter value and include it preceded by a hash in the `data-route` attribute.
+
+**Example:**
+```javascript
+let orderNumber;
+```
+
+```html
+<main data-route="#orderNumber">
+  <label>Order number:
+    <output data-text="${orderNumber}"></output>
+  </label>
+</main>
+<ul data-for="iVar:5">Orders:
+  <li>
+    <a data-attr-href="#/${iVar.index+1000}" data-text="${iVar.index+1000}"></a>
+  </li>
+</ul>
+```
+
+In this example we create a `main` element that shows an `output` tag that displays the value of `orderNumber` variable. The example also creates a list of order numbers with links with the `data-for` and `data-attr-href` and `data-text` attributes. When the user clicks on one of the order number links, the page url gets updated and the `output` tag displays the selected order number.
 
 ## 4.17 `data-component`
 
