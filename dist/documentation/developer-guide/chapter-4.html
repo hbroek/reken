@@ -1438,12 +1438,149 @@ let fahrenheit = 0;
 <p>In this example we create a <code>main</code> element that shows an <code>output</code> tag that displays the value of <code>orderNumber</code> variable. The example also creates a list of order numbers with links with the <code>data-for</code> and <code>data-attr-href</code> and <code>data-text</code> attributes. When the user clicks on one of the order number links, the page url gets updated and the <code>output</code> tag displays the selected order number.</p>
 <h2 id="user-content-417-data-component"><a class="heading-link" href="#417-data-component">4.17 <code>data-component</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<p>The <code>data-component</code> attribute allows you to create reusable components. You define a component in a template and can then insert it into your document using the attribute. Components can include HTML, CSS, and even JavaScript state.</p>
-<h2 id="user-content-418-data-arg--and-data-bind-"><a class="heading-link" href="#418-data-arg--and-data-bind-">4.18 <code>data-arg-*</code> and <code>data-bind-*</code>
+<p><strong>Syntax definition:</strong></p>
+<p><strong><code>&lt;template data-component="[component name]"&gt;</code></strong></p>
+<p><strong>Syntax reference:</strong></p>
+<p><strong><code>&lt;div data-component="[component name]"&gt;&lt;/div</code></strong></p>
+<p><strong>or</strong></p>
+<p><strong><code>&lt;component-name&gt;&lt;/component-name&gt;</code></strong></p>
+<p>The <code>data-component</code> attribute allows you to create reusable components. You define a component in a <code>template</code> tag with an attribute <code>data-component</code> specifying the name of the component.</p>
+<p>A component can then be referenced in a tag referencing the component name using the <code>data-component</code> attribute or just use the component name as a tag.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">hello-world</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">hello-world</span><span class="pl-kos">&gt;</span>
+  or
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello-world</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello-world</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Hello <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span>World<span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we define a hello component with a template. The component is named <strong>hello-world</strong> with the template's <code>data-component</code> attribute. The content contained by the <code>template</code> tag is the actual component. In this case it contains the text "Hello" followed by a bold tag containing "World".</p>
+<p>We can now reference the component with the <code>hello</code> tag or an element containing a <code>data-component</code> attribute with the value "hello".</p>
+<p><strong><code>&lt;slot&gt;</code></strong>
+Variable content in the component can be specified with the <code>slot</code> tag. Any content defined in the <code>slot</code> tag will be used a default content.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span>John<span class="pl-kos">&lt;/</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span>
+  or
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Hello <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>World<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we create a component <code>hello</code>. It defines a <code>slot</code> in the <code>template</code>. The <code>hello</code> component is referenced twice with both reference syntaxes. The first reference specifies <code>John</code> as the slot content. The second reference does not specify a <code>slot</code> content, and as a result displays the default <code>slot</code> content of <code>World</code>.</p>
+<h2 id="user-content-418-data-arg-"><a class="heading-link" href="#418-data-arg-">4.18 <code>data-arg-*</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<p>These attributes are used for</p>
-<p>passing arguments to components and binding variables to component attributes. They make it easy to create reusable and configurable components.</p>
-<h2 id="user-content-419-data-include"><a class="heading-link" href="#419-data-include">4.19 <code>data-include</code>
+<p><strong>Syntax definition:</strong></p>
+<p><strong><code>&lt;template data-arg-[attribute name](="default value")&gt;</code></strong></p>
+<p><strong>Syntax reference:</strong></p>
+<p><strong><code>&lt;custom-component data-arg-[attribute-name]="[template text|variable]"&gt;&lt;/custom-component</code></strong></p>
+<p><strong>or</strong></p>
+<p><strong><code>&lt;custom-component attribute-name="[template text|variable]"&gt;&lt;/custom-component</code></strong></p>
+<p>With the <code>data-arg-*</code> attribute a read-only custom component attribute can be defined. A default value can be initialized by specifying a value on the custom component attribute.</p>
+<p>An attribute on a custom component can be set by specifying the <code>data-arg-[component-attribute]=value</code> or the shortform with <code>component-attribute=value</code>.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+green box
+  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">data-arg-color</span>="<span class="pl-s">green</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+
+blue box
+  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">blue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+
+or box with the default color red
+  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we create a component called <code>color-box</code> with the dimensions 100px by 100px. Which has an attribute color the set background color. The default color is red.</p>
+<p>In the example the <code>color-box</code> component is referenced three times. First with a the color <strong>green</strong>, then <strong>blue</strong> and lastly without specifying a color, which displays the default color <strong>red</strong>.</p>
+<p>Besides string literals the argument values can also be specified as template strings.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+  let red = 125;
+  let green = 20;
+  let blue = 200;
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">rgb(${red},${green},${blue})</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">fieldset</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>RGB color picker<span class="pl-kos">&lt;/</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">red</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Green:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">green</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Blue:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">blue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">fieldset</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we are using the same <code>color-box</code> component as in the previous example. But now we pass in a template string that constructs a <code>rgb()</code> color definition. The rgb colors are based on the <code>red</code>, <code>green</code> and <code>blue</code> javascript variables. The example also defines a range input control for each color. With these controls the user can tweak the color displayed in the <code>color-box</code> component.</p>
+<p>Lastly a variable can be passed into as an attribute variable. This variable must exist during the Reken initialization phase of the page, if it does not it will be considered a string literal.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+  let hexColorValue = '#FF0000';
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">hexColorValue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">hexColorValue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we pass in the javascript variable <code>hexColorValue</code> into the <code>color</code> attribute of the <code>color-box</code> component. In the example the color input control allows the user to change the <code>hexColorValue</code>.</p>
+<h2 id="user-content-419-data-bind-"><a class="heading-link" href="#419-data-bind-">4.19 <code>data-bind-*</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p><strong>Syntax definition:</strong></p>
+<p><strong><code>&lt;template data-bind-[attribute name]&gt;&lt;/template&gt;</code></strong></p>
+<p><strong>Syntax reference:</strong></p>
+<p><strong><code>&lt;custom-component data-bind-[attribute-name]="[variable]"&gt;&lt;/custom-component</code></strong></p>
+<p><strong>or</strong></p>
+<p><strong><code>&lt;custom-component attribute-name="[variable]"&gt;&lt;/custom-component</code></strong></p>
+<p>With the <code>data-bind-*</code> attribute a custom component bindable attribute can be defined. With a bindable attribute, a custom component can modify the value of the variable.</p>
+<p>A bindable attribute on a custom component can be set by specifying the <code>data-bind-[component-attribute]=value</code> or the shortform with <code>component-attribute=value</code>.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+  let choosenColor = '';
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">color-chooser</span> <span class="pl-c1">color</span>="<span class="pl-s">choosenColor</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-chooser</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Color = ${choosenColor}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-chooser</span>" <span class="pl-c1">data-bind-color</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex; gap:0.25em;</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">blue</span>" <span class="pl-c1">pickedcolor</span>="<span class="pl-s">color</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">green</span>" <span class="pl-c1">pickedcolor</span>="<span class="pl-s">color</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">red</span>" <span class="pl-c1">pickedcolor</span>="<span class="pl-s">color</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-button</span>" <span class="pl-c1">data-arg-color</span> <span class="pl-c1">data-bind-pickedcolor</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span>
+    <span class="pl-c1">type</span>="<span class="pl-s">button</span>"
+    <span class="pl-c1">data-style</span>="<span class="pl-s">background-color:${color};color:white;</span>"
+    <span class="pl-c1">data-text</span>="<span class="pl-s">${color}</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">pickedcolor=color</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we create a two components: <code>color-button</code> and <code>color-chooser</code>.</p>
+<p><code>color-button</code> has an argument that takes the color the <code>color-button</code> represents. It also has a <code>pickedColor</code> bindable attribute, which updates with the <code>color-button</code>'s color when the button is pressed.</p>
+<p>the <code>color-chooser</code> component has a <code>choosen-color</code> bindable attribute. It is set on the <code>pickedColor</code> bindable attribute of the <code>color-button</code>. There are three <code>color-button</code>s declared in the <code>choosen-color</code> component. When one of the buttons is pressed the <code>choosenColor</code> variable which is bound to the <code>color</code> bindable attribute on the <code>color-chooser</code> gets updated, and the <code>output</code> gets updated.</p>
+<h2 id="user-content-420-data-include"><a class="heading-link" href="#420-data-include">4.20 <code>data-include</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
 <p>The <code>data-include</code> attribute allows you to import external HTML files into your document, making it easier to manage component libraries and common HTML fragments.</p>
 <h2 id="user-content-420-data-ref"><a class="heading-link" href="#420-data-ref">4.20 <code>data-ref</code>
