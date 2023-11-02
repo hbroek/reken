@@ -680,16 +680,208 @@ let orderNumber;
 In this example we create a `main` element that shows an `output` tag that displays the value of `orderNumber` variable. The example also creates a list of order numbers with links with the `data-for` and `data-attr-href` and `data-text` attributes. When the user clicks on one of the order number links, the page url gets updated and the `output` tag displays the selected order number.
 
 ## 4.17 `data-component`
+**Syntax definition:**
 
-The `data-component` attribute allows you to create reusable components. You define a component in a template and can then insert it into your document using the attribute. Components can include HTML, CSS, and even JavaScript state.
+**`<template data-component="[component name]">`**
 
-## 4.18 `data-arg-*` and `data-bind-*`
+**Syntax reference:**
 
-These attributes are used for
+**`<div data-component="[component name]"></div`**
 
- passing arguments to components and binding variables to component attributes. They make it easy to create reusable and configurable components.
+**or**
 
-## 4.19 `data-include`
+**`<component-name></component-name>`**
+
+The `data-component` attribute allows you to create reusable components. You define a component in a `template` tag with an attribute `data-component` specifying the name of the component.
+
+A component can then be referenced in a tag referencing the component name using the `data-component` attribute or just use the component name as a tag.
+
+**Example:**
+```html
+<html>
+<body>
+  <hello-world></hello-world>
+  or
+  <div data-component="hello-world"></div>
+</body>
+<template data-component="hello-world">
+  <div>Hello <b>World</b></div>
+</template>
+</html>
+```
+
+In this example we define a hello component with a template. The component is named **hello-world** with the template's `data-component` attribute. The content contained by the `template` tag is the actual component. In this case it contains the text "Hello" followed by a bold tag containing "World".
+
+We can now reference the component with the `hello` tag or an element containing a `data-component` attribute with the value "hello".
+
+**`<slot>`**
+Variable content in the component can be specified with the `slot` tag. Any content defined in the `slot` tag will be used a default content.
+
+**Example:**
+```html
+<html>
+<body>
+  <hello>John</hello>
+  or
+  <div data-component="hello"></div>
+</body>
+<template data-component="hello">
+  <div>Hello <b><slot>World</slot></b></div>
+</template>
+</html>
+```
+
+In this example we create a component `hello`. It defines a `slot` in the `template`. The `hello` component is referenced twice with both reference syntaxes. The first reference specifies `John` as the slot content. The second reference does not specify a `slot` content, and as a result displays the default `slot` content of `World`.
+
+## 4.18 `data-arg-*`
+
+**Syntax definition:**
+
+**`<template data-arg-[attribute name](="default value")>`**
+
+**Syntax reference:**
+
+**`<custom-component data-arg-[attribute-name]="[template text|variable]"></custom-component`**
+
+**or**
+
+**`<custom-component attribute-name="[template text|variable]"></custom-component`**
+
+With the `data-arg-*` attribute a read-only custom component attribute can be defined. A default value can be initialized by specifying a value on the custom component attribute.
+
+An attribute on a custom component can be set by specifying the `data-arg-[component-attribute]=value` or the shortform with `component-attribute=value`.
+
+**Example:**
+```html
+<html>
+<body>
+green box
+  <color-box data-arg-color="green"></color-box>
+
+blue box
+  <color-box color="blue"></color-box>
+
+or box with the default color red
+  <color-box></color-box>
+</body>
+<template data-component="color-box" data-arg-color="red">
+  <div data-style="background:${color};width:100px;height:100px;">
+  </div>
+</template>
+</html>
+```
+In this example we create a component called `color-box` with the dimensions 100px by 100px. Which has an attribute color the set background color. The default color is red.
+
+In the example the `color-box` component is referenced three times. First with a the color **green**, then **blue** and lastly without specifying a color, which displays the default color **red**.
+
+Besides string literals the argument values can also be specified as template strings. 
+
+**Example:**
+```javascript
+<script>
+  let red = 125;
+  let green = 20;
+  let blue = 200;
+</script>
+```
+
+```html
+<html>
+<body>
+  <color-box color="rgb(${red},${green},${blue})"></color-box>
+  <fieldset style="display:flex"><legend>RGB color picker</legend>
+    <label>Red:<input type="range" min="0" max="255" data-value="red"/></label>
+    <label>Green:<input type="range" min="0" max="255" data-value="green"/></label>
+    <label>Blue:<input type="range" min="0" max="255" data-value="blue"/></label>
+  </fieldset>
+</body>
+<template data-component="color-box" data-arg-color="red">
+  <div data-style="background:${color};width:100px;height:100px;">
+  </div>
+</template>
+</html>
+```
+In this example we are using the same `color-box` component as in the previous example. But now we pass in a template string that constructs a `rgb()` color definition. The rgb colors are based on the `red`, `green` and `blue` javascript variables. The example also defines a range input control for each color. With these controls the user can tweak the color displayed in the `color-box` component.
+
+Lastly a variable can be passed into as an attribute variable. This variable must exist during the Reken initialization phase of the page, if it does not it will be considered a string literal.
+
+**Example:**
+```javascript
+<script>
+  let hexColorValue = '#FF0000';
+</script>
+```
+
+```html
+<html>
+<body>
+  <color-box color="hexColorValue"></color-box>
+  <label>Red:<input type="color" data-value="hexColorValue"/></label>
+</body>
+<template data-component="color-box" data-arg-color="red">
+  <div data-style="background:${color};width:100px;height:100px;">
+  </div>
+</template>
+</html>
+```
+
+In this example we pass in the javascript variable `hexColorValue` into the `color` attribute of the `color-box` component. In the example the color input control allows the user to change the `hexColorValue`.
+
+## 4.19 `data-bind-*`
+**Syntax definition:**
+
+**`<template data-bind-[attribute name]></template>`**
+
+**Syntax reference:**
+
+**`<custom-component data-bind-[attribute-name]="[variable]"></custom-component`**
+
+**or**
+
+**`<custom-component attribute-name="[variable]"></custom-component`**
+
+With the `data-bind-*` attribute a custom component bindable attribute can be defined. With a bindable attribute, a custom component can modify the value of the variable.
+
+A bindable attribute on a custom component can be set by specifying the `data-bind-[component-attribute]=value` or the shortform with `component-attribute=value`.
+
+**Example:**
+```javascript
+<script>
+  let choosenColor = '';
+</script>
+```
+```html
+<html>
+<body>
+  <color-chooser color="choosenColor"></color-chooser>
+  <output data-text="Color = ${choosenColor}"></output>
+</body>
+
+<template data-component="color-chooser" data-bind-color>
+  <div style="display:flex; gap:0.25em;">
+    <color-button color="blue" pickedcolor="color"></color-button>
+    <color-button color="green" pickedcolor="color"></color-button>
+    <color-button color="red" pickedcolor="color"></color-button>
+  </div>
+</template>
+
+<template data-component="color-button" data-arg-color data-bind-pickedcolor>
+  <button
+    type="button"
+    data-style="background-color:${color};color:white;"
+    data-text="${color}" data-action="pickedcolor=color">
+  </button>
+</template>
+
+</html>
+```
+In this example we create a two components: `color-button` and `color-chooser`.
+
+`color-button` has an argument that takes the color the `color-button` represents. It also has a `pickedColor` bindable attribute, which updates with the `color-button`'s color when the button is pressed.
+
+the `color-chooser` component has a `choosen-color` bindable attribute. It is set on the `pickedColor` bindable attribute of the `color-button`. There are three `color-button`s declared in the `choosen-color` component. When one of the buttons is pressed the `choosenColor` variable which is bound to the `color` bindable attribute on the `color-chooser` gets updated, and the `output` gets updated.
+
+## 4.20 `data-include`
 
 The `data-include` attribute allows you to import external HTML files into your document, making it easier to manage component libraries and common HTML fragments.
 
