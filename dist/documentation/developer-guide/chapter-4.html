@@ -1090,7 +1090,7 @@
 <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">male</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;
 <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">other</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;</pre></div>
 <p>When the user selects one of radio controls, the <code>genderValue</code> variable will be updated automatically with the <code>value</code> specified in the control, and changes to the variable will be represented by the appropriate radio control being checked.</p>
-<h3 id="user-content-436-typecheckbox"><a class="heading-link" href="#436-typecheckbox">4.3.6 <code>type='checkbox'</code>
+<h3 id="user-content-437-typecheckbox"><a class="heading-link" href="#437-typecheckbox">4.3.7 <code>type='checkbox'</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
 <p>The checkbox input control can be bound in two ways.</p>
 <p>First, similar to the radio input control, the checkbox can work in concert with other checkbox input controls,  grouped together by the same <code>name</code> attribute (a set). The function of the checkbox controls is to have the user select zero, one, or more of the values.</p>
@@ -1236,7 +1236,7 @@
 let counter = 0;
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">counter=counter+1</span>"<span class="pl-kos">&gt;</span>Increment<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>=<span class="pl-s">${counter}</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${counter}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>When the button is clicked, the <code>counter</code> variable is increased by <code>1</code>. The <code>output</code> Element is updated with the new <code>counter</code> value.</p>
 <p>You have access to the native event details through the <code>e</code> variable in the event handling code. With the event object methods such as <code>stopPropagation</code> and <code>preventDefault</code> can be called to influence the flow of the event.</p>
 <p><strong>Example:</strong></p>
@@ -1582,10 +1582,41 @@ or box with the default color red
 <p>the <code>color-chooser</code> component has a <code>choosen-color</code> bindable attribute. It is set on the <code>pickedColor</code> bindable attribute of the <code>color-button</code>. There are three <code>color-button</code>s declared in the <code>choosen-color</code> component. When one of the buttons is pressed the <code>choosenColor</code> variable which is bound to the <code>color</code> bindable attribute on the <code>color-chooser</code> gets updated, and the <code>output</code> gets updated.</p>
 <h2 id="user-content-420-data-include"><a class="heading-link" href="#420-data-include">4.20 <code>data-include</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<p>The <code>data-include</code> attribute allows you to import external HTML files into your document, making it easier to manage component libraries and common HTML fragments.</p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>&lt;div data-include="[html url]"&gt;&lt;/div&gt;</code></strong></p>
+<p>The <code>data-include</code> attribute allows you to import external HTML files into your document, making it easier to manage Reken component libraries and common HTML fragments.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">goodbye</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">goodbye</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-include</span>="<span class="pl-s">./components.html</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!--components.html--&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Hello!<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">goodbye</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Goodbye!<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we create a component.html file. It contains the component definitions of the <code>hello</code> and <code>goodbye</code> components.</p>
+<p>The main HTML code loads the <strong>components.html</strong> file with the <code>data-include</code> attribute and references the <code>hello</code> and <code>goodbye</code> components with the shorthand notation <code>&lt;hello&gt;</code> and <code>&lt;goodbye&gt;</code> tags.</p>
 <h2 id="user-content-420-data-ref"><a class="heading-link" href="#420-data-ref">4.20 <code>data-ref</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<p>The <code>data-ref</code> attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or using third-party libraries.</p>
+<p><strong>Syntax:</strong>
+<strong><code>data-ref="javascript variable"</code></strong></p>
+<p>The <code>data-ref</code> attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or when using third-party libraries that need object references.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+let buttonRef;
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-ref</span>="<span class="pl-s">buttonRef</span>"
+    <span class="pl-c1">data-action</span>="<span class="pl-s">console.log(buttonRef)</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example the <code>data-ref</code> attribute is specified with the <code>buttonRef</code> variable. When the user clicks the button it logs the reference of the HTML button in the console.</p>
 <p>In this chapter, we've provided a comprehensive reference for Reken's attributes, explaining their functions and how to use them effectively in your web development projects. These attributes offer a wide range of functionality for creating dynamic and interactive web pages. Understanding when and how to use them is key to harnessing the full potential of Reken.</p>
 
 </article>
