@@ -141,7 +141,7 @@ A radio input control works in concert with other radio input controls, which ar
 
 When the user selects one of radio controls, the `genderValue` variable will be updated automatically with the `value` specified in the control, and changes to the variable will be represented by the appropriate radio control being checked.
 
-### 4.3.6 `type='checkbox'`
+### 4.3.7 `type='checkbox'`
 
 The checkbox input control can be bound in two ways.
 
@@ -376,7 +376,7 @@ let counter = 0;
 
 ```html
 <button data-action="counter=counter+1">Increment</button>
-<output data-text=${counter}></output>
+<output data-text="${counter}"></output>
 ```
 
 When the button is clicked, the `counter` variable is increased by `1`. The `output` Element is updated with the new `counter` value. 
@@ -882,11 +882,58 @@ In this example we create a two components: `color-button` and `color-chooser`.
 the `color-chooser` component has a `choosen-color` bindable attribute. It is set on the `pickedColor` bindable attribute of the `color-button`. There are three `color-button`s declared in the `choosen-color` component. When one of the buttons is pressed the `choosenColor` variable which is bound to the `color` bindable attribute on the `color-chooser` gets updated, and the `output` gets updated.
 
 ## 4.20 `data-include`
+**Syntax:**
 
-The `data-include` attribute allows you to import external HTML files into your document, making it easier to manage component libraries and common HTML fragments.
+**`<div data-include="[html url]"></div>`**
+
+The `data-include` attribute allows you to import external HTML files into your document, making it easier to manage Reken component libraries and common HTML fragments.
+
+**Example:**
+```html
+<html>
+<body>
+  <hello></hello>
+  <goodbye></goodbye>
+</body>
+<div data-include="./components.html"></div>
+</html>
+```
+
+```html
+<!--components.html-->
+<template data-component="hello">
+  <h1>Hello!</h1>
+</template>
+<template data-component="goodbye">
+  <h1>Goodbye!</h1>
+</template>
+```
+
+In this example we create a component.html file. It contains the component definitions of the `hello` and `goodbye` components.
+
+The main HTML code loads the **components.html** file with the `data-include` attribute and references the `hello` and `goodbye` components with the shorthand notation `<hello>` and `<goodbye>` tags.
 
 ## 4.20 `data-ref`
+**Syntax:**
+**`data-ref="javascript variable"`**
 
-The `data-ref` attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or using third-party libraries.
+The `data-ref` attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or when using third-party libraries that need object references.
+
+**Example:**
+```javascript
+<script>
+let buttonRef;
+</script>
+```
+```html
+<body>
+  <button data-ref="buttonRef"
+    data-action="console.log(buttonRef)">
+  </button>
+</body>
+```
+
+In this example the `data-ref` attribute is specified with the `buttonRef` variable. When the user clicks the button it logs the reference of the HTML button in the console.
+
 
 In this chapter, we've provided a comprehensive reference for Reken's attributes, explaining their functions and how to use them effectively in your web development projects. These attributes offer a wide range of functionality for creating dynamic and interactive web pages. Understanding when and how to use them is key to harnessing the full potential of Reken.
