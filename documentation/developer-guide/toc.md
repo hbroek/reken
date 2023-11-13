@@ -48,7 +48,7 @@
    - `data-ref`
 
 
-5. Advanced Features
+5. [Advanced Features](chapter-5.html)
    - Component Creation and Usage
    - Routing with Reken
    - Handling Reken Events
