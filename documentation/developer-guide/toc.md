@@ -55,11 +55,13 @@
    - Using Components and Slots
    - Data Binding and Component State
    
-6. JavaScript API
+6. [JavaScript API](chapter-6.html)
    - `reken` Object Overview
    - `reken.version`
    - `reken.force_calculate()`
    - `reken.forceCalculate()` (deprecated)
+   - `rekenready` event
+   - `rekeninitialized` event
 
 7. Examples and Use Cases
    - Building Dynamic Web Pages

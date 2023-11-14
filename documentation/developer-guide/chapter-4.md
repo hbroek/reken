@@ -354,7 +354,7 @@ Elements with `data-for` can be nested, creating nested loops.
     <div data-for="tomato:movie.item.rating">
       <span>🍅</span>
     </div>
-    </article>
+  </article>
 </section>
 ```
 
@@ -439,7 +439,8 @@ let isActive = false;
 <div data-if="isActive">Message is displayed</div>
 <button
   data-timer="5000:isActive:isActive=false"
-  data-action="isActive=true;">Start Message
+  data-action="isActive=true;">
+  Start Message
 </button>
 ```
 
