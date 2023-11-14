@@ -1223,7 +1223,7 @@
     <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">tomato:movie.item.rating</span>"<span class="pl-kos">&gt;</span>
       <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>??<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we are using the iterator variable <code>movie</code>'s <code>item</code> property to create an <code>h1</code> element with the movie name. A second loop is created that uses the <code>rating</code> property to render the number of tomatoes.</p>
 <h2 id="user-content-49-data-action"><a class="heading-link" href="#49-data-action">4.9 <code>data-action</code>
@@ -1273,7 +1273,8 @@ let x = y = 0;
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isActive</span>"<span class="pl-kos">&gt;</span>Message is displayed<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span>
   <span class="pl-c1">data-timer</span>="<span class="pl-s">5000:isActive:isActive=false</span>"
-  <span class="pl-c1">data-action</span>="<span class="pl-s">isActive=true;</span>"<span class="pl-kos">&gt;</span>Start Message
+  <span class="pl-c1">data-action</span>="<span class="pl-s">isActive=true;</span>"<span class="pl-kos">&gt;</span>
+  Start Message
 <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This code will display the "Message is displayed" <code>div</code> for five seconds after the user clicks the "Show Message" <code>button</code>. The <code>button</code> timer gets started once the <code>isActive</code> boolean is set to true. After 5 seconds the timer executes the code to set the <code>isActive</code> boolean to <code>false</code> and the <code>div</code> is hidden per its <code>data-if</code> attribute,</p>
 <p>Note if the boolean trigger expression is still true when the timer is executed; it will start a new timer. The timer can be interrupted any time by setting the boolean trigger expression to <code>false</code>.</p>

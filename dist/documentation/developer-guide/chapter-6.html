@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Reken - Web Development Framework</title>
+<title>Chapter 6: JavaScript API</title>
 <style>
 .markdown-body .octicon {
   display: inline-block;
@@ -1009,164 +1009,50 @@
 </head>
 <body>
 <article class="markdown-body">
-<h1 id="user-content-reken---web-development-framework"><a class="heading-link" href="#reken---web-development-framework">Reken - Web Development Framework<span aria-hidden="true" class="octicon octicon-link"></span></a></h1>
-<h2 id="user-content-developer-guide"><a class="heading-link" href="#developer-guide">Developer Guide<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<h3 id="user-content-version-093"><a class="heading-link" href="#version-093">Version 0.9.3<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
-<h3 id="user-content-author-henry-van-den-broek"><a class="heading-link" href="#author-henry-van-den-broek">Author: Henry van den Broek<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
-<h3 id="user-content-status-draft"><a class="heading-link" href="#status-draft">Status: Draft<span aria-hidden="true" class="octicon octicon-link"></span></a></h3>
-<h2 id="user-content-table-of-contents"><a class="heading-link" href="#table-of-contents">Table of Contents<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<ol>
-<li>
-<p><a href="chapter-1.html">Introduction</a></p>
+<h1 id="user-content-chapter-6-javascript-api"><a class="heading-link" href="#chapter-6-javascript-api">Chapter 6: JavaScript API<span aria-hidden="true" class="octicon octicon-link"></span></a></h1>
+<p>In this chapter, we'll explore the JavaScript API provided by Reken. The API allows you to interact with Reken programmatically, providing more control over the dynamic aspects of your web application.</p>
+<h2 id="user-content-61-reken-object-overview"><a class="heading-link" href="#61-reken-object-overview">6.1 <code>reken</code> Object Overview<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>reken</code> object is the main entry point to Reken's JavaScript API. It provides methods and properties that enable you to manage Reken's behavior and perform various actions within your application. Here's an overview of the <code>reken</code> object:</p>
 <ul>
-<li>What is Reken?</li>
-<li>Key Features</li>
-<li>Who Should Use Reken?</li>
-<li>Getting Started</li>
-</ul>
+<li>
+<p><code>reken.version</code>: A property that holds the version number of the Reken library.</p>
 </li>
 <li>
-<p><a href="chapter-2.html">Installation and Setup</a></p>
-<ul>
-<li>Downloading Reken</li>
-<li>Adding Reken to Your Project</li>
-<li>Compatibility</li>
-</ul>
+<p><code>reken.force_calculate()</code>: A function that forces Reken to recalculate and update the user interface. This can be useful when you need to trigger an update manually.</p>
 </li>
 <li>
-<p><a href="chapter-3.html">Basics</a></p>
-<ul>
-<li>Understanding Reken Attributes</li>
-<li>Creating Your First Dynamic Element</li>
-<li>Conditional Rendering</li>
-<li>Render Iterations</li>
-<li>Handling User Input</li>
-<li>Working with REST APIs</li>
-</ul>
+<p><code>reken.forceCalculate()</code>: (Deprecated) This is an older method for forcing Reken to recalculate and update the user interface. It is recommended to use <code>reken.force_calculate()</code> instead.</p>
 </li>
 <li>
-<p><a href="chapter-4.html">Reken Attribute Reference</a></p>
-<ul>
-<li><code>data-text</code></li>
-<li><code>data-html</code></li>
-<li><code>data-value</code></li>
-<li><code>data-style</code></li>
-<li><code>data-attr-[attr]</code></li>
-<li><code>data-class</code></li>
-<li><code>data-if</code></li>
-<li><code>data-for</code></li>
-<li><code>data-action</code></li>
-<li><code>data-on-</code></li>
-<li><code>data-timer</code></li>
-<li><code>data-interval</code></li>
-<li><code>data-rest</code></li>
-<li><code>data-rest-options</code></li>
-<li><code>data-calc</code></li>
-<li><code>data-route</code></li>
-<li><code>data-component</code></li>
-<li><code>data-arg-*</code></li>
-<li><code>data-bind-*</code></li>
-<li><code>data-include</code></li>
-<li><code>data-ref</code></li>
-</ul>
+<p><code>rekenready</code> and <code>rekeninitialized</code> events. The events are fired on the HTML page's body event when Reken finishes initializing and/or updates the UI during startup.</p>
 </li>
-<li>
-<p><a href="chapter-5.html">Advanced Features</a></p>
-<ul>
-<li>Component Creation and Usage</li>
-<li>Routing with Reken</li>
-<li>Handling Reken Events</li>
-<li>Using Components and Slots</li>
-<li>Data Binding and Component State</li>
 </ul>
-</li>
-<li>
-<p><a href="chapter-6.html">JavaScript API</a></p>
-<ul>
-<li>
-<code>reken</code> Object Overview</li>
-<li><code>reken.version</code></li>
-<li><code>reken.force_calculate()</code></li>
-<li>
-<code>reken.forceCalculate()</code> (deprecated)</li>
-<li>
-<code>rekenready</code> event</li>
-<li>
-<code>rekeninitialized</code> event</li>
-</ul>
-</li>
-<li>
-<p>Examples and Use Cases</p>
-<ul>
-<li>Building Dynamic Web Pages</li>
-<li>Interactive Forms and User Interfaces</li>
-<li>Using REST APIs with Reken</li>
-<li>Creating Reusable Components</li>
-</ul>
-</li>
-<li>
-<p>Best Practices</p>
-<ul>
-<li>Structuring Your Reken-Based Projects</li>
-<li>Optimizing for Performance</li>
-<li>Debugging and Troubleshooting</li>
-</ul>
-</li>
-<li>
-<p>FAQs</p>
-<ul>
-<li>Common Questions and Answers</li>
-<li>Troubleshooting Tips</li>
-</ul>
-</li>
-<li>
-<p>Resources</p>
-</li>
-</ol>
-<ul>
-<li>Reken Demos</li>
-<li>Reken REPL</li>
-<li>Community and Support</li>
-</ul>
-<ol start="11">
-<li>Changelog</li>
-</ol>
-<ul>
-<li>Version History and Updates</li>
-</ul>
-<ol start="12">
-<li>Contributing</li>
-</ol>
-<ul>
-<li>Guidelines for Contributing to Reken</li>
-<li>Reporting Issues and Bugs</li>
-</ul>
-<ol start="13">
-<li>License</li>
-</ol>
-<ul>
-<li>Open Source License Information</li>
-</ul>
-<ol start="14">
-<li>Acknowledgments</li>
-</ol>
-<ul>
-<li>Credits and Acknowledgments</li>
-</ul>
-<ol start="15">
-<li>Contact</li>
-</ol>
-<ul>
-<li>How to Get in Touch with the Reken Team</li>
-</ul>
-<ol start="16">
-<li>Appendix</li>
-</ol>
-<ul>
-<li>Additional Technical Details and Notes</li>
-</ul>
-<h2 id="user-content-conclusion"><a class="heading-link" href="#conclusion">Conclusion<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
-<p>The above outline provides a structured framework for creating documentation for Reken, covering everything from installation to advanced features, best practices, and even a section for contributors. Tailor the content within each section to provide detailed, practical information, examples, and code samples that will help developers effectively use Reken in their web development projects.</p>
+<h2 id="user-content-62-rekenversion"><a class="heading-link" href="#62-rekenversion">6.2 <code>reken.version</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>reken.version</code> property allows you to check the version of the Reken library currently in use. This can be helpful when you want to ensure that your application is using the correct version or when dealing with compatibility issues.</p>
+<p><strong>Example: Checking the Reken Version</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"Reken version: "</span> <span class="pl-c1">+</span> <span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-c1">version</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<h2 id="user-content-63-rekenforce_calculate"><a class="heading-link" href="#63-rekenforce_calculate">6.3 <code>reken.force_calculate()</code>
+<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>reken.force_calculate()</code> function is a powerful method for manually triggering Reken's recalculation and UI update process. While Reken automatically updates the UI in response to various events, there may be cases where you need to initiate an update explicitly, such as asynchronous events.</p>
+<p><strong>Example: Forcing Reken to Update the UI</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// Your custom logic that requires a Reken update</span>
+<span class="pl-c">// ...</span>
+
+<span class="pl-c">// Force Reken to recalculate and update the UI</span>
+<span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-en">force_calculate</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<p>This function is particularly useful when dealing with changes or events that are not directly managed by Reken but still need to reflect in the user interface.</p>
+<h2 id="user-content-64-rekenforcecalculate-deprecated"><a class="heading-link" href="#64-rekenforcecalculate-deprecated">6.4 <code>reken.forceCalculate()</code> (Deprecated)<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>reken.forceCalculate()</code> method was used in older versions of Reken to achieve the same functionality as <code>reken.force_calculate()</code>. However, it has been deprecated in favor of the latter. It is recommended to use <code>reken.force_calculate()</code> for initiating Reken updates.</p>
+<h2 id="user-content-65-rekenready-event"><a class="heading-link" href="#65-rekenready-event">6.5 <code>rekenready</code> event<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>rekenready</code> event is fired on the <code>body</code> element when Reken is completed initialized and the UI is updated at startup.</p>
+<p>**Example: <code>rekenready</code> **</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">style</span>="<span class="pl-s">opacity:0;transition: opacity 1s ease-out</span>"
+    <span class="pl-c1">data-on-rekenready</span>="<span class="pl-s">e.target.style.opacity=1</span>"<span class="pl-kos">&gt;</span></pre></div>
+<p>In this example, we hide the page contents on startup by setting the opacity to 0. With the data-on-rekenready attribute, we register a listener to show the page contents. When Reken is initialized and the UI is updated, the event fires, and the page becomes visible with a 1-second transition. This is useful to avoid seeing the page re-render when the page initializes.</p>
+<h2 id="user-content-66-rekeninitialized-event"><a class="heading-link" href="#66-rekeninitialized-event">6.6 <code>rekeninitialized</code> event<span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
+<p>The <code>rekeninitialized</code> event is similar to the <code>rekenready</code> event. It is fired when reken is initialized but the UI is not updated yet.</p>
+<p>By understanding and using the <code>reken</code> object and the startup events <code>rekenready</code> and <code>rekeninitialized</code>, you gain more control over the behavior of Reken in your web application. The ability to manually trigger updates can be valuable when you need precise control over when and how your UI responds to changes and events.</p>
 
 </article>
 </body>
