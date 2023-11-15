@@ -1,4 +1,4 @@
-# DRAFT - Chapter 4: Reken Attribute Reference
+# Chapter 4: Reken Attribute Reference
 
 In this chapter, we'll dive deeper into Reken's attributes and explore their functionality. These attributes provide the building blocks for creating dynamic and interactive web pages. Understanding how each attribute works and how to use them effectively is crucial for harnessing the power of Reken.
 
@@ -15,9 +15,9 @@ The `data-text` attribute allows you to update the `textContent` of an HTML elem
 
 In this example, the text content of the `<p>` element will be updated with the value of the `userName` JavaScript variable.
 
-Since `data-text` is updating the HTML Element's `textContent`, It is considered a **safe** DOM update, even when using untrusted data.
+>*Note: Since `data-text` is updating the HTML Element's `textContent`, It is considered a **safe** DOM update, even when using untrusted data.*
 
-*Note: Any (text/HTML) content of the HTML element with the `data-text` attribute is overriden*
+>*Warning: Any (text/HTML) content of the HTML element with the `data-text` attribute is overriden.*
 
 **Example:**
 ```html
@@ -45,9 +45,9 @@ The `data-html` attribute enables you to update the `innerHTML` of an HTML eleme
 Here, the `<div>` element's content will be replaced with the HTML content generated with the `empVar` and `descVar` variables.
 
 
-Since `data-html` is updating the HTML Element's `innerHTML`, it is considered a **UNSAFE** DOM update. Use with caution!
+>*Warning: Since `data-html` is updating the HTML Element's `innerHTML`, it is considered a **UNSAFE** DOM update. Use with caution!*
 
-*Note: Any (text/HTML) content of the HTML element with the `data-html` attribute is overriden* 
+>*Warning: Any (text/HTML) content of the HTML element with the `data-html` attribute is overriden* 
 
 **Example:**
 ```html

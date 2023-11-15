@@ -197,7 +197,7 @@ The simplest expression to loop over is just a number or a javascript variable t
 
 **Example 2: Render a list of li's from the contents of an array**
 
-Provding an array as the expression allows you to loop over the elements of the array. For example you can render 3 LI's with the item property of the loopVar.
+Providing an array as the expression allows you to loop over the elements of the array. For example you can render 3 LI's with the item property of the loopVar.
 
 ```html
 <script>
