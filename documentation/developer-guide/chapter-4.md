@@ -715,6 +715,9 @@ In this example we define a hello component with a template. The component is na
 
 We can now reference the component with the `hello` tag or an element containing a `data-component` attribute with the value "hello".
 
+> **NOTE** 
+A component can have only **one** HTML Element as a top-level element in a component definition.
+
 **`<slot>`**
 Variable content in the component can be specified with the `slot` tag. Any content defined in the `slot` tag will be used a default content.
 
