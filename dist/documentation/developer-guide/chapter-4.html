@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>DRAFT - Chapter 4: Reken Attribute Reference</title>
+<title>Chapter 4: Reken Attribute Reference</title>
 <style>
 .markdown-body .octicon {
   display: inline-block;
@@ -1009,7 +1009,7 @@
 </head>
 <body>
 <article class="markdown-body">
-<h1 id="user-content-draft---chapter-4-reken-attribute-reference"><a class="heading-link" href="#draft---chapter-4-reken-attribute-reference">DRAFT - Chapter 4: Reken Attribute Reference<span aria-hidden="true" class="octicon octicon-link"></span></a></h1>
+<h1 id="user-content-chapter-4-reken-attribute-reference"><a class="heading-link" href="#chapter-4-reken-attribute-reference">Chapter 4: Reken Attribute Reference<span aria-hidden="true" class="octicon octicon-link"></span></a></h1>
 <p>In this chapter, we'll dive deeper into Reken's attributes and explore their functionality. These attributes provide the building blocks for creating dynamic and interactive web pages. Understanding how each attribute works and how to use them effectively is crucial for harnessing the power of Reken.</p>
 <h2 id="user-content-41-data-text"><a class="heading-link" href="#41-data-text">4.1 <code>data-text</code>
 <span aria-hidden="true" class="octicon octicon-link"></span></a></h2>
@@ -1019,8 +1019,12 @@
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, ${userName}!</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the text content of the <code>&lt;p&gt;</code> element will be updated with the value of the <code>userName</code> JavaScript variable.</p>
-<p>Since <code>data-text</code> is updating the HTML Element's <code>textContent</code>, It is considered a <strong>safe</strong> DOM update, even when using untrusted data.</p>
-<p><em>Note: Any (text/HTML) content of the HTML element with the <code>data-text</code> attribute is overriden</em></p>
+<blockquote>
+<p><em>Note: Since <code>data-text</code> is updating the HTML Element's <code>textContent</code>, It is considered a <strong>safe</strong> DOM update, even when using untrusted data.</em></p>
+</blockquote>
+<blockquote>
+<p><em>Warning: Any (text/HTML) content of the HTML element with the <code>data-text</code> attribute is overriden.</em></p>
+</blockquote>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, I win</span>"<span class="pl-kos">&gt;</span>This will be overriden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
 
@@ -1037,8 +1041,12 @@
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;em&gt;${empVar}&lt;/em&gt;&lt;span&gt;${descVar}&lt;/span&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Here, the <code>&lt;div&gt;</code> element's content will be replaced with the HTML content generated with the <code>empVar</code> and <code>descVar</code> variables.</p>
-<p>Since <code>data-html</code> is updating the HTML Element's <code>innerHTML</code>, it is considered a <strong>UNSAFE</strong> DOM update. Use with caution!</p>
-<p><em>Note: Any (text/HTML) content of the HTML element with the <code>data-html</code> attribute is overriden</em></p>
+<blockquote>
+<p><em>Warning: Since <code>data-html</code> is updating the HTML Element's <code>innerHTML</code>, it is considered a <strong>UNSAFE</strong> DOM update. Use with caution!</em></p>
+</blockquote>
+<blockquote>
+<p><em>Warning: Any (text/HTML) content of the HTML element with the <code>data-html</code> attribute is overriden</em></p>
+</blockquote>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>This will be overriden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
 
@@ -1460,6 +1468,10 @@ let fahrenheit = 0;
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we define a hello component with a template. The component is named <strong>hello-world</strong> with the template's <code>data-component</code> attribute. The content contained by the <code>template</code> tag is the actual component. In this case it contains the text "Hello" followed by a bold tag containing "World".</p>
 <p>We can now reference the component with the <code>hello</code> tag or an element containing a <code>data-component</code> attribute with the value "hello".</p>
+<blockquote>
+<p><strong>NOTE</strong>
+A component can have only <strong>one</strong> HTML Element as a top-level element in a component definition.</p>
+</blockquote>
 <p><strong><code>&lt;slot&gt;</code></strong>
 Variable content in the component can be specified with the <code>slot</code> tag. Any content defined in the <code>slot</code> tag will be used a default content.</p>
 <p><strong>Example:</strong></p>
