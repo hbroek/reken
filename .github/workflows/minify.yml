@@ -42,7 +42,7 @@ jobs:
         uses: natescherer/markdown-to-html-with-github-style-action@v1.1.0
         with:
           #path: README.md,CHANGELOG.md,docs\doc1.md
-          path: README.md,documentation/developer-guide/toc.md,documentation/developer-guide/chapter-1.md,documentation/developer-guide/chapter-2.md,documentation/developer-guide/chapter-3.md,documentation/developer-guide/chapter-4.md,documentation/developer-guide/chapter-5.md,documentation/developer-guide/chapter-6.md
+          path: README.md,documentation/developer-guide/toc.md,documentation/developer-guide/chapter-1.md,documentation/developer-guide/chapter-2.md,documentation/developer-guide/chapter-3.md,documentation/developer-guide/chapter-4.md,documentation/developer-guide/chapter-5.md,documentation/developer-guide/chapter-6.md,documentation/developer-guide/chapter-7.md
           outputpath: dist
           matchpathstructure: true
 

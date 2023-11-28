@@ -63,7 +63,7 @@
    - `rekenready` event
    - `rekeninitialized` event
 
-7. Examples and Use Cases
+7. [Examples and Use Cases](chapter-7.html)
    - Building Dynamic Web Pages
    - Interactive Forms and User Interfaces
    - Using REST APIs with Reken
@@ -103,4 +103,4 @@
    - Additional Technical Details and Notes
 
 ## Conclusion
-The above outline provides a structured framework for creating documentation for Reken, covering everything from installation to advanced features, best practices, and even a section for contributors. Tailor the content within each section to provide detailed, practical information, examples, and code samples that will help developers effectively use Reken in their web development projects.
+The above outline provides a structured framework for creating documentation for Reken, covering everything from installation to advanced features, best practices, and even a section for contributors. 
