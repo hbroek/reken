@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Chapter 7: Examples and Use Cases</title>
+<style>
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body .anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body h1:hover .anchor .octicon-link:before,
+.markdown-body h2:hover .anchor .octicon-link:before,
+.markdown-body h3:hover .anchor .octicon-link:before,
+.markdown-body h4:hover .anchor .octicon-link:before,
+.markdown-body h5:hover .anchor .octicon-link:before,
+.markdown-body h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  color: #24292e;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: initial;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+.markdown-body hr:after,
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.markdown-body :checked+.radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.markdown-body .border {
+  border: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .border-0 {
+  border: 0!important;
+}
+
+.markdown-body .border-bottom {
+  border-bottom: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .rounded-1 {
+  border-radius: 3px!important;
+}
+
+.markdown-body .bg-white {
+  background-color: #fff!important;
+}
+
+.markdown-body .bg-gray-light {
+  background-color: #fafbfc!important;
+}
+
+.markdown-body .text-gray-light {
+  color: #6a737d!important;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-top: 8px!important;
+  margin-bottom: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+}
+
+.markdown-body .pl-3,
+.markdown-body .px-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .px-3 {
+  padding-right: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .f6 {
+  font-size: 12px!important;
+}
+
+.markdown-body .lh-condensed {
+  line-height: 1.25!important;
+}
+
+.markdown-body .text-bold {
+  font-weight: 600!important;
+}
+
+.markdown-body .pl-c {
+  color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #6f42c1;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
+  color: #24292e;
+}
+
+.markdown-body .pl-ent {
+  color: #22863a;
+}
+
+.markdown-body .pl-k {
+  color: #d73a49;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.markdown-body .pl-smw,
+.markdown-body .pl-v {
+  color: #e36209;
+}
+
+.markdown-body .pl-bu {
+  color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.markdown-body .pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.markdown-body .pl-c2:before {
+  content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.markdown-body .pl-ml {
+  color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.markdown-body .pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.markdown-body .pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.markdown-body .pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.markdown-body .pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.markdown-body .pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.markdown-body .pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.markdown-body .pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.markdown-body .pl-ba {
+  color: #586069;
+}
+
+.markdown-body .pl-sg {
+  color: #959da5;
+}
+
+.markdown-body .pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-bottom: 8px!important;
+}
+
+.markdown-body .my-2 {
+  margin-top: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-top: 0!important;
+  padding-bottom: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-top: 8px!important;
+  padding-bottom: 8px!important;
+}
+
+.markdown-body .pl-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .pl-7 {
+  padding-left: 48px!important;
+}
+
+.markdown-body .pl-8 {
+  padding-left: 64px!important;
+}
+
+.markdown-body .pl-9 {
+  padding-left: 80px!important;
+}
+
+.markdown-body .pl-10 {
+  padding-left: 96px!important;
+}
+
+.markdown-body .pl-11 {
+  padding-left: 112px!important;
+}
+
+.markdown-body .pl-12 {
+  padding-left: 128px!important;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+.markdown-body:after,
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  clear: both;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body details,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: .25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+.markdown-body blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  padding-bottom: .3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  font-size: .85em;
+  color: #6a737d;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: initial;
+  background-color: #fff;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  padding: .2em .4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.markdown-body .commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.markdown-body .full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.markdown-body .blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-body .blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.markdown-body .blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27,31,35,.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.markdown-body .blob-num:hover {
+  color: rgba(27,31,35,.6);
+}
+
+.markdown-body .blob-num:before {
+  content: attr(data-line-number);
+}
+
+.markdown-body .blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.markdown-body .blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.markdown-body .pl-token.active,
+.markdown-body .pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.markdown-body .tab-size[data-tab-size="1"] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="2"] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.markdown-body .tab-size[data-tab-size="3"] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.markdown-body .tab-size[data-tab-size="4"] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.markdown-body .tab-size[data-tab-size="5"] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.markdown-body .tab-size[data-tab-size="6"] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.markdown-body .tab-size[data-tab-size="7"] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.markdown-body .tab-size[data-tab-size="8"] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.markdown-body .tab-size[data-tab-size="9"] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.markdown-body .tab-size[data-tab-size="10"] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.markdown-body .tab-size[data-tab-size="11"] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.markdown-body .tab-size[data-tab-size="12"] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 .2em .25em -1.6em;
+  vertical-align: middle;
+}
+
+</style>
+<style>
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+<article class="markdown-body">
+<h1><a id="user-content-chapter-7-examples-and-use-cases" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-7-examples-and-use-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 7: Examples and Use Cases</h1>
+<p>In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.</p>
+<h2><a id="user-content-71-building-dynamic-web-pages" class="anchor" aria-hidden="true" tabindex="-1" href="#71-building-dynamic-web-pages"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.1 Building Dynamic Web Pages</h2>
+<p>Reken excels at creating dynamic web pages with minimal effort. By adding Reken attributes to your HTML elements, you can easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will using is an employee object.</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-s1">employee</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+    <span class="pl-s">"name"</span>: <span class="pl-s">"Mary Taylor"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"email"</span>: <span class="pl-s">"mary.taylor@example.com"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"phone_number"</span>: <span class="pl-s">"555-0200"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"department"</span>: <span class="pl-s">"Customer Service"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"location"</span>: <span class="pl-s">"Dallas, TX"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"gender"</span>: <span class="pl-s">"Female"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"employee_number"</span>: <span class="pl-s">"10009"</span><span class="pl-kos">,</span>
+    <span class="pl-s">"photo"</span>: <span class="pl-s">"photos/10009.jpg"</span>
+<span class="pl-kos">}</span></pre></div>
+<ul>
+<li>
+<strong>Dynamic Text and Content</strong>: Use <code>data-text</code> and <code>data-html</code> attributes to update the text or HTML content of elements in real-time.</li>
+</ul>
+<p>We start by creating a simple card, displaying the name, department and location of an employee.</p>
+<div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.department}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${employee.location}&lt;/i&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we use the attribute <code>data-text</code> to display the name and department details of the employee. We use the <code>data-html</code> attribute to display the employee's location embedded in an <code>&lt;i&gt;</code> tag.</p>
+<ul>
+<li>
+<strong>Dynamic Attributes</strong>: Use <code>data-attr-*</code> to update the attribute of an HTML Element. We'll add a photo, phone number and email address of the employee to the card.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">width</span>="<span class="pl-s">240</span>" <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${employee.photo}</span>"
+        <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${employee.name}</span>"/&gt;
+    ...
+    [<span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">tel:${employee.phone_number}</span>"
+        <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.phone_number}</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>]
+    [<span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">mailto:${employee.email}</span>"
+        <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.email}</span>"<span class="pl-kos">&gt;</span>]
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we add an image to display the profile picture and set its <code>src</code> property with the <code>data-attr-src</code> attribute. We also add the phone and email fields with the <code>data-attr-href</code> attribute and use the <code>data-text</code> attribute to display it.</p>
+<ul>
+<li>
+<strong>Conditional Rendering</strong>: Employ the <code>data-if</code> attribute to conditionally show or hide elements. For example, you can display different content based on user preferences.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre>    <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-if</span>="<span class="pl-s">showPhoto</span>" <span class="pl-c1">....</span>"/&gt;</pre></div>
+<p>In example we add a <code>data-if</code> attribute to the image to conditionally display the profile picture of the employee. If the <code>showPhoto</code> is <code>true</code> the photo is visible, if it is set to <code>false</code> the photo is hidden.</p>
+<ul>
+<li>
+<strong>Styling and Animation</strong>: The <code>data-style</code> and <code>data-class</code> attribute enables dynamic CSS styling. You can create styles based on state and/or changes triggered by user actions.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> <span class="pl-c1">data-if</span>="<span class="pl-s">!showPicture</span>"
+    <span class="pl-c1">data-style</span>="<span class="pl-s">background:${employee.gender=='Female'</span>
+<span class="pl-s">        ? 'pink':employee.gender=='Male'</span>
+<span class="pl-s">        ?'lightblue':'lightgreen'};</span>
+<span class="pl-s">    height:0.25rem;border:0;</span>"/&gt;
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${employee.location}&lt;/i&gt;</span>"
+    <span class="pl-c1">data-class</span>="<span class="pl-s">hq:employee.location=='Boston, MA'</span>"<span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we use the <code>data-style</code> attribute to add a colored seperator to the card. The color is based on the gender. It is only displayed if the showPicture is false.</p>
+<p>We also dynamically add a class <code>hq</code> if the location is Boston, MA to the location field. The class adds 8 duck emojis, representing the famous 8 Boston ducklings.</p>
+<ul>
+<li>
+<strong>Data Tables and Lists</strong>: Utilize the <code>data-for</code> attribute to generate dynamic tables, lists, or other repeating elements. This is helpful for displaying data retrieved from APIs or databases.</li>
+</ul>
+<div class="highlight highlight-source-js"><pre>    <span class="pl-k">const</span> <span class="pl-s1">employees</span> <span class="pl-c1">=</span>
+        <span class="pl-kos">[</span>
+            <span class="pl-kos">{</span>
+                <span class="pl-s">"name"</span>: <span class="pl-s">"John Smith"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"email"</span>: <span class="pl-s">"john.smith@example.com"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"phone_number"</span>: <span class="pl-s">"555-0100"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"department"</span>: <span class="pl-s">"Marketing"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"location"</span>: <span class="pl-s">"New York, NY"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"gender"</span>: <span class="pl-s">"Male"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"employee_number"</span>: <span class="pl-s">"10001"</span><span class="pl-kos">,</span>
+                <span class="pl-s">"photo"</span>: <span class="pl-s">"photos/10001.jpg"</span>
+            <span class="pl-kos">}</span><span class="pl-kos">,</span>
+            ...
+        <span class="pl-kos">]</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre>    <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-for</span>="<span class="pl-s">employee:employees</span>"<span class="pl-kos"></span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">article</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex; ...</span>"<span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">img</span>
+                <span class="pl-c1">data-if</span>="<span class="pl-s">showPicture</span>"
+                <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${employee.item.photo}</span>"
+                <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${employee.item.name}</span>"
+                <span class="pl-c1">data-attr-title</span>="<span class="pl-s">${employee.item.name}</span>"
+                <span class="pl-c1">width</span>="<span class="pl-s">100%</span>"
+            /&gt;
+            ....
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we take the <code>article</code> element from the previous example and wrap it with a <code>main</code> element with a <code>data-for</code> attribute that loop over the employees array and displays an <code>article</code> element for each employee.</p>
+<blockquote>
+<p><strong>Note</strong> we refer to the employee record with the <code>employee.item</code> reference.</p>
+</blockquote>
+<h2><a id="user-content-72-interactive-user-interfaces" class="anchor" aria-hidden="true" tabindex="-1" href="#72-interactive-user-interfaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.2 Interactive User Interfaces</h2>
+<p>Reken simplifies the process of building interactive user interfaces. You can enhance user experience and gather user input with ease. Here's how Reken can be used for this purpose:</p>
+<ul>
+<li>
+<strong>Two-Way Data Binding</strong>: The <code>data-value</code> attribute allows you to bind HTML input elements (e.g., text fields, checkboxes) to JavaScript variables. When users input data, it updates the associated variables, and vice versa.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">header</span> <span class="pl-c1">style</span>="<span class="pl-s">background:orange;color:white;position:sticky;top:0;left:0;padding:1em;font-size:large;margin-bottom:1em;opacity:0.95;</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex;justify-content:space-between;align-items:baseline;</span>"<span class="pl-kos">&gt;</span>  
+        <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">style</span>="<span class="pl-s">font-size:1.2em;background:white;padding:0.5rem;border-radius:50%;</span>"<span class="pl-kos">&gt;</span>??<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span> Company Inc.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Photos:
+            <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">showPicture</span>"/&gt;
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we add a header to the page. The header contains a <code>nav</code> element with a company logo and name on the left and a checkbox to toggle the value of <code>showPicture</code> variable, this affects the display of the <code>img</code> and <code>hr</code> element in the <code>article</code> element.</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">showPicture</span> <span class="pl-c1">=</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
+<span class="pl-k">let</span> <span class="pl-s1">filterString</span> <span class="pl-c1">=</span> <span class="pl-s">""</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-on-input</span>="<span class="pl-s">filterString=e.target.value</span>" <span class="pl-c1">type</span>="<span class="pl-s">search</span>" <span class="pl-c1">placeholder</span>="<span class="pl-s">People filter</span>"/&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">...</span>/&gt;
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-for</span>="<span class="pl-s">employee:employees.filter((emp)=&gt;emp.name.toLowerCase().indexOf(filterString.toLowerCase())&gt;=0)</span>"
+<span class="pl-c1">....</span></pre></div>
+<p>In this example we add a people filter control in the <code>nav</code> element. It updates the <code>filterString</code> variable. The content is used to filter the list of employees.</p>
+<ul>
+<li>
+<strong>Forms</strong>: With the <code>data-value</code> attribute, Reken makes creating input forms easy.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex;flex-direction:column;align-items:center;flex-wrap:wrap;gap:0.5rem</span>" <span class="pl-c1">data-if</span>="<span class="pl-s">employees</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Update employee ${employees[0].employee_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:1em;padding:2em;background:orange;display:grid;gap:1rem;grid-template-columns: 1fr 3fr;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].name</span>"/&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">dept</span>"<span class="pl-kos">&gt;</span>Department:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">dept</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].department</span>"/&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">loc</span>"<span class="pl-kos">&gt;</span>Location:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">loc</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].location</span>"/&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">phone</span>"<span class="pl-kos">&gt;</span>Phone:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">phone</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].phone_number</span>"/&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"/&gt;
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we build a form that updates the first employee of our array of employees. It creates a <code>main</code> Element to host the form.  The <code>main</code> element contains a <code>h</code> element with the employee id and a <code>form</code> element. The <code>form</code> contains a number of <code>label</code> / <code>input</code> combinations that are bound to the fields in the employee record with the <code>data-value</code> attribute.</p>
+<p>When the user modifies one of the fields, notice that the data in the card of the first employee immediately updates.</p>
+<h2><a id="user-content-73-using-rest-apis-with-reken" class="anchor" aria-hidden="true" tabindex="-1" href="#73-using-rest-apis-with-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.3 Using REST APIs with Reken</h2>
+<p>Reken makes it straightforward to work with REST APIs, enabling your web application to communicate with external data sources. Here's how you can integrate REST APIs with Reken:</p>
+<ul>
+<li>
+<strong>Data Fetching</strong>: The <code>data-rest</code> attribute allows you to fetch data from a REST API and bind it to JavaScript variables. This data can be automatically updated when the API endpoint changes.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">employees:employees.json</span>" <span class="pl-c1">....</span></pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+    let employees;
+    ...</pre></div>
+<p>In this example we added a <code>data-rest</code> attribute with an attribute value that loads the <code>employee.json</code> file into the variable <code>employees</code>.</p>
+<p>Since the <code>employees</code> variable is initialized with the <code>data-rest</code> attribute we can remove the employee array in the source code.</p>
+<blockquote>
+<p><strong>Note</strong> Since the <code>employee</code> variable is undefined until the json file gets loaded we need to hide all the content that relies on it with a <code>data-if</code> attribute.</p>
+</blockquote>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-if</span>="<span class="pl-s">employees</span>"  <span class="pl-c1">....</span></pre></div>
+<ul>
+<li>
+<strong>Response Handling</strong>: Reken provides classes like <code>reken-rest-busy</code>, <code>reken-rest-done</code>, and <code>reken-rest-error</code> that allow you to style elements based on the status of REST API requests. This is valuable for providing feedback to users during data retrieval.</li>
+</ul>
+<div class="highlight highlight-source-css"><pre>&lt;style<span class="pl-c1">&gt;</span>
+    body.<span class="pl-c1">reken-rest-busy</span> {
+        <span class="pl-c1">background</span><span class="pl-kos">:</span> silver;
+    }
+    <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-done</span> {
+        <span class="pl-c1">background</span><span class="pl-kos">:</span> lightcyan;
+    }
+    <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-error</span> {
+        <span class="pl-c1">background</span><span class="pl-kos">:</span> lightpink;
+    }
+    <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-error</span>::<span class="pl-ent">after</span> {
+        <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">'Error loading employees!'</span>;
+        <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">300<span class="pl-smi">%</span></span>;
+    }
+    ....
+&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
+<p>This example makes use of the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call the  <code>body</code> element's background turns red and an error message is displayed. The background turns blue when the REST call completes succesfully.</p>
+<h2><a id="user-content-74-setup-routing" class="anchor" aria-hidden="true" tabindex="-1" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.4 Setup routing</h2>
+<p>Reken supports a easy to use routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.</p>
+<p>First we define the pages in the application.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">employee/#employeeIndex</span>" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
+....
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
+....
+<span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example the existing two <code>main</code> pages are updated with the <code>data-route</code> attribute.</p>
+<p>The employee entry form has a route that starts with <code>employee</code> followed by the <code>employeeIndex</code> parameter. To indicate that <code>employeeIndex</code> is a parameter it is preceded by a hashmark ('#').</p>
+<p>The page showing all the employees has a route with an empty string which makes it the default page.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+    ...
+    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        ...
+        <span class="pl-kos">&lt;</span><span class="pl-ent">a</span>
+            <span class="pl-c1">data-attr-href</span>="<span class="pl-s">#/employee/${employee.index}</span>"
+            <span class="pl-c1">title</span>="<span class="pl-s">Edit employee</span>"
+            <span class="pl-c1">style</span>="<span class="pl-s">font-size:1.5rem;position:absolute;right:0;top:0;text-decoration:none;transform:rotate(90deg)</span>"<span class="pl-kos">&gt;</span>
+            ??
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employees data.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Update employee ${employees[employeeIndex].employee_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:1em;padding:2em;background:orange;display:grid;gap:1rem;grid-template-columns: 1fr 3fr;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].name</span>"/&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">dept</span>"<span class="pl-kos">&gt;</span>Department:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">dept</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].department</span>"/&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">loc</span>"<span class="pl-kos">&gt;</span>Location:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">loc</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].location</span>"/&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">phone</span>"<span class="pl-kos">&gt;</span>Phone:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">phone</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].phone_number</span>"/&gt;
+    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"/&gt;
+<span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">history.back();</span>"<span class="pl-kos">&gt;</span>Back<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example the input controls are updated to point to the employee based on the <code>employeeIndex</code> instead of <code>0</code>. At the bottom a <code>button</code> to return to the employee list page is added.</p>
+<h2><a id="user-content-75-creating-reusable-components" class="anchor" aria-hidden="true" tabindex="-1" href="#75-creating-reusable-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.5 Creating Reusable Components</h2>
+<p>Reken supports the creation of reusable components that can be inserted into your HTML documents. Components are a great way to maintain consistency and reusability in your web applications. Here's how to create and use components in Reken:</p>
+<ul>
+<li>
+<strong>Component Definition</strong>: Define a component using the <code>data-component</code> attribute within a <code>&lt;template&gt;</code>. You can encapsulate HTML, CSS, and even JavaScript specific to the component.</li>
+</ul>
+<p>In this section we create a card component that display the employee's info.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">card</span>" <span class="pl-c1">data-arg-person</span> <span class="pl-c1">data-arg-photo</span>="<span class="pl-s">true</span>" <span class="pl-c1">data-arg-edit_link</span>=""<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">:</span><span class="pl-c1">host</span><span class="pl-c1">&gt;</span><span class="pl-ent">div</span> .<span class="pl-c1">hq</span>::<span class="pl-ent">after</span> {
+            <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">'????????????????'</span>;
+            <span class="pl-c1">font-size</span><span class="pl-kos">:</span> small;
+        }
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
+
+    <span class="pl-kos">&lt;</span><span class="pl-ent">article</span>
+        <span class="pl-c1">style</span>="<span class="pl-s">min-width:320px;border:2px solid orange;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;overflow:hidden;background:white;</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-if</span>="<span class="pl-s">photo</span>" <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${person.photo}</span>"
+            <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${person.name}</span>" <span class="pl-c1">data-attr-title</span>="<span class="pl-s">${person.name}</span>"
+            <span class="pl-c1">style</span>="<span class="pl-s">width:320px;height:320px;</span>" /&gt;
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:0.25rem;margin-bottom:1rem;position:relative;</span>"<span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${person.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> <span class="pl-c1">data-if</span>="<span class="pl-s">!photo</span>"
+                <span class="pl-c1">data-style</span>="<span class="pl-s">background:${person.gender=='Female'?'pink':person.gender=='Male'?'lightblue':'lightgreen'};height:0.25rem;border:0</span>" /&gt;
+            <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">u</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${person.department}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">u</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${person.location}&lt;/i&gt;</span>" <span class="pl-c1">data-class</span>="<span class="pl-s">hq:person.location=='Boston, MA'</span>"<span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Phone: <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">tel:${person.phone_number}</span>"
+                    <span class="pl-c1">data-text</span>="<span class="pl-s">${person.phone_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Email: <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">mailto:${person.email}</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${person.email}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">a</span>
+                <span class="pl-c1">data-if</span>="<span class="pl-s">edit_link</span>"
+                <span class="pl-c1">data-attr-href</span>="<span class="pl-s">${edit_link}</span>"
+                <span class="pl-c1">title</span>="<span class="pl-s">Edit employee</span>"
+                <span class="pl-c1">style</span>="<span class="pl-s">font-size:1.5rem;position:absolute;right:0;top:0;text-decoration:none;transform:rotate(90deg)</span>"<span class="pl-kos">&gt;</span>
+                ??
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we move the whole <code>article</code> in a <code>card</code> component. The <code>card</code> component takes three arguments. A reference to a <code>person</code> object, an optional boolean <code>photo</code> to show/hide the profile picture, and an optional <code>edit_link</code> argument to inidicate what url to go to when the edit button is pressed. If the latter is not specified the edit <code>pencil</code> button is hidden. Note we also moved the <code>hq</code> class definition into the component.</p>
+<ul>
+<li>
+<strong>Component Usage</strong>: Use a component by adding a regular HTML element with the <code>data-component</code> attribute. This will replace the component reference with the content of the component definition. Components can also accept arguments and bindable variables.</li>
+</ul>
+<div class="highlight highlight-text-html-basic"><pre>    <span class="pl-kos">&lt;</span><span class="pl-ent">card</span>
+        <span class="pl-c1">person</span>="<span class="pl-s">employee.item</span>"
+        <span class="pl-c1">photo</span>="<span class="pl-s">showPicture</span>"
+        <span class="pl-c1">edit_link</span>="<span class="pl-s">#/employee/${employee.index}</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">card</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this html fragment we use our <code>card</code> component and specify the <code>person</code>, <code>photo</code>, and <code>edit_link</code> arguments.</p>
+<ul>
+<li>
+<strong>Slots</strong>: Components support slots, allowing you to transfer custom content into the component. This provides flexibility in reusing components with different content.</li>
+</ul>
+<p>To make the card more flexible we wrap the phone number and email address in a <code>slot</code> element.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">card</span>"<span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+        ....
+        <span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Phone: <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">tel:${person.phone_number}</span>"
+                    <span class="pl-c1">data-text</span>="<span class="pl-s">${person.phone_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Email: <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">mailto:${person.email}</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${person.email}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
+        ....
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In the fragment we wrap the phone and email in <code>slot</code> element, which continues to make them default contente. Now the card can be used in another application with different info.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">card</span> <span class="pl-c1">person</span>="<span class="pl-s">employee.item</span>" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Employee number:
+        <span class="pl-kos">&lt;</span><span class="pl-ent">strong</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.item.employee_number}</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">strong</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">card</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this fragment we show how we replace the default slot of the <code>card</code> component with the Employee number.</p>
+<h2><a id="user-content-76-use-timers" class="anchor" aria-hidden="true" tabindex="-1" href="#76-use-timers"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.6 Use timers</h2>
+<p>Reken's timer feature adds dynamic functionality to your application. This makes application more engaging.</p>
+<p>In the final addition to the application we are adding messages that confirm the actions by the user.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">footer</span>
+    <span class="pl-c1">data-style</span>="<span class="pl-s">height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;transition:height 0.3s;</span>"<span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-timer</span>="<span class="pl-s">2000:message!='':message=''</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${message}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">footer</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this fragment we add a <code>footer</code> at the bottom that displays with a height of <code>2em</code> when the content of the <code>message</code> variable is not empty. The <code>span</code> element has a <code>data-timer</code> attribute that starts when the message variable is not ''. After 2000ms (2seconds) it clears the message variable, hiding the <code>footer</code> element.</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">message</span> <span class="pl-c1">=</span> <span class="pl-s">''</span></pre></div>
+<p>This javascript fragment initializes a <code>message</code> variable.</p>
+<div class="highlight highlight-text-html-basic"><pre>...
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-on-input</span>="<span class="pl-s">filterString=e.target.value;message=`Filtering employees by [${filterString}]`</span>" <span class="pl-c1">...</span><span class="pl-kos"></span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-on-change</span>="<span class="pl-s">message=`${(showPicture?'Showing':'Hiding')} profile photos`</span>" <span class="pl-c1">...</span><span class="pl-kos"></span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">history.back();message=`Finished editing employee ${employees[employeeIndex].name}`</span>"<span class="pl-kos">&gt;</span>Back<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-action</span>="<span class="pl-s">message=`Editing employee ${person.name}`</span>"
+    <span class="pl-c1">...</span>/&gt;
+    Back
+<span class="pl-kos">&lt;/</span>a<span class="pl-kos">&gt;</span></pre></div>
+<p>These fragments edit / add event handlers to set the status message. Once the status message is set the <code>footer</code> element is animated in view for 2 seconds.</p>
+<p>This chapter shows how to use the Reken attributes to build an informative, interactive and engaging web application. It shows how to dynamically display text from javascript data, make an interactive UI, how to simply load data from a rest service, create an SPA with different pages and use timers to update the UI.</p>
+
+</article>
+</body>
+</html>
