@@ -69,7 +69,7 @@
    - Using REST APIs with Reken
    - Creating Reusable Components
 
-8. Best Practices
+8. [Best Practices](chapter-8.html)
    - Structuring Your Reken-Based Projects
    - Optimizing for Performance
    - Debugging and Troubleshooting
