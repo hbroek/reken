@@ -933,7 +933,7 @@
                     line = line.trim()
                     if (line.startsWith('function'))
                         break;
-                    if (line == '' || !line.startsWith('let'))
+                    if (line == '' || !(line.startsWith('let') || line.startsWith('const')))
                         continue;
                     initCode.push('    '+line); // Add state init code to class constructor
                     let assignment = line.split(/=? /) // If assigment add it is a class member and initialize

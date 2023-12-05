@@ -673,8 +673,9 @@
         let a = 10
         let b = "Hello"
         let c = a+b
+        let d = a+20; 
       </script>
-      <div data-text=${arg1}-${a}-${b}-${c}></div>
+      <div data-text=${arg1}-${a}-${b}-${c}-${d}></div>
     </template>
     <div id="cp2" data-component="comp2"></div>
 
@@ -2432,7 +2433,7 @@
         done();
       })
       it('Verify components state', (done) => {
-        expect($('cp2')).to.have.text('arg-10-Hello-10Hello')
+        expect($('cp2')).to.have.text('arg-10-Hello-10Hello-30')
         done();
       })
       it('Verify updated componentent state', (done) => {
