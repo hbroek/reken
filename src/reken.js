@@ -441,7 +441,9 @@
                         let _data = value.substring(value.indexOf(':') + 1);
                         let _arrayName = uniqueID('arr');
                         if (isNaN(_data)) {
-                            controlCode.third.push(indent+'let ' +_arrayName + ' = (typeof ('+_data+') !== "number"?'+_data+': new Array(parseInt(' + _data + ')))');
+                            controlCode.third.push(indent+"$arrVar = "+_data);
+                            controlCode.third.push(indent+"if (typeof $arrVar === 'undefined')$arrVar=0;");
+                            controlCode.third.push(indent+'let ' +_arrayName + ' = (typeof ($arrVar) !== "number"?'+_data+': new Array(parseInt($arrVar)))');
                         }
                         else
                             controlCode.third.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
@@ -833,7 +835,7 @@
 
         output.push(...compControlCode.first)
         if (compControlCode.third.length+compControlCode.second.length>0) {
-            output.push('    let $v, elem')
+            output.push('    let $v, elem, $arrVar')
             output.push(...compControlCode.second)
             output.push(...compControlCode.third)
         }

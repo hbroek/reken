@@ -15,7 +15,6 @@
     }
 
   </style>
-
 </head>
 
 
@@ -543,7 +542,12 @@
     <div id="f121" data-text="${outer12Var} - ${inner12Var} - ${button_f12}"></div>
     </div>
 
-
+    <script>
+        let f13_arr13 = undefined;
+    </script>
+    <div id="f13" data-rest="f13_arr13:json/array.json"  data-for="inner13:f13_arr13">
+        <div data-text="${inner13.item}"></div>
+    </div>
   </section>
   <hr>
   <section>
@@ -2279,13 +2283,17 @@
       })
       it('Render 2 nested for loops with context action on an inner for loop with 3 direct children', (done) => {
 
-      expect($('f121')).to.have.text("0 - 0 - 0")
-      const f12Button1_1_1 = document.querySelector('#f12 > div > div:nth-child(2) > button:nth-child(5)')
-      fireEvent(f12Button1_1_1, "click")
-      expect($('f121')).to.have.text("1 - 1 - 1")
-      done();
+        expect($('f121')).to.have.text("0 - 0 - 0")
+        const f12Button1_1_1 = document.querySelector('#f12 > div > div:nth-child(2) > button:nth-child(5)')
+        fireEvent(f12Button1_1_1, "click")
+        expect($('f121')).to.have.text("1 - 1 - 1")
+        done();
       })
 
+      it('Load data in an array, which starts out undefined', async function () {
+        await waitFor(2000, () => checkForClass($('f13'), "reken-rest-done"));
+        expect($('f13')).to.have.length(3);
+      })
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
