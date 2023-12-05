@@ -643,6 +643,11 @@
       <div data-rest="result:${url}" data-text="${result!=''?result.content:'Loading'}">Rest 8</div>
     </template>
 
+    <script>
+      let r9 = ""
+    </script>
+    <div id="r9" data-rest="r9:[1]:json/array.json" data-text="${r9}"></div>
+
   </section>
   <hr>
   <section>
@@ -2398,6 +2403,12 @@
         await waitFor(2000, () => checkForClass($('r8_1'), "reken-rest-done"));
         expect($('r8_1')).to.have.text('one')
       })
+      it('Load JSON file and use array syntax path to get 2nd element', async function () {
+        await waitFor(2000, () => checkForClass($('r9'), "reken-rest-done"));
+        expect($('r9')).to.have.text('banana');
+      })
+
+
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {

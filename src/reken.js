@@ -604,7 +604,7 @@
                         let path = '';
                         let nextTokenIndex = _url.indexOf(':')
                         if (nextTokenIndex > 0 && !_url.startsWith('http')) {
-                            path = '.' + _url.substring(0, nextTokenIndex);
+                            path = (_url.startsWith('[')?'':'.') + _url.substring(0, nextTokenIndex);
                             _url = _url.substring(nextTokenIndex + 1);
                         }
                         // get rest options if available
