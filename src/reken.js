@@ -451,9 +451,14 @@
                             indent = '  ' + indent
                         }
             
-                        let _var = value.substring(0, value.indexOf(':'));
-                        let _data = value.substring(value.indexOf(':') + 1);
+                        let chunks = value.split(":");
+                        let _var = chunks[0];
+                        let _data = chunks[1];
+                        let start = chunks.length>3?chunks[2]:undefined;
+                        let end = chunks.length>3?chunks[3]:chunks[2]
+
                         let _arrayName = uniqueID('arr');
+
                         if (isNaN(_data)) {
                             controlCode.third.push(indent+"$arrVar = "+_data);
                             controlCode.third.push(indent+"if (typeof $arrVar === 'undefined')$arrVar=0;");
@@ -461,15 +466,16 @@
                         }
                         else
                             controlCode.third.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
-                        controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ')');
+                        controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', Math.min('+_arrayName+'.length,' + (end??_arrayName+'.length')+ ') - '+(start??'0') + ')');
 
                         // At runtime loop thru the direct children
                         let _forVar = uniqueID("forElem");
                         let _forIndex = uniqueID("counter");
                         controlCode.third.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
 
-                        controlCode.third.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length) break;"); //Basically if 0 elements in array
-                        controlCode.third.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "]}"); // Set the var context
+                        controlCode.third.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length "+((typeof end === 'undefined')?"":"||"+_forIndex+">="+end)+") break;"); //Basically if 0 elements in array
+                        controlCode.third.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "+" + (start??"0") +"],itemIndex:"+_forIndex + "+" + (start??"0")+"}"); // Set the var context
+                        
                         forVars += (forVars!=''?',':'') + _var
                         controlCode.third.push(indent+"let "+ _forVar)
                         let i = 0;
@@ -1359,9 +1365,11 @@
         return -1;
     }
 
-    const updateForChildren = (registry, disableTimers, elem, array, leafs) => {
+    const updateForChildren = (registry, disableTimers, elem, array, leafs, length) => {
         let _children = elem.children;
         let _numberOfChildren = _children.length/leafs;
+        length = Math.min(array.length, length);
+
         if (_numberOfChildren > 0 || elem.childrenStore) {
             
             if (!elem.childrenStore) { // Initialize store for prototype child elements
@@ -1375,7 +1383,7 @@
                     })
                 }
             }
-            for (let i = 0; i < array.length; i++) {
+            for (let i = 0; i < length; i++) {
                 let _child;
                 for (let l = 0; l < leafs; l++) {
                     let elemIndex = i*leafs+l;
@@ -1392,7 +1400,7 @@
             }
             let checkForTimers=true;
             const _toDelete = [] // This will need to save the first (set of) element(s) when length = 0; 
-            for (let i = array.length; i < _numberOfChildren; i++) {
+            for (let i = length; i < _numberOfChildren; i++) {
                 for (let l = 0; l < leafs; l++) {
                     let elemIndex = i*leafs+l;
 

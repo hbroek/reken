@@ -300,9 +300,11 @@ The `<div>` element will have a class `fadeIn` when the `isActive` variable is `
 
 ## 4.8 `data-for`
 **Syntax:**
-**`data-for`="[iteratorVariable]:[integer]|[iterable object]"**
+**`data-for`="[iteratorVariable]:[integer]|[iterable object]:(endIndex)|(startIndex:endIndex)"**
 
 The `data-for` attribute is used for creating repeating elements. It takes a variable name, followed by a colon, and an iterable JavaScript object or a number. All children of the element are replicated according to the iterable object's length or the specified number.
+
+when an optional 3rd parameter endIndex is specified it will be used to stop the for loop at that position. When a 3rd and 4th argument is specified. The 3rd argument is that startIndex and the 4th argument is the endIndex. In this case there is also a itemIndex property available on the iteratorVariable.
 
 **Example:**
 ```html
@@ -360,6 +362,45 @@ Elements with `data-for` can be nested, creating nested loops.
 
 In this example we are using the iterator variable `movie`'s `item` property to create an `h1` element with the movie name. A second loop is created that uses the `rating` property to render the number of tomatoes.
 
+```html
+<script>
+  const insects = [
+    'mosquito',
+    'fly',
+    'tick',
+    'butterfly',
+    ...
+  ]
+</script>
+...
+<ol data-for="insect:insects:3">
+  <li data-text="${insect.item}"></li>
+</ol>
+```
+In this example above we only show a maximum of 3 li's based on the longer insects array. 
+
+```html
+<script>
+  const pictures = [
+    'images/picture1.jpg',
+    'images/picture2.jpg',
+    'images/picture3.jpg',
+    'images/picture4.jpg',
+    'images/picture5.jpg',
+    'images/picture6.jpg',
+    'images/picture7.jpg',
+    ...
+  ]
+  let firstPicture = 0;
+</script>
+...
+<section data-for="picture:pictures:firstPicture:firstPicture+3">
+  <img data-attr-href="${picture.item}" data-attr-alt="Picture ${picture.itemIndex"/>
+  <button type="button" data-action="firstPicture=firstPicture+1;" data-attr-disabled="firstPicture==pictures.length-3">Next</button>
+  <button type="button" data-action="firstPicture=firstPicture-1;" data-attr-disabled="firstPicture==0">Prev</button>
+</section>
+```
+In this example we show 3 pictures at a time from the pictures array. With the Next and Prev buttons we scroll thru the pictures. When the end or beginning of the array is reached the appropriate buttons are disabled.
 
 ## 4.9 `data-action`
 **Syntax:**

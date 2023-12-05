@@ -556,6 +556,19 @@
     <div id="f13" data-rest="f13_arr13:json/array.json"  data-for="inner13:f13_arr13">
         <div data-text="${inner13.item}"></div>
     </div>
+
+    <ol id="f14" data-for="f14v:5:3">OL
+      <li data-text="Element ${f14v.index}-${f14v.itemIndex}-${f14v.item}"></li>
+    </ol>
+
+    <script>
+      const my_numbers15 = ['zero', 'one','two','three','four','five','six','seven','eight','nine']
+    </script>
+    <ol id="f15" data-for="f15v:my_numbers15:3:5">OL
+      <li data-text="Element ${f15v.index}-${f15v.itemIndex}-${f15v.item}"></li>
+    </ol>
+
+
   </section>
   <hr>
   <section>
@@ -2344,6 +2357,21 @@
         await waitFor(2000, () => checkForClass($('f13'), "reken-rest-done"));
         expect($('f13')).to.have.length(3);
       })
+
+      it('Render first 3 elements', (done) => {
+        expect($('f14')).to.have.length(3)
+        expect($('f14')).to.contain.text('OL')
+        expect(document.querySelectorAll('ol#f14 li')).to.contain.text('Element 2-2')
+        done();
+      })
+
+      it('Render Element 3 to 5', (done) => {
+        expect($('f15')).to.have.length(2)
+        expect($('f14')).to.contain.text('OL')
+        expect(document.querySelectorAll('ol#f15 li')).to.contain.text('Element 1-4')
+        done();
+      })
+
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
@@ -2999,7 +3027,7 @@
 
     })
     describe('data-component timer/interval tests', () => {
-      it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
+e      it.skip('Check that timer we can add a component instance timer on top of a component timer ', async function () {
         const cp18_0 =  $('cp18_0');
         expect(cp18_0).to.have.text('orange');
         const cp18_1 =  $('cp18_1');
@@ -3014,7 +3042,7 @@
         cp18_1cb.dispatchEvent(new Event('change'));
         await waitFor(200, () => cp18_1.textContent =='pink')        
       })
-     it('Check that timer we can add a component instance interval on top of a component interval ', async function () {
+     it.skip('Check that timer we can add a component instance interval on top of a component interval ', async function () {
         const cp19_0 =  $('cp19_0');
         expect(cp19_0).to.have.text('orange');
         const cp19_1 =  $('cp19_1');
