@@ -339,7 +339,8 @@
                                     controlCode.third.push(elemString + ".classList.toggle('" + _routeClass + "', " + _routeExpr + ")");
                             }
                             else {
-                                controlCode.third.push("$v=(" + value + "?'':'none');");
+                                controlCode.third.push("if ("+elemString + ".style.display != 'none')"+ elemString + ".$save_display = " + elemString + ".style.display");
+                                controlCode.third.push("$v=(" + value + "?"+elemString + ".$save_display??'block':'none');");
                                 controlCode.third.push("if ("+elemString + ".style.display!==$v) " + elemString + ".style.display=$v;");
                             }
                             if (!elem.dataset.for) { // Elements with For process their own children

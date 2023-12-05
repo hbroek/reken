@@ -336,10 +336,16 @@
     <div id="i6" data-if="if6" data-text="${if6}">check data-text is not executed</div>
     <label>if6:<input id="i6_1" type="checkbox" data-value="if6"></label>
 
-    <test-if7 id="i7" data-if="true"/>
+    <test-if7 id="i7" data-if="true"></test-if7>
     <template data-component="test-if7">
       <div>test-if7</div>
     </template>
+
+    <script>
+      let if8 = true;
+    </script>
+    <div id="i8" data-if="if8" data-text="${if8}" style="display:flex">Check that display is reset to flex.</div>
+    <label>if8:<input id="i8_1" type="checkbox" data-value="if8"></label>
 
   </section>
   <hr>
@@ -1890,7 +1896,26 @@
         expect($('i7')).to.be.displayed;
         expect($('i7')).to.have.text('test-if7');
         done();
+      }) 
+      
+      it('Make sure display style is reset to flex.', (done) => {
+        expect($('i8')).to.be.displayed;
+        expect($('i8')).to.have.style('display', 'flex');
+
+        //Make false; Ie hide element by setting display to none.
+        $('i8_1').checked = false;
+        $('i8_1').dispatchEvent(new Event('change'));
+        expect($('i8')).not.to.be.displayed;
+        expect($('i8')).to.have.style('display', 'none');
+
+        // Make truel show element and reset display to flex.
+        $('i8_1').checked = true;
+        $('i8_1').dispatchEvent(new Event('change'));
+        expect($('i8')).to.be.displayed;
+        expect($('i8')).to.have.style('display', 'flex');
+        done();
       })      
+      
 
     })
 
