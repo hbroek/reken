@@ -1081,12 +1081,12 @@
     // Generate the code that sets up the context for when processing elements in a for loop.
     const getForContext = (forElem) => {
         let value = forElem.dataset.for;
-        let _contextVar = value.substring(0, value.indexOf(':'));
-        let _forIterator = value.substring(value.indexOf(':') + 1);
+
+        const chunks = value.split(':');
 
         let _returnObject = {
-            "forIterator": _forIterator,
-            "contextVar": _contextVar,
+            "forIterator": chunks[1],
+            "contextVar": chunks[0]
         }
         return _returnObject;
     }
