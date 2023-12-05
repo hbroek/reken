@@ -157,7 +157,7 @@
             } 
 
             let orderedKeys = []
-            let firsts = ['ref1', 'style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'ref', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
+            let firsts = ['route', 'ref1', 'style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'ref', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
             for (let first of firsts) {
                 let indexInKeys = keys.indexOf(first);
                 if (indexInKeys >= 0) {
@@ -313,6 +313,11 @@
                             if (_class)
                                 value = _class + ':' + value
                         }
+                        if (elem.dataset.if || elem.dataset.if) {
+                            elem.$routeValue = value;
+                            continue;
+                        }
+
                         // Notice we drop into the if case to process the routing expression
 
                         case "if1": {
@@ -322,13 +327,21 @@
                         case "if":
                         {
                             let [_expr, _class] = parseIfExpression(value);
-                            if (_class)
-                                controlCode.third.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
+                            let [_routeExpr, _routeClass] = parseIfExpression(elem.$routeValue);
+
+                            if (_routeExpr) //if we have a route as well then merge the route and if expressions.
+                                value = `(${_expr})&&(${_routeExpr})`
+
+                            if (_class || _routeClass) {
+                                if (_class)
+                                    controlCode.third.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
+                                if (_routeClass)
+                                    controlCode.third.push(elemString + ".classList.toggle('" + _routeClass + "', " + _routeExpr + ")");
+                            }
                             else {
                                 controlCode.third.push("$v=(" + value + "?'':'none');");
                                 controlCode.third.push("if ("+elemString + ".style.display!==$v) " + elemString + ".style.display=$v;");
                             }
-
                             if (!elem.dataset.for) { // Elements with For process their own children
                                 if (elem.dataset.if !== undefined || elem.dataset.if1 !== undefined || elem.dataset.route !== undefined)
                                     controlCode.third.push('if ('+parseIfExpression(value)[0] +') {') // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
@@ -1080,6 +1093,9 @@
 
     // Fetch if expression and optional class which gets set when expression is true
     const parseIfExpression = (value) => {
+        if (typeof value === 'undefined')
+        return [null,null];
+
         let _class = null;
         let _expr = value;
         if (value.indexOf(':') >= 0) {

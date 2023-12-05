@@ -362,6 +362,8 @@
 
     <div id="rt6" data-route="/rt6">rt6</div>
     <div id="rt61" data-route="/rt61">rt61</div>
+
+    <div id="rt7" data-route="/rt7" data-if="true">rt7</div>
   </section>
 
   <hr>
@@ -2027,6 +2029,18 @@
         expect($('rt6')).to.be.displayed;
         expect($('rt61')).not.to.be.displayed;
       })
+
+      it('Route to rt7 with a data-if attribute', async function () {
+        const hash1 = 'rt7';
+
+        expect($('rt7')).not.to.be.displayed;
+
+        await waitForNewHash(`#/${hash1}`)
+        expect(document.location.hash === `#/${hash1}`)
+        expect($('rt7')).to.be.displayed;
+
+      })
+
     })
 
     async function waitForNewHash(hash) {
