@@ -1194,8 +1194,9 @@
 <h2><a id="user-content-48-data-for" class="anchor" aria-hidden="true" tabindex="-1" href="#48-data-for"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.8 <code>data-for</code>
 </h2>
 <p><strong>Syntax:</strong>
-<strong><code>data-for</code>="[iteratorVariable]:[integer]|[iterable object]"</strong></p>
+<strong><code>data-for</code>="[iteratorVariable]:[integer]|[iterable object]:(endIndex)|(startIndex:endIndex)"</strong></p>
 <p>The <code>data-for</code> attribute is used for creating repeating elements. It takes a variable name, followed by a colon, and an iterable JavaScript object or a number. All children of the element are replicated according to the iterable object's length or the specified number.</p>
+<p>when an optional 3rd parameter endIndex is specified it will be used to stop the for loop at that position. When a 3rd and 4th argument is specified. The 3rd argument is that startIndex and the 4th argument is the endIndex. In this case there is also a itemIndex property available on the iteratorVariable.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">vrb:5</span>"<span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">class</span>="<span class="pl-s">star</span>"<span class="pl-kos">&gt;</span>?<span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
@@ -1234,6 +1235,40 @@
   <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we are using the iterator variable <code>movie</code>'s <code>item</code> property to create an <code>h1</code> element with the movie name. A second loop is created that uses the <code>rating</code> property to render the number of tomatoes.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">insects</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+    <span class="pl-s">'mosquito'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'fly'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'tick'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'butterfly'</span><span class="pl-kos">,</span>
+    ...
+  <span class="pl-kos">]</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+...
+<span class="pl-kos">&lt;</span><span class="pl-ent">ol</span> <span class="pl-c1">data-for</span>="<span class="pl-s">insect:insects:3</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${insect.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">ol</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example above we only show a maximum of 3 li's based on the longer insects array.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+  <span class="pl-k">const</span> <span class="pl-s1">pictures</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+    <span class="pl-s">'images/picture1.jpg'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'images/picture2.jpg'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'images/picture3.jpg'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'images/picture4.jpg'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'images/picture5.jpg'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'images/picture6.jpg'</span><span class="pl-kos">,</span>
+    <span class="pl-s">'images/picture7.jpg'</span><span class="pl-kos">,</span>
+    ...
+  <span class="pl-kos">]</span>
+  <span class="pl-k">let</span> <span class="pl-s1">firstPicture</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+...
+<span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">data-for</span>="<span class="pl-s">picture:pictures:firstPicture:firstPicture+3</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">${picture.item}</span>" <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture ${picture.itemIndex</span>"/&gt;
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture+1;</span>" <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">firstPicture==pictures.length-3</span>"<span class="pl-kos">&gt;</span>Next<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture-1;</span>" <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">firstPicture==0</span>"<span class="pl-kos">&gt;</span>Prev<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we show 3 pictures at a time from the pictures array. With the Next and Prev buttons we scroll thru the pictures. When the end or beginning of the array is reached the appropriate buttons are disabled.</p>
 <h2><a id="user-content-49-data-action" class="anchor" aria-hidden="true" tabindex="-1" href="#49-data-action"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.9 <code>data-action</code>
 </h2>
 <p><strong>Syntax:</strong>

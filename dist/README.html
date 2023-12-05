@@ -1101,7 +1101,7 @@
 <li>
 <p><strong>data-for</strong>: Takes a var name separated by a colon and followed by an iterating javascript iterable object or a number. All the children of the element contained by the data-for element will be replicated with the number of the elements in the iterable object or the number of times specifed. All elements contained by the element with the data-for property have access to a property index and with an iterable object the item property on the var variable. Nested loops a are allowed. For example  <em>&lt;data-for="vrb:10"&gt;</em> or <em>&lt;data-for="vrb:myarray"&gt;</em>.
 The variable vrb will contain the propery <strong>index</strong> and when bound to an array also the property <strong>item</strong>. For example:
-&lt;ul data-for="vrb:_array"&gt;&lt;li data-text=${vrb.index} - ${vrb.item}&gt; will render the index and the value of the array for each element in the array.</p>
+&lt;ul data-for="vrb:_array"&gt;&lt;li data-text=${vrb.index} - ${vrb.item}&gt; will render the index and the value of the array for each element in the array. An optional 3rd integer end parameter lets the for loop continue until it reaches the end value. When a 4th integer end value is specified the loop starts at the begin value which is in this case the third parameter and end at the 4th parameters. For example <em>&lt;data-for="vrb:10:end"&gt;</em> or <em>&lt;data-for="vrb:myarray:start:end"&gt;</em></p>
 </li>
 <li>
 <p><strong>data-action</strong>: javascript code that gets executed in the event. In the code snippet you have access to the event details through the e variable.</p>
