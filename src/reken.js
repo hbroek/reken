@@ -1016,7 +1016,7 @@
                 let componentName = templateElement.dataset.component;
                 let _styleLines =  rekenStyle.textContent.split(/\r?\n/); // Create array of styles
                 for (let i = 0; i < _styleLines.length; i++) {
-                    if (_styleLines[i].indexOf('{')>0) {
+                    if (_styleLines[i].indexOf('{')>0 && _styleLines[i].indexOf('@')<0) {
                         let selectors = _styleLines[i].split(',');
                         let selectorArray = []
                         for (let selector of selectors) {

@@ -821,8 +821,13 @@
           <style>
               :host {
                 margin:0;
-                background: brown;
+                background: lightblue;
               }
+              @media (max-width: 999999px) {
+              :host {
+                background-color: brown;
+              }
+            }
           </style>
           <ul data-for="it:5">
               <li data-component="listItem9" data-arg-vrb="it" data-arg-sel="cp9selectedItems"></li>
