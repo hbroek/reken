@@ -1246,29 +1246,32 @@
     }
 
     const processRestCall = (elem, _url, _options, modelUpdate) => {
-        // Url request is the same as last time, no need to fetch again and thus nothing do here.
+        //  Check if there is a fetch on the _options if true than initiate the rest call other return without action
         if (_options && typeof _options.fetch !== 'undefined') {
             if (_options.fetch === false)
                 return;
             _options.fetch = false;
         }
         else {
+            // Url request is the same as last time, no need to fetch again and thus nothing do here.
             if (typeof elem.dataset.url !== undefined && elem.dataset.url === _url) {
                 return;
             }
             elem.dataset.url = _url;
         }
         elem.classList.add("reken-rest-busy");
+        _options['reken_rest_status'] = 'reken-rest-busy';
         elem.classList.remove("reken-rest-error", "reken-rest-done");
         let skip = false;
+        let savedJson = null;
         fetch(_url, _options)
             .then(response => {
-                if (!response.ok && !response.status === 304) {
+                _options.response = response;
+                if (!response.ok) {
                     throw new Error(`Network response was not ok, code ${response.status} - ${response.statusText}`);
                 }
-                if (response.status === 304) {
-                    skip = true;
-                    return
+                if (response.status >=400 && response.status < 600) {
+                    throw new Error(`Http error: code ${response.status} - ${response.statusText}`);
                 }
                 _options.response = response;
                 if (_options.transformer) {
@@ -1276,20 +1279,43 @@
                     return promise.then(text => _options.transformer(text, _options))
                 }
                 else {
-                    return response.json();
+                    try {
+                        return response.json();
+                    }
+                    catch(e) {
+                        skip=true;
+                    }
                 }       
             })
             .then(json => {
-                if (!skip)
-                    modelUpdate(json)
+                if (typeof _options.reviver !== 'undefined') {
+                    const reviveObject = (obj) => {
+                        if (Array.isArray(obj)) {
+                            obj.forEach(o => {reviveObject(o)})
+                        }
+                        else if (typeof obj === 'object') {
+                            Object.keys(obj).forEach((key) => {obj[key] = _options.reviver(key, obj[key])})
+                        }
+                    }
+                    reviveObject(json);
+                }
+                savedJson = json;
+                _options['reken_rest_status'] = 'reken-rest-done';
                 elem.classList.add("reken-rest-done");
+                elem.classList.remove("reken-rest-busy");
+                if (_options.callback && typeof _options.callback === 'function') {
+                    _options.callback(_options, savedJson);
+                }
+                modelUpdate(json, skip)    
             })
             .catch(error => {
                 elem.classList.add("reken-rest-error");
-                throw error;
-            })
-            .finally(() => {
+                _options['reken_rest_status'] = 'reken-rest-error';
                 elem.classList.remove("reken-rest-busy");
+                if (_options.callback && typeof _options.callback === 'function') {
+                    _options.callback(_options, savedJson);
+                }
+                reken.force_calculate();
             })
     }
 

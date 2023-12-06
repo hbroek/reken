@@ -1,5 +1,5 @@
 [
-  "apple",
-  "banana",
-  "orange"
+  {"name":"apples","sell_by":"Sun, 14 Dec 2023 14:46:55 GMT"},
+  {"name":"bananas","sell_by":"Mon, 8 Dec 2023 11:34:02 GMT"},
+  {"name":"oranges","sell_by":"Sat, 20 Dec 2023 01:15:12 GMT"}
 ]

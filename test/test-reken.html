@@ -554,7 +554,7 @@
         let f13_arr13 = undefined;
     </script>
     <div id="f13" data-rest="f13_arr13:json/array.json"  data-for="inner13:f13_arr13">
-        <div data-text="${inner13.item}"></div>
+        <div data-text="${inner13.item.name}"></div>
     </div>
 
     <ol id="f14" data-for="f14v:5:3">OL
@@ -600,10 +600,6 @@
 
       let r2v; // Prevent global namespace leak warning
       nameList=[];
-      let r3_options = {'method': 'DELETE'}
-      let r3_result = {}
-      let r4_options = {'method': 'GET'}
-      let r4_result = {}
 
       let r5 = {theNumber:0};
       let r5_options = {fetch:false}
@@ -633,10 +629,26 @@
         <li data-text=${r2v.item}></li>
       </ul>
     </div>
+    <script>
+      let r3_options = {'method': 'DELETE'}
+      let r3_result = {}
+    </script>
     <div id="r3_1">
       <ul id="r3" data-rest="r3_result:json/names.json" data-rest-options="r3_options">
       </ul>
     </div>
+    <script>
+      let r4_options = {'method': 'GET'}
+      let r4_result = {}
+      r4_options.r4_callback_valid = false;
+
+      const r4_callback = (options, json) => {
+        options.r4_callback_valid =
+          options === r4_options
+          && json != null;
+      }
+      r4_options['callback'] = r4_callback;
+    </script>
     <div id="r4_1">
       <ul id="r4" data-rest="r4_result:json/names.json" data-rest-options="r4_options">
       </ul>
@@ -665,7 +677,21 @@
     <script>
       let r9 = ""
     </script>
-    <div id="r9" data-rest="r9:[1]:json/array.json" data-text="${r9}"></div>
+    <div id="r9" data-rest="r9:[1]:json/array.json" data-text="${r9.name}"></div>
+
+    <script>
+      let r10;
+      let r10_options = {
+        reviver: (a,b) => {
+            if (['sell_by'].indexOf(a)>=0) {
+                return new Date(b);
+            }
+            else return b;
+        }
+      }
+    </script>
+    <div id="r10" data-rest="r10:json/array.json" data-rest-options="r10_options">
+    </div>
 
   </section>
   <hr>
@@ -1299,18 +1325,18 @@
 
     <template data-component="tic3" data-bind-atib3="false">
       <script>
-        let count = 0;
+        let count3 = 0;
       </script>  
-      <div data-timer="1:atib3:count++;atib3=false" data-text="Count:${count}"></div>
+      <div data-timer="1:atib3:count3++;atib3=false" data-text="Count:${count3}"></div>
     </template>
     <tic3 id="tic3" atib3="tib3"></tic3>
     <input id="ti3" type="checkbox" data-value="tib3">
 
     <template data-component="tic4" data-bind-atib4="false">
       <script>
-        let timer = 0;
+        let timer4 = 0;
       </script>
-      <div data-timer="1:atib4&&timer<1:timer++;" data-text="Count:${timer}"></div>
+      <div data-timer="1:atib4&&timer4<1:timer4++;" data-text="Count:${timer4}"></div>
     </template>
     <div id="tic4" id="" data-for="i:2">
       <tic4 atib4="tib4"></tic4>
@@ -2433,9 +2459,12 @@
       })
       it('Load an object with options, method=DELETE should fail', async function () {
         await waitFor(2000, () => checkForClass($('r3'), "reken-rest-error"));
+        assert(r3_options['reken_rest_status'] === 'reken-rest-error', "Options should show have eken_rest_status prop with val reken-rest-error");
       })
       it('Load an object with options, method=GET should pass', async function () {
         await waitFor(2000, () => checkForClass($('r4'), "reken-rest-done"));
+        assert(r4_options['reken_rest_status'] === 'reken-rest-done', "Options should have eken_rest_status prop with val reken-rest-done");
+        assert(r4_options['r4_callback_valid'] === true, "Call back is called with optiond and json string");
       })
       it('Load a value from json file, by setting the fetch option to true', async function () {
         expect($('r5')).to.have.text('0')
@@ -2464,7 +2493,11 @@
       })
       it('Load JSON file and use array syntax path to get 2nd element', async function () {
         await waitFor(2000, () => checkForClass($('r9'), "reken-rest-done"));
-        expect($('r9')).to.have.text('banana');
+        expect($('r9')).to.have.text('bananas');
+      })
+      it('Load JSON file and use reviver options prop to convert date string to Date', async function () {
+        await waitFor(2000, () => checkForClass($('r10'), "reken-rest-done"));
+        assert(r10[1].sell_by instanceof Date, "Reviver not converting to sell_by field to Date")
       })
 
 

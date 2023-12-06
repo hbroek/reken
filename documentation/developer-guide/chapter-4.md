@@ -598,6 +598,44 @@ When the "Order" `button` is pressed we add a `body` property with the order con
 
 It then returns the result of the order API call in the `orderResult` variable.
 
+For more control over the results of the REST call use the options properties:
+- `reken_rest_status` - this contains the value `reken-rest-busy` while a REST call is in progress. When the REST call is finished successfully it contains: `reken-rest-done` and when finished unsuccessful it contains the value `reken-rest-error`.
+- `callback` - when this contains a function reference, it gets called when the REST call finishes. It will pass in 2 arguments: the options object and the initialized JSON object that got loaded when succesfull.
+- `reviver` - If this function reference property is specified it will do a callback on each loaded object property with the name of the property and the value and returns a transformed or untransformed value. This is useful when recreating for example Date objects from a JSON Date string.
+
+**Example:**
+```javascript
+<script>
+  let message = 'Loading'
+  let fetchOptions = {
+      callback: (options, json_object) => {
+          message = (options.reken_rest_status==='reken-rest-done' ?
+              `Successful; Loaded ${json_object.length} orders` : 
+              `Unsuccessful: errorcode: ${options.response.status}-${options.response.statusText}`)
+      },
+      reviver: (prop_name, prop_value) =>
+          prop_name === 'created'?new Date(prop_value):prop_value
+  }
+  let orders;
+</script>
+```
+HTML
+```html
+<body>
+    <main data-rest="orders:array.json" data-rest-options="fetchOptions" >
+        <div data-for="order:orders">
+            <div data-text="${order.item.id} - ${order.item.created.toDateString()}"></div>
+        </div>
+    </main>
+    <footer data-text="${message}"></footer>
+</body>
+```
+
+In this example we set the callback property on the REST options to update the `message` variable when and how to REST call succeeded. 
+
+TO convert the `created` values in the JSON file, a reviver property is set with a function that converts all JSDN date strings into Dates, but leaves all the other fields untouched.
+
+
 ## 4.15 `data-calc`
 **Syntax:**
 **`data-calc`**
