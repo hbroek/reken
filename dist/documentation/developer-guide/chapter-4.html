@@ -1390,6 +1390,40 @@ let x = y = 0;
 <p>With <code>fetch</code> being <code>false</code> means not to execute the fetch call yet. And with <code>method</code> set to <code>POST</code> means if the call gets executed use <code>POST</code> instead of the default <code>GET</code> method.</p>
 <p>When the "Order" <code>button</code> is pressed we add a <code>body</code> property with the order content and set the <code>fetch</code> property to <code>true</code> to force the rest call.</p>
 <p>It then returns the result of the order API call in the <code>orderResult</code> variable.</p>
+<p>For more control over the results of the REST call use the options properties:</p>
+<ul>
+<li>
+<code>reken_rest_status</code> - this contains the value <code>reken-rest-busy</code> while a REST call is in progress. When the REST call is finished successfully it contains: <code>reken-rest-done</code> and when finished unsuccessful it contains the value <code>reken-rest-error</code>.</li>
+<li>
+<code>callback</code> - when this contains a function reference, it gets called when the REST call finishes. It will pass in 2 arguments: the options object and the initialized JSON object that got loaded when succesfull.</li>
+<li>
+<code>reviver</code> - If this function reference property is specified it will do a callback on each loaded object property with the name of the property and the value and returns a transformed or untransformed value. This is useful when recreating for example Date objects from a JSON Date string.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+  let message = 'Loading'
+  let fetchOptions = <span class="pl-kos">{</span>
+      <span class="pl-en">callback</span>: <span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">,</span> <span class="pl-s1">json_object</span><span class="pl-kos">)</span> <span class="pl-c1">=</span><span class="pl-c1">&gt;</span> <span class="pl-kos">{</span>
+          message <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">.</span><span class="pl-c1">reken_rest_status</span><span class="pl-c1">===</span><span class="pl-s">'reken-rest-done'</span> ?
+              <span class="pl-s">`Successful; Loaded <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">json_object</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">}</span></span> orders`</span> : 
+              <span class="pl-s">`Unsuccessful: errorcode: <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">options</span><span class="pl-kos">.</span><span class="pl-c1">response</span><span class="pl-kos">.</span><span class="pl-c1">status</span><span class="pl-kos">}</span></span>-<span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">options</span><span class="pl-kos">.</span><span class="pl-c1">response</span><span class="pl-kos">.</span><span class="pl-c1">statusText</span><span class="pl-kos">}</span></span>`</span><span class="pl-kos">)</span>
+      <span class="pl-kos">}</span><span class="pl-kos">,</span>
+      <span class="pl-s1">reviver</span>: <span class="pl-kos">(</span><span class="pl-s1">prop_name</span><span class="pl-kos">,</span> <span class="pl-s1">prop_value</span><span class="pl-kos">)</span> <span class="pl-c1">=&gt;</span>
+          <span class="pl-s1">prop_name</span> <span class="pl-c1">===</span> <span class="pl-s">'created'</span>?<span class="pl-k">new</span> <span class="pl-v">Date</span><span class="pl-kos">(</span><span class="pl-s1">prop_value</span><span class="pl-kos">)</span>:<span class="pl-s1">prop_value</span>
+  <span class="pl-kos">}</span>
+  let orders;
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<p>HTML</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">orders:array.json</span>" <span class="pl-c1">data-rest-options</span>="<span class="pl-s">fetchOptions</span>" <span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">order:orders</span>"<span class="pl-kos">&gt;</span>
+            <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${order.item.id} - ${order.item.created.toDateString()}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+        <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
+    <span class="pl-kos">&lt;</span><span class="pl-ent">footer</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${message}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">footer</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we set the callback property on the REST options to update the <code>message</code> variable when and how to REST call succeeded.</p>
+<p>TO convert the <code>created</code> values in the JSON file, a reviver property is set with a function that converts all JSDN date strings into Dates, but leaves all the other fields untouched.</p>
 <h2><a id="user-content-415-data-calc" class="anchor" aria-hidden="true" tabindex="-1" href="#415-data-calc"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.15 <code>data-calc</code>
 </h2>
 <p><strong>Syntax:</strong>

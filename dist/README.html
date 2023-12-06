@@ -1119,16 +1119,13 @@ The variable vrb will contain the propery <strong>index</strong> and when bound 
 <p><strong>data-rest</strong>: Takes a javascript variable and a rest service JSON endpoint url, separated by a colon. Once the rest service call is resolved the javascript variable contains the object representing the json. An optional property path in the resultset can be specified. When the url changes the rest call gets executed again. The url is an evaluated template string. That is how you can parameterize your rest calls.</p>
 <ul>
 <li>Based on the state of the rest call various classes are added on the element containing the data-rest attribute. When the rest call is in progress it adds the <strong>reken-rest-busy</strong> class. When completed it adds the <strong>reken-rest-done</strong> class. When there was an error it contains a <strong>reken-rest-error</strong> class. This allows you to change the look of the UI during the various stages. An example is <em>&lt;tbody data-rest="myArray:myrestfile.json"/&gt;</em> for a file coming from the same domain. Or <em>&lt;div data-rest="myObject:path.to.the.object:<a href="http://someserver/thathasarestapi.json%22%3E" rel="nofollow">http://someserver/thathasarestapi.json"&gt;</a></em>
-</li>
-<li>When a rest call encounters a <em>304 - Not Modified response</em> it will return without fetching data and the model will NOT be executed.</li>
-</ul>
-</li>
-<li>
-<p><strong>data-rest-options</strong>: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.</p>
-<ul>
+<strong>data-rest-options</strong>: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.</li>
 <li>Rest options also takes a <strong>fetch</strong> property when that is true the fetch call will get executed. When the Rest call is executed the fetch property will be reset to false. When the fetch option is set. Reken will no longer monitor the url and therefor will not longer execute the fetch when the url changed.</li>
 <li>In case the text file coming from the Rest endpoint is not a JSON file. You can specify a transformer function with the <strong>transformer</strong> property, that gets called once the fetch completes. In the transformer function the text file can be transformed into an object. For example when loading a CSV or XML file. The transformer function gets 2 arguments: First argument is the string to be transformed and the 2nd argument is the options object. The transform function needs to return the object.</li>
 <li>The options object will contain the response object of the latest executed fetch request under the <strong>response</strong> property.</li>
+<li>Besides the response object, the options object will also contain a property reken_rest_status. It can have the following three values, which are the same as the status class names mentioned earlier under <code>data-rest</code>: <code>reken-rest-busy</code>, <code>reken-rest-done</code> and <code>reken-rest-error</code>.</li>
+<li>When the <code>callback</code> property that contains a function reference is specified, it will be called when the REST call finishes (successful or unsuccessful). Two arguments are passed in: <code>options</code> and when succesful; the initialized <code>json object</code>.</li>
+<li>To do some field transformations a reviver property can be set that gets executed to convert property values. For example to convert a JSON date string to Date object. The function will be called with 2 arguments. The property name and the property value, it should return the transformed or if no transformation is needed the untransformed value.</li>
 </ul>
 </li>
 <li>
