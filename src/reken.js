@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.3';
+    reken.version = '0.9.5';
     reken.routing_path;
 
     let componentRegistry = {}
