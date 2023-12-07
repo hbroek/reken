@@ -74,11 +74,11 @@
    - Optimizing for Performance
    - Debugging and Troubleshooting
 
-9. FAQs
+9. [FAQs](chapter-9.html)
    - Common Questions and Answers
    - Troubleshooting Tips
 
-10. Resources
+10. [Resources](chapter-10.html)
    - Reken Demos
    - Reken REPL
    - Community and Support
