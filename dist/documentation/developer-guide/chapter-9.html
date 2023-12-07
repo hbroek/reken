@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Reken - Web Development Framework</title>
+<title>Chapter 9: FAQs</title>
 <style>
 .markdown-body .octicon {
   display: inline-block;
@@ -1009,164 +1009,31 @@
 </head>
 <body>
 <article class="markdown-body">
-<h1><a id="user-content-reken---web-development-framework" class="anchor" aria-hidden="true" tabindex="-1" href="#reken---web-development-framework"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reken - Web Development Framework</h1>
-<h2><a id="user-content-developer-guide" class="anchor" aria-hidden="true" tabindex="-1" href="#developer-guide"><span aria-hidden="true" class="octicon octicon-link"></span></a>Developer Guide</h2>
-<h3><a id="user-content-version-093" class="anchor" aria-hidden="true" tabindex="-1" href="#version-093"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version 0.9.3</h3>
-<h3><a id="user-content-author-henry-van-den-broek" class="anchor" aria-hidden="true" tabindex="-1" href="#author-henry-van-den-broek"><span aria-hidden="true" class="octicon octicon-link"></span></a>Author: Henry van den Broek</h3>
-<h3><a id="user-content-status-draft" class="anchor" aria-hidden="true" tabindex="-1" href="#status-draft"><span aria-hidden="true" class="octicon octicon-link"></span></a>Status: Draft</h3>
-<h2><a id="user-content-table-of-contents" class="anchor" aria-hidden="true" tabindex="-1" href="#table-of-contents"><span aria-hidden="true" class="octicon octicon-link"></span></a>Table of Contents</h2>
-<ol>
-<li>
-<p><a href="chapter-1.html">Introduction</a></p>
+<h1><a id="user-content-chapter-9-faqs" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-9-faqs"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 9: FAQs</h1>
+<p>In this chapter, we'll address common questions and provide troubleshooting tips related to Reken. These FAQs are designed to help you understand Reken better and overcome common challenges that developers may face.</p>
+<h2><a id="user-content-91-common-questions-and-answers" class="anchor" aria-hidden="true" tabindex="-1" href="#91-common-questions-and-answers"><span aria-hidden="true" class="octicon octicon-link"></span></a>9.1 Common Questions and Answers</h2>
+<h3><a id="user-content-q1-what-is-reken-and-how-does-it-differ-from-other-javascript-frameworks" class="anchor" aria-hidden="true" tabindex="-1" href="#q1-what-is-reken-and-how-does-it-differ-from-other-javascript-frameworks"><span aria-hidden="true" class="octicon octicon-link"></span></a>Q1: What is Reken, and how does it differ from other JavaScript frameworks?</h3>
+<p><strong>A1:</strong> Reken is a lightweight library for creating dynamic web pages using HTML, CSS, and a sprinkling of JavaScript. It stands out from other JavaScript frameworks by focusing on simplicity and ease of use. Unlike more complex frameworks like React or Angular, Reken allows you to work with standard HTML and only requires minimal JavaScript code. It's an excellent choice for developers who want to add interactivity to their web pages without the learning curve of a full-fledged framework.</p>
+<h3><a id="user-content-q2-is-reken-suitable-for-building-complex-web-applications" class="anchor" aria-hidden="true" tabindex="-1" href="#q2-is-reken-suitable-for-building-complex-web-applications"><span aria-hidden="true" class="octicon octicon-link"></span></a>Q2: Is Reken suitable for building complex web applications?</h3>
+<p><strong>A2:</strong> Reken is best suited for projects where simplicity and ease of development are essential. While it can be used to create dynamic and interactive web applications, it may not provide all the advanced features and optimizations of larger full-stack frameworks.</p>
+<h3><a id="user-content-q3-can-i-use-reken-with-other-javascript-libraries-or-frameworks" class="anchor" aria-hidden="true" tabindex="-1" href="#q3-can-i-use-reken-with-other-javascript-libraries-or-frameworks"><span aria-hidden="true" class="octicon octicon-link"></span></a>Q3: Can I use Reken with other JavaScript libraries or frameworks?</h3>
+<p><strong>A3:</strong> It depends, Reken can be used alongside other JavaScript libraries. Reken however does require that none of the DOM elements or its descendant that have Reken attributes are changed.</p>
+<h2><a id="user-content-92-troubleshooting-tips" class="anchor" aria-hidden="true" tabindex="-1" href="#92-troubleshooting-tips"><span aria-hidden="true" class="octicon octicon-link"></span></a>9.2 Troubleshooting Tips</h2>
+<h3><a id="user-content-issue-my-dynamic-content-isnt-updating-as-expected" class="anchor" aria-hidden="true" tabindex="-1" href="#issue-my-dynamic-content-isnt-updating-as-expected"><span aria-hidden="true" class="octicon octicon-link"></span></a>Issue: My dynamic content isn't updating as expected.</h3>
+<p><strong>Solution:</strong> Ensure that you've correctly set up Reken attributes on the HTML elements you want to make dynamic. Double-check the expressions and values used in the attributes, and ensure they're updating as intended in your JavaScript code. You can use browser developer tools to inspect the DOM and see if the attributes are applied correctly. Or use the console to check it there are any errors.</p>
+<h3><a id="user-content-issue-im-encountering-errors-when-working-with-rest-api-calls" class="anchor" aria-hidden="true" tabindex="-1" href="#issue-im-encountering-errors-when-working-with-rest-api-calls"><span aria-hidden="true" class="octicon octicon-link"></span></a>Issue: I'm encountering errors when working with REST API calls.</h3>
+<p><strong>Solution:</strong> When using Reken for REST API calls, check the following:</p>
 <ul>
-<li>What is Reken?</li>
-<li>Key Features</li>
-<li>Who Should Use Reken?</li>
-<li>Getting Started</li>
+<li>Ensure that the REST endpoint URL is correctly formatted and accessible.</li>
+<li>Double-check your REST call syntax, including the variable names and object properties.</li>
+<li>Handle errors gracefully by implementing error-checking and error messages in your code.</li>
 </ul>
-</li>
-<li>
-<p><a href="chapter-2.html">Installation and Setup</a></p>
-<ul>
-<li>Downloading Reken</li>
-<li>Adding Reken to Your Project</li>
-<li>Compatibility</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-3.html">Basics</a></p>
-<ul>
-<li>Understanding Reken Attributes</li>
-<li>Creating Your First Dynamic Element</li>
-<li>Conditional Rendering</li>
-<li>Render Iterations</li>
-<li>Handling User Input</li>
-<li>Working with REST APIs</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-4.html">Reken Attribute Reference</a></p>
-<ul>
-<li><code>data-text</code></li>
-<li><code>data-html</code></li>
-<li><code>data-value</code></li>
-<li><code>data-style</code></li>
-<li><code>data-attr-[attr]</code></li>
-<li><code>data-class</code></li>
-<li><code>data-if</code></li>
-<li><code>data-for</code></li>
-<li><code>data-action</code></li>
-<li><code>data-on-</code></li>
-<li><code>data-timer</code></li>
-<li><code>data-interval</code></li>
-<li><code>data-rest</code></li>
-<li><code>data-rest-options</code></li>
-<li><code>data-calc</code></li>
-<li><code>data-route</code></li>
-<li><code>data-component</code></li>
-<li><code>data-arg-*</code></li>
-<li><code>data-bind-*</code></li>
-<li><code>data-include</code></li>
-<li><code>data-ref</code></li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-5.html">Advanced Features</a></p>
-<ul>
-<li>Component Creation and Usage</li>
-<li>Routing with Reken</li>
-<li>Handling Reken Events</li>
-<li>Using Components and Slots</li>
-<li>Data Binding and Component State</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-6.html">JavaScript API</a></p>
-<ul>
-<li>
-<code>reken</code> Object Overview</li>
-<li><code>reken.version</code></li>
-<li><code>reken.force_calculate()</code></li>
-<li>
-<code>reken.forceCalculate()</code> (deprecated)</li>
-<li>
-<code>rekenready</code> event</li>
-<li>
-<code>rekeninitialized</code> event</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-7.html">Examples and Use Cases</a></p>
-<ul>
-<li>Building Dynamic Web Pages</li>
-<li>Interactive Forms and User Interfaces</li>
-<li>Using REST APIs with Reken</li>
-<li>Creating Reusable Components</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-8.html">Best Practices</a></p>
-<ul>
-<li>Structuring Your Reken-Based Projects</li>
-<li>Optimizing for Performance</li>
-<li>Debugging and Troubleshooting</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-9.html">FAQs</a></p>
-<ul>
-<li>Common Questions and Answers</li>
-<li>Troubleshooting Tips</li>
-</ul>
-</li>
-<li>
-<p><a href="chapter-10.html">Resources</a></p>
-</li>
-</ol>
-<ul>
-<li>Reken Demos</li>
-<li>Reken REPL</li>
-<li>Community and Support</li>
-</ul>
-<ol start="11">
-<li>Changelog</li>
-</ol>
-<ul>
-<li>Version History and Updates</li>
-</ul>
-<ol start="12">
-<li>Contributing</li>
-</ol>
-<ul>
-<li>Guidelines for Contributing to Reken</li>
-<li>Reporting Issues and Bugs</li>
-</ul>
-<ol start="13">
-<li>License</li>
-</ol>
-<ul>
-<li>Open Source License Information</li>
-</ul>
-<ol start="14">
-<li>Acknowledgments</li>
-</ol>
-<ul>
-<li>Credits and Acknowledgments</li>
-</ul>
-<ol start="15">
-<li>Contact</li>
-</ol>
-<ul>
-<li>How to Get in Touch with the Reken Team</li>
-</ul>
-<ol start="16">
-<li>Appendix</li>
-</ol>
-<ul>
-<li>Additional Technical Details and Notes</li>
-</ul>
-<h2><a id="user-content-conclusion" class="anchor" aria-hidden="true" tabindex="-1" href="#conclusion"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conclusion</h2>
-<p>The above outline provides a structured framework for creating documentation for Reken, covering everything from installation to advanced features, best practices, and even a section for contributors.</p>
+<h3><a id="user-content-issue-my-reken-components-are-not-rendering-as-expected" class="anchor" aria-hidden="true" tabindex="-1" href="#issue-my-reken-components-are-not-rendering-as-expected"><span aria-hidden="true" class="octicon octicon-link"></span></a>Issue: My Reken components are not rendering as expected.</h3>
+<p><strong>Solution:</strong> When working with components, ensure that you've defined them correctly using the <code>data-component</code> attribute in a <code>template</code> element and that the component's HTML and JavaScript code are structured appropriately. Check for any console errors that may provide insights into the issue.</p>
+<h3><a id="user-content-issue-my-web-page-is-not-responding-as-expected-to-user-input" class="anchor" aria-hidden="true" tabindex="-1" href="#issue-my-web-page-is-not-responding-as-expected-to-user-input"><span aria-hidden="true" class="octicon octicon-link"></span></a>Issue: My web page is not responding as expected to user input.</h3>
+<p><strong>Solution:</strong> If you're having trouble with user input, review your event listeners and their associated functions. Ensure that your JavaScript code for handling user interactions is correctly linked to Reken attributes such as <code>data-value</code> or <code>data-on-</code>.</p>
+<p>For more specific troubleshooting, you can refer to Reken's documentation, community forums, or seek assistance from the Reken community.</p>
+<p>By addressing these common questions and following the troubleshooting tips, you can navigate challenges and enhance your experience with Reken.</p>
 
 </article>
 </body>
