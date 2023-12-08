@@ -1,10 +1,12 @@
+
+
 # Chapter 1: Introduction to Reken
 
 ## 1.1 What is Reken?
 
 Reken is a powerful and lightweight JavaScript library designed to simplify the process of creating dynamic web pages using just HTML, CSS, and a dash of JavaScript. It empowers HTML developers, UX designers, and web app builders to add interactivity and dynamic behavior to their web pages without the need to delve into complex JavaScript frameworks or libraries.
 
-At its core, Reken operates by enhancing standard HTML elements with custom `data-*` attributes that allow you to:
+At its core, Reken operates by enhancing standard HTML elements with custom `data-*` attributes that allows you to:
 
 - Render dynamic content, attributes, and styles.
 - Conditionally render elements or toggle classes.
@@ -12,7 +14,7 @@ At its core, Reken operates by enhancing standard HTML elements with custom `dat
 - Efficiently handle user input through event listeners.
 - Fetch and process data from RESTful web services.
 
-Reken's primary goal is to maintain simplicity while achieving efficient dynamic updates in the Document Object Model (DOM) without relying on a virtual DOM tree. This approach not only ensures performance but also makes it search engine friendly for server-side generated content.
+Reken's primary goal is to maintain simplicity while achieving efficient dynamic updates in the Document Object Model (DOM) without relying on a virtual DOM tree. This approach not only makes it lightwieght but also ensures performance.
 
 ## 1.2 Key Features
 
@@ -35,10 +37,6 @@ Reken doesn't rely on complex build tools or transpilers. You can add Reken to y
 ### 1.2.5 HTML Compliant
 
 Reken-generated HTML remains fully compliant with standard HTML specifications, ensuring that your web pages are both standards-compliant and accessible.
-
-### 1.2.6 SEO-Friendly
-
-Reken supports server-side rendering, which allows for search engine-friendly content generation. This is essential for web applications that require proper indexing and SEO optimization.
 
 ## 1.3 Who Should Use Reken?
 

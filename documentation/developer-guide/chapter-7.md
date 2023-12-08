@@ -1,6 +1,8 @@
+
+
 # Chapter 7: Examples and Use Cases
 
-In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.
+In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory application. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.
 
 ## 7.1 Building Dynamic Web Pages
 
@@ -63,7 +65,17 @@ In example we add a `data-if` attribute to the image to conditionally display th
 
 - **Styling and Animation**: The `data-style` and `data-class` attribute enables dynamic CSS styling. You can create styles based on state and/or changes triggered by user actions.
 
+
 ```html
+<head>
+  <style>
+    .hq::after {
+        content: '🦆🦆🦆🦆🦆🦆🦆🦆';
+        font-size: small;
+    }
+  </style>
+</head>
+
 <hr data-if="!showPicture"
     data-style="background:${employee.gender=='Female'
         ? 'pink':employee.gender=='Male'
@@ -113,7 +125,7 @@ We also dynamically add a class `hq` if the location is Boston, MA to the locati
     </main>
 ```
 
-In this example we take the `article` element from the previous example and wrap it with a `main` element with a `data-for` attribute that loop over the employees array and displays an `article` element for each employee.
+In this example we take the `article` element from the previous example and wrap it with a `main` element with a `data-for` attribute that loops over the employees array and displays an `article` element for each employee.
 
 >**Note** we refer to the employee record with the `employee.item` reference.
 
@@ -141,7 +153,6 @@ let showPicture = true;
 let filterString = "";
 ```
 
-
 ```html
 <header>
     <nav>
@@ -155,8 +166,6 @@ let filterString = "";
 ```
 
 In this example we add a people filter control in the `nav` element. It updates the `filterString` variable. The content is used to filter the list of employees.
-
-
 
 - **Forms**: With the `data-value` attribute, Reken makes creating input forms easy.
 
@@ -227,7 +236,7 @@ This example makes use of the `data-rest` managed classes that are added during 
 
 ## 7.4 Setup routing
 
-Reken supports a easy to use routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.
+Reken provides an routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.
 
 First we define the pages in the application.
 
@@ -260,7 +269,7 @@ The page showing all the employees has a route with an empty string which makes 
     </div>
 </article>
 ```
-In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employees data.
+In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employee's data.
 
 ```html
 <h1 data-text="Update employee ${employees[employeeIndex].employee_number}"></h1>
@@ -367,8 +376,8 @@ In the final addition to the application we are adding messages that confirm the
 
 ```html
 <footer
-    data-style="height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;transition:height 0.3s;">
-        <span data-timer="2000:message!='':message=''" data-text="${message}"></span>
+  data-style="height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;transition:height 0.3s;">
+  <span data-timer="2000:message!='':message=''" data-text="${message}"></span>
 </footer>
 ```
 

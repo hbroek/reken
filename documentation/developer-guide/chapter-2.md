@@ -1,3 +1,5 @@
+
+
 # Chapter 2: Installing Reken
 
 Before you can harness the power of Reken to create dynamic web pages, you need to add Reken to your web project. In this chapter, we'll walk through the process of installing Reken and adding it to your HTML documents. 
@@ -56,7 +58,8 @@ If you prefer to use a CDN, you can directly link to the Reken library. Here's h
 </html>
 ```
 
-In this example, we're using the jsdelivr CDN to link to the latest version of Reken. You can also reference a specific Reken version. For example `https://cdn.jsdelivr.net/gh/hbroek/reken@v0.9.3/dist/reken.min.js` references Reken version 0.9.3. 
+In this example, we're using the jsdelivr CDN to link to the latest version of Reken. You can also reference a specific Reken version. For example `https://cdn.jsdelivr.net/gh/hbroek/reken@v0.9.3/dist/reken.min.js` references Reken version 0.9.3.
+
 ## 2.3 Verifying the Installation
 
 To ensure that Reken has been successfully added to your project, you can perform a simple test. In your HTML document, add a `<script>` tag with the following code:

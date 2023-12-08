@@ -1,3 +1,5 @@
+
+
 # Chapter 3: Basics
 
 In this chapter, we'll cover the fundamental aspects of Reken, which will serve as the building blocks for creating dynamic and interactive web pages. You'll learn about Reken attributes, creating your first dynamic element, conditional rendering, handling user input, and working with REST APIs using Reken's powerful features.
@@ -82,6 +84,7 @@ Imagine you want to create a dynamic greeting that welcomes the user by their na
 <body>
     <p data-text="Hello, ${name}"></p>
 </body>
+  <script></script>
   <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
 </html>
 ```
@@ -184,7 +187,7 @@ Conditional rendering with the `data-if` attribute is a valuable tool for creati
 
 ## 3.4 Render Iterations
 
-Looping over expressions that can iterate with the `data-if` attribute is a powerful Reken render feature. 
+Looping over expressions that can iterate with the `data-for` attribute is a powerful Reken render feature. 
 
 **Example 1: Render 5 div's**
 
@@ -263,7 +266,7 @@ Here's how you can use the `data-rest` attribute:
 <div data-rest="userData:/api/user/123"></div>
 ```
 
-In this example, the `data-rest` attribute fetches user data from the `/api/user/123` endpoint and stores it in the `userData` JavaScript variable. When the REST call is complete, the variable contains the response data.
+In this example, the `data-rest` attribute fetches user data from the `/api/user/123` endpoint and stores it in the `userData` JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.
 
 ### 3.6.2 Handling REST API Call Status
 

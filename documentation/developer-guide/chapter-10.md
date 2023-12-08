@@ -1,3 +1,5 @@
+
+
 # Chapter 10: Resources
 
 In this chapter, we'll explore the various resources available for Reken, including demos, the Reken REPL (Read-Eval-Print Loop), and community support. These resources are valuable for developers who want to learn, experiment, and get help with Reken.
@@ -24,11 +26,11 @@ Always refer to the official Reken documentation for in-depth information on how
 
 ### Tutorials and Blog Posts
 
-Keep an eye out for tutorials and blog posts created by the Reken community. These resources often offer step-by-step guides, tips, and real-world examples to help you become proficient with Reken. Henry van den Broek, the author of guide and the Reken Maintainer has a [blog](https://blog.henryvandenbroek.com/), where he also occcasionally [blogs about Reken](https://blog.henryvandenbroek.com/tag/tech/) and specifically the applications he creates based on Reken.
+Keep an eye out for tutorials and blog posts created by the Reken community. These resources often offer step-by-step guides, tips, and real-world examples to help you become proficient with Reken. Henry van den Broek, the Reken Maintainer has a [blog](https://blog.henryvandenbroek.com/), where he also occcasionally [blogs about Reken](https://blog.henryvandenbroek.com/tag/tech/) and specifically the applications he creates based on Reken.
 
 ### Application Gallery
 
-To get a feel of the applications you can build with Reken, check out [blog](https://blog.henryvandenbroek.com/tag/tech/) mentioned in the previous section. Also the [Reken.dev](https://reken.dev) has a list of application built with Reken.
+To get a feel of the applications you can build with Reken, check out the [blog](https://blog.henryvandenbroek.com/tag/tech/) mentioned in the previous section. Also [Reken.dev](https://reken.dev) has a list of applications built with Reken.
 
 Of course there is the almost mandatory [TodoMVC reference implementation](https://www.henryvandenbroek.com/apps/reken-todomvc/index.html) that every self-respecting Web framework has implemented.
 

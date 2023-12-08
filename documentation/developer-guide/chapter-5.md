@@ -1,3 +1,5 @@
+
+
 # Chapter 5: Advanced Features
 
 In this chapter, we'll explore some of the more advanced features of Reken that enable you to create complex and interactive web applications. These features enhance your ability to build dynamic and engaging user interfaces.
@@ -19,6 +21,7 @@ In this example, any changes made in the input field are automatically reflected
 Components are a powerful way to modularize and reuse parts of your web application's user interface. With Reken, you can create custom components and easily include them in your pages. This promotes code reusability and maintainability.
 
 **Creating a Component:**
+
 1. Define a component within a `<template>` element using the `data-component` attribute, specifying the name of the component.
 
 ```html
@@ -244,6 +247,7 @@ In this example, the main HTML page loads the `components.html` file with the `d
 Routing is essential for building single-page applications (SPAs) with multiple views or pages in a single HTML document. Reken provides a flexible way to implement routing based on URL hashes.
 
 **Basic Routing:**
+
 1. Define a route by specifying a URL hash in the `data-route` attribute.
 
 ```html
@@ -260,7 +264,7 @@ Routing is essential for building single-page applications (SPAs) with multiple 
 
 3. When the URL hash matches a defined route, the associated content will be displayed, and other content will be hidden.
 
-Reken can also be configured to create parameterized routes. This is useful for data drive pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a `#`. Reken will then try to map the route name to a variable with the same name.
+Reken can also be configured to create parameterized routes. This is useful for data-driven pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a `#`. Reken will then try to map the route name to a variable with the same name.
 
 **Parameterized Routing:**
 1. Define a route by specifying a URL hash precided by a `#` in the `data-route` attribute.
@@ -269,12 +273,16 @@ Reken can also be configured to create parameterized routes. This is useful for 
 <div data-route="/products/#productId">This is the product detail page</div>
 ```
 
-2. Create links to navigate through your application.
+2. Create an array with our product catalog and create the links to navigate to them.
+
+```javascript
+const products = [
+  {'id', 'p12345', 'name': 'Product 12345'},
+  {'id', 'p67890', 'name': 'Product 67890'},
+]
+```
 
 ```html
-<a href="#/products/p12345">Product 12345</a>
-<a href="#/products/p67890">Product 67890</a>
-
 <ul data-for="product:products"> <!-- Dynamic routing-->
   <li>
     <a href="#/products/${product.item.id}"

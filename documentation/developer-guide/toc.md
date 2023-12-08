@@ -1,6 +1,6 @@
 # Reken - Web Development Framework
 ## Developer Guide
-### Version 0.9.3
+### Version 0.9.5
 ### Author: Henry van den Broek
 ### Status: Draft
 
@@ -83,23 +83,16 @@
    - Reken REPL
    - Community and Support
 
-11. Changelog
-   - Version History and Updates
-
-12. Contributing
-   - Guidelines for Contributing to Reken
-   - Reporting Issues and Bugs
-
-13. License
+11. [License](chapter-11.html)
    - Open Source License Information
 
-14. Acknowledgments
+12. [Acknowledgments](chapter-12.html)
    - Credits and Acknowledgments
 
-15. Contact
+13. [Contact](chapter-13.html)
    - How to Get in Touch with the Reken Team
 
-16. Appendix
+14. [Appendix](chapter-14.html)
    - Additional Technical Details and Notes
 
 ## Conclusion

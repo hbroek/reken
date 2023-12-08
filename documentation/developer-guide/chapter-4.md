@@ -1,8 +1,11 @@
+
+
 # Chapter 4: Reken Attribute Reference
 
 In this chapter, we'll dive deeper into Reken's attributes and explore their functionality. These attributes provide the building blocks for creating dynamic and interactive web pages. Understanding how each attribute works and how to use them effectively is crucial for harnessing the power of Reken.
 
-## 4.1 `data-text`
+## 4.1 data-text
+
 **Syntax:**
 **`data-text`="[template string]"**
 
@@ -31,7 +34,8 @@ In this example, the text content of the `<p>` element will be updated with the 
 ```
 
 
-## 4.2 `data-html`
+## 4.2 data-html
+
 **Syntax:**
 **`data-html`="[template string]"**
 
@@ -61,7 +65,8 @@ Here, the `<div>` element's content will be replaced with the HTML content gener
 ```
 
 
-## 4.3 `data-value`
+## 4.3 data-value
+
 **Syntax:**
 **`data-value`="[variable name]"**
 
@@ -69,7 +74,7 @@ Here, the `<div>` element's content will be replaced with the HTML content gener
 The `data-value` attribute is used for binding a JavaScript variable to an input element, creating two-way data binding. It supports various input types, such as text, number, checkbox, radio, file, and more. The event used to update the bind value is the `change` event, except for input type `range` and `textarea` which use the `input` event. 
 
 
-### 4.3.1 `type='text'`
+### 4.3.1 type='text'
 
 With input types `text` and similarly `search`, `email`, `password`, `tel` and `url` all bind to a string. They differ in that they have some validation and/or additional affordances on the control.
 
@@ -83,7 +88,7 @@ When using the `data-value` attribute the javascript string value will be applie
 
 Likewise with the input type number field, but instead of binding a string value, we bind a integer or number value. The input control typically has additional affordance to increment or decrement the value.
 
-### 4.3.2 `type='number'`
+### 4.3.2 type='number'
 
 **Example:**
 ```html
@@ -92,9 +97,11 @@ Likewise with the input type number field, but instead of binding a string value
 
 When the user interacts with the input field, the `age` variable will be updated automatically, and changes to the variable will reflect in the input field.
 
-### 4.3.3 `type='date'`
+### 4.3.3 type='date'
 
-With input types `text` and similarly `datetime-local`, `month`, `time`, and `week` all bind to a string representing date and/or time. They differ in that they have some validation and/or additional affordances on the control. Note is is important to initialize the variable with a string value that is compatible to the date format that is expected.
+With input types `text` and similarly `datetime-local`, `month`, `time`, and `week` all bind to a string representing date and/or time. They differ in that they have some validation and/or additional affordances on the control.
+
+>Note: It is important to initialize the variable with a string value that is compatible to the date format that is expected.
 
 
 **Example:**
@@ -104,9 +111,11 @@ With input types `text` and similarly `datetime-local`, `month`, `time`, and `we
 
 When the user interacts with the input field, the `birthday` variable will be updated automatically, and changes to the variable will reflect in the input field.
 
-### 4.3.4 `type='color'`
+### 4.3.4 type='color'
 
-Input type `color` binds to a string representing hex value of a color. Note it is important to initialize the variable with a string value that is empty or also a six digit RGB hex-value preceded with a `#`. i.e. `#762828`
+Input type `color` binds to a string representing hex value of a color.
+
+>Note: It is important to initialize the variable with a string value that is empty or a six digit RGB hex-value preceded with a `#`. i.e. `#762828`
 
 
 **Example:**
@@ -116,7 +125,7 @@ Input type `color` binds to a string representing hex value of a color. Note it 
 
 When the user interacts with the input field, the `favoriteColor` variable will be updated automatically, and changes to the variable will reflect in the input field.
 
-### 4.3.5 `type='range'`
+### 4.3.5 type='range'
 
 Input type `range` binds to a integer variable. As mentioned earlier when binding a variable to a `type=range` input control, the variable gets updated through a `input event`. Which means that user manipulates the range control (typically via slider control)  the bound variable updates instantly. Not when he finishes. The advantage is that the UI can react in realtime to the updating variable.
 
@@ -128,7 +137,7 @@ Input type `range` binds to a integer variable. As mentioned earlier when bindin
 
 When the user move the slider with the input field, the `age` variable will be updated automatically, and changes to the variable will reflect in the input field.
 
-### 4.3.6 `type='radio'`
+### 4.3.6 type='radio'
 
 A radio input control works in concert with other radio input controls, which are grouped together by the same `name` attribute (a set). The function of the radio controls is to have the user select one of the values. By clicking an unselected value it is selected, and the previously selected value is deselected. To bind the set of radio controls to a javascript value, specify on each of the radio control with a `data-value` with the same variable name.
 
@@ -141,7 +150,7 @@ A radio input control works in concert with other radio input controls, which ar
 
 When the user selects one of radio controls, the `genderValue` variable will be updated automatically with the `value` specified in the control, and changes to the variable will be represented by the appropriate radio control being checked.
 
-### 4.3.7 `type='checkbox'`
+### 4.3.7 type='checkbox'
 
 The checkbox input control can be bound in two ways.
 
@@ -164,7 +173,7 @@ Second, the checkbox can work by itself (ie no `name` attribute). In this case i
 
 When the user selects the checkbox, the `vegetarianValue` variable will be automatically set to `true` and when unchecked set to `false`. Changes to the boolean variable will either check or uncheck the checkbox depending on the boolean value it is set to.
 
-### 4.3.8 `type='file'`
+### 4.3.8 type='file'
 
 Input type `file` data binding works a little different than the other input controls. It is not a 2-way binding. It is a 1-way binding. The user picks a file and then the binding variable gets updated with a File object. The File object will contain at least a `data` property wich is the object representation of the JSON string that is loaded.
 
@@ -174,10 +183,10 @@ Input type `file` data binding works a little different than the other input con
 ```
 
 When the user chooses a file, the `fileObject` variable will be updated with information about the file. It will be populated with the following properties:
-- `name`: name of the file.
-- `lastModified`: date the file was last modified.
-- `size`: the size of the file.
-- `data`: the object representing the JSON from the file.
+* `name`: name of the file.
+* `lastModified`: date the file was last modified.
+* `size`: the size of the file.
+* `data`: the object representing the JSON from the file.
 
 By default the `type=file` input control data binding assumes the file that is loaded is a valid `JSON` representation. If it is not you can specify a reference to a transformer function in the `data-value` attribute. 
 
@@ -197,7 +206,7 @@ function csvConverter(contentText, fileObject) {
       .reduce((obj, field, index)=>{obj['f'+index]=field;return obj}, {}));
 }
 ```
-### 4.3.9 `textarea`
+### 4.3.9 textarea
 
 By binding a value to the textarea control the string variable gets updated in realtime. 
 
@@ -208,7 +217,8 @@ By binding a value to the textarea control the string variable gets updated in r
 
 When the user interacts with the textarea field, the `comment` variable will be updated in realtime, and changes to the variable will reflect in the input field.
 
-## 4.4 `data-style`
+## 4.4 data-style
+
 **Syntax:**
 **`data-style`="[template string]"**
 
@@ -221,7 +231,8 @@ With the `data-style` attribute, you can update the `style` attribute of an elem
 
 In this example, the width and height of the `<div>` element will be set based on the value of the `width` JavaScript variable.
 
-## 4.5 `data-attr-[attr]`
+## 4.5 data-attr-[attr]
+
 **Syntax:**
 **`data-attr-[attrName]`="[template string] | [boolean expression]"**
 
@@ -243,9 +254,8 @@ Boolean HTML attributes such as `disabled`, `readonly` etc should be bound to a 
 
 When the `isDisabled` variable is true than the `disabled` HTML attribute is set on the `input` component, preventing the user from interacting with it.
 
+## 4.6 data-class
 
-
-## 4.6 `data-class`
 **Syntax:**
 **`data-class`="[classname](:[boolean expression])"**
 
@@ -276,11 +286,12 @@ There is also a shortform for defining `data-class` expressions. To define this 
 The `halted` class will be added to the `<div>` element when the `halted` javascript variable is `true`.
 
 
-## 4.7 `data-if`
+## 4.7 data-if
+
 **Syntax:**
 **`data-if`="([classname]:)[boolean expression]"**
 
-The `data-if` attribute is used for conditional rendering. It shows or hides an element based on a boolean expression. When an element is hidden with a false boolean expression, none of the descendant elements attributes are off course hidden as well, but their Reken attributes are not executed as well.
+The `data-if` attribute is used for conditional rendering. It shows or hides an element based on a boolean expression. When an element is hidden with a false boolean expression, all of its descendant elements are hidden as well, and their Reken attributes are not executed as either.
 
 **Example:**
 ```html
@@ -296,15 +307,18 @@ To control how an element is shown, a class name preceding the expression can be
 <div data-if="fadein:isActive">...</div>
 ```
 
-The `<div>` element will have a class `fadeIn` when the `isActive` variable is `true`. Note it is the developer's responsibility to indicate that the `div` is inactive. All the descendant elements with `Reken` attributes are inactive too. Even if they they may be visible.
+The `<div>` element will have a class `fadeIn` when the `isActive` variable is `true`.
 
-## 4.8 `data-for`
+>Note: It is the developer's responsibility to indicate that the `div` is inactive. All the descendant elements with `Reken` attributes are inactive too. Even if they may be visible.
+
+## 4.8 data-for
+
 **Syntax:**
 **`data-for`="[iteratorVariable]:[integer]|[iterable object]:(endIndex)|(startIndex:endIndex)"**
 
 The `data-for` attribute is used for creating repeating elements. It takes a variable name, followed by a colon, and an iterable JavaScript object or a number. All children of the element are replicated according to the iterable object's length or the specified number.
 
-when an optional 3rd parameter endIndex is specified it will be used to stop the for loop at that position. When a 3rd and 4th argument is specified. The 3rd argument is that startIndex and the 4th argument is the endIndex. In this case there is also a itemIndex property available on the iteratorVariable.
+When an optional 3rd parameter endIndex is specified it will be used to stop the for-loop at that position. When a 3rd and 4th argument is specified. The 3rd argument is the startIndex and the 4th argument is the endIndex. In this case there is also a itemIndex property available on the iteratorVariable. It represent the actual array index.
 
 **Example:**
 ```html
@@ -331,14 +345,15 @@ When an array is specified to iterate over, the iterator variable also contains 
 **Example:**
 ```html
 <script>let fruits = ['apple', 'orange', 'peach']</script>
-<ul data-for="vrb:fruits">
-  <li data-text="${vrb.item}"></li>
+<ul data-for="fruit:fruits">
+  <li data-text="${fruit.item}"></li>
 </ul>
 ```
 
-In this example we are using the variable's `item` property to set the current array value on the `li`,
+In this example we are using the the `fruit` variable's `item` property to set the current array value on the `li`,
 
 Elements with `data-for` can be nested, creating nested loops.
+
 **Example:**
 ```html
 <script>
@@ -400,9 +415,10 @@ In this example above we only show a maximum of 3 li's based on the longer insec
   <button type="button" data-action="firstPicture=firstPicture-1;" data-attr-disabled="firstPicture==0">Prev</button>
 </section>
 ```
-In this example we show 3 pictures at a time from the pictures array. With the Next and Prev buttons we scroll thru the pictures. When the end or beginning of the array is reached the appropriate buttons are disabled.
+In this example we show 3 pictures at a time from the pictures array. With the Next and Prev buttons we scroll through the pictures. When the end or beginning of the array is reached the appropriate buttons are disabled.
 
-## 4.9 `data-action`
+## 4.9 data-action
+
 **Syntax:**
 **`data-action`="[code to execute]"**
 
@@ -422,7 +438,7 @@ let counter = 0;
 
 When the button is clicked, the `counter` variable is increased by `1`. The `output` Element is updated with the new `counter` value. 
 
-You have access to the native event details through the `e` variable in the event handling code. With the event object methods such as `stopPropagation` and `preventDefault` can be called to influence the flow of the event.
+You have access to the native event details through the `e` variable in the event handling code. With the event object methods such as `stopPropagation` and `preventDefault` the flow of the event can be changed.
 
 **Example:**
 ```html
@@ -431,7 +447,8 @@ You have access to the native event details through the `e` variable in the even
 
 After the button is clicked, the native click event is logged on the console. The default click behavior is prevented with the `preventDefault` call.
 
-## 4.10 `data-on-`
+## 4.10 data-on-
+
 **Syntax:**
 **`data-on-[event]`="[code to execute]"**
 
@@ -465,7 +482,8 @@ Like with `data-action` event flow can be controlled by calling `preventDefault`
 
 This example displays a message on the console when the link is clicked. The call to `prevenDefault` prevents the link to be followed. And the call to `stopPropagation` stop the click on the div to be triggered. 
 
-## 4.11 `data-timer`
+## 4.11 data-timer
+
 **Syntax:**
 **`data-timer`="[time in ms]:[start/stop boolean expression]:[code to execute]"**
 
@@ -487,9 +505,9 @@ let isActive = false;
 
 This code will display the "Message is displayed" `div` for five seconds after the user clicks the "Show Message" `button`. The `button` timer gets started once the `isActive` boolean is set to true. After 5 seconds the timer executes the code to set the `isActive` boolean to `false` and the `div` is hidden per its `data-if` attribute,
 
-Note if the boolean trigger expression is still true when the timer is executed; it will start a new timer. The timer can be interrupted any time by setting the boolean trigger expression to `false`.
+>Note if the boolean trigger expression is still true when the timer is executed; it will start a new timer. The timer can be interrupted any time by setting the boolean trigger expression to `false`.
 
-## 4.12 `data-interval`
+## 4.12 data-interval
 
 **Syntax:**
 **`data-interval`="[time in ms]:[start/stop boolean expression]:[code to execute]"**
@@ -509,7 +527,8 @@ let counter = 0;
 
 After the user clicks the "Start" button the counter will increment every second, which will be represented by the `div` element being updated. The text of the `button` will change to "stop". When the user clicks the "Stop" `button` the counter will stop.
 
-## 4.13 `data-rest`
+## 4.13 data-rest
+
 **Syntax:**
 **`data-rest`="[variable]:(objectProperty:)[rest template string url]"**
 
@@ -557,14 +576,14 @@ let addressData = {}
 The rest call populates the `addressData` variable with the `address` subtree from the JSON file. As a result the expressions to get the address data can just specify `addressData.propName` instead of `addressData.address.propName`
 
 
+## 4.14 data-rest-options
 
-## 4.14 `data-rest-options`
 **Syntax:**
 **`data-rest-options`="[object variable]"**
 
 The `data-rest-options` attribute allows you to specify options for the Fetch call initiated by the `data-rest` attribute. Note these options are passed into the underlying REST Fetch call. The following options can be set:
-- `fetch` - a boolean when set to true forces the rest call to execute again.
-- all the fetch call options; for example: `method` or `headers`
+* `fetch` - a boolean when set to true forces the rest call to execute again.
+* all the fetch call options; for example: `method` or `headers`
 
 **Example:**
 ```javascript
@@ -596,17 +615,17 @@ With `fetch` being `false` means not to execute the fetch call yet. And with `me
 
 When the "Order" `button` is pressed we add a `body` property with the order content and set the `fetch` property to `true` to force the rest call.
 
-It then returns the result of the order API call in the `orderResult` variable.
+It then returns the result of the order API call in the `orderResult` variable. It also resets the `fetch` property to false;
 
 For more control over the results of the REST call use the options properties:
-- `reken_rest_status` - this contains the value `reken-rest-busy` while a REST call is in progress. When the REST call is finished successfully it contains: `reken-rest-done` and when finished unsuccessful it contains the value `reken-rest-error`.
-- `callback` - when this contains a function reference, it gets called when the REST call finishes. It will pass in 2 arguments: the options object and the initialized JSON object that got loaded when succesfull.
-- `reviver` - If this function reference property is specified it will do a callback on each loaded object property with the name of the property and the value and returns a transformed or untransformed value. This is useful when recreating for example Date objects from a JSON Date string.
+* `reken_rest_status`; this contains the value `reken-rest-busy` while a REST call is in progress. When the REST call is finished successfully it contains: `reken-rest-done` and when finished unsuccessful it contains the value `reken-rest-error`.
+* `callback`; when this contains a function reference, it gets called when the REST call finishes. It will pass in 2 arguments: the options object and the initialized JSON object that got loaded when successful.
+* `reviver`; If this function reference property is specified it will do a callback on each loaded object property with the name of the property and the value and returns a transformed or untransformed value. This is useful when recreating for example Date objects from a JSON Date string.
 
 **Example:**
 ```javascript
 <script>
-  let message = 'Loading'
+  let message = 'Loading...'
   let fetchOptions = {
       callback: (options, json_object) => {
           message = (options.reken_rest_status==='reken-rest-done' ?
@@ -633,10 +652,11 @@ HTML
 
 In this example we set the callback property on the REST options to update the `message` variable when and how to REST call succeeded. 
 
-TO convert the `created` values in the JSON file, a reviver property is set with a function that converts all JSDN date strings into Dates, but leaves all the other fields untouched.
+To convert the `created` values in the JSON file, a reviver property is set with a function that converts all JSDN date strings into Dates, but leaves all the other fields untouched.
 
 
-## 4.15 `data-calc`
+## 4.15 data-calc
+
 **Syntax:**
 **`data-calc`**
 
@@ -661,9 +681,10 @@ let celcius = (fahrenheit - 32) * 5 / 9;
   <output data-text="${celcius}"></output>
 </label>
 ```
-In this example to user can enter a value in the Fahrenheit `input` control, resulting in an updated `fahrenheit` variable. The input control change triggers a model update, which recalculates the `celcius`. The updated `celcius` value updates the output control Element's textContent via the `data-text` attribute.
+In this example the user can enter a value in the Fahrenheit `input` control, resulting in an updated `fahrenheit` variable. The input control change triggers a model update, which recalculates the `celcius` variable. The updated `celcius` value updates the output control Element's textContent via the `data-text` attribute.
 
-## 4.16 `data-route`
+## 4.16 data-route
+
 **Syntax:**
 **`data-route`="([classname]:)[routename]([#variable]\)"**
 
@@ -698,7 +719,7 @@ In this example we define four pages with the `main` tag. With its `data-route` 
 
 In the `nav` tag we specify four links to get to navigate to a specific page. The url to navigate to a route page consists of the `data-route` value preceded by `#/`
 
-Not the pages that are not active are not processed in the UI update cycle.
+>Note Pages that are not active are not processed in the UI update cycle.
 
 Like the `data-if` attribute, the `data-route` value can be proceded by a classname. When a classname is specified the page is not hidden/shown but the class is added to the page which is currently routed. This can be useful to animate pages in view.
 
@@ -759,7 +780,8 @@ let orderNumber;
 
 In this example we create a `main` element that shows an `output` tag that displays the value of `orderNumber` variable. The example also creates a list of order numbers with links with the `data-for` and `data-attr-href` and `data-text` attributes. When the user clicks on one of the order number links, the page url gets updated and the `output` tag displays the selected order number.
 
-## 4.17 `data-component`
+## 4.17 data-component
+
 **Syntax definition:**
 
 **`<template data-component="[component name]">`**
@@ -816,7 +838,7 @@ Variable content in the component can be specified with the `slot` tag. Any cont
 
 In this example we create a component `hello`. It defines a `slot` in the `template`. The `hello` component is referenced twice with both reference syntaxes. The first reference specifies `John` as the slot content. The second reference does not specify a `slot` content, and as a result displays the default `slot` content of `World`.
 
-## 4.18 `data-arg-*`
+## 4.18 data-arg-*
 
 **Syntax definition:**
 
@@ -910,7 +932,8 @@ Lastly a variable can be passed into as an attribute variable. This variable mus
 
 In this example we pass in the javascript variable `hexColorValue` into the `color` attribute of the `color-box` component. In the example the color input control allows the user to change the `hexColorValue`.
 
-## 4.19 `data-bind-*`
+## 4.19 data-bind-*
+
 **Syntax definition:**
 
 **`<template data-bind-[attribute name]></template>`**
@@ -964,7 +987,8 @@ In this example we create a two components: `color-button` and `color-chooser`.
 
 the `color-chooser` component has a `choosen-color` bindable attribute. It is set on the `pickedColor` bindable attribute of the `color-button`. There are three `color-button`s declared in the `choosen-color` component. When one of the buttons is pressed the `choosenColor` variable which is bound to the `color` bindable attribute on the `color-chooser` gets updated, and the `output` gets updated.
 
-## 4.20 `data-include`
+## 4.20 data-include
+
 **Syntax:**
 
 **`<div data-include="[html url]"></div>`**
@@ -996,7 +1020,8 @@ In this example we create a component.html file. It contains the component defin
 
 The main HTML code loads the **components.html** file with the `data-include` attribute and references the `hello` and `goodbye` components with the shorthand notation `<hello>` and `<goodbye>` tags.
 
-## 4.20 `data-ref`
+## 4.21 data-ref
+
 **Syntax:**
 **`data-ref="javascript variable"`**
 
