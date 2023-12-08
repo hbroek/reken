@@ -1010,7 +1010,7 @@
 <body>
 <article class="markdown-body">
 <h1><a id="user-content-chapter-7-examples-and-use-cases" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-7-examples-and-use-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 7: Examples and Use Cases</h1>
-<p>In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.</p>
+<p>In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory application. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.</p>
 <h2><a id="user-content-71-building-dynamic-web-pages" class="anchor" aria-hidden="true" tabindex="-1" href="#71-building-dynamic-web-pages"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.1 Building Dynamic Web Pages</h2>
 <p>Reken excels at creating dynamic web pages with minimal effort. By adding Reken attributes to your HTML elements, you can easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will using is an employee object.</p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-s1">employee</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
@@ -1062,7 +1062,16 @@
 <li>
 <strong>Styling and Animation</strong>: The <code>data-style</code> and <code>data-class</code> attribute enables dynamic CSS styling. You can create styles based on state and/or changes triggered by user actions.</li>
 </ul>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> <span class="pl-c1">data-if</span>="<span class="pl-s">!showPicture</span>"
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
+    .<span class="pl-c1">hq</span>::<span class="pl-ent">after</span> {
+        <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">'????????????????'</span>;
+        <span class="pl-c1">font-size</span><span class="pl-kos">:</span> small;
+    }
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+
+<span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> <span class="pl-c1">data-if</span>="<span class="pl-s">!showPicture</span>"
     <span class="pl-c1">data-style</span>="<span class="pl-s">background:${employee.gender=='Female'</span>
 <span class="pl-s">        ? 'pink':employee.gender=='Male'</span>
 <span class="pl-s">        ?'lightblue':'lightgreen'};</span>
@@ -1103,7 +1112,7 @@
             ....
         <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we take the <code>article</code> element from the previous example and wrap it with a <code>main</code> element with a <code>data-for</code> attribute that loop over the employees array and displays an <code>article</code> element for each employee.</p>
+<p>In this example we take the <code>article</code> element from the previous example and wrap it with a <code>main</code> element with a <code>data-for</code> attribute that loops over the employees array and displays an <code>article</code> element for each employee.</p>
 <blockquote>
 <p><strong>Note</strong> we refer to the employee record with the <code>employee.item</code> reference.</p>
 </blockquote>
@@ -1187,7 +1196,7 @@
 &lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
 <p>This example makes use of the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call the  <code>body</code> element's background turns red and an error message is displayed. The background turns blue when the REST call completes succesfully.</p>
 <h2><a id="user-content-74-setup-routing" class="anchor" aria-hidden="true" tabindex="-1" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.4 Setup routing</h2>
-<p>Reken supports a easy to use routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.</p>
+<p>Reken provides an routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.</p>
 <p>First we define the pages in the application.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">employee/#employeeIndex</span>" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
 ....
@@ -1210,7 +1219,7 @@
         <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employees data.</p>
+<p>In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employee's data.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Update employee ${employees[employeeIndex].employee_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:1em;padding:2em;background:orange;display:grid;gap:1rem;grid-template-columns: 1fr 3fr;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;</span>"<span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].name</span>"/&gt;
@@ -1302,8 +1311,8 @@
 <p>Reken's timer feature adds dynamic functionality to your application. This makes application more engaging.</p>
 <p>In the final addition to the application we are adding messages that confirm the actions by the user.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">footer</span>
-    <span class="pl-c1">data-style</span>="<span class="pl-s">height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;transition:height 0.3s;</span>"<span class="pl-kos">&gt;</span>
-        <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-timer</span>="<span class="pl-s">2000:message!='':message=''</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${message}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+  <span class="pl-c1">data-style</span>="<span class="pl-s">height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;transition:height 0.3s;</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-timer</span>="<span class="pl-s">2000:message!='':message=''</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${message}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">footer</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this fragment we add a <code>footer</code> at the bottom that displays with a height of <code>2em</code> when the content of the <code>message</code> variable is not empty. The <code>span</code> element has a <code>data-timer</code> attribute that starts when the message variable is not ''. After 2000ms (2seconds) it clears the message variable, hiding the <code>footer</code> element.</p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">message</span> <span class="pl-c1">=</span> <span class="pl-s">''</span></pre></div>

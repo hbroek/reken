@@ -1017,7 +1017,7 @@
 <li>
 <strong>Separation of Concerns</strong>: Divide your project into logical sections, such as HTML templates, styles, and JavaScript.</li>
 </ul>
-<p>For simple Reken projects that involve HTML-First <strong>Single</strong> Page Applications (SPA) the most efficient way is to store all the styling, javascript in one HTML file. Besides optional thirdparty.js files, the only external dependency would be the Reken library. The HTML file is organized as follows.</p>
+<p>For simple Reken projects that involve HTML First <strong>Single</strong> Page Applications (SPA) the most efficient way is to store all the styling, javascript in one HTML file. Besides optional thirdparty.js files, the only external dependency would be the Reken library. The HTML file is organized as follows.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span> <span class="pl-c1">lang</span>="<span class="pl-s">en</span>"<span class="pl-kos">&gt;</span>
 
@@ -1073,7 +1073,7 @@
 <li>
 <strong>Modular Components</strong>: Create reusable components for your UI elements. Use the <code>data-component</code> attribute to define and use components within your project. Component reuse can help your project in multiple ways.</li>
 </ul>
-<p>Creating a Reken based <code>data-component</code> component for a repeating content such as a <code>button</code> we ensure consistency with the page.</p>
+<p>Creating a Reken based <code>data-component</code> component for repeating content such as a <code>button</code> can ensure consistency within the page.</p>
 <p>Same applies to reusing components across different HTML files in the same project by loading them with <code>data-include</code>.</p>
 <p>Third and best advantage of component re-use is the creating of a component library that can be used by different projects and can even be shared with others.</p>
 <ul>
@@ -1101,7 +1101,7 @@
 </ul>
 <h2><a id="user-content-82-optimizing-for-performance" class="anchor" aria-hidden="true" tabindex="-1" href="#82-optimizing-for-performance"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2 Optimizing for Performance</h2>
 <p>Performance is a critical aspect of web development. While Reken simplifies dynamic web page creation, it's essential to ensure that your application runs efficiently. Here are some performance optimization tips:</p>
-<h2><a id="user-content-823-minimize-dom-updates" class="anchor" aria-hidden="true" tabindex="-1" href="#823-minimize-dom-updates"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.3 Minimize DOM Updates</h2>
+<h2><a id="user-content-821-minimize-dom-updates" class="anchor" aria-hidden="true" tabindex="-1" href="#821-minimize-dom-updates"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.1 Minimize DOM Updates</h2>
 <p>Reken updates the DOM efficiently, but excessive updates can impact performance. Avoid unnecessary changes to the DOM, and update only when needed.</p>
 <p>Underneath the cover, Reken optimizes updates by first checking whether DOM actually needs to be updated, and will only do so when the DOM would really change. Instead of hiding UI using styles or classes, used <code>data-if</code> or <code>data-route</code> to hide UI elements. As besides hiding the UI it also stops executing the model to update the UI in these hidden (and thus deactivated) HTML branches.</p>
 <div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page1</span>"<span class="pl-kos">&gt;</span>
@@ -1116,11 +1116,11 @@
   <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page4</span>"<span class="pl-kos">&gt;</span>
     ...
   <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this SPA exmaple only the HTML element of the active route is displayed and executed. With these 4 pages only 1 pages is every visible and its UI gets updated by the model.</p>
-<h2><a id="user-content-823-caching" class="anchor" aria-hidden="true" tabindex="-1" href="#823-caching"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.3 Caching</h2>
+<p>In this SPA example only the HTML element of the active route is displayed and executed. With these 4 pages only 1 pages is every visible and its UI gets updated by the model.</p>
+<h2><a id="user-content-822-caching" class="anchor" aria-hidden="true" tabindex="-1" href="#822-caching"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.2 Caching</h2>
 <p>Cache data retrieved from REST APIs to reduce redundant network requests. This can significantly improve load times. Making use of the HTTP 304 response codes and cache-control headers can limit unnecessary network calls.</p>
-<h2><a id="user-content-824-lazy-loading" class="anchor" aria-hidden="true" tabindex="-1" href="#824-lazy-loading"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.4 Lazy Loading</h2>
-<p>Implement lazy loading for resources like images or components that are not immediately needed on the page. This reduces initial page load times. With the use of <code>data-if</code> and <code>data-route</code> the sections of HTML that are not visible do not need to load images, unfortunately the browser will still load these images unless you add a property <code>loading="lazy"</code> to each <code>img</code> element and hiding the <code>body</code> element on startup and only after Reken is initialized, show it.</p>
+<h2><a id="user-content-823-lazy-loading" class="anchor" aria-hidden="true" tabindex="-1" href="#823-lazy-loading"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.3 Lazy Loading</h2>
+<p>Implement lazy loading for resources like images or components that are not immediately needed on the page. This reduces initial page load times. With the use of <code>data-if</code> and <code>data-route</code> the sections of HTML that are not visible do not need to load images, unfortunately the browser will still load these images, unless you add a property <code>loading="lazy"</code> to each <code>img</code> element and hiding the <code>body</code> element on startup and only after Reken is initialized, show it.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
@@ -1138,7 +1138,7 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we set the attribute <code>loading="lazy"</code> on the <code>img</code> element. The <code>img</code> is part of an HTML branch of the <code>main</code> element with a <code>data-if</code> attribute.</p>
 <p>On initialization we also need to hide the <code>body</code> element in order for Reken to get a chance to hide the <code>main</code> element. Once that is done, after the event <code>rekenready</code> is fired we can reset the <code>body</code> to its initial value, which will make it visible.</p>
-<p>The image will now only get loaded when the user clicks the "Show" <code>button</code>.</p>
+<p>The image will now only load when the user clicks the "Show" <code>button</code>.</p>
 <p>A similar  approach can be used to prevent rest calls to execute, by hiding them with a data-if or a data-route tag.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
@@ -1181,7 +1181,7 @@
 <p>Write tests for your Reken components and functions. Automated tests help identify issues early in the development process.</p>
 <h2><a id="user-content-836-community-support" class="anchor" aria-hidden="true" tabindex="-1" href="#836-community-support"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.3.6 Community Support</h2>
 <p>Take advantage of the Reken community for assistance. Many developers share their experiences and solutions to common issues in online forums and documentation.</p>
-<p>Use the Reken GitHub Discussions if you have questions, want to share ideas, and or have open-ended conversations about the project. Use Reken GitHub discussions for the following topics:</p>
+<p>Use the <a href="https://github.com/hbroek/reken/discussions">Reken GitHub Discussions</a> if you have questions, want to share ideas, and or have open-ended conversations about the project. Use <a href="https://github.com/hbroek/reken/discussions">Reken GitHub discussions</a> for the following topics:</p>
 <ol>
 <li>
 <p><strong>Usage and Implementation:</strong> If you have questions about how to use a certain feature of the product or how to implement it in your own projects.</p>

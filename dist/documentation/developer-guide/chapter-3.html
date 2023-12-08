@@ -1052,6 +1052,7 @@
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, ${name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we've established a basic HTML structure with a <code>p</code> element. The <code>data-text</code> attribute is utilized to insert a dynamic greeting.</p>
@@ -1111,7 +1112,7 @@
 <p>In your CSS, you can define the <code>fade-in</code> class to include animation properties, creating a smooth transition effect.</p>
 <p>Conditional rendering with the <code>data-if</code> attribute is a valuable tool for creating responsive and interactive web pages.</p>
 <h2><a id="user-content-34-render-iterations" class="anchor" aria-hidden="true" tabindex="-1" href="#34-render-iterations"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.4 Render Iterations</h2>
-<p>Looping over expressions that can iterate with the <code>data-if</code> attribute is a powerful Reken render feature.</p>
+<p>Looping over expressions that can iterate with the <code>data-for</code> attribute is a powerful Reken render feature.</p>
 <p><strong>Example 1: Render 5 div's</strong></p>
 <p>The simplest expression to loop over is just a number or a javascript variable that represents a number. For example you can render 5 divs with the index.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">loopVar:5</span>"<span class="pl-kos">&gt;</span>
@@ -1163,7 +1164,7 @@
 <p>The <code>data-rest</code> attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It's a powerful tool for populating your web pages with dynamic data.</p>
 <p>Here's how you can use the <code>data-rest</code> attribute:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/api/user/123</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the <code>data-rest</code> attribute fetches user data from the <code>/api/user/123</code> endpoint and stores it in the <code>userData</code> JavaScript variable. When the REST call is complete, the variable contains the response data.</p>
+<p>In this example, the <code>data-rest</code> attribute fetches user data from the <code>/api/user/123</code> endpoint and stores it in the <code>userData</code> JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.</p>
 <h3><a id="user-content-362-handling-rest-api-call-status" class="anchor" aria-hidden="true" tabindex="-1" href="#362-handling-rest-api-call-status"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6.2 Handling REST API Call Status</h3>
 <p>Reken makes it easy to handle the status of REST API calls. It automatically adds classes to the element with the <code>data-rest</code> attribute based on the status of the call:</p>
 <ul>

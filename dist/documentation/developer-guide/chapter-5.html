@@ -1194,19 +1194,20 @@
 <ol start="3">
 <li>When the URL hash matches a defined route, the associated content will be displayed, and other content will be hidden.</li>
 </ol>
-<p>Reken can also be configured to create parameterized routes. This is useful for data drive pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a <code>#</code>. Reken will then try to map the route name to a variable with the same name.</p>
+<p>Reken can also be configured to create parameterized routes. This is useful for data-driven pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a <code>#</code>. Reken will then try to map the route name to a variable with the same name.</p>
 <p><strong>Parameterized Routing:</strong></p>
 <ol>
 <li>Define a route by specifying a URL hash precided by a <code>#</code> in the <code>data-route</code> attribute.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-route</span>="<span class="pl-s">/products/#productId</span>"<span class="pl-kos">&gt;</span>This is the product detail page<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <ol start="2">
-<li>Create links to navigate through your application.</li>
+<li>Create an array with our product catalog and create the links to navigate to them.</li>
 </ol>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/products/p12345</span>"<span class="pl-kos">&gt;</span>Product 12345<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/products/p67890</span>"<span class="pl-kos">&gt;</span>Product 67890<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-
-<span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">product:products</span>"<span class="pl-kos">&gt;</span> <span class="pl-c">&lt;!-- Dynamic routing--&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-s1">products</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+  <span class="pl-kos">{</span><span class="pl-s">'id'</span><span class="pl-kos">,</span> <span class="pl-s">'p12345'</span><span class="pl-kos">,</span> <span class="pl-s">'name'</span>: <span class="pl-s">'Product 12345'</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
+  <span class="pl-kos">{</span><span class="pl-s">'id'</span><span class="pl-kos">,</span> <span class="pl-s">'p67890'</span><span class="pl-kos">,</span> <span class="pl-s">'name'</span>: <span class="pl-s">'Product 67890'</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
+<span class="pl-kos">]</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">product:products</span>"<span class="pl-kos">&gt;</span> <span class="pl-c">&lt;!-- Dynamic routing--&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/products/${product.item.id}</span>"
       <span class="pl-c1">data-text</span>="<span class="pl-s">${product.item.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
