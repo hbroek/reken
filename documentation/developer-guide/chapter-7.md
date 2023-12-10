@@ -4,7 +4,7 @@
 
 In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory application. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.
 
-![The picture shows the screenshot of the finished em,ployee directory application. In the header the logo and name of the companyon the left, an employee filter in the middle and a toggle to show the profile photos on the right. In the main area of the picture we see a list of employee cards and in the footer ](img/employee-directory.png)
+![The picture shows the screenshot of the finished em,ployee directory application. In the header the logo and name of the companyon the left, an employee filter in the middle and a toggle to show the profile photos on the right. In the main area of the picture we see a list of employee cards and in the footer ](img/employee-directory.jpg)
 
 ## 7.1 Building Dynamic Web Pages
 
