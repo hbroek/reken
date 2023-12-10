@@ -42,9 +42,14 @@ jobs:
         uses: natescherer/markdown-to-html-with-github-style-action@v1.1.0
         with:
           #path: README.md,CHANGELOG.md,docs\doc1.md
-          path: README.md,documentation/developer-guide/toc.md,documentation/developer-guide/chapter-1.md,documentation/developer-guide/chapter-2.md,documentation/developer-guide/chapter-3.md,documentation/developer-guide/chapter-4.md,documentation/developer-guide/chapter-5.md,documentation/developer-guide/chapter-6.md,documentation/developer-guide/chapter-7.md,documentation/developer-guide/chapter-8.md,documentation/developer-guide/chapter-9.md,documentation/developer-guide/chapter-10.md
+          path: README.md,documentation/developer-guide/toc.md,documentation/developer-guide/chapter-1.md,documentation/developer-guide/chapter-2.md,documentation/developer-guide/chapter-3.md,documentation/developer-guide/chapter-4.md,documentation/developer-guide/chapter-5.md,documentation/developer-guide/chapter-6.md,documentation/developer-guide/chapter-7.md,documentation/developer-guide/chapter-8.md,documentation/developer-guide/chapter-9.md,documentation/developer-guide/chapter-10.md,documentation/developer-guide/chapter-11.md,documentation/developer-guide/chapter-12.md,documentation/developer-guide/chapter-13.md,documentation/developer-guide/chapter-14.md
           outputpath: dist
           matchpathstructure: true
+
+      # Copy documentation pictures
+      - name: Copy documentation images
+        run: |
+        cp -r documentation/developer-guide/*.jpg /dist/documentation/developer-guide
 
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
