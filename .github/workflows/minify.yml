@@ -48,7 +48,9 @@ jobs:
 
       # Copy documentation pictures
       - name: Copy documentation images
-        run: cp -r documentation/developer-guide/*.jpg /dist/documentation/developer-guide
+        run: |
+          mkdir dist/documentation/developer-guide/img
+          cp documentation/developer-guide/img/*.jpg dist/documentation/developer-guide/img
 
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
