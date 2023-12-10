@@ -71,7 +71,7 @@ To ensure that Reken has been successfully added to your project, you can perfor
 </script>
 ```
 
-When you load this web page in your browser, the Reken library will output its version number to the browser's console. This confirms that Reken is correctly included and available for use in your project.
+When you load this web page in your browser, the Reken library will output its version number to the browser's console. This confirms that Reken is correctly included and available for your project.
 
 ## 2.4 Browser Support
 
@@ -86,10 +86,10 @@ It's essential to keep this in mind, especially if you're working on projects th
 
 ## 2.5 Upgrading Reken
 
-Reken is actively developed, and updates are periodically released to enhance its features and address any issues. When a new version of Reken becomes available, you should consider upgrading to benefit from these improvements.
+Reken is actively developed, and updates are periodically released to enhance its features and address any issues. When a new version of Reken becomes available, consider upgrading to benefit from these improvements.
 
-To upgrade Reken, you can follow the same installation process outlined earlier but replace the existing Reken library file with the latest version. Be sure to check the official Reken website or the source repository for release notes and instructions related to specific version updates.
+To upgrade Reken, you can follow the installation process outlined earlier but replace the existing Reken library file with the latest version. Check the official Reken website or the source repository for release notes and instructions related to specific version updates.
 
 In the following chapters, you will dive deeper into using Reken's features and attributes to create dynamic web pages. Chapter 3 will introduce you to the core concepts and attributes of Reken, which are essential for understanding how Reken simplifies the process of building dynamic web applications.
 
-Now that you have successfully installed Reken, let's explore its core concepts and attributes in the upcoming chapter.
+Now that you have successfully installed Reken, Explore its core concepts and attributes in the upcoming chapter.

@@ -22,7 +22,7 @@ Components are a powerful way to modularize and reuse parts of your web applicat
 
 **Creating a Component:**
 
-1. Define a component within a `<template>` element using the `data-component` attribute, specifying the name of the component.
+1. Define a component within a `<template>` element using the `data-component` attribute, specifying component's name.
 
 ```html
 <template data-component="my-component">
@@ -42,7 +42,7 @@ Alternatively, you can reference the component using the shorthand by referencin
 <my-component></my-component>
 ```
 
-The content of the component's template will replace the content of the element with the `data-component` attribute.
+The content of the component's template will replace the element's content with the `data-component` attribute.
 
 
 ## 5.3 Using Components and Slots
@@ -50,7 +50,7 @@ The content of the component's template will replace the content of the element 
 Components in Reken can be customized with slots. Slots are placeholders in component templates where you can insert content from the component reference. This allows you to create more flexible and configurable components.
 
 **Creating a Component with Slots:**
-1. Define a component that includes slots within its template.
+1. Define a component with a slot within its template.
 
 ```html
 <template data-component="my-button">
@@ -58,7 +58,7 @@ Components in Reken can be customized with slots. Slots are placeholders in comp
 </template>
 ```
 
-2. Use the component, and the content provided within the component reference will replace the `<slot>` element.
+2. Use the component; the content provided within the reference will replace the `<slot>` element.
 
 ```html
 <my-button>Click me</my-button>
@@ -70,7 +70,7 @@ In this example, "Click me" will replace the `<slot>`, making the component cust
 <my-button></my-button>
 ```
 
-When no content is provided the `<slot>` content is used. This provides a fallback in case no content is provided.
+When no content is provided, the `<slot>` content is used. This provides a fallback in case no content is provided.
 
 ## 5.4 Component State
 
@@ -91,11 +91,11 @@ Reken supports component state management, allowing you to store changes in loca
 </template>
 ```
 
-In this example, the `counter` component maintains its state with a `count` variable, which is updated when the "Increment" button is clicked.
+In this example, the `counter` component maintains its state with a `count` variable, updated when the "Increment" button is clicked.
 
 ## 5.5 Passing data in components
 
-Components can be configured by passing in arguments with the `data-arg-*` attribute, in this way components can be customized without having to create a new component.
+Components can be configured by passing in arguments with the `data-arg-*` attribute; in this way, components can be customized without having to create a new component.
 
 ```html
 <body>
@@ -111,11 +111,11 @@ Components can be configured by passing in arguments with the `data-arg-*` attri
 </template>
 ```
 
-This example defines a `color-button` button component that can be configured to set the background color with the `color` attribute. It has a default background of skyblue. In this example 3 buttons are created. One with a red background and one gold with the `color` attribute specified. The last uses the default background color skyblue as it has no color attribute specified.
+This example defines a `color-button` button component that can be configured to set the background color with the `color` attribute. It has a default background of skyblue. In this example, three buttons are created. One with a red background and one gold with the `color` attribute specified. The last uses the default background color skyblue as it has no color attribute set.
 
 ## 5.6 Getting data out of components
 
-Components can pass data to the outside of the component with the data-bind-* attribute. When a JavaScript variable is bound via a data-bind attribute, the component can change the value of the variable.
+Components can pass data outside of the component with the data-bind-* attribute. When a JavaScript variable is bound via a data-bind attribute, the component can change the variable's value.
 
 ```html
 <html>
@@ -143,7 +143,7 @@ Components can pass data to the outside of the component with the data-bind-* at
 
 ## 5.7 Component Events
 
-Reken allows your components to create custom events. You can fire an event by calling function `dispatch`, with the mandatory event type argument and an optional details argument. When the event is initiated, the listeners will receive an event (`e`) with a `detail` property which contains the contents of the second argument.
+Reken allows your components to create custom events. You can fire an event by calling function `dispatch`, with the mandatory event type argument and an optional details argument. When the event is initiated, the listeners will receive an event (`e`) with a `detail` property that contains the contents of the second argument.
 
 ```html
 <!DOCTYPE html>
@@ -161,13 +161,12 @@ Reken allows your components to create custom events. You can fire an event by c
 </template>
 ```
 
-In this example, a keypad component is defined. When a button is pressed, an event with a payload containing the keypad number is dispatched. The keypad has an event listener that shows an alert with the contents of the `detail` property: which is the key that was pressed.
+In this example, a keypad component is defined. When a button is pressed, an event with a payload containing the keypad number is dispatched. The keypad has an event listener that shows an alert with the contents of the `detail` property, the key pressed.
 
 ## 5.8 Component Styling
 
-Reken supports component styling, allowing you to style a component without affecting the styles of elements that are not part of the component.
+Reken supports component styling, allowing you to style a component without affecting the styles of elements not part of the component.
 
-**Component State:**
 ```html
 <head>
   <style>
@@ -204,11 +203,11 @@ Reken supports component styling, allowing you to style a component without affe
 </template>
 ```
 
-In this example, the `my-style` component defines two styles with the `:host` style selector. The first style rule declares that the whole component has a green background. The second style rule specifies that all spans in the my-style component have a blue background. Notice that these style rules override page-level style rules, without affecting the elements that are not part of the component.
+In this example, the `my-style` component defines two styles with the `:host` style selector. The first style rule declares that the whole component has a green background. The second style rule specifies that all spans in the my-style component have a blue background. Notice that these style rules override page-level style rules without affecting the elements not part of the component.
 
 ## 5.9 Component Modules
 
-Reken supports component modules. It can include external component definitions and HTML fragments from other HTML files. These includes can be nested as well. It is recommended not have too many seperate / nested modules.
+Reken supports component modules. It can include external component definitions and HTML fragments from other HTML files. Includes can be nested as well. However it is not recommended to have too many separate/nested modules.
 
 **Component includes:**
 ```html
@@ -240,7 +239,7 @@ Reken supports component modules. It can include external component definitions 
 </template>
 ```
 
-In this example, the main HTML page loads the `components.html` file with the `data-include` attribute. The `components.html` in addition, loads other sub-component files such as `buttons.html` with the `data-include` attribute.
+In this example, the main HTML page loads the `components.html` file with the `data-include` attribute. The `components.html`, in addition, loads other sub-component files, such as `buttons.html`, with the `data-include` attribute.
 
 ## 5.10 Routing with Reken
 
@@ -267,7 +266,7 @@ Routing is essential for building single-page applications (SPAs) with multiple 
 Reken can also be configured to create parameterized routes. This is useful for data-driven pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a `#`. Reken will then try to map the route name to a variable with the same name.
 
 **Parameterized Routing:**
-1. Define a route by specifying a URL hash precided by a `#` in the `data-route` attribute.
+1. Define a route by specifying a URL hash preceded by a `#` in the `data-route` attribute.
 
 ```html
 <div data-route="/products/#productId">This is the product detail page</div>

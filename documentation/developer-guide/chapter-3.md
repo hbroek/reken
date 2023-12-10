@@ -50,7 +50,7 @@ The `data-style` attribute is used to update the `style` attribute of an HTML el
 <button data-style="background-color: ${buttonColor}; color: ${buttonTextColor};">buttonText</button>
 ```
 
-Here, the `data-style` attribute dynamically modifies the button's background color and text color based on JavaScript variables.
+Here, the `data-style` attribute dynamically modifies the button's background and text colors based on JavaScript variables.
 
 ### 3.1.5 data-attr-[attr]
 
@@ -242,19 +242,19 @@ Reken's `data-value` attribute supports various input types, including:
 - `select`: For select elements.
 - And more...
 
-For input elements like checkboxes, radio buttons, and select elements, the `data-value` attribute provides seamless handling and binding.
+The `data-value` attribute provides seamless handling and binding for input elements like checkboxes, radio buttons, and select elements.
 
 ### 3.5.3 File Upload Handling
 
-Handling file uploads is made easy with the `data-value` attribute for file input fields. When you bind a JavaScript variable to a file input element, the variable contains the `File` object of the uploaded file. This object includes properties such as `name`, `size`, `lastModified`, `type`, and `data`. The `data` property contains the deserialized content of the file.
+The `data-value` attribute for file input fields makes file uploads easy to handle. When you bind a JavaScript variable to a file input element, the variable contains the `File` object of the uploaded file. This object includes properties such as `name`, `size`, `lastModified`, `type`, and `data`. The `data` property has the deserialized content of the file.
 
 You can even specify a transform function to handle non-JSON file formats. The transform function receives the uploaded text and the `File` object, allowing you to deserialize the file as needed. This feature is particularly valuable when working with XML, CSV, or other data formats.
 
-Handling user input with the `data-value` attribute simplifies the process of creating forms, collecting user data, and making web applications interactive.
+Handling user input with the `data-value` attribute simplifies creating forms, collecting user data, and making web applications interactive.
 
 ## 3.6 Working with REST APIs
 
-Interacting with RESTful APIs is a common task in web development. Reken streamlines this process with the `data-rest` attribute, enabling you to load data from REST endpoints and update your web page dynamically.
+Interacting with RESTful APIs is a common task in web development. Reken streamlines this process with the `data-rest` attribute, enabling you to dynamically load data from REST endpoints and update your web page.
 
 ### 3.6.1 Retrieving Data from REST Endpoints
 
@@ -288,8 +288,8 @@ The `data-rest` attribute allows you to parameterize your REST API calls using a
 <div data-rest="userData:/api/user/${userId}"></div>
 ```
 
-In this example, the `${userId}` placeholder is replaced with the actual value of the `userId` variable when the API call is made. When the value of `userId` changes the REST API call is automatically executed again.
+In this example, the `${userId}` placeholder is replaced with the actual value of the `userId` variable when the API call is made. When the value of `userId` changes, the REST API call is automatically executed again.
 
 Working with REST APIs using Reken's `data-rest` attribute simplifies data retrieval and updates, making your web applications more dynamic and responsive.
 
-In this chapter, we've covered the basics of Reken, including the core Reken attributes, creating dynamic elements, conditional rendering, handling user input, and working with REST APIs. These foundational concepts will be essential as you continue to build dynamic and interactive web applications with Reken.
+In this chapter, we've covered the basics of Reken, including the core Reken attributes, creating dynamic elements, conditional rendering, handling user input, and working with REST APIs. These foundational concepts will be essential as you build dynamic and interactive web applications with Reken.

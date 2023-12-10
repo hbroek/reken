@@ -4,9 +4,11 @@
 
 In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory application. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.
 
+![The picture shows the screenshot of the finished em,ployee directory application. In the header the logo and name of the companyon the left, an employee filter in the middle and a toggle to show the profile photos on the right. In the main area of the picture we see a list of employee cards and in the footer ](img/employee-directory.png)
+
 ## 7.1 Building Dynamic Web Pages
 
-Reken excels at creating dynamic web pages with minimal effort. By adding Reken attributes to your HTML elements, you can easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will using is an employee object.
+Reken excels at creating dynamic web pages with minimal effort. Adding Reken attributes to your HTML elements, lets you easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will use is an employee object.
 
 ```javascript
 const employee = {
@@ -21,9 +23,9 @@ const employee = {
 }
 ```
 
-- **Dynamic Text and Content**: Use `data-text` and `data-html` attributes to update the text or HTML content of elements in real-time.
+- **Dynamic Text and Content**: Use `data-text` and `data-html` attributes to update the element's text or HTML content real-time.
 
-We start by creating a simple card, displaying the name, department and location of an employee.
+We start by creating a simple card displaying the name, department, and location of an employee.
 
 ```html
   <article>
@@ -35,7 +37,7 @@ We start by creating a simple card, displaying the name, department and location
   </article>
 ```
 
-In this example we use the attribute `data-text` to display the name and department details of the employee. We use the `data-html` attribute to display the employee's location embedded in an `<i>` tag.
+In this example, we use the attribute `data-text` to display the name and department details of the employee. We use the `data-html` attribute to display the employee's location embedded in an `<i>` tag.
 
 - **Dynamic Attributes**: Use `data-attr-*` to update the attribute of an HTML Element. We'll add a photo, phone number and email address of the employee to the card.
 
@@ -53,15 +55,15 @@ In this example we use the attribute `data-text` to display the name and departm
 </article>
 ```
 
-In this example we add an image to display the profile picture and set its `src` property with the `data-attr-src` attribute. We also add the phone and email fields with the `data-attr-href` attribute and use the `data-text` attribute to display it.
+In this example, we add an image to display the profile picture and set its `src` property with the `data-attr-src` attribute. We also add the phone and email fields with the `data-attr-href` attribute and use the `data-text` attribute to display it.
 
-- **Conditional Rendering**: Employ the `data-if` attribute to conditionally show or hide elements. For example, you can display different content based on user preferences.
+- **Conditional Rendering**: Employ the `data-if` attribute to show or hide elements conditionally. For example, you can display different content based on user preferences.
 
 ```html
     <img data-if="showPhoto" ...."/>
 ```
 
-In example we add a `data-if` attribute to the image to conditionally display the profile picture of the employee. If the `showPhoto` is `true` the photo is visible, if it is set to `false` the photo is hidden.
+In this example, we add a `data-if` attribute to the image to conditionally display the profile picture of the employee. If the `showPhoto` is `true` the photo is visible, if it is set to `false`, the photo is hidden.
 
 - **Styling and Animation**: The `data-style` and `data-class` attribute enables dynamic CSS styling. You can create styles based on state and/or changes triggered by user actions.
 
@@ -87,11 +89,11 @@ In example we add a `data-if` attribute to the image to conditionally display th
 </h3>
 ```
 
-In this example we use the `data-style` attribute to add a colored seperator to the card. The color is based on the gender. It is only displayed if the showPicture is false.
+In this example, we use the `data-style` attribute to add a colored separator to the card. The color is based on the gender. It is only displayed if the showPicture is false.
 
 We also dynamically add a class `hq` if the location is Boston, MA to the location field. The class adds 8 duck emojis, representing the famous 8 Boston ducklings.
 
-- **Data Tables and Lists**: Utilize the `data-for` attribute to generate dynamic tables, lists, or other repeating elements. This is helpful for displaying data retrieved from APIs or databases.
+- **Data Tables and Lists**: Utilize the `data-for` attribute to generate dynamic tables, lists, or other repeating elements. This helps display data retrieved from APIs or databases.
 
 ```javascript
     const employees =
@@ -145,7 +147,7 @@ Reken simplifies the process of building interactive user interfaces. You can en
 </header>
 ```
 
-In this example we add a header to the page. The header contains a `nav` element with a company logo and name on the left and a checkbox to toggle the value of `showPicture` variable, this affects the display of the `img` and `hr` element in the `article` element.
+In this example, we add a header to the page. The header contains a `nav` element with a company logo and name on the left and a checkbox to toggle the value of `showPicture` variable; this affects the display of the `img` and `hr` elements in the `article` element.
 
 
 ```javascript
@@ -165,7 +167,7 @@ let filterString = "";
 ....
 ```
 
-In this example we add a people filter control in the `nav` element. It updates the `filterString` variable. The content is used to filter the list of employees.
+In this example, we add a people filter control in the `nav` element. It updates the `filterString` variable. The content is used to filter the list of employees.
 
 - **Forms**: With the `data-value` attribute, Reken makes creating input forms easy.
 
@@ -182,7 +184,7 @@ In this example we add a people filter control in the `nav` element. It updates 
 </main>
 ```
 
-In this example we build a form that updates the first employee of our array of employees. It creates a `main` Element to host the form.  The `main` element contains a `h` element with the employee id and a `form` element. The `form` contains a number of `label` / `input` combinations that are bound to the fields in the employee record with the `data-value` attribute.
+In this example, we build a form that updates the first employee of our array of employees. It creates a `main` Element to host the form.  The `main` element contains a `h` element with the employee id and a `form` element. The `form` contains a several `label` / `input` combinations bound to the fields in the employee record with the `data-value` attribute.
 
 When the user modifies one of the fields, notice that the data in the card of the first employee immediately updates.
 
@@ -202,11 +204,11 @@ Reken makes it straightforward to work with REST APIs, enabling your web applica
     ...
 ```
 
-In this example we added a `data-rest` attribute with an attribute value that loads the `employee.json` file into the variable `employees`.
+In this example, we added a `data-rest` attribute with an attribute value that loads the `employee.json` file into the variable `employees`.
 
-Since the `employees` variable is initialized with the `data-rest` attribute we can remove the employee array in the source code.
+Since the `employees` variable is initialized with the `data-rest` attribute, we can remove the employee's array in the source code.
 
->**Note** Since the `employee` variable is undefined until the json file gets loaded we need to hide all the content that relies on it with a `data-if` attribute.
+>**NOTE**: Since the `employee` variable is undefined until the JSON file gets loaded we need to hide all the content that relies on it with a `data-if` attribute.
 
 ```html
 <main data-if="employees"  ....
@@ -232,13 +234,13 @@ Since the `employees` variable is initialized with the `data-rest` attribute we 
     ....
 </style>
 ```
-This example makes use of the `data-rest` managed classes that are added during the various phases of the REST call. When the file is being loaded the `body` element's background gets the `silver` color as the class `reken-rest-busy` is present. When an error occurs during the REST call the  `body` element's background turns red and an error message is displayed. The background turns blue when the REST call completes succesfully.
+This example uses the `data-rest` managed classes that are added during the various phases of the REST call. When the file is being loaded, the `body` element's background gets the `silver` color as the class `reken-rest-busy` is present. When an error occurs during the REST call, the  `body` element's background turns red, and an error message is displayed. The background turns blue when the REST call is completed succesfully.
 
 ## 7.4 Setup routing
 
-Reken provides an routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.
+Reken provides a routing mechanism that makes it easy to make Single Page Applications (SPA). It also supports dynamic routing, where a page can be initialized with one or more parameters.
 
-First we define the pages in the application.
+First, we define the pages in the application.
 
 ```html
 <main data-route="employee/#employeeIndex" ...>
@@ -249,11 +251,11 @@ First we define the pages in the application.
 </main>
 
 ```
-In this example the existing two `main` pages are updated with the `data-route` attribute.
+In this example, the two `main` pages are updated with the `data-route` attribute.
 
-The employee entry form has a route that starts with `employee` followed by the `employeeIndex` parameter. To indicate that `employeeIndex` is a parameter it is preceded by a hashmark ('#').
+The employee entry form has a route that starts with `employee` followed by the `employeeIndex` parameter. To indicate that `employeeIndex` is a parameter, it is preceded by a hashmark ('#').
 
-The page showing all the employees has a route with an empty string which makes it the default page.
+The page showing all the employees has a route with an empty string, making it the default page.
 
 ```html
 <article>
@@ -269,7 +271,7 @@ The page showing all the employees has a route with an empty string which makes 
     </div>
 </article>
 ```
-In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employee's data.
+In this example, we create a link in each employee article that points to the employee edit page with the employee's index. When the user clicks on the link, the employee edit page shows the employee's data.
 
 ```html
 <h1 data-text="Update employee ${employees[employeeIndex].employee_number}"></h1>
@@ -282,7 +284,7 @@ In this example we create a link in each employee article that points to the emp
 </form>
 <button type="button" data-action="history.back();">Back</button>
 ```
-In this example the input controls are updated to point to the employee based on the `employeeIndex` instead of `0`. At the bottom a `button` to return to the employee list page is added.
+In this example, the input controls are updated to point to the employee based on the `employeeIndex` instead of `0`. At the bottom, a `button` to return to the employee list page is added.
 
 ## 7.5 Creating Reusable Components
 
@@ -290,7 +292,7 @@ Reken supports the creation of reusable components that can be inserted into you
 
 - **Component Definition**: Define a component using the `data-component` attribute within a `<template>`. You can encapsulate HTML, CSS, and even JavaScript specific to the component.
 
-In this section we create a card component that display the employee's info.
+In this section, we create a card component that display the employee's info.
 ```html
 <template data-component="card" data-arg-person data-arg-photo="true" data-arg-edit_link="">
     <style>
@@ -327,7 +329,7 @@ In this section we create a card component that display the employee's info.
     </article>
 </template>
 ```
-In this example we move the whole `article` in a `card` component. The `card` component takes three arguments. A reference to a `person` object, an optional boolean `photo` to show/hide the profile picture, and an optional `edit_link` argument to inidicate what url to go to when the edit button is pressed. If the latter is not specified the edit `pencil` button is hidden. Note we also moved the `hq` class definition into the component.
+In this example, we move the whole `article` in a `card` component. The `card` component takes three arguments. A reference to a `person` object, an optional boolean `photo` to show/hide the profile picture, and an optional `edit_link` argument to indicate what URL to go to when the edit button is pressed. If the latter is not specified, the edit `pencil` button is hidden. Note we also moved the `hq` class definition into the component.
 
 - **Component Usage**: Use a component by adding a regular HTML element with the `data-component` attribute. This will replace the component reference with the content of the component definition. Components can also accept arguments and bindable variables.
 
@@ -339,11 +341,11 @@ In this example we move the whole `article` in a `card` component. The `card` co
     </card>
 ```
 
-In this html fragment we use our `card` component and specify the `person`, `photo`, and `edit_link` arguments.
+In this HTML fragment, we use our `card` component and specify the `person`, `photo`, and `edit_link` arguments.
 
 - **Slots**: Components support slots, allowing you to transfer custom content into the component. This provides flexibility in reusing components with different content.
 
-To make the card more flexible we wrap the phone number and email address in a `slot` element.
+To make the card more flexible, we wrap the phone number and email address in a `slot` element.
 ```html
 <template data-component="card">
     <article>
@@ -358,7 +360,7 @@ To make the card more flexible we wrap the phone number and email address in a `
     </article>
 </template>
 ```
-In the fragment we wrap the phone and email in `slot` element, which continues to make them default contente. Now the card can be used in another application with different info.
+In this fragment, we wrap the phone and email in a `slot` element, which continues to make them default content. Now, the card can be used in another application with different info.
 ```html
 <card person="employee.item" ...>
     <div>Employee number:
@@ -367,12 +369,12 @@ In the fragment we wrap the phone and email in `slot` element, which continues t
     <div>
 </card>
 ```
-In this fragment we show how we replace the default slot of the `card` component with the Employee number.
+In this fragment, we show how we replace the default slot of the `card` component with the Employee number.
 
 ## 7.6 Use timers
-Reken's timer feature adds dynamic functionality to your application. This makes application more engaging.
+Reken's timer feature adds dynamic functionality to your application. This makes the application more engaging.
 
-In the final addition to the application we are adding messages that confirm the actions by the user. 
+In the final addition to the application we are adding messages that confirm the actions of the user. 
 
 ```html
 <footer
@@ -381,7 +383,7 @@ In the final addition to the application we are adding messages that confirm the
 </footer>
 ```
 
-In this fragment we add a `footer` at the bottom that displays with a height of `2em` when the content of the `message` variable is not empty. The `span` element has a `data-timer` attribute that starts when the message variable is not ''. After 2000ms (2seconds) it clears the message variable, hiding the `footer` element. 
+In this fragment we add a `footer` at the bottom that displays a height of `2em` when the content of the `message` variable is not empty. The `span` element has a `data-timer` attribute that starts when the message variable is not ''. After 2000ms (2 seconds) it clears the message variable, hiding the `footer` element. 
 
 ```javascript
 let message = ''
@@ -402,7 +404,7 @@ This javascript fragment initializes a `message` variable.
 </a>
 ```
 
-These fragments edit / add event handlers to set the status message. Once the status message is set the `footer` element is animated in view for 2 seconds.
+These fragments edit/add event handlers to set the status message. Once the status message is set the `footer` element is animated in view for 2 seconds.
 
 
-This chapter shows how to use the Reken attributes to build an informative, interactive and engaging web application. It shows how to dynamically display text from javascript data, make an interactive UI, how to simply load data from a rest service, create an SPA with different pages and use timers to update the UI.
+This chapter shows how to use the Reken attributes to build an informative, interactive, engaging web application. It shows how to display text from javascript data dynamically, make an interactive UI, simply load data from a rest service, create an SPA with different pages, and use timers to update the UI.

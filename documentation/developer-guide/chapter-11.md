@@ -2,9 +2,9 @@
 
 # Chapter 11: License
 
-Reken is an open-source project released under the terms of an open-source license. The license provides guidelines on how you can use, modify, and distribute the software. It's important to understand and adhere to the terms of the license when working with Reken.
+Reken is an open-source project released under the terms of an open-source license. The license provides guidelines on using, modifying, and distributing the software. It's important to understand and adhere to the terms of the license when working with Reken.
 
-Reken is released under the **MIT License**, which is a permissive open-source license. Here's an overview of the key points of the MIT License:
+Reken is released under the **MIT License**, a permissive open-source license. Here's an overview of the key points of the MIT License:
 
 **MIT License (MIT)**
 

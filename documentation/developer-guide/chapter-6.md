@@ -48,7 +48,7 @@ The `reken.forceCalculate()` method was used in older versions of Reken to achie
 
 
 ## 6.5 rekenready event
-The `rekenready` event is fired on the `body` element when Reken is completed initialized and the UI is updated at startup.
+The `rekenready` event is fired on the `body` element when Reken is completed and initialized, and the UI is updated at startup.
 
 **Example: `rekenready` **
 
@@ -57,7 +57,7 @@ The `rekenready` event is fired on the `body` element when Reken is completed in
     data-on-rekenready="e.target.style.opacity=1">
 ```
 
-In this example, we hide the page contents on startup by setting the opacity to 0. With the data-on-rekenready attribute, we register a listener to show the page contents. When Reken is initialized and the UI is updated, the event fires, and the page becomes visible with a 1-second transition. This is useful to avoid seeing the page re-render when the page initializes.
+In this example, we hide the page contents on startup by setting the opacity to 0. With the data-on-rekenready attribute, we register a listener to show the page contents. When Reken is initialized and the UI is updated, the event fires and the page becomes visible with a 1-second transition. This is useful to avoid seeing the page re-render when the page initializes.
 
 ## 6.6 rekeninitialized event
 

@@ -14,7 +14,7 @@ At its core, Reken operates by enhancing standard HTML elements with custom `dat
 - Efficiently handle user input through event listeners.
 - Fetch and process data from RESTful web services.
 
-Reken's primary goal is to maintain simplicity while achieving efficient dynamic updates in the Document Object Model (DOM) without relying on a virtual DOM tree. This approach not only makes it lightwieght but also ensures performance.
+Reken's primary goal is to maintain simplicity while achieving efficient dynamic updates in the Document Object Model (DOM) without relying on a virtual DOM tree. This approach not only makes it lightweight but also ensures performance.
 
 ## 1.2 Key Features
 
@@ -32,7 +32,7 @@ Reken updates only the parts of the DOM that need to change, minimizing the perf
 
 ### 1.2.4 No Tooling Required
 
-Reken doesn't rely on complex build tools or transpilers. You can add Reken to your project with a simple script tag, making it accessible to a broad range of developers without the need for additional tooling.
+Reken doesn't rely on complex build tools or transpilers. You can add Reken to your project with a simple script tag, making it accessible to a broad range of developers without additional tooling.
 
 ### 1.2.5 HTML Compliant
 

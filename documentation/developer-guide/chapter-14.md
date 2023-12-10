@@ -2,7 +2,7 @@
 
 # Chapter 14: Appendix
 
-In this appendix, you'll find additional technical details and notes that can help you dive deeper into Reken or address specific use cases and scenarios. While the core chapters of this documentation cover the essentials, the information here serves as a reference for more advanced or specialized requirements.
+In this appendix, additional technical details and notes can help you dive deeper into Reken or address specific use cases and scenarios. While the core chapters of this documentation cover the essentials, the information here serves as a reference for more advanced or specialized requirements.
 
 ## 14.1. Accessing the Document Object Model (DOM)
 
@@ -20,7 +20,7 @@ For optimal performance, consider the following tips when using Reken in your we
 
 - **Minimize DOM Updates**: Excessive DOM updates can impact performance. Use Reken's automatic updating feature to ensure only necessary changes are applied to the DOM.
 
-- **Use `data-calc` Sparingly**: While the `data-calc` attribute is powerful for creating dynamic calculations, use it with caution. Frequent calculations may lead to unnecessary updates.
+- **Use `data-calc` Sparingly**: While the `data-calc` attribute is powerful for creating dynamic calculations, use it cautiously. Frequent calculations may lead to unnecessary updates.
 
 - **Efficient Rendering**: When working with large datasets, consider efficient rendering techniques like virtual scrolling to avoid rendering all elements at once.
 
@@ -28,22 +28,22 @@ For optimal performance, consider the following tips when using Reken in your we
 
 As with any development framework, debugging and troubleshooting are important aspects of working with Reken:
 
-- **Browser Console**: To debug Reken applications, use your browser's developer tools and the JavaScript console. It will display any error messages or log output, helping you identify issues.
+- **Browser Console**: To debug Reken applications, use your browser's developer tools and the JavaScript console. It will display error messages or log output, helping you identify issues.
 
 - **Monitor Network Requests**: When working with REST APIs, monitor network requests in the browser's network tab to ensure your API calls are successful and to troubleshoot any issues.
 
-- **Error Handling**: Implement proper error handling when dealing with REST requests or any asynchronous operations to provide a smooth user experience.
+- **Error Handling**: Implement proper handling when dealing with REST requests or asynchronous operations to provide a smooth user experience.
 
 - **Community Forums**: If you encounter problems, visit the Reken community forums to seek help from other developers who may have faced similar challenges.
 
 ## 14.4. Compatibility
 
-Reken relies on ES6 features and therefore is compatible with modern web browsers, including Chrome, Safari, Firefox, and Edge. Ensure your target browser supports these features to take full advantage of Reken.
+Reken relies on ES6 features and, therefore, is compatible with modern web browsers, including Chrome, Safari, Firefox, and Edge. Ensure your target browser supports these features to take full advantage of Reken.
 
 ## 14.5. Security Considerations
 
-When building web applications with Reken, keep security in mind. Specifically, when using REST APIs, validate and sanitize data to prevent security vulnerabilities. Additionally, protect your applications against common web security threats like cross-site scripting (XSS) and cross-site request forgery (CSRF).
+When building web applications with Reken, keep security in mind. Specifically, when using REST APIs, validate and sanitize data to prevent security vulnerabilities. Protect your applications against common web security threats like cross-site scripting (XSS) and cross-site request forgery (CSRF).
 
 By adhering to best practices and regularly updating your dependencies, you can create secure and robust web applications with Reken.
 
-These technical details and notes should complement the core chapters of this documentation, assisting you in using Reken effectively and securely in your projects.
+These technical details and notes complement the core chapters of this documentation, assisting you in using Reken effectively and securely in your projects.
