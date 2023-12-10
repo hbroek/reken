@@ -1011,8 +1011,9 @@
 <article class="markdown-body">
 <h1><a id="user-content-chapter-7-examples-and-use-cases" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-7-examples-and-use-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 7: Examples and Use Cases</h1>
 <p>In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory application. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.</p>
+<p><a target="_blank" rel="noopener noreferrer" href="img/employee-directory.png"><img src="img/employee-directory.png" alt="The picture shows the screenshot of the finished em,ployee directory application. In the header the logo and name of the companyon the left, an employee filter in the middle and a toggle to show the profile photos on the right. In the main area of the picture we see a list of employee cards and in the footer " style="max-width: 100%;"></a></p>
 <h2><a id="user-content-71-building-dynamic-web-pages" class="anchor" aria-hidden="true" tabindex="-1" href="#71-building-dynamic-web-pages"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.1 Building Dynamic Web Pages</h2>
-<p>Reken excels at creating dynamic web pages with minimal effort. By adding Reken attributes to your HTML elements, you can easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will using is an employee object.</p>
+<p>Reken excels at creating dynamic web pages with minimal effort. Adding Reken attributes to your HTML elements, lets you easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will use is an employee object.</p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-s1">employee</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
     <span class="pl-s">"name"</span>: <span class="pl-s">"Mary Taylor"</span><span class="pl-kos">,</span>
     <span class="pl-s">"email"</span>: <span class="pl-s">"mary.taylor@example.com"</span><span class="pl-kos">,</span>
@@ -1025,9 +1026,9 @@
 <span class="pl-kos">}</span></pre></div>
 <ul>
 <li>
-<strong>Dynamic Text and Content</strong>: Use <code>data-text</code> and <code>data-html</code> attributes to update the text or HTML content of elements in real-time.</li>
+<strong>Dynamic Text and Content</strong>: Use <code>data-text</code> and <code>data-html</code> attributes to update the element's text or HTML content real-time.</li>
 </ul>
-<p>We start by creating a simple card, displaying the name, department and location of an employee.</p>
+<p>We start by creating a simple card displaying the name, department, and location of an employee.</p>
 <div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
@@ -1035,7 +1036,7 @@
     <span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${employee.location}&lt;/i&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we use the attribute <code>data-text</code> to display the name and department details of the employee. We use the <code>data-html</code> attribute to display the employee's location embedded in an <code>&lt;i&gt;</code> tag.</p>
+<p>In this example, we use the attribute <code>data-text</code> to display the name and department details of the employee. We use the <code>data-html</code> attribute to display the employee's location embedded in an <code>&lt;i&gt;</code> tag.</p>
 <ul>
 <li>
 <strong>Dynamic Attributes</strong>: Use <code>data-attr-*</code> to update the attribute of an HTML Element. We'll add a photo, phone number and email address of the employee to the card.</li>
@@ -1051,13 +1052,13 @@
         <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.email}</span>"<span class="pl-kos">&gt;</span>]
     <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we add an image to display the profile picture and set its <code>src</code> property with the <code>data-attr-src</code> attribute. We also add the phone and email fields with the <code>data-attr-href</code> attribute and use the <code>data-text</code> attribute to display it.</p>
+<p>In this example, we add an image to display the profile picture and set its <code>src</code> property with the <code>data-attr-src</code> attribute. We also add the phone and email fields with the <code>data-attr-href</code> attribute and use the <code>data-text</code> attribute to display it.</p>
 <ul>
 <li>
-<strong>Conditional Rendering</strong>: Employ the <code>data-if</code> attribute to conditionally show or hide elements. For example, you can display different content based on user preferences.</li>
+<strong>Conditional Rendering</strong>: Employ the <code>data-if</code> attribute to show or hide elements conditionally. For example, you can display different content based on user preferences.</li>
 </ul>
 <div class="highlight highlight-text-html-basic"><pre>    <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-if</span>="<span class="pl-s">showPhoto</span>" <span class="pl-c1">....</span>"/&gt;</pre></div>
-<p>In example we add a <code>data-if</code> attribute to the image to conditionally display the profile picture of the employee. If the <code>showPhoto</code> is <code>true</code> the photo is visible, if it is set to <code>false</code> the photo is hidden.</p>
+<p>In this example, we add a <code>data-if</code> attribute to the image to conditionally display the profile picture of the employee. If the <code>showPhoto</code> is <code>true</code> the photo is visible, if it is set to <code>false</code>, the photo is hidden.</p>
 <ul>
 <li>
 <strong>Styling and Animation</strong>: The <code>data-style</code> and <code>data-class</code> attribute enables dynamic CSS styling. You can create styles based on state and/or changes triggered by user actions.</li>
@@ -1080,11 +1081,11 @@
 <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${employee.location}&lt;/i&gt;</span>"
     <span class="pl-c1">data-class</span>="<span class="pl-s">hq:employee.location=='Boston, MA'</span>"<span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we use the <code>data-style</code> attribute to add a colored seperator to the card. The color is based on the gender. It is only displayed if the showPicture is false.</p>
+<p>In this example, we use the <code>data-style</code> attribute to add a colored separator to the card. The color is based on the gender. It is only displayed if the showPicture is false.</p>
 <p>We also dynamically add a class <code>hq</code> if the location is Boston, MA to the location field. The class adds 8 duck emojis, representing the famous 8 Boston ducklings.</p>
 <ul>
 <li>
-<strong>Data Tables and Lists</strong>: Utilize the <code>data-for</code> attribute to generate dynamic tables, lists, or other repeating elements. This is helpful for displaying data retrieved from APIs or databases.</li>
+<strong>Data Tables and Lists</strong>: Utilize the <code>data-for</code> attribute to generate dynamic tables, lists, or other repeating elements. This helps display data retrieved from APIs or databases.</li>
 </ul>
 <div class="highlight highlight-source-js"><pre>    <span class="pl-k">const</span> <span class="pl-s1">employees</span> <span class="pl-c1">=</span>
         <span class="pl-kos">[</span>
@@ -1129,7 +1130,7 @@
             <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">showPicture</span>"/&gt;
         <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we add a header to the page. The header contains a <code>nav</code> element with a company logo and name on the left and a checkbox to toggle the value of <code>showPicture</code> variable, this affects the display of the <code>img</code> and <code>hr</code> element in the <code>article</code> element.</p>
+<p>In this example, we add a header to the page. The header contains a <code>nav</code> element with a company logo and name on the left and a checkbox to toggle the value of <code>showPicture</code> variable; this affects the display of the <code>img</code> and <code>hr</code> elements in the <code>article</code> element.</p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">showPicture</span> <span class="pl-c1">=</span> <span class="pl-c1">true</span><span class="pl-kos">;</span>
 <span class="pl-k">let</span> <span class="pl-s1">filterString</span> <span class="pl-c1">=</span> <span class="pl-s">""</span><span class="pl-kos">;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span>
@@ -1141,7 +1142,7 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-for</span>="<span class="pl-s">employee:employees.filter((emp)=&gt;emp.name.toLowerCase().indexOf(filterString.toLowerCase())&gt;=0)</span>"
 <span class="pl-c1">....</span></pre></div>
-<p>In this example we add a people filter control in the <code>nav</code> element. It updates the <code>filterString</code> variable. The content is used to filter the list of employees.</p>
+<p>In this example, we add a people filter control in the <code>nav</code> element. It updates the <code>filterString</code> variable. The content is used to filter the list of employees.</p>
 <ul>
 <li>
 <strong>Forms</strong>: With the <code>data-value</code> attribute, Reken makes creating input forms easy.</li>
@@ -1156,7 +1157,7 @@
         <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"/&gt;
     <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we build a form that updates the first employee of our array of employees. It creates a <code>main</code> Element to host the form.  The <code>main</code> element contains a <code>h</code> element with the employee id and a <code>form</code> element. The <code>form</code> contains a number of <code>label</code> / <code>input</code> combinations that are bound to the fields in the employee record with the <code>data-value</code> attribute.</p>
+<p>In this example, we build a form that updates the first employee of our array of employees. It creates a <code>main</code> Element to host the form.  The <code>main</code> element contains a <code>h</code> element with the employee id and a <code>form</code> element. The <code>form</code> contains a several <code>label</code> / <code>input</code> combinations bound to the fields in the employee record with the <code>data-value</code> attribute.</p>
 <p>When the user modifies one of the fields, notice that the data in the card of the first employee immediately updates.</p>
 <h2><a id="user-content-73-using-rest-apis-with-reken" class="anchor" aria-hidden="true" tabindex="-1" href="#73-using-rest-apis-with-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.3 Using REST APIs with Reken</h2>
 <p>Reken makes it straightforward to work with REST APIs, enabling your web application to communicate with external data sources. Here's how you can integrate REST APIs with Reken:</p>
@@ -1168,10 +1169,10 @@
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
     let employees;
     ...</pre></div>
-<p>In this example we added a <code>data-rest</code> attribute with an attribute value that loads the <code>employee.json</code> file into the variable <code>employees</code>.</p>
-<p>Since the <code>employees</code> variable is initialized with the <code>data-rest</code> attribute we can remove the employee array in the source code.</p>
+<p>In this example, we added a <code>data-rest</code> attribute with an attribute value that loads the <code>employee.json</code> file into the variable <code>employees</code>.</p>
+<p>Since the <code>employees</code> variable is initialized with the <code>data-rest</code> attribute, we can remove the employee's array in the source code.</p>
 <blockquote>
-<p><strong>Note</strong> Since the <code>employee</code> variable is undefined until the json file gets loaded we need to hide all the content that relies on it with a <code>data-if</code> attribute.</p>
+<p><strong>NOTE</strong>: Since the <code>employee</code> variable is undefined until the JSON file gets loaded we need to hide all the content that relies on it with a <code>data-if</code> attribute.</p>
 </blockquote>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-if</span>="<span class="pl-s">employees</span>"  <span class="pl-c1">....</span></pre></div>
 <ul>
@@ -1194,19 +1195,19 @@
     }
     ....
 &lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
-<p>This example makes use of the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call the  <code>body</code> element's background turns red and an error message is displayed. The background turns blue when the REST call completes succesfully.</p>
+<p>This example uses the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded, the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call, the  <code>body</code> element's background turns red, and an error message is displayed. The background turns blue when the REST call is completed succesfully.</p>
 <h2><a id="user-content-74-setup-routing" class="anchor" aria-hidden="true" tabindex="-1" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.4 Setup routing</h2>
-<p>Reken provides an routing mechanism which makes it easy to make Single Page Applications (SPA). It also support dynamic routing where a page can be initialized with one or more parameters.</p>
-<p>First we define the pages in the application.</p>
+<p>Reken provides a routing mechanism that makes it easy to make Single Page Applications (SPA). It also supports dynamic routing, where a page can be initialized with one or more parameters.</p>
+<p>First, we define the pages in the application.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">employee/#employeeIndex</span>" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
 ....
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
 ....
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example the existing two <code>main</code> pages are updated with the <code>data-route</code> attribute.</p>
-<p>The employee entry form has a route that starts with <code>employee</code> followed by the <code>employeeIndex</code> parameter. To indicate that <code>employeeIndex</code> is a parameter it is preceded by a hashmark ('#').</p>
-<p>The page showing all the employees has a route with an empty string which makes it the default page.</p>
+<p>In this example, the two <code>main</code> pages are updated with the <code>data-route</code> attribute.</p>
+<p>The employee entry form has a route that starts with <code>employee</code> followed by the <code>employeeIndex</code> parameter. To indicate that <code>employeeIndex</code> is a parameter, it is preceded by a hashmark ('#').</p>
+<p>The page showing all the employees has a route with an empty string, making it the default page.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
     ...
     <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
@@ -1219,7 +1220,7 @@
         <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we create a link in each employee article that points to the employeee edit page with the employee's index. When the user clicks on the link the employee edit page is shown with the employee's data.</p>
+<p>In this example, we create a link in each employee article that points to the employee edit page with the employee's index. When the user clicks on the link, the employee edit page shows the employee's data.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Update employee ${employees[employeeIndex].employee_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:1em;padding:2em;background:orange;display:grid;gap:1rem;grid-template-columns: 1fr 3fr;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;</span>"<span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].name</span>"/&gt;
@@ -1229,14 +1230,14 @@
     <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"/&gt;
 <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">history.back();</span>"<span class="pl-kos">&gt;</span>Back<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example the input controls are updated to point to the employee based on the <code>employeeIndex</code> instead of <code>0</code>. At the bottom a <code>button</code> to return to the employee list page is added.</p>
+<p>In this example, the input controls are updated to point to the employee based on the <code>employeeIndex</code> instead of <code>0</code>. At the bottom, a <code>button</code> to return to the employee list page is added.</p>
 <h2><a id="user-content-75-creating-reusable-components" class="anchor" aria-hidden="true" tabindex="-1" href="#75-creating-reusable-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.5 Creating Reusable Components</h2>
 <p>Reken supports the creation of reusable components that can be inserted into your HTML documents. Components are a great way to maintain consistency and reusability in your web applications. Here's how to create and use components in Reken:</p>
 <ul>
 <li>
 <strong>Component Definition</strong>: Define a component using the <code>data-component</code> attribute within a <code>&lt;template&gt;</code>. You can encapsulate HTML, CSS, and even JavaScript specific to the component.</li>
 </ul>
-<p>In this section we create a card component that display the employee's info.</p>
+<p>In this section, we create a card component that display the employee's info.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">card</span>" <span class="pl-c1">data-arg-person</span> <span class="pl-c1">data-arg-photo</span>="<span class="pl-s">true</span>" <span class="pl-c1">data-arg-edit_link</span>=""<span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
         <span class="pl-kos">:</span><span class="pl-c1">host</span><span class="pl-c1">&gt;</span><span class="pl-ent">div</span> .<span class="pl-c1">hq</span>::<span class="pl-ent">after</span> {
@@ -1271,7 +1272,7 @@
         <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we move the whole <code>article</code> in a <code>card</code> component. The <code>card</code> component takes three arguments. A reference to a <code>person</code> object, an optional boolean <code>photo</code> to show/hide the profile picture, and an optional <code>edit_link</code> argument to inidicate what url to go to when the edit button is pressed. If the latter is not specified the edit <code>pencil</code> button is hidden. Note we also moved the <code>hq</code> class definition into the component.</p>
+<p>In this example, we move the whole <code>article</code> in a <code>card</code> component. The <code>card</code> component takes three arguments. A reference to a <code>person</code> object, an optional boolean <code>photo</code> to show/hide the profile picture, and an optional <code>edit_link</code> argument to indicate what URL to go to when the edit button is pressed. If the latter is not specified, the edit <code>pencil</code> button is hidden. Note we also moved the <code>hq</code> class definition into the component.</p>
 <ul>
 <li>
 <strong>Component Usage</strong>: Use a component by adding a regular HTML element with the <code>data-component</code> attribute. This will replace the component reference with the content of the component definition. Components can also accept arguments and bindable variables.</li>
@@ -1281,12 +1282,12 @@
         <span class="pl-c1">photo</span>="<span class="pl-s">showPicture</span>"
         <span class="pl-c1">edit_link</span>="<span class="pl-s">#/employee/${employee.index}</span>"<span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;/</span><span class="pl-ent">card</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this html fragment we use our <code>card</code> component and specify the <code>person</code>, <code>photo</code>, and <code>edit_link</code> arguments.</p>
+<p>In this HTML fragment, we use our <code>card</code> component and specify the <code>person</code>, <code>photo</code>, and <code>edit_link</code> arguments.</p>
 <ul>
 <li>
 <strong>Slots</strong>: Components support slots, allowing you to transfer custom content into the component. This provides flexibility in reusing components with different content.</li>
 </ul>
-<p>To make the card more flexible we wrap the phone number and email address in a <code>slot</code> element.</p>
+<p>To make the card more flexible, we wrap the phone number and email address in a <code>slot</code> element.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">card</span>"<span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
         ....
@@ -1299,22 +1300,22 @@
         ....
     <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In the fragment we wrap the phone and email in <code>slot</code> element, which continues to make them default contente. Now the card can be used in another application with different info.</p>
+<p>In this fragment, we wrap the phone and email in a <code>slot</code> element, which continues to make them default content. Now, the card can be used in another application with different info.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">card</span> <span class="pl-c1">person</span>="<span class="pl-s">employee.item</span>" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Employee number:
         <span class="pl-kos">&lt;</span><span class="pl-ent">strong</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.item.employee_number}</span>"<span class="pl-kos">&gt;</span>
         <span class="pl-kos">&lt;/</span><span class="pl-ent">strong</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">card</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this fragment we show how we replace the default slot of the <code>card</code> component with the Employee number.</p>
+<p>In this fragment, we show how we replace the default slot of the <code>card</code> component with the Employee number.</p>
 <h2><a id="user-content-76-use-timers" class="anchor" aria-hidden="true" tabindex="-1" href="#76-use-timers"><span aria-hidden="true" class="octicon octicon-link"></span></a>7.6 Use timers</h2>
-<p>Reken's timer feature adds dynamic functionality to your application. This makes application more engaging.</p>
-<p>In the final addition to the application we are adding messages that confirm the actions by the user.</p>
+<p>Reken's timer feature adds dynamic functionality to your application. This makes the application more engaging.</p>
+<p>In the final addition to the application we are adding messages that confirm the actions of the user.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">footer</span>
   <span class="pl-c1">data-style</span>="<span class="pl-s">height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;transition:height 0.3s;</span>"<span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-timer</span>="<span class="pl-s">2000:message!='':message=''</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${message}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">footer</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this fragment we add a <code>footer</code> at the bottom that displays with a height of <code>2em</code> when the content of the <code>message</code> variable is not empty. The <code>span</code> element has a <code>data-timer</code> attribute that starts when the message variable is not ''. After 2000ms (2seconds) it clears the message variable, hiding the <code>footer</code> element.</p>
+<p>In this fragment we add a <code>footer</code> at the bottom that displays a height of <code>2em</code> when the content of the <code>message</code> variable is not empty. The <code>span</code> element has a <code>data-timer</code> attribute that starts when the message variable is not ''. After 2000ms (2 seconds) it clears the message variable, hiding the <code>footer</code> element.</p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">message</span> <span class="pl-c1">=</span> <span class="pl-s">''</span></pre></div>
 <p>This javascript fragment initializes a <code>message</code> variable.</p>
 <div class="highlight highlight-text-html-basic"><pre>...
@@ -1328,8 +1329,8 @@
     <span class="pl-c1">...</span>/&gt;
     Back
 <span class="pl-kos">&lt;/</span>a<span class="pl-kos">&gt;</span></pre></div>
-<p>These fragments edit / add event handlers to set the status message. Once the status message is set the <code>footer</code> element is animated in view for 2 seconds.</p>
-<p>This chapter shows how to use the Reken attributes to build an informative, interactive and engaging web application. It shows how to dynamically display text from javascript data, make an interactive UI, how to simply load data from a rest service, create an SPA with different pages and use timers to update the UI.</p>
+<p>These fragments edit/add event handlers to set the status message. Once the status message is set the <code>footer</code> element is animated in view for 2 seconds.</p>
+<p>This chapter shows how to use the Reken attributes to build an informative, interactive, engaging web application. It shows how to display text from javascript data dynamically, make an interactive UI, simply load data from a rest service, create an SPA with different pages, and use timers to update the UI.</p>
 
 </article>
 </body>

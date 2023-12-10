@@ -1032,7 +1032,7 @@
 <p>The <code>data-style</code> attribute is used to update the <code>style</code> attribute of an HTML element with an evaluated template string. It's a convenient feature for dynamically changing CSS styles based on JavaScript variables.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background-color: ${buttonColor}; color: ${buttonTextColor};</span>"<span class="pl-kos">&gt;</span>buttonText<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
-<p>Here, the <code>data-style</code> attribute dynamically modifies the button's background color and text color based on JavaScript variables.</p>
+<p>Here, the <code>data-style</code> attribute dynamically modifies the button's background and text colors based on JavaScript variables.</p>
 <h3><a id="user-content-315-data-attr-attr" class="anchor" aria-hidden="true" tabindex="-1" href="#315-data-attr-attr"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1.5 data-attr-[attr]</h3>
 <p>The <code>data-attr-[attr]</code> attribute dynamically sets the value of any HTML element's attribute using an evaluated template string. It's particularly useful for updating attribute values.</p>
 <p><strong>Example:</strong></p>
@@ -1153,13 +1153,13 @@
 <code>select</code>: For select elements.</li>
 <li>And more...</li>
 </ul>
-<p>For input elements like checkboxes, radio buttons, and select elements, the <code>data-value</code> attribute provides seamless handling and binding.</p>
+<p>The <code>data-value</code> attribute provides seamless handling and binding for input elements like checkboxes, radio buttons, and select elements.</p>
 <h3><a id="user-content-353-file-upload-handling" class="anchor" aria-hidden="true" tabindex="-1" href="#353-file-upload-handling"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.5.3 File Upload Handling</h3>
-<p>Handling file uploads is made easy with the <code>data-value</code> attribute for file input fields. When you bind a JavaScript variable to a file input element, the variable contains the <code>File</code> object of the uploaded file. This object includes properties such as <code>name</code>, <code>size</code>, <code>lastModified</code>, <code>type</code>, and <code>data</code>. The <code>data</code> property contains the deserialized content of the file.</p>
+<p>The <code>data-value</code> attribute for file input fields makes file uploads easy to handle. When you bind a JavaScript variable to a file input element, the variable contains the <code>File</code> object of the uploaded file. This object includes properties such as <code>name</code>, <code>size</code>, <code>lastModified</code>, <code>type</code>, and <code>data</code>. The <code>data</code> property has the deserialized content of the file.</p>
 <p>You can even specify a transform function to handle non-JSON file formats. The transform function receives the uploaded text and the <code>File</code> object, allowing you to deserialize the file as needed. This feature is particularly valuable when working with XML, CSV, or other data formats.</p>
-<p>Handling user input with the <code>data-value</code> attribute simplifies the process of creating forms, collecting user data, and making web applications interactive.</p>
+<p>Handling user input with the <code>data-value</code> attribute simplifies creating forms, collecting user data, and making web applications interactive.</p>
 <h2><a id="user-content-36-working-with-rest-apis" class="anchor" aria-hidden="true" tabindex="-1" href="#36-working-with-rest-apis"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6 Working with REST APIs</h2>
-<p>Interacting with RESTful APIs is a common task in web development. Reken streamlines this process with the <code>data-rest</code> attribute, enabling you to load data from REST endpoints and update your web page dynamically.</p>
+<p>Interacting with RESTful APIs is a common task in web development. Reken streamlines this process with the <code>data-rest</code> attribute, enabling you to dynamically load data from REST endpoints and update your web page.</p>
 <h3><a id="user-content-361-retrieving-data-from-rest-endpoints" class="anchor" aria-hidden="true" tabindex="-1" href="#361-retrieving-data-from-rest-endpoints"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6.1 Retrieving Data from REST Endpoints</h3>
 <p>The <code>data-rest</code> attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It's a powerful tool for populating your web pages with dynamic data.</p>
 <p>Here's how you can use the <code>data-rest</code> attribute:</p>
@@ -1180,9 +1180,9 @@
 <p>The <code>data-rest</code> attribute allows you to parameterize your REST API calls using an evaluated template string. This means you can construct the API endpoint URL with dynamic values.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/api/user/${userId}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the <code>${userId}</code> placeholder is replaced with the actual value of the <code>userId</code> variable when the API call is made. When the value of <code>userId</code> changes the REST API call is automatically executed again.</p>
+<p>In this example, the <code>${userId}</code> placeholder is replaced with the actual value of the <code>userId</code> variable when the API call is made. When the value of <code>userId</code> changes, the REST API call is automatically executed again.</p>
 <p>Working with REST APIs using Reken's <code>data-rest</code> attribute simplifies data retrieval and updates, making your web applications more dynamic and responsive.</p>
-<p>In this chapter, we've covered the basics of Reken, including the core Reken attributes, creating dynamic elements, conditional rendering, handling user input, and working with REST APIs. These foundational concepts will be essential as you continue to build dynamic and interactive web applications with Reken.</p>
+<p>In this chapter, we've covered the basics of Reken, including the core Reken attributes, creating dynamic elements, conditional rendering, handling user input, and working with REST APIs. These foundational concepts will be essential as you build dynamic and interactive web applications with Reken.</p>
 
 </article>
 </body>

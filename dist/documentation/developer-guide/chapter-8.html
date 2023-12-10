@@ -1010,14 +1010,14 @@
 <body>
 <article class="markdown-body">
 <h1><a id="user-content-chapter-8-best-practices" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-8-best-practices"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 8: Best Practices</h1>
-<p>In this chapter, we'll discuss some best practices for working with Reken. Following these guidelines will help you build efficient and maintainable web applications while leveraging Reken's capabilities.</p>
+<p>This chapter will discuss some best practices for working with Reken. Following these guidelines will help you build efficient and maintainable web applications while leveraging Reken's capabilities.</p>
 <h2><a id="user-content-81-structuring-your-reken-based-projects" class="anchor" aria-hidden="true" tabindex="-1" href="#81-structuring-your-reken-based-projects"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.1 Structuring Your Reken-Based Projects</h2>
 <p>When working on a project that uses Reken, it's essential to have a well-structured project setup. This ensures that your code is organized and easy to manage. Here are some best practices for structuring your Reken-based projects:</p>
 <ul>
 <li>
 <strong>Separation of Concerns</strong>: Divide your project into logical sections, such as HTML templates, styles, and JavaScript.</li>
 </ul>
-<p>For simple Reken projects that involve HTML First <strong>Single</strong> Page Applications (SPA) the most efficient way is to store all the styling, javascript in one HTML file. Besides optional thirdparty.js files, the only external dependency would be the Reken library. The HTML file is organized as follows.</p>
+<p>For simple Reken projects that involve HTML First <strong>Single</strong> Page Applications (SPA), the most efficient way is to store all the styling, and javascript in one HTML file. Besides optional third-party.js files, the only external dependency would be the Reken library. The HTML file is organized as follows.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span> <span class="pl-c1">lang</span>="<span class="pl-s">en</span>"<span class="pl-kos">&gt;</span>
 
@@ -1038,14 +1038,14 @@
   ...
 
   <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-    <span class="pl-c">// Optional js variable declations, functions and eventhandlers</span>
+    <span class="pl-c">// Optional js variable declrations, functions and eventhandlers</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 
   <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">js/thirdpartylibs.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
-<p>When you have a more complex website with multiple HTML pages that share resources such as styling, js files and components, a HTML filelayout would look as follows.</p>
+<p>When you have a more complex website with multiple HTML pages that share resources such as styling, js files, and components, an HTML file layout would look as follows.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span> <span class="pl-c1">lang</span>="<span class="pl-s">en</span>"<span class="pl-kos">&gt;</span>
 
@@ -1065,20 +1065,20 @@
   <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we reference to an external stylesheet <code>stylesheet.css</code> in the <code>css</code> folder for the style definitions shared between the html pages.</p>
-<p>It also includes the <code>components.html</code> file in the <code>comps</code> subfolder, this contains the definition of components shared across the project.</p>
-<p>The <code>app.js</code> with the application code, and <code>thirdpartylibs.js</code>, with the thirdparty code are loaded from the <code>js</code> subfolder.</p>
-<p>Finally we load the <code>reken</code> library from the CDN, or alternatively can be hosted in the <code>js</code> folder.</p>
+<p>In this example, we reference an external stylesheet <code>stylesheet.css</code> in the <code>css</code> folder for the style definitions shared between the HTML pages.</p>
+<p>It also includes the <code>components.html</code> file in the <code>comps</code> subfolder, which contains the definition of components shared across the project.</p>
+<p>The <code>app.js</code> with the application code, and <code>thirdpartylibs.js</code>, with the third party code, are loaded from the <code>js</code> subfolder.</p>
+<p>Finally, we load the <code>reken</code> library from the CDN, or  can be hosted in the <code>js</code> folder.</p>
 <ul>
 <li>
 <strong>Modular Components</strong>: Create reusable components for your UI elements. Use the <code>data-component</code> attribute to define and use components within your project. Component reuse can help your project in multiple ways.</li>
 </ul>
-<p>Creating a Reken based <code>data-component</code> component for repeating content such as a <code>button</code> can ensure consistency within the page.</p>
-<p>Same applies to reusing components across different HTML files in the same project by loading them with <code>data-include</code>.</p>
-<p>Third and best advantage of component re-use is the creating of a component library that can be used by different projects and can even be shared with others.</p>
+<p>Creating a Reken-based <code>data-component</code> component for repeating content, such as a <code>button</code>, can ensure consistency within the page.</p>
+<p>The same applies to reusing components across different HTML files in the project by loading them with <code>data-include</code>.</p>
+<p>The third and best advantage of component reuse is the creation of a component library that can be used by different projects and can even be shared with others.</p>
 <ul>
 <li>
-<strong>File Organization</strong>: Maintain a consistent file organization. Place components in their own folders, group styles together, and structure your project in a way that makes it easy to locate specific files. As discussed earlier when creating a more complex project with multiple HTML pages, it is a good idea to share resources by storing them in files external from the HTML file.</li>
+<strong>File Organization</strong>: Maintain a consistent file organization. Place components in their folders, group styles together, and structure your project to make it easy to locate specific files. As discussed earlier, when creating a more complex project with multiple HTML pages, it is a good idea to share resources by storing them in files external from the HTML file.</li>
 </ul>
 <pre lang="text"><code>- index.html
 - other-html-files.html
@@ -1097,13 +1097,13 @@
 </code></pre>
 <ul>
 <li>
-<strong>Version Control</strong>: Use version control systems like Git to keep track of changes in your project. This helps in collaboration and allows you to roll back to previous versions if needed.</li>
+<strong>Version Control</strong>: Use version control systems like Git to keep track of changes in your project. This helps collaborate and allows you to roll back to previous versions if needed.</li>
 </ul>
 <h2><a id="user-content-82-optimizing-for-performance" class="anchor" aria-hidden="true" tabindex="-1" href="#82-optimizing-for-performance"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2 Optimizing for Performance</h2>
-<p>Performance is a critical aspect of web development. While Reken simplifies dynamic web page creation, it's essential to ensure that your application runs efficiently. Here are some performance optimization tips:</p>
+<p>Performance is a critical aspect of web development. While Reken simplifies dynamic web page creation, ensuring that your application runs efficiently is essential. Here are some performance optimization tips:</p>
 <h2><a id="user-content-821-minimize-dom-updates" class="anchor" aria-hidden="true" tabindex="-1" href="#821-minimize-dom-updates"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.1 Minimize DOM Updates</h2>
 <p>Reken updates the DOM efficiently, but excessive updates can impact performance. Avoid unnecessary changes to the DOM, and update only when needed.</p>
-<p>Underneath the cover, Reken optimizes updates by first checking whether DOM actually needs to be updated, and will only do so when the DOM would really change. Instead of hiding UI using styles or classes, used <code>data-if</code> or <code>data-route</code> to hide UI elements. As besides hiding the UI it also stops executing the model to update the UI in these hidden (and thus deactivated) HTML branches.</p>
+<p>Underneath the cover, Reken optimizes updates by first checking whether the DOM actually needs to be updated, and will only do so when the DOM really cahnges. Instead of hiding UI using styles or classes, use <code>data-if</code> or <code>data-route</code> to hide UI elements. Besides hiding the UI, it also stops executing the model to update the UI in these hidden (and thus deactivated) HTML branches.</p>
 <div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page1</span>"<span class="pl-kos">&gt;</span>
     ...
   <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
@@ -1116,11 +1116,11 @@
   <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page4</span>"<span class="pl-kos">&gt;</span>
     ...
   <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this SPA example only the HTML element of the active route is displayed and executed. With these 4 pages only 1 pages is every visible and its UI gets updated by the model.</p>
+<p>In this SPA example, only the active's route HTML element of the active route is displayed and executed. With these four pages only 1 page is visible, and its UI gets updated by the model.</p>
 <h2><a id="user-content-822-caching" class="anchor" aria-hidden="true" tabindex="-1" href="#822-caching"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.2 Caching</h2>
-<p>Cache data retrieved from REST APIs to reduce redundant network requests. This can significantly improve load times. Making use of the HTTP 304 response codes and cache-control headers can limit unnecessary network calls.</p>
+<p>Cache data retrieved from REST APIs to reduce redundant network requests. This can significantly improve load times. Using the HTTP 304 response codes and cache-control headers can limit unnecessary network calls.</p>
 <h2><a id="user-content-823-lazy-loading" class="anchor" aria-hidden="true" tabindex="-1" href="#823-lazy-loading"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.3 Lazy Loading</h2>
-<p>Implement lazy loading for resources like images or components that are not immediately needed on the page. This reduces initial page load times. With the use of <code>data-if</code> and <code>data-route</code> the sections of HTML that are not visible do not need to load images, unfortunately the browser will still load these images, unless you add a property <code>loading="lazy"</code> to each <code>img</code> element and hiding the <code>body</code> element on startup and only after Reken is initialized, show it.</p>
+<p>Implement lazy loading for resources like images or components not immediately needed on the page. This reduces initial page load times. With the use of <code>data-if</code> and <code>data-route</code>, the sections of HTML that are not visible do not need to load images, unfortunately, the browser will still load these images, unless you add a property <code>loading="lazy"</code> to each <code>img</code> element and hide the <code>body</code> element on startup and only after Reken is initialized, show it.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
@@ -1136,10 +1136,10 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">../src/reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we set the attribute <code>loading="lazy"</code> on the <code>img</code> element. The <code>img</code> is part of an HTML branch of the <code>main</code> element with a <code>data-if</code> attribute.</p>
-<p>On initialization we also need to hide the <code>body</code> element in order for Reken to get a chance to hide the <code>main</code> element. Once that is done, after the event <code>rekenready</code> is fired we can reset the <code>body</code> to its initial value, which will make it visible.</p>
-<p>The image will now only load when the user clicks the "Show" <code>button</code>.</p>
-<p>A similar  approach can be used to prevent rest calls to execute, by hiding them with a data-if or a data-route tag.</p>
+<p>In this example, we set the attribute <code>loading="lazy"</code> on the <code>img</code> element. The <code>img</code> is part of an HTML branch of the <code>main</code> element with a <code>data-if</code> attribute.</p>
+<p>Upon initialization we also need to hide the <code>body</code> element for Reken to get a chance to hide the <code>main</code> element. Once that is done, after the event <code>rekenready</code> is fired, we can reset the <code>body</code> to its initial value, which will make it visible.</p>
+<p>The image will only load when the user clicks the "Show" <code>button</code>.</p>
+<p>A similar  approach can be prevent rest calls from executing, by hiding them with a data-if or a data-route tag.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
@@ -1158,18 +1158,18 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">../src/reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example we active the <code>main</code> Element only when the <code>load</code> variable is true. As a result the result call will not execute until that happens. There is a <code>data-if</code> to make sure that the <code>data-for</code> is not executed until the employees are loaded in the <code>list</code> variable. Once that happens the list of Employees is rendered.</p>
+<p>In this example we activate the <code>main</code> element only when the <code>load</code> variable is true. As a result the result call will not execute until that happens. There is a <code>data-if</code> to ensure that the <code>data-for</code> is not executed until the employees are loaded in the <code>list</code> variable. Once that happens, the list of Employees is rendered.</p>
 <h2><a id="user-content-826-minify-and-bundle" class="anchor" aria-hidden="true" tabindex="-1" href="#826-minify-and-bundle"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.6 Minify and Bundle</h2>
-<p>Minify your HTML, JavaScript and CSS files to reduce file sizes. There are two ways to make your HTML and CSS files smaller: minify and compression. In addition your Javascript files have another option to make them smaller which is uglify. Where variable and function names are renamed to shorter symbols, which has that added benefit of obfuscation.</p>
-<p>Use bundling tools to combine multiple files into one, reducing the number of requests. Strategies here are to merge all the stylesheet, javascript and component files into the main HTML file, similar to the SPA files as described under section 8.1. Currently there are no Reken specific tools that automate this.</p>
+<p>Minify your HTML, JavaScript, and CSS files to reduce file sizes. There are two ways to make your HTML and CSS files smaller: minify and compression. In addition, your Javascript files have another option to make them smaller, which is uglify, where variable and function names are renamed to shorter symbols, which has that added benefit of obfuscation.</p>
+<p>Use bundling tools to combine multiple files into one, reducing the number of requests. Strategies here are to merge all the stylesheet, javascript, and component files into the main HTML file, similar to the SPA files described in section 8.1. Currently, there are no Reken-specific tools that automate this.</p>
 <h2><a id="user-content-826-optimize-images" class="anchor" aria-hidden="true" tabindex="-1" href="#826-optimize-images"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.2.6 Optimize Images</h2>
-<p>Compress and optimize images to reduce their file size without sacrificing quality. This is crucial for faster page loading. Besides have the images set to the closest resolution they are being shown in the browser, there are also optimizer tools to remove metadata and other optimizations to make the images smaller.</p>
+<p>Compress and optimize images to reduce their file size without sacrificing quality. This is crucial for faster page loading. Besides having the images set to the closest resolution they are being shown in the browser, there are also optimizer tools to remove metadata and other optimizations to make the images smaller.</p>
 <h2><a id="user-content-83-debugging-and-troubleshooting" class="anchor" aria-hidden="true" tabindex="-1" href="#83-debugging-and-troubleshooting"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.3 Debugging and Troubleshooting</h2>
-<p>Debugging and troubleshooting are integral parts of the development process. Reken provides tools and techniques to facilitate this process. Here's how to effectively debug and troubleshoot Reken-based projects, when a page does not or partially render.</p>
+<p>Debugging and troubleshooting are integral parts of the development process. Reken provides tools and techniques to facilitate this process. Here's how to effectively debug and troubleshoot Reken-based project, when a page does not or partially render.</p>
 <h2><a id="user-content-831-validate-your-html" class="anchor" aria-hidden="true" tabindex="-1" href="#831-validate-your-html"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.3.1 Validate your HTML</h2>
-<p>Use your editor's HTML formatting tools to check if your HTML is valid. Double check that all HTML opening tags have closing tags, and all attribute quotes have closing quotes.</p>
+<p>Use your editor's HTML formatting tools to check your HTML's validity. Double-check that all HTML opening tags have closing tags and that all attribute quotes have closing quotes.</p>
 <blockquote>
-<p><strong>Note</strong> Browser sometimes add tags to the HTML to make it valid. For example typically a <code>tbody</code> tag is added between the <code>table</code> and <code>tr</code> tags. This can trip you up when you add a <code>data-for</code> attribute on the <code>table</code> element, where it should be on the <code>tbody</code> element.</p>
+<p><strong>Note</strong> The browser sometimes adds tags to the HTML to make it valid. For example, typically, a <code>tbody</code> tag is added between the <code>table</code> and <code>tr</code> tags. This can trip you up when you add a <code>data-for</code> attribute on the <code>table</code> element, which should be on the <code>tbody</code> element.</p>
 </blockquote>
 <h2><a id="user-content-832-browser-developer-tools" class="anchor" aria-hidden="true" tabindex="-1" href="#832-browser-developer-tools"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.3.2 Browser Developer Tools</h2>
 <p>Use your browser's developer tools to inspect the DOM, examine network requests, and debug JavaScript code. You can set breakpoints and step through your code for debugging.</p>
@@ -1181,10 +1181,10 @@
 <p>Write tests for your Reken components and functions. Automated tests help identify issues early in the development process.</p>
 <h2><a id="user-content-836-community-support" class="anchor" aria-hidden="true" tabindex="-1" href="#836-community-support"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.3.6 Community Support</h2>
 <p>Take advantage of the Reken community for assistance. Many developers share their experiences and solutions to common issues in online forums and documentation.</p>
-<p>Use the <a href="https://github.com/hbroek/reken/discussions">Reken GitHub Discussions</a> if you have questions, want to share ideas, and or have open-ended conversations about the project. Use <a href="https://github.com/hbroek/reken/discussions">Reken GitHub discussions</a> for the following topics:</p>
+<p>Use the <a href="https://github.com/hbroek/reken/discussions">Reken GitHub Discussions</a> if you have questions, want to share ideas, or have open-ended conversations about the project. Use <a href="https://github.com/hbroek/reken/discussions">Reken GitHub discussions</a> for the following topics:</p>
 <ol>
 <li>
-<p><strong>Usage and Implementation:</strong> If you have questions about how to use a certain feature of the product or how to implement it in your own projects.</p>
+<p><strong>Usage and Implementation:</strong> If you have questions about how to use a particular feature of the product or how to implement it in your projects.</p>
 </li>
 <li>
 <p><strong>Feature Requests:</strong> You can discuss potential new features or improvements to the product.</p>
@@ -1201,12 +1201,12 @@
 <li>
 <strong>Reporting Bugs:</strong> These are usually better reported in the Issues section, where they can be tracked and resolved systematically.</li>
 <li>
-<strong>Filing Enhancement requests:</strong> These are also better reported in the Issues section as an Feature Request so that they like bugs can be tracked and resolved systematically.</li>
+<strong>Filing Enhancement requests:</strong> These are also better reported in the Issues section as a Feature Request so that they, like bugs, can be tracked and resolved systematically.</li>
 <li>
 <strong>Confidential or Sensitive Questions:</strong> Public discussions are visible to everyone, so it's not suitable for questions that involve sensitive or proprietary information.</li>
 </ul>
 <h2><a id="user-content-837-summary" class="anchor" aria-hidden="true" tabindex="-1" href="#837-summary"><span aria-hidden="true" class="octicon octicon-link"></span></a>8.3.7 Summary</h2>
-<p>By following these best practices, you'll be able to structure your Reken-based projects effectively, optimize their performance, and efficiently debug and troubleshoot any issues that may arise during development.</p>
+<p>By following these best practices, you can structure your Reken-based projects effectively, optimize their performance, and efficiently debug and troubleshoot any issues that may arise during development.</p>
 
 </article>
 </body>

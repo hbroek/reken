@@ -1021,7 +1021,7 @@
 <p>Components are a powerful way to modularize and reuse parts of your web application's user interface. With Reken, you can create custom components and easily include them in your pages. This promotes code reusability and maintainability.</p>
 <p><strong>Creating a Component:</strong></p>
 <ol>
-<li>Define a component within a <code>&lt;template&gt;</code> element using the <code>data-component</code> attribute, specifying the name of the component.</li>
+<li>Define a component within a <code>&lt;template&gt;</code> element using the <code>data-component</code> attribute, specifying component's name.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">my-component</span>"<span class="pl-kos">&gt;</span>
   <span class="pl-c">&lt;!-- Your component's HTML structure --&gt;</span>
@@ -1033,23 +1033,23 @@
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-component</span>="<span class="pl-s">my-component</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Alternatively, you can reference the component using the shorthand by referencing the component by its tag.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">my-component</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">my-component</span><span class="pl-kos">&gt;</span></pre></div>
-<p>The content of the component's template will replace the content of the element with the <code>data-component</code> attribute.</p>
+<p>The content of the component's template will replace the element's content with the <code>data-component</code> attribute.</p>
 <h2><a id="user-content-53-using-components-and-slots" class="anchor" aria-hidden="true" tabindex="-1" href="#53-using-components-and-slots"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.3 Using Components and Slots</h2>
 <p>Components in Reken can be customized with slots. Slots are placeholders in component templates where you can insert content from the component reference. This allows you to create more flexible and configurable components.</p>
 <p><strong>Creating a Component with Slots:</strong></p>
 <ol>
-<li>Define a component that includes slots within its template.</li>
+<li>Define a component with a slot within its template.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">my-button</span>"<span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>A Button<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <ol start="2">
-<li>Use the component, and the content provided within the component reference will replace the <code>&lt;slot&gt;</code> element.</li>
+<li>Use the component; the content provided within the reference will replace the <code>&lt;slot&gt;</code> element.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">my-button</span><span class="pl-kos">&gt;</span>Click me<span class="pl-kos">&lt;/</span><span class="pl-ent">my-button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, "Click me" will replace the <code>&lt;slot&gt;</code>, making the component customizable.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">my-button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">my-button</span><span class="pl-kos">&gt;</span></pre></div>
-<p>When no content is provided the <code>&lt;slot&gt;</code> content is used. This provides a fallback in case no content is provided.</p>
+<p>When no content is provided, the <code>&lt;slot&gt;</code> content is used. This provides a fallback in case no content is provided.</p>
 <h2><a id="user-content-54-component-state" class="anchor" aria-hidden="true" tabindex="-1" href="#54-component-state"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.4 Component State</h2>
 <p>Reken supports component state management, allowing you to store changes in local variables.</p>
 <p><strong>Component State:</strong></p>
@@ -1064,9 +1064,9 @@
     <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Count: ${count}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the <code>counter</code> component maintains its state with a <code>count</code> variable, which is updated when the "Increment" button is clicked.</p>
+<p>In this example, the <code>counter</code> component maintains its state with a <code>count</code> variable, updated when the "Increment" button is clicked.</p>
 <h2><a id="user-content-55-passing-data-in-components" class="anchor" aria-hidden="true" tabindex="-1" href="#55-passing-data-in-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.5 Passing data in components</h2>
-<p>Components can be configured by passing in arguments with the <code>data-arg-*</code> attribute, in this way components can be customized without having to create a new component.</p>
+<p>Components can be configured by passing in arguments with the <code>data-arg-*</code> attribute; in this way, components can be customized without having to create a new component.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>RED<span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">gold</span>"<span class="pl-kos">&gt;</span>GOLD<span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
@@ -1078,9 +1078,9 @@
     <span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>Default<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>This example defines a <code>color-button</code> button component that can be configured to set the background color with the <code>color</code> attribute. It has a default background of skyblue. In this example 3 buttons are created. One with a red background and one gold with the <code>color</code> attribute specified. The last uses the default background color skyblue as it has no color attribute specified.</p>
+<p>This example defines a <code>color-button</code> button component that can be configured to set the background color with the <code>color</code> attribute. It has a default background of skyblue. In this example, three buttons are created. One with a red background and one gold with the <code>color</code> attribute specified. The last uses the default background color skyblue as it has no color attribute set.</p>
 <h2><a id="user-content-56-getting-data-out-of-components" class="anchor" aria-hidden="true" tabindex="-1" href="#56-getting-data-out-of-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.6 Getting data out of components</h2>
-<p>Components can pass data to the outside of the component with the data-bind-* attribute. When a JavaScript variable is bound via a data-bind attribute, the component can change the value of the variable.</p>
+<p>Components can pass data outside of the component with the data-bind-* attribute. When a JavaScript variable is bound via a data-bind attribute, the component can change the variable's value.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
   <span class="pl-k">let</span> <span class="pl-s1">currentNote</span> <span class="pl-c1">=</span> <span class="pl-s">''</span>
@@ -1102,7 +1102,7 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>"In this example, we create a musical notes component. It displays a button for each note. When a note's button is pressed, the note is displayed via the bound and updated <code>currentNote</code> variable."</p>
 <h2><a id="user-content-57-component-events" class="anchor" aria-hidden="true" tabindex="-1" href="#57-component-events"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.7 Component Events</h2>
-<p>Reken allows your components to create custom events. You can fire an event by calling function <code>dispatch</code>, with the mandatory event type argument and an optional details argument. When the event is initiated, the listeners will receive an event (<code>e</code>) with a <code>detail</code> property which contains the contents of the second argument.</p>
+<p>Reken allows your components to create custom events. You can fire an event by calling function <code>dispatch</code>, with the mandatory event type argument and an optional details argument. When the event is initiated, the listeners will receive an event (<code>e</code>) with a <code>detail</code> property that contains the contents of the second argument.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
@@ -1116,10 +1116,9 @@
     <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, a keypad component is defined. When a button is pressed, an event with a payload containing the keypad number is dispatched. The keypad has an event listener that shows an alert with the contents of the <code>detail</code> property: which is the key that was pressed.</p>
+<p>In this example, a keypad component is defined. When a button is pressed, an event with a payload containing the keypad number is dispatched. The keypad has an event listener that shows an alert with the contents of the <code>detail</code> property, the key pressed.</p>
 <h2><a id="user-content-58-component-styling" class="anchor" aria-hidden="true" tabindex="-1" href="#58-component-styling"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.8 Component Styling</h2>
-<p>Reken supports component styling, allowing you to style a component without affecting the styles of elements that are not part of the component.</p>
-<p><strong>Component State:</strong></p>
+<p>Reken supports component styling, allowing you to style a component without affecting the styles of elements not part of the component.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
     <span class="pl-ent">div</span> {
@@ -1153,9 +1152,9 @@
     <span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the <code>my-style</code> component defines two styles with the <code>:host</code> style selector. The first style rule declares that the whole component has a green background. The second style rule specifies that all spans in the my-style component have a blue background. Notice that these style rules override page-level style rules, without affecting the elements that are not part of the component.</p>
+<p>In this example, the <code>my-style</code> component defines two styles with the <code>:host</code> style selector. The first style rule declares that the whole component has a green background. The second style rule specifies that all spans in the my-style component have a blue background. Notice that these style rules override page-level style rules without affecting the elements not part of the component.</p>
 <h2><a id="user-content-59-component-modules" class="anchor" aria-hidden="true" tabindex="-1" href="#59-component-modules"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.9 Component Modules</h2>
-<p>Reken supports component modules. It can include external component definitions and HTML fragments from other HTML files. These includes can be nested as well. It is recommended not have too many seperate / nested modules.</p>
+<p>Reken supports component modules. It can include external component definitions and HTML fragments from other HTML files. Includes can be nested as well. However it is not recommended to have too many separate/nested modules.</p>
 <p><strong>Component includes:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">ok-button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">ok-button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span>body<span class="pl-kos">&gt;</span>
@@ -1177,7 +1176,7 @@
     <span class="pl-kos">&lt;</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>Cancel<span class="pl-kos">&lt;/</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the main HTML page loads the <code>components.html</code> file with the <code>data-include</code> attribute. The <code>components.html</code> in addition, loads other sub-component files such as <code>buttons.html</code> with the <code>data-include</code> attribute.</p>
+<p>In this example, the main HTML page loads the <code>components.html</code> file with the <code>data-include</code> attribute. The <code>components.html</code>, in addition, loads other sub-component files, such as <code>buttons.html</code>, with the <code>data-include</code> attribute.</p>
 <h2><a id="user-content-510-routing-with-reken" class="anchor" aria-hidden="true" tabindex="-1" href="#510-routing-with-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.10 Routing with Reken</h2>
 <p>Routing is essential for building single-page applications (SPAs) with multiple views or pages in a single HTML document. Reken provides a flexible way to implement routing based on URL hashes.</p>
 <p><strong>Basic Routing:</strong></p>
@@ -1197,7 +1196,7 @@
 <p>Reken can also be configured to create parameterized routes. This is useful for data-driven pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a <code>#</code>. Reken will then try to map the route name to a variable with the same name.</p>
 <p><strong>Parameterized Routing:</strong></p>
 <ol>
-<li>Define a route by specifying a URL hash precided by a <code>#</code> in the <code>data-route</code> attribute.</li>
+<li>Define a route by specifying a URL hash preceded by a <code>#</code> in the <code>data-route</code> attribute.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-route</span>="<span class="pl-s">/products/#productId</span>"<span class="pl-kos">&gt;</span>This is the product detail page<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <ol start="2">
