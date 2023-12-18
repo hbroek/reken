@@ -56,11 +56,8 @@ jobs:
           cp -r documentation/developer-guide/code-samples/* dist/documentation/developer-guide/code-samples
 
       # Create a zip for the examples
-      #- name: Install Zip
-      #  run: sudo apt-get install zip
-
       - name: Create Zip File
-        run: zip -r dist/documentation/developer-guide/reken-developer-handbook-code-samples.zip dist/documentation/developer-guide/code-samples
+        run: zip -r documentation/developer-guide/reken-developer-handbook-code-samples.zip dist/documentation/developer-guide/code-samples
 
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
