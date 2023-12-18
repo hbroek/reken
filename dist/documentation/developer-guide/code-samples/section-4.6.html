@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.6 data-class</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+    <style>
+      .highlight {
+        background: yellow;
+      }
+      .bold {
+        font-weight:bold;
+      }
+      .italic {
+        font-style: italic;
+      }
+      .halted {
+        background: red;
+      }
+    </style>
+</head>
+<header>
+  <h1>4.6 data-class</h1>
+</header>
+<body>
+  <article>
+    <div>
+      <label>Specify a grade:
+        <input type="number" data-value="grade" min="1" max="10"/>
+      </label>
+    </div>
+    <div data-class="highlight:grade>7">John Smith</div>
+  </article>
+
+  <article>
+    <div>
+      <label>Bold:
+        <input type="checkbox" data-value="isBold"/>
+      </label>
+    </div>
+
+    <div>
+      <label>Cursive:
+        <input type="checkbox" data-value="isCursive"/>
+      </label>
+    </div>
+
+    <div data-class="bold:isBold;italic:isCursive">Jane Doe</div>
+
+  </article>
+
+  <article>
+    <div>
+      <label>Halt:
+        <input type="checkbox" data-value="halted"/>
+      </label>
+    </div>
+
+    <div data-class="halted">Chris Lion</div>
+
+  </article>
+
+
+</body>
+<script>
+  let grade = 7
+  let isBold = false;
+  let isCursive = false;
+  let halted = false;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.7 data-if</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+    <style>
+      .hidden {
+        transform: translateX(100vw) ;
+        transition: transform 1s;
+      }
+      .fadein {
+        transform: translateX(0);
+      }
+    </style>
+</head>
+<header>
+  <h1>4.7 data-if</h1>
+</header>
+<body>
+  <article>
+    <div>
+      <label>Is logged in:
+        <input type="checkbox" data-value="isLoggedIn"/>
+      </label>
+    </div>
+
+    <div data-if="isLoggedIn">Logged In</div>
+
+  </article>
+
+  <article>
+    <div>
+      <label>Is Active:
+        <input type="checkbox" data-value="isActive"/>
+      </label>
+    </div>
+
+    <div data-if="fadein:isActive" class="hidden">Active</div>
+    
+  </article>
+
+</body>
+<script>
+  let isLoggedIn = true;
+  let isActive   = false;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

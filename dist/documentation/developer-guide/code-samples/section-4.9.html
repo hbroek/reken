@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.9 data-action</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+</head>
+<header>
+  <h1>4.9 data-action</h1>
+</header>
+<body>
+  <article>
+    <button data-action="counter=counter+1">Increment Counter</button>
+
+    <output data-text="${counter}"></output>
+  </article>
+
+  <article>
+
+    <button data-action="console.log(e);e.preventDefault();">Log Event Object</button>
+    
+  </article>
+
+</body>
+<script>
+  let counter = 0;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

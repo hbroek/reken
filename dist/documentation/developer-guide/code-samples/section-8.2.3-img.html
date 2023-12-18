@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<script>
+  let show = false;
+</script>
+<body style="display:none" data-on-rekenready="e.target.style.display='initial'">
+
+  <button data-action="show=true">Show image</button>
+  <main data-if="show">
+    <img loading="lazy" src="photos/10009.jpg"/>
+  </main>
+
+</body>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+</html>

@@ -1030,37 +1030,37 @@
 <p>The most common way to include Reken in your project is by using a <code>&lt;script&gt;</code> tag. Add the following code at the bottom of your HTML document, just before the closing <code>&lt;/html&gt;</code> tag:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
-    <span class="pl-c">&lt;!-- Your HTML document's head content --&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-    <span class="pl-c">&lt;!-- Your HTML content --&gt;</span>
-    
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-c">&lt;!-- Include the Reken library --&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">path/to/reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+ <span class="pl-c">&lt;!-- Your HTML document's head content --&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+ <span class="pl-c">&lt;!-- Your HTML content --&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+ <span class="pl-c">&lt;!-- Include the Reken library --&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">path/to/reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Replace <code>"path/to/reken.js"</code> with the actual path to the Reken library file. This script tag loads the Reken library and makes it available for use in your web pages.</p>
 <h3><a id="user-content-222-using-a-content-delivery-network-cdn" class="anchor" aria-hidden="true" tabindex="-1" href="#222-using-a-content-delivery-network-cdn"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.2.2 Using a Content Delivery Network (CDN)</h3>
 <p>If you prefer to use a CDN, you can directly link to the Reken library. Here's how you can do that:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
-    <span class="pl-c">&lt;!-- Your HTML document's head content --&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-    <span class="pl-c">&lt;!-- Your HTML content --&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+  <span class="pl-c">&lt;!-- Your HTML document's head content --&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+  <span class="pl-c">&lt;!-- Your HTML content --&gt;</span>
     
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-c">&lt;!-- Include latest Reken version from a CDN --&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+ <span class="pl-c">&lt;!-- Include latest Reken version from a CDN --&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we're using the jsdelivr CDN to link to the latest version of Reken. You can also reference a specific Reken version. For example <code>https://cdn.jsdelivr.net/gh/hbroek/reken@v0.9.3/dist/reken.min.js</code> references Reken version 0.9.3.</p>
 <h2><a id="user-content-23-verifying-the-installation" class="anchor" aria-hidden="true" tabindex="-1" href="#23-verifying-the-installation"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.3 Verifying the Installation</h2>
 <p>To ensure that Reken has been successfully added to your project, you can perform a simple test. In your HTML document, add a <code>&lt;script&gt;</code> tag with the following code:</p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre>...
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-    <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-c1">version</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+  <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-c1">version</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
 <p>When you load this web page in your browser, the Reken library will output its version number to the browser's console. This confirms that Reken is correctly included and available for your project.</p>
 <h2><a id="user-content-24-browser-support" class="anchor" aria-hidden="true" tabindex="-1" href="#24-browser-support"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.4 Browser Support</h2>

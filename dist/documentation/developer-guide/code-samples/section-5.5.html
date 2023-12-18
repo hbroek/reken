@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.5 Passing Data in Components</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>5.5 Passing Data in Components</h1>
+  </header>
+  <article>
+    <color-button color="red">RED</color-button>
+    <color-button color="gold">GOLD</color-button>
+    <color-button></color-button>
+  </article>
+</body>
+<template data-component="color-button"
+          data-arg-color="skyblue">
+  <button data-style="background:${color}">
+    <slot>Default</slot>
+  </button>
+</template>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.14 data-rest-options</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+
+  <style>
+    .reken-rest-busy {
+      background: silver;
+    }
+
+    .reken-rest-done {
+      background: lightgreen;
+    }
+
+    .reken-rest-error {
+      background: pink;
+    }
+  </style>
+
+</head>
+
+<body>
+  <header>
+    <h1>4.14 data-rest-options</h1>
+  </header>
+  <article>
+    <!-- Note the rest call as there is no endpoint /api/order that will a POST method, see log after the clicking Order button -->
+    <div data-rest="orderResult:/api/orders" data-rest-options="fetchOptions">
+      <button data-action="fetchOptions.body=JSON.stringify(orderData);fetchOptions.fetch=true;">Order</button>
+    </div>
+
+  </article>
+
+  <article>
+    <main data-rest="orders:json/orders.json" data-rest-options="statusOptions" >
+      <div data-for="order:orders">
+          <div data-text="${order.item.id} - ${order.item.created.toDateString()}"></div>
+      </div>
+    </main>
+    <footer data-text="${message}"></footer>
+  </article>
+</body>
+<script>
+let orderData = {
+  customerNumber: 12345,
+  products : [
+    {id: '3456', amount: 8},
+    {id: '5673', amount: 3},
+  ]
+};
+let fetchOptions = {
+  fetch: false,
+  method: 'POST',
+}
+let orderResult;
+
+
+let message = 'Loading...'
+  let statusOptions = {
+      callback: (options, json_object) => {
+          message = (options.reken_rest_status==='reken-rest-done' ?
+              `Successful; Loaded ${json_object.length} orders` : 
+              `Unsuccessful: errorcode: ${options.response.status}-${options.response.statusText}`)
+      },
+      reviver: (prop_name, prop_value) =>
+          prop_name === 'created'?new Date(prop_value):prop_value
+  }
+  let orders;
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

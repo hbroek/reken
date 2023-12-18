@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.2 - data-html</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.2 - data-html</h1>
+  </header>
+  
+  <article>
+    <div data-html="<em>${empVar}</em> - <span>${descVar}</span>"></div>
+  </article>
+
+  <article>
+    <div data-html="<h1>Hello, I win</h1>">This will be overridden by the data-text's expression</div>
+  </article>
+
+  <article>
+    <div data-html="<h1>Hello, I win as well</h1>">
+      <h1>
+        <span>the h1 and span tags will be overridden by the data-text's expression as well.</span>
+      </h1>
+    </div>
+  </article>
+
+</body>
+<script>
+  let empVar = 'jsmith';
+  let descVar = 'electrican';
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

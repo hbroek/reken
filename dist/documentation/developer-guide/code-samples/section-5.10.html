@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.10 Routing with Reken</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+<body>
+  <header>
+    <h1>5.10 Routing with Reken</h1>
+  </header>
+  
+  <article>
+    <nav>
+      <a href="#/home">Home</a>
+      <a href="#/about">About</a>
+      <ul data-for="product:products"> <!-- Dynamic routing-->
+        <li>
+          <a data-attr-href="#/products/${product.item.id}"
+            data-text="${product.item.name}"></a>
+        </li>
+      </ul>      
+    </nav>
+    <hr/>
+    <div data-route="/home">This is the Home page</div>
+    <div data-route="/about">This is the About page</div>
+    <div data-route="/products/#productId">This is the product detail page for <span data-text="${productId}"></div>
+    
+  </article>
+</body>
+<script>
+  const products = [
+    {'id': 'p12345', 'name': 'Product 12345'},
+    {'id': 'p67890', 'name': 'Product 67890'},
+  ];
+  let productId;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

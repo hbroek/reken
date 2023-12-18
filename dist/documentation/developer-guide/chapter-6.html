@@ -1030,16 +1030,28 @@
 <h2><a id="user-content-62-rekenversion" class="anchor" aria-hidden="true" tabindex="-1" href="#62-rekenversion"><span aria-hidden="true" class="octicon octicon-link"></span></a>6.2 reken.version</h2>
 <p>The <code>reken.version</code> property allows you to check the version of the Reken library currently in use. This can be helpful when you want to ensure that your application is using the correct version or when dealing with compatibility issues.</p>
 <p><strong>Example: Checking the Reken Version</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s">"Reken version: "</span> <span class="pl-c1">+</span> <span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-c1">version</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${reken.version}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we display Reken's version number in an <code>output</code> element.</p>
 <h2><a id="user-content-63-rekenforce_calculate" class="anchor" aria-hidden="true" tabindex="-1" href="#63-rekenforce_calculate"><span aria-hidden="true" class="octicon octicon-link"></span></a>6.3 reken.force_calculate()</h2>
-<p>The <code>reken.force_calculate()</code> function is a powerful method for manually triggering Reken's recalculation and UI update process. While Reken automatically updates the UI in response to various events, there may be cases where you need to initiate an update explicitly, such as asynchronous events.</p>
+<p>The <code>reken.force_calculate()</code> function is a powerful method for manually triggering Reken's recalculation and UI update process. While Reken automatically updates the UI in response to events when using <code>data-value</code>, <code>data-action</code>, <code>data-on-*</code>, and <code>data-rest</code>, there may be cases where you need to initiate an update explicitly, such as after asynchronous events.</p>
 <p><strong>Example: Forcing Reken to Update the UI</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c">// Your custom logic that requires a Reken update</span>
-<span class="pl-c">// ...</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">transform: translateX(${count}px);</span>
+<span class="pl-s"> width:100px;height:100px;background:skyblue;</span>"<span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-k">let</span> <span class="pl-s1">count</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
 
-<span class="pl-c">// Force Reken to recalculate and update the UI</span>
-<span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-en">force_calculate</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre></div>
-<p>This function is particularly useful when dealing with changes or events that are not directly managed by Reken but still need to reflect in the user interface.</p>
+<span class="pl-k">function</span> <span class="pl-en">animate</span><span class="pl-kos">(</span><span class="pl-s1">timeStamp</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+ <span class="pl-s1">count</span><span class="pl-c1">++</span><span class="pl-kos">;</span>
+ <span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-en">force_calculate</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+
+ <span class="pl-k">if</span> <span class="pl-kos">(</span><span class="pl-s1">count</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">200</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+  <span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-en">requestAnimationFrame</span><span class="pl-kos">(</span><span class="pl-s1">animate</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+ <span class="pl-kos">}</span>
+<span class="pl-kos">}</span>
+
+<span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-en">requestAnimationFrame</span><span class="pl-kos">(</span><span class="pl-s1">animate</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we make use of the <code>requestAnimationFrame</code> to move a div element across the screen by updating the <code>count</code> variable. By calling the <code>reken.force_recalculate</code> it executes the value of the <code>data-style</code> attribute.</p>
 <h2><a id="user-content-64-rekenforcecalculate-deprecated" class="anchor" aria-hidden="true" tabindex="-1" href="#64-rekenforcecalculate-deprecated"><span aria-hidden="true" class="octicon octicon-link"></span></a>6.4 reken.forceCalculate() (Deprecated)</h2>
 <p>The <code>reken.forceCalculate()</code> method was used in older versions of Reken to achieve the same functionality as <code>reken.force_calculate()</code>. However, it has been deprecated in favor of the latter. It is recommended to use <code>reken.force_calculate()</code> for initiating Reken updates.</p>
 <h2><a id="user-content-65-rekenready-event" class="anchor" aria-hidden="true" tabindex="-1" href="#65-rekenready-event"><span aria-hidden="true" class="octicon octicon-link"></span></a>6.5 rekenready event</h2>
@@ -1050,6 +1062,13 @@
 <p>In this example, we hide the page contents on startup by setting the opacity to 0. With the data-on-rekenready attribute, we register a listener to show the page contents. When Reken is initialized and the UI is updated, the event fires and the page becomes visible with a 1-second transition. This is useful to avoid seeing the page re-render when the page initializes.</p>
 <h2><a id="user-content-66-rekeninitialized-event" class="anchor" aria-hidden="true" tabindex="-1" href="#66-rekeninitialized-event"><span aria-hidden="true" class="octicon octicon-link"></span></a>6.6 rekeninitialized event</h2>
 <p>The <code>rekeninitialized</code> event is similar to the <code>rekenready</code> event. It is fired when reken is initialized but the UI is not updated yet.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">data-on-rekeninitialized</span>="<span class="pl-s">myValue=200</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${myValue}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+ <span class="pl-k">let</span> <span class="pl-s1">myValue</span> <span class="pl-c1">=</span> <span class="pl-c1">100</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example we initialize a variable <code>myValue</code> with 100. But just before Reken updates the UI the first time, we update the myValue in the rekenInitialized event.</p>
 <p>By understanding and using the <code>reken</code> object and the startup events <code>rekenready</code> and <code>rekeninitialized</code>, you gain more control over the behavior of Reken in your web application. The ability to manually trigger updates can be valuable when you need precise control over when and how your UI responds to changes and events.</p>
 
 </article>

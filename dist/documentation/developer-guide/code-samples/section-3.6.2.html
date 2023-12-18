@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3.6.2 Handling REST API Call Status</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+    <style>
+      body:has(.reken-rest-busy) {
+        background-color: yellow;
+      }
+      body:has(.reken-rest-error) {
+        background-color: pink;
+      }
+      body:has(.reken-rest-done) {
+        background-color: lightgreen;
+      }
+    </style>
+  </head>
+  <header>
+    <h1>3.6.2 Handling REST API Call Status</h1>
+  </header>
+  <body>
+    <article>
+      <div data-rest="userData:json/user/jsmith.json">
+        <output data-if="userData" data-text="Loaded ${userData.name}"></output>
+      </div>  
+    </article>
+</body>
+<script>
+  let userData;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

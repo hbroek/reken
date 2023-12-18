@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.17 data-component</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.17 data-component</h1>
+  </header>
+  <article>
+    <hello-world></hello-world>
+    or
+    <div data-component="hello-world"></div>  
+  </article>
+  <article>
+    <hello>John</hello>
+    or
+    <div data-component="hello"></div>    
+  </article>
+</body>
+
+
+<template data-component="hello-world">
+  <div>Hello <b>World</b></div>
+</template>
+
+<template data-component="hello">
+  <div>Hello 
+    <b>
+      <slot>World</slot>
+    </b>
+  </div>
+</template>
+
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

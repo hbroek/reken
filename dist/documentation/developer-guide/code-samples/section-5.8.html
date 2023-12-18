@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.8 Component Styling</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+  <style>
+    div {
+      background: red;
+      color:white;
+    }
+    div > span {
+      background-color: purple;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>5.8 Component Styling</h1>
+  </header>
+  <article>
+    <div>
+      This background is red.
+      <my-style>This is green</my-style>
+      <span>This should be purple</span>
+    </div>  
+  </article>
+</body>
+<template data-component="my-style">
+<style>
+  :host {
+    background: green;
+  }
+  :host > span {
+    background: blue;
+  }
+</style>
+<div>
+  <span>Here follows the slot text:</span>
+  <slot></slot>
+</div>
+</template>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

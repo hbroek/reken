@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.12 data-interval</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.12 data-interval</h1>
+  </header>
+  <article>
+    <div data-interval="1000:isRunning:counter++;" data-text="${counter}"></div>
+
+    <button data-action="isRunning=!isRunning;" data-text="${isRunning?'Stop':'Start'}"></button>
+    
+  </article>
+</body>
+<script>
+  let isRunning = false;
+  let counter = 0;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

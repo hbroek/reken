@@ -1012,14 +1012,14 @@
 <h1><a id="user-content-chapter-4-reken-attribute-reference" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-4-reken-attribute-reference"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 4: Reken Attribute Reference</h1>
 <p>This chapter will dive deeper into Reken's attributes and explore their functionality. These attributes provide the building blocks for creating dynamic and interactive web pages. Understanding how each attribute works and how to use them effectively is crucial for harnessing the power of Reken.</p>
 <h2><a id="user-content-41-data-text" class="anchor" aria-hidden="true" tabindex="-1" href="#41-data-text"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.1 data-text</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-text</code>="[template string]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-text</code>="[template string]"</strong></p>
 <p>The <code>data-text</code> attribute allows you to update the <code>textContent</code> of an HTML element with an evaluated template string. This attribute is commonly used for rendering dynamic text content. The syntax of the template string is compatible with the javascript template string expressions.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, ${userName}!</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the text content of the <code>&lt;p&gt;</code> element will be updated with the value of the <code>userName</code> JavaScript variable.</p>
 <blockquote>
-<p><em>Note: Since <code>data-text</code> is updating the HTML Element's <code>textContent</code>, It is considered a <strong>safe</strong> DOM update, even when using untrusted data.</em></p>
+<p><strong>Note:</strong> Since <code>data-text</code> is updating the HTML Element's <code>textContent</code>, It is considered a <strong>safe</strong> DOM update, even when using untrusted data.*</p>
 </blockquote>
 <blockquote>
 <p><em>Warning: Any (text/HTML) content of the HTML element with the <code>data-text</code> attribute is overridden.</em></p>
@@ -1027,17 +1027,17 @@
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, I win</span>"<span class="pl-kos">&gt;</span>This will be overridden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
 
-<span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, I win as well</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>the h1 and span tags will be overridden by the data-text's expression as well.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, I win as well</span>"<span class="pl-kos">&gt;</span>This text will be overriden as well, but the child elements stay
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>Child elements are not overriden.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span>p<span class="pl-kos">&gt;</span></pre></div>
 <h2><a id="user-content-42-data-html" class="anchor" aria-hidden="true" tabindex="-1" href="#42-data-html"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.2 data-html</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-html</code>="[template string]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-html</code>="[template string]"</strong></p>
 <p>The <code>data-html</code> attribute enables you to update the <code>innerHTML</code> of an HTML element with an evaluated template string. It's useful when you want to inject dynamic HTML content into an element. The syntax of the template string is compatible with the javascript template string expressions.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;em&gt;${empVar}&lt;/em&gt;&lt;span&gt;${descVar}&lt;/span&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;em&gt;${empVar}&lt;/em&gt; - &lt;span&gt;${descVar}&lt;/span&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Here, the <code>&lt;div&gt;</code> element's content will be replaced with the HTML content generated with the <code>empVar</code> and <code>descVar</code> variables.</p>
 <blockquote>
 <p><em>Warning: Since <code>data-html</code> is updating the HTML Element's <code>innerHTML</code>, it is considered a <strong>UNSAFE</strong> DOM update. Use with caution!</em></p>
@@ -1046,47 +1046,47 @@
 <p><em>Warning: Any (text/HTML) content of the HTML element with the <code>data-html</code> attribute is overridden</em></p>
 </blockquote>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>This will be overridden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>This will be overridden by the data-text's expression<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 
-<span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win as well&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>the h1 and span tags will be overridden by the data-text's expression as well.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;/</span>p<span class="pl-kos">&gt;</span></pre></div>
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;h1&gt;Hello, I win as well&lt;/h1&gt;</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>the h1 and span tags will be overridden by the data-html's expression as well.<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <h2><a id="user-content-43-data-value" class="anchor" aria-hidden="true" tabindex="-1" href="#43-data-value"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3 data-value</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-value</code>="[variable name]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-value</code>="[variable name]"</strong></p>
 <p>The <code>data-value</code> attribute is used for binding a JavaScript variable to an input element, creating two-way data binding. It supports various input types, such as text, number, checkbox, radio, file, and more. The event used to update the bind value is the <code>change</code> event, except for input type <code>range</code> and <code>textarea</code> which use the <code>input</code> event.</p>
 <h3><a id="user-content-431-typetext" class="anchor" aria-hidden="true" tabindex="-1" href="#431-typetext"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.1 type='text'</h3>
 <p>With input types <code>text</code> and similarly <code>search</code>, <code>email</code>, <code>password</code>, <code>tel</code> and <code>url</code> all bind to a string. They differ in that they have some validation and/or additional affordances on the control.</p>
 <p>When using the <code>data-value</code> attribute the javascript string value will be applied to the input control and when the value is changed in the input control, the variable gets updated.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userName</span>"<span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userName</span>"/&gt;</pre></div>
 <p>Likewise with the input type number field, but instead of binding a string value, we bind a integer or number value. The input control typically has additional affordance to increment or decrement the value.</p>
 <h3><a id="user-content-432-typenumber" class="anchor" aria-hidden="true" tabindex="-1" href="#432-typenumber"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.2 type='number'</h3>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"<span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"/&gt;</pre></div>
 <p>When the user interacts with the input field, the <code>age</code> variable will be updated automatically, and changes to the variable will be reflected in the input field.</p>
 <h3><a id="user-content-433-typedate" class="anchor" aria-hidden="true" tabindex="-1" href="#433-typedate"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.3 type='date'</h3>
 <p>With input types <code>text</code> and similarly <code>datetime-local</code>, <code>month</code>, <code>time</code>, and <code>week</code> all bind to a string representing date and/or time. They differ in that they have some validation and/or additional affordances on the control.</p>
 <blockquote>
-<p>Note: It is important to initialize the variable with a string value that is compatible with the date format that is expected.</p>
+<p><strong>Note:</strong> It is important to initialize the variable with a string value that is compatible with the date format that is expected.</p>
 </blockquote>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">date</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">birthday</span>"<span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">date</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">birthday</span>"/&gt;</pre></div>
 <p>When the user interacts with the input field, the <code>birthday</code> variable will be updated automatically, and changes to the variable will reflect in the input field.</p>
 <h3><a id="user-content-434-typecolor" class="anchor" aria-hidden="true" tabindex="-1" href="#434-typecolor"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.4 type='color'</h3>
 <p>Input type <code>color</code> binds to a string representing the hex value of a color.</p>
 <blockquote>
-<p>Note: It is important to initialize the variable with a string value that is empty or a six-digit RGB hex-value preceded with a <code>#</code>. i.e. <code>#762828</code></p>
+<p><strong>Note:</strong> It is important to initialize the variable with a string value that is empty or a six-digit RGB hex-value preceded with a <code>#</code>. i.e. <code>#762828</code></p>
 </blockquote>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">favoriteColor</span>"<span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">favoriteColor</span>"/&gt;</pre></div>
 <p>When the user interacts with the input field, the <code>favoriteColor</code> variable will be updated automatically, and changes to the variable will be reflected in the input field.</p>
 <h3><a id="user-content-435-typerange" class="anchor" aria-hidden="true" tabindex="-1" href="#435-typerange"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.5 type='range'</h3>
 <p>Input type <code>range</code> binds to an integer variable. As mentioned earlier, when binding a variable to a <code>type=range</code> input control, the variable gets updated through an <code>input event</code>. This means that user manipulates the range control (typically via slider control), and the bound variable updates instantly. Not when he finishes. The advantage is that the UI can react to the updating variable in real time.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"<span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"/&gt;</pre></div>
 <p>When the user moves the slider with the input field, the <code>age</code> variable will be updated automatically, and changes to the variable will be reflected in the input field.</p>
 <h3><a id="user-content-436-typeradio" class="anchor" aria-hidden="true" tabindex="-1" href="#436-typeradio"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.6 type='radio'</h3>
 <p>A radio input control works in concert with other radio input controls, which are grouped by the same <code>name</code> attribute (a set). The function of the radio controls is to have the user select one of the values. By clicking an unselected value, it is selected, and the previously selected value is deselected. To bind the set of radio controls to a javascript value, specify on each of the radio controls a <code>data-value</code> with the same variable name.</p>
@@ -1109,8 +1109,6 @@
 <p>When the user selects the checkbox, the <code>vegetarianValue</code> variable will be automatically set to <code>true</code>, and when unchecked, set to <code>false</code>. Changes to the boolean variable will either check or uncheck the checkbox depending on the boolean value it is set to.</p>
 <h3><a id="user-content-438-typefile" class="anchor" aria-hidden="true" tabindex="-1" href="#438-typefile"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.8 type='file'</h3>
 <p>Input type <code>file</code> data binding works a slightly differently than the other input controls. It is not a 2-way binding. It is a 1-way binding. The user picks a file, and then the binding variable gets updated with a File object. The File object will contain at least a <code>data</code> property which is the object representation of the JSON string that is loaded.</p>
-<p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">file</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">fileObject</span>" <span class="pl-c1">accept</span>="<span class="pl-s">.json</span>"<span class="pl-kos">&gt;</span></pre></div>
 <p>When the user chooses a file, the <code>fileObject</code> variable will be updated with information about the file. It will be populated with the following properties:</p>
 <ul>
 <li>
@@ -1127,7 +1125,7 @@
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">file</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">fileObject:csvConverter</span>" <span class="pl-c1">accept</span>="<span class="pl-s">.csv</span>"<span class="pl-kos">&gt;</span></pre></div>
 <p>After the user selects a CSV file the csvConverter function is called with the arguments: <code>content</code> and <code>fileObject</code>; the csvConverter function should return a javascript object or array representing the CSV content.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c">/* Naive csv to array of objects converter */</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* Simple csv to array of objects converter */</span>
 <span class="pl-k">function</span> <span class="pl-en">csvConverter</span><span class="pl-kos">(</span><span class="pl-s1">contentText</span><span class="pl-kos">,</span> <span class="pl-s1">fileObject</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
   <span class="pl-k">return</span> <span class="pl-s1">contentText</span><span class="pl-kos">.</span><span class="pl-en">split</span><span class="pl-kos">(</span><span class="pl-s">'\n'</span><span class="pl-kos">)</span>
     <span class="pl-kos">.</span><span class="pl-en">map</span><span class="pl-kos">(</span><span class="pl-kos">(</span><span class="pl-s1">csvRow</span><span class="pl-kos">)</span><span class="pl-c1">=&gt;</span><span class="pl-s1">csvRow</span><span class="pl-kos">.</span><span class="pl-en">split</span><span class="pl-kos">(</span><span class="pl-s">','</span><span class="pl-kos">)</span>
@@ -1137,133 +1135,156 @@
 <p>By binding a value to the textarea control, the string variable gets updated in realtime.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">textarea</span> <span class="pl-c1">data-value</span>="<span class="pl-s">comment</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">textarea</span><span class="pl-kos">&gt;</span></pre></div>
-<p>When the user interacts with the textarea field, the <code>comment</code> variable will be updated in realtime, and changes to the variable will be reflected in the input field.</p>
+<p>When the user interacts with the textarea field, the <code>comment</code> variable will be updated in real time, and changes to the variable will be reflected in the input field.</p>
+<h3><a id="user-content-4310-select" class="anchor" aria-hidden="true" tabindex="-1" href="#4310-select"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.3.10 select</h3>
+<p>When a variable is bound to a <code>select</code> element, the variable will get populated with the value of the option the user picks.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">select</span> <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">option</span> <span class="pl-c1">value</span>="<span class="pl-s">male</span>"<span class="pl-kos">&gt;</span>Male<span class="pl-kos">&lt;/</span><span class="pl-ent">option</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">option</span> <span class="pl-c1">value</span>="<span class="pl-s">female</span>"<span class="pl-kos">&gt;</span>Female<span class="pl-kos">&lt;/</span><span class="pl-ent">option</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">option</span> <span class="pl-c1">value</span>="<span class="pl-s">other</span>"<span class="pl-kos">&gt;</span>Other<span class="pl-kos">&lt;/</span><span class="pl-ent">option</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">select</span><span class="pl-kos">&gt;</span>    </pre></div>
+<p>In this example, the <code>data-value</code> attribute is set on a <code>select</code> element with the javascript variable <code>genderValue</code>. When the user picks one of the three values from the <code>option</code> tags, it will be reflected in the <code>genderValue</code> attribute.</p>
 <h2><a id="user-content-44-data-style" class="anchor" aria-hidden="true" tabindex="-1" href="#44-data-style"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.4 data-style</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-style</code>="[template string]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-style</code>="[template string]"</strong></p>
 <p>With the <code>data-style</code> attribute, you can update the <code>style</code> attribute of an element using an evaluated template string. This is particularly helpful for dynamically modifying CSS styles.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">width:${width}px;height:${height}px</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the width and height of the <code>&lt;div&gt;</code> element will be set based on the value of the <code>width</code> JavaScript variable.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">width:${width}px;height:${height}px;background;lightgreen</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example, the width and height of the <code>&lt;div&gt;</code> element will be set based on the value of the <code>width</code> JavaScript variable. The background is set with a regular style setting.</p>
 <h2><a id="user-content-45-data-attr-attr" class="anchor" aria-hidden="true" tabindex="-1" href="#45-data-attr-attr"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.5 data-attr-[attr]</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-attr-[attrName]</code>="[template string] | [boolean expression]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-attr-[attrName]</code>="[template string] | [boolean expression]"</strong></p>
 <p>The <code>data-attr-[attr]</code> attribute allows you to set any HTML element's attribute value dynamically. You can update the attribute with a template string.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${imageUrl}</span>"<span class="pl-kos">&gt;</span></pre></div>
-<p>Here, the <code>src</code> attribute of the <code>&lt;img&gt;</code> element will be set to the value of the <code>imageUrl</code> JavaScript variable.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-src</span>="<span class="pl-s">img/${imageUrl}</span>" <span class="pl-c1">width</span>="<span class="pl-s">120</span>"/&gt;</pre></div>
+<p>Here, the <code>src</code> attribute of the <code>&lt;img&gt;</code> element will be set to the value of the <code>imageUrl</code> JavaScript variable. We set the width of the image to 120 pixels.</p>
 <p>Boolean HTML attributes such as <code>disabled</code>, <code>readonly</code> etc should be bound to a boolean variable.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">${isDisabled}</span>"<span class="pl-kos">&gt;</span></pre></div>
-<p>When the <code>isDisabled</code> variable is true, then the <code>disabled</code> HTML attribute is set on the <code>input</code> component, preventing the user from interacting with it.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">isDisabled</span>"<span class="pl-kos">&gt;</span>Click<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<p>When the <code>isDisabled</code> variable is true, then the <code>disabled</code> HTML attribute is set on the <code>button</code> component, preventing the user from clicking it.</p>
 <h2><a id="user-content-46-data-class" class="anchor" aria-hidden="true" tabindex="-1" href="#46-data-class"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.6 data-class</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-class</code>="[classname](:[boolean expression])"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-class</code>="[classname](:[boolean expression])"</strong></p>
 <p>The <code>data-class</code> attribute adds or removes CSS classes based on a boolean expression. A colon separates it, and the class is applied when the expression is <code>true</code> and removed when <code>false</code>.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">highlight:grade&gt;8</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>The <code>highlight</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>grade</code> variable is larger than 8.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">highlight:grade&gt;7</span>"<span class="pl-kos">&gt;</span>John Smith<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>highlight</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>grade</code> variable is larger than 7.</p>
 <p>You can add multiple class expressions in one <code>data-class</code> by separating them with a semicolon.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">bolded:isBold;cursive:isCursive</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>The <code>bolded</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>isBold</code> variable is <code>true</code>, and the <code>cursive</code> class is added when the <code>isCursive</code> variable is true.</p>
 <p>There is also a short form for defining <code>data-class</code> expressions. To define this specify a boolean variable name. The class will have the same name as the variable.</p>
+<p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-class</span>="<span class="pl-s">halted</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>The <code>halted</code> class will be added to the <code>&lt;div&gt;</code> element when the <code>halted</code> javascript variable is <code>true</code>.</p>
 <h2><a id="user-content-47-data-if" class="anchor" aria-hidden="true" tabindex="-1" href="#47-data-if"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.7 data-if</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-if</code>="([classname]:)[boolean expression]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-if</code>="([classname]:)[boolean expression]"</strong></p>
 <p>The <code>data-if</code> attribute is used for conditional rendering. It shows or hides an element based on a boolean expression. When an element is hidden with a false boolean expression, all of its descendant elements are hidden, and their Reken attributes are not executed as either.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isLoggedIn</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isLoggedIn</span>"<span class="pl-kos">&gt;</span>Logged In<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>The <code>&lt;div&gt;</code> element will only be displayed if the <code>isLoggedIn</code> variable is <code>true</code>.</p>
 <p>A class name preceding the expression can be provided to control how an element is shown.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">fadein:isActive</span>"<span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>The <code>&lt;div&gt;</code> element will have a class <code>fadeIn</code> when the <code>isActive</code> variable is <code>true</code>.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">fadein:isActive</span>" <span class="pl-c1">class</span>="<span class="pl-s">hidden</span>"<span class="pl-kos">&gt;</span>is Active<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
+<p>The <code>&lt;div&gt;</code> element has a class 'hidden' to display it off screen. The <code>data-if</code> will have add a class <code>fadeIn</code> when the <code>isActive</code> variable is <code>true</code>, animating the element in view.</p>
 <blockquote>
-<p>Note: It is the developer's responsibility to indicate that the <code>div</code> is inactive. All the descendant elements with <code>Reken</code> attributes are inactive too. Even if they may be visible.</p>
+<p><strong>Note:</strong> It is the developer's responsibility to indicate that the <code>div</code> is inactive. All the descendant elements with <code>Reken</code> attributes are inactive too. Even if they may be visible.</p>
 </blockquote>
 <h2><a id="user-content-48-data-for" class="anchor" aria-hidden="true" tabindex="-1" href="#48-data-for"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.8 data-for</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-for</code>="[iteratorVariable]:[integer]|[iterable object]:(endIndex)|(startIndex:endIndex)"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-for</code>="[iteratorVariable]:[integer]|[iterable object]:(endIndex)|(startIndex:endIndex)"</strong></p>
 <p>The <code>data-for</code> attribute is used for creating repeating elements. It takes a variable name, followed by a colon, and an iterable JavaScript object or a number. All children of the element are replicated according to the iterable object's length or the specified number.</p>
-<p>When an optional 3rd parameter endIndex is specified, it will stop the for-loop at that position, when a 3rd and 4th argument is specified. The 3rd argument is the startIndex, and the 4th argument is the endIndex. In this case, there is also an <code>itemIndex</code> property available on the <code>iteratorVariable</code>. It represents the actual array index.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">vrb:5</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">class</span>="<span class="pl-s">star</span>"<span class="pl-kos">&gt;</span>?<span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>*<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>This example generates five spans, each containing a star emoji.</p>
-<p>During iteration, the variable name contains a property <code>index</code>. With the <code>index</code> property, you have access to an index of the current element.</p>
+<p>This example generates five spans, each containing an asterix.</p>
+<p>During iteration, the variable name contains a property <code>index</code>. With the <code>index</code> property, you have access to a zero-based index of the current element.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">vrb:5</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${vrb.index}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">span</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${vrb.index}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we are using the variable's <code>index</code> property to set the text with the current index number of the <code>span</code>,</p>
 <p>When an array is specified to iterate over, the iterator variable also contains an <code>item</code> property that contains the current array element.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-k">let</span> <span class="pl-s1">fruits</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-s">'apple'</span><span class="pl-kos">,</span> <span class="pl-s">'orange'</span><span class="pl-kos">,</span> <span class="pl-s">'peach'</span><span class="pl-kos">]</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">fruit:fruits</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${fruit.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span><span class="pl-k">const</span> <span class="pl-s1">fruits</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span><span class="pl-s">'apple'</span><span class="pl-kos">,</span> <span class="pl-s">'orange'</span><span class="pl-kos">,</span> <span class="pl-s">'peach'</span><span class="pl-kos">]</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">fruit:fruits</span>"<span class="pl-kos">&gt;</span>Fruits
+ <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${fruit.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we are using the the <code>fruit</code> variable's <code>item</code> property to set the current array value on the <code>li</code>,</p>
 <p>Elements with <code>data-for</code> can be nested, creating nested loops.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-  <span class="pl-k">const</span> <span class="pl-s1">movies</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
-    <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Lord of the Rings'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">5</span> <span class="pl-kos">}</span><span class="pl-kos">,</span>
-    <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Harry Potter'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">2</span> <span class="pl-kos">}</span><span class="pl-kos">,</span>
-    <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Avatar'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">4</span> <span class="pl-kos">}</span>
-  <span class="pl-kos">]</span>
+ <span class="pl-k">const</span> <span class="pl-s1">movies</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+  <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Lord of the Rings'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">5</span> <span class="pl-kos">}</span><span class="pl-kos">,</span>
+  <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Harry Potter'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">2</span> <span class="pl-kos">}</span><span class="pl-kos">,</span>
+  <span class="pl-kos">{</span> <span class="pl-c1">name</span>: <span class="pl-s">'Avatar'</span><span class="pl-kos">,</span> <span class="pl-c1">rating</span>: <span class="pl-c1">4</span> <span class="pl-kos">}</span>
+ <span class="pl-kos">]</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 ...
 <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">data-for</span>="<span class="pl-s">movie:movies</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${movie.item.name}</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">tomato:movie.item.rating</span>"<span class="pl-kos">&gt;</span>
-      <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>??<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${movie.item.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">tomato:movie.item.rating</span>"<span class="pl-kos">&gt;</span>
+   <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>*<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, we use the iterator variable <code>movie</code>'s <code>item</code> property to create an <code>h1</code> element with the movie name. A second loop uses the <code>rating</code> property to render the number of tomatoes.</p>
+<p>In this example, we use the iterator variable <code>movie</code>'s <code>item</code> property to create an <code>h1</code> element with the movie name. A second loop uses the <code>rating</code> property to render the number of stars.</p>
+<p>When the <code>data-for</code> attribute has an optional 3rd parameter endIndex specified, it will stop the for-loop at that position.</p>
+<p>when a 3rd and 4th parameter is specified. The 3rd argument is the startIndex, and the 4th argument is the endIndex. In this case, there is also an <code>itemIndex</code> property available on the <code>iteratorVariable</code>. It represents the actual array index.</p>
+<p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-  <span class="pl-k">const</span> <span class="pl-s1">insects</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
-    <span class="pl-s">'mosquito'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'fly'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'tick'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'butterfly'</span><span class="pl-kos">,</span>
-    ...
-  <span class="pl-kos">]</span>
+<span class="pl-k">const</span> <span class="pl-s1">insects</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+ <span class="pl-s">'butterfly'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'spider'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'lady bug'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'mosquito'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'fly'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'tick'</span><span class="pl-kos">,</span>
+<span class="pl-kos">]</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 ...
-<span class="pl-kos">&lt;</span><span class="pl-ent">ol</span> <span class="pl-c1">data-for</span>="<span class="pl-s">insect:insects:3</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${insect.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">ol</span> <span class="pl-c1">data-for</span>="<span class="pl-s">insect:insects:3</span>"<span class="pl-kos">&gt;</span>Insects
+ <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${insect.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">ol</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example above, we only show a maximum of 3 li's based on the more extended insects array.</p>
+<p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-  <span class="pl-k">const</span> <span class="pl-s1">pictures</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
-    <span class="pl-s">'images/picture1.jpg'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'images/picture2.jpg'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'images/picture3.jpg'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'images/picture4.jpg'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'images/picture5.jpg'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'images/picture6.jpg'</span><span class="pl-kos">,</span>
-    <span class="pl-s">'images/picture7.jpg'</span><span class="pl-kos">,</span>
-    ...
-  <span class="pl-kos">]</span>
-  <span class="pl-k">let</span> <span class="pl-s1">firstPicture</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
+<span class="pl-k">const</span> <span class="pl-s1">pictures</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
+ <span class="pl-s">'10001.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10020.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10003.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10017.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10006.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10013.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10009.jpg'</span><span class="pl-kos">,</span>
+ <span class="pl-s">'10011.jpg'</span><span class="pl-kos">,</span>
+<span class="pl-kos">]</span>
+<span class="pl-k">let</span> <span class="pl-s1">firstPicture</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 ...
 <span class="pl-kos">&lt;</span><span class="pl-ent">section</span> <span class="pl-c1">data-for</span>="<span class="pl-s">picture:pictures:firstPicture:firstPicture+3</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">${picture.item}</span>" <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture ${picture.itemIndex</span>"/&gt;
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture+1;</span>" <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">firstPicture==pictures.length-3</span>"<span class="pl-kos">&gt;</span>Next<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture-1;</span>" <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">firstPicture==0</span>"<span class="pl-kos">&gt;</span>Prev<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span></pre></div>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">img</span>
+ <span class="pl-c1">data-attr-src</span>="<span class="pl-s">photos/${picture.item}</span>"
+ <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture ${picture.itemIndex}</span>"
+ <span class="pl-c1">width</span>="<span class="pl-s">200</span>"
+/&gt;
+<span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>"
+ <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture-1;</span>"
+ <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">firstPicture==0</span>"
+<span class="pl-kos">&gt;</span>Prev<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>"
+ <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture+1;</span>"
+ <span class="pl-c1">data-attr-disabled</span>="<span class="pl-s">firstPicture==pictures.length-3</span>"
+<span class="pl-kos">&gt;</span>Next<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we show three pictures at a time from the pictures array. With the Next and Prev buttons, we scroll through the pictures. When the end or beginning of the array is reached, the appropriate buttons are disabled.</p>
 <h2><a id="user-content-49-data-action" class="anchor" aria-hidden="true" tabindex="-1" href="#49-data-action"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.9 data-action</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-action</code>="[code to execute]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-action</code>="[code to execute]"</strong></p>
 <p>The <code>data-action</code> attribute allows you to execute JavaScript code responding to a click event. Basically, it is a convenience wrapper around a native <code>click</code> event handler, which also invokes the <code>Reken</code> model to execute.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
@@ -1277,44 +1298,48 @@ let counter = 0;
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">console.log(e);e.preventDefault();</span>"<span class="pl-kos">&gt;</span>Log Event Object<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>After the button is clicked, the native click event is logged on the console. The default click behavior is prevented with the <code>preventDefault</code> call.</p>
 <h2><a id="user-content-410-data-on-" class="anchor" aria-hidden="true" tabindex="-1" href="#410-data-on-"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.10 data-on-</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-on-[event]</code>="[code to execute]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-on-[event]</code>="[code to execute]"</strong></p>
 <p>The <code>data-on-</code> attribute is similar to <code>data-action</code> but is used for executing JavaScript code in response to any native event. Identical to the <code>data-action</code> attribute, the <code>e</code> variable provides access to the event details.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
 let x = y = 0;
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-on-mousemove</span>="<span class="pl-s">x=e.clientX;y=e.clientY</span>" <span class="pl-c1">style</span>="<span class="pl-s">width:200px;height:200px;background:red;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span>
+ <span class="pl-c1">data-on-mousemove</span>="<span class="pl-s">x=e.clientX;y=e.clientY</span>"
+ <span class="pl-c1">style</span>="<span class="pl-s">width:200px;height:200px;background:pink;</span>"
+<span class="pl-kos">&gt;</span>Hover mouse over square
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${x},${y}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This code updates the <code>x</code> and <code>y</code> variables with the <code>clientX</code> and <code>clientY</code> properties from the <code>mousemove</code> event when mousing over the red <code>div</code> square. The <code>output</code> element text content gets updated with the new values;</p>
 <p>Like with <code>data-action</code>, the event flow can be controlled by calling <code>preventDefault</code> and/or <code>stopPropagation</code>.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('div')</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">https://www.reken.dev</span>"
-    <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('a href'); e.stopPropagation();e.preventDefault();</span>"<span class="pl-kos">&gt;</span>
-    Click here !
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">https://www.reken.dev</span>"
+  <span class="pl-c1">data-on-click</span>="<span class="pl-s">console.log('a href'); e.stopPropagation();e.preventDefault();</span>"<span class="pl-kos">&gt;</span>
+  Click here !
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This example displays a message on the console when the link is clicked. The call to <code>preventDefault</code> prevents the link from being followed. And the call to <code>stopPropagation</code> stops the click on the div to be triggered.</p>
 <h2><a id="user-content-411-data-timer" class="anchor" aria-hidden="true" tabindex="-1" href="#411-data-timer"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.11 data-timer</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-timer</code>="[time in ms]:[start/stop boolean expression]:[code to execute]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-timer</code>="[time in ms]:[start/stop boolean expression]:[code to execute]"</strong></p>
 <p>The <code>data-timer</code> attribute allows you to execute JavaScript code after a specified time. It has three parts: the time in milliseconds, a boolean expression to trigger the timer, and the code to execute.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">isActive</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span></pre></div>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isActive</span>"<span class="pl-kos">&gt;</span>Message is displayed<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">isActive</span>"<span class="pl-kos">&gt;</span>Message is displayed for 2 seconds.<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span>
-  <span class="pl-c1">data-timer</span>="<span class="pl-s">5000:isActive:isActive=false</span>"
+  <span class="pl-c1">data-timer</span>="<span class="pl-s">2000:isActive:isActive=false</span>"
   <span class="pl-c1">data-action</span>="<span class="pl-s">isActive=true;</span>"<span class="pl-kos">&gt;</span>
   Start Message
 <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This code will display the "Message is displayed" <code>div</code> for five seconds after the user clicks the "Show Message" <code>button</code>. The <code>button</code> timer gets started once the <code>isActive</code> boolean is set to true. After 5 seconds, the timer executes the code to set the <code>isActive</code> boolean to <code>false</code>, and the <code>div</code> is hidden per its <code>data-if</code> attribute,</p>
 <blockquote>
-<p>Note if the boolean trigger expression is still true when the timer is executed, it will start a new timer. The timer can be interrupted by setting the boolean trigger expression to <code>false</code>.</p>
+<p><strong>Note</strong> if the boolean trigger expression is still true when the timer is executed, it will start a new timer. The timer can be interrupted by setting the boolean trigger expression to <code>false</code>.</p>
 </blockquote>
 <h2><a id="user-content-412-data-interval" class="anchor" aria-hidden="true" tabindex="-1" href="#412-data-interval"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.12 data-interval</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-interval</code>="[time in ms]:[start/stop boolean expression]:[code to execute]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-interval</code>="[time in ms]:[start/stop boolean expression]:[code to execute]"</strong></p>
 <p>Similar to <code>data-timer</code>, the <code>data-interval</code> attribute allows you to execute code at regular intervals. It includes the interval time, a boolean expression to start/stop the intervals, and the code to execute.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">isRunning</span> <span class="pl-c1">=</span> <span class="pl-c1">false</span><span class="pl-kos">;</span>
@@ -1323,14 +1348,14 @@ let x = y = 0;
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">isRunning=!isRunning;</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${isRunning?'Stop':'Start'}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>After the user clicks the "Start" button, the counter will increment every second, represented by the <code>div</code> element being updated. The text of the <code>button</code> will change to "stop". When the user clicks the "Stop" <code>button</code>, the counter will stop.</p>
 <h2><a id="user-content-413-data-rest" class="anchor" aria-hidden="true" tabindex="-1" href="#413-data-rest"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.13 data-rest</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-rest</code>="[variable]:(objectProperty:)[rest template string url]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-rest</code>="[variable]:(objectProperty:)[rest template string url]"</strong></p>
 <p>The <code>data-rest</code> attribute is used to fetch data from a REST API <code>url</code> endpoint and stores it in the JavaScript variable <code>variable</code>. It supports parameterization of the endpoint URL and handles the API call automatically by parsing the returned JSON. Specifying an optional <code>object property</code> path, a subset of the object can load into the <code>variable</code>.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">userData</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span><span class="pl-kos">}</span></pre></div>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/api/user/123</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Name: $(userData.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, data is fetched from <code>/api/user/123</code> and stored in the <code>userData</code> variable.</p>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:json/person.json</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Name: ${userData.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>    </pre></div>
+<p>In this example, data is fetched from <code>json/person.json</code> and stored in the <code>userData</code> variable.</p>
 <p>When only a subset of the object is needed, an optional object path as the 2nd parameter can be provided.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-json"><pre><span class="pl-ii">// person.json</span>
@@ -1348,9 +1373,30 @@ let x = y = 0;
 <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">City: $(addressData.city}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">State: $(addressData.state}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>The REST call populates the <code>addressData</code> variable with the <code>address</code> subtree from the JSON file. As a result the expressions to get the address data can just specify <code>addressData.propName</code> instead of <code>addressData.address.propName</code></p>
+<p>When the data load initiated by a <code>data-rest</code> attribute is in progress, or finished the element containing the <code>data-rest</code> attributes gets updated with status classes:</p>
+<ul>
+<li>
+<code>reken-rest-busy</code> - while a REST call is in progress.</li>
+<li>
+<code>reken-rest-done</code> - after the call has finished successfully</li>
+<li>
+<code>reken-rest-error</code> after the call finished unsuccessfully.</li>
+</ul>
+<div class="highlight highlight-source-css"><pre>&lt;style<span class="pl-c1">&gt;</span>
+.<span class="pl-c1">reken-rest-busy</span> {
+ <span class="pl-c1">background</span><span class="pl-kos">:</span> silver;
+}
+.<span class="pl-c1">reken-rest-done</span> {
+ <span class="pl-c1">background</span><span class="pl-kos">:</span> light-green;
+}
+.<span class="pl-c1">reken-rest-error</span> {
+ <span class="pl-c1">background</span><span class="pl-kos">:</span> pink;
+}
+&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
+<p>In this example, we show how one could style the Reken Rest status classes. When the data is loading(<code>data-rest-busy</code>) the background of the element that contains the <code>data-rest</code> attribute displays with a gray background. It displays green (<code>reken-rest-done</code>) when it was successful and pink (<code>reken-rest-error</code>) when it failed.</p>
 <h2><a id="user-content-414-data-rest-options" class="anchor" aria-hidden="true" tabindex="-1" href="#414-data-rest-options"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.14 data-rest-options</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-rest-options</code>="[object variable]"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-rest-options</code>="[object variable]"</strong></p>
 <p>The <code>data-rest-options</code> attribute allows you to specify options for the Fetch call initiated by the <code>data-rest</code> attribute. Note these options are passed into the underlying REST Fetch call. The following options can be set:</p>
 <ul>
 <li>
@@ -1371,8 +1417,9 @@ let x = y = 0;
   <span class="pl-c1">method</span>: <span class="pl-s">'POST'</span><span class="pl-kos">,</span>
 <span class="pl-kos">}</span>
 <span class="pl-k">let</span> <span class="pl-s1">orderResult</span><span class="pl-kos">;</span></pre></div>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">orderResult:/api/orders</span>" <span class="pl-c1">data-rest-options</span>="<span class="pl-s">fetchOptions</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">fetchOptions.body=JSON.stringify(orderData);fetchOptions.fetch=true;</span>"<span class="pl-kos">&gt;</span>Order<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">orderResult:/api/orders</span>" <span class="pl-c1">data-rest-options</span>="<span class="pl-s">fetchOptions</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">fetchOptions.body=JSON.stringify(orderData);fetchOptions.fetch=true;</span>"<span class="pl-kos">&gt;</span>Order<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we set up a REST call to <code>/api/orders</code> and have the result put in the variable <code>orderResult</code>.</p>
 <p>We also specify the REST call options with the variable <code>fetchOptions</code>. At the start, they have the properties: <code>fetch</code> and <code>method</code>.</p>
 <p>With <code>fetch</code> being <code>false</code> means not to execute the fetch call yet. And with the <code>method</code> set to <code>POST</code> means if the call gets executed, use <code>POST</code> instead of the default <code>GET</code> method.</p>
@@ -1390,7 +1437,7 @@ let x = y = 0;
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
   let message = 'Loading...'
-  let fetchOptions = <span class="pl-kos">{</span>
+  let statusOptions = <span class="pl-kos">{</span>
       <span class="pl-en">callback</span>: <span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">,</span> <span class="pl-s1">json_object</span><span class="pl-kos">)</span> <span class="pl-c1">=</span><span class="pl-c1">&gt;</span> <span class="pl-kos">{</span>
           message <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">.</span><span class="pl-c1">reken_rest_status</span><span class="pl-c1">===</span><span class="pl-s">'reken-rest-done'</span> ?
               <span class="pl-s">`Successful; Loaded <span class="pl-s1"><span class="pl-kos">${</span><span class="pl-s1">json_object</span><span class="pl-kos">.</span><span class="pl-c1">length</span><span class="pl-kos">}</span></span> orders`</span> : 
@@ -1401,7 +1448,6 @@ let x = y = 0;
   <span class="pl-kos">}</span>
   let orders;
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
-<p>HTML</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">orders:array.json</span>" <span class="pl-c1">data-rest-options</span>="<span class="pl-s">fetchOptions</span>" <span class="pl-kos">&gt;</span>
         <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">order:orders</span>"<span class="pl-kos">&gt;</span>
@@ -1413,8 +1459,8 @@ let x = y = 0;
 <p>In this example, we set the callback property on the REST options to update the <code>message</code> variable when and how the REST call succeeded.</p>
 <p>To convert the <code>created</code> values in the JSON file, a reviver property is set with a function that converts all JSDN date strings into Dates but leaves all the other fields untouched.</p>
 <h2><a id="user-content-415-data-calc" class="anchor" aria-hidden="true" tabindex="-1" href="#415-data-calc"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.15 data-calc</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-calc</code></strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-calc</code></strong></p>
 <p>The <code>data-calc</code> attribute is used to mark a script to have its contents to executed when there is a model update. It helps recalculate formulas or transform data loaded by a REST service.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
@@ -1425,41 +1471,45 @@ let fahrenheit = 0;
 <span class="pl-s1">let</span> <span class="pl-s1">celsius</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">fahrenheit</span> <span class="pl-c1">-</span> <span class="pl-c1">32</span><span class="pl-kos">)</span> <span class="pl-c1">*</span> <span class="pl-c1">5</span> <span class="pl-c1">/</span> <span class="pl-c1">9</span><span class="pl-kos">;</span>
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Fahrenheit:
-  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-value</span>="<span class="pl-s">fahrenheit</span>" <span class="pl-c1">type</span>="<span class="pl-s">number</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">input</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-value</span>="<span class="pl-s">fahrenheit</span>" <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">140</span>"/&gt;
+  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${fahrenheit}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Celcius:
-  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${celsius}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">hr</span>/&gt;
+<span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Celsius:
+  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${celsius.toFixed(1)}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example the user can enter a value in the Fahrenheit <code>input</code> control, resulting in an updated <code>fahrenheit</code> variable. The input control change triggers a model update, which recalculates the <code>celsius</code> variable. The updated <code>celsius</code> value updates the output control Element's textContent via the <code>data-text</code> attribute.</p>
+<p>In this example the user can choose a value in the Fahrenheit <code>input range</code> control, resulting in an updated <code>fahrenheit</code> variable. The input control change triggers a model update, which recalculates the <code>celsius</code> variable. The updated <code>celsius</code> value updates the output control Element's textContent via the <code>data-text</code> attribute.</p>
 <h2><a id="user-content-416-data-route" class="anchor" aria-hidden="true" tabindex="-1" href="#416-data-route"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.16 data-route</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-route</code>="([classname]:)[routename]([#variable])"</strong></p>
+<p><strong>Syntax:</strong></p>
+<p><strong><code>data-route</code>="([classname]:)[routename]([#variable])"</strong></p>
 <p>The <code>data-route</code> attribute shows or hides parts of a page based on the URL hash. It's handy for creating single-page applications (SPAs) with different views.</p>
 <p>A route can also reference a variable by preceding it with a #. In this way, parameterized URLs can be created.</p>
+<h3><a id="user-content-4161-basic-routing" class="anchor" aria-hidden="true" tabindex="-1" href="#4161-basic-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.16.1 Basic routing</h3>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>=""<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Default page<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Default page<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page1</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 1<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 1<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page2</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 2<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 2<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">page3</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 3<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 3<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/</span>"<span class="pl-kos">&gt;</span>[ Default ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page1</span>"<span class="pl-kos">&gt;</span>[ 1 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page2</span>"<span class="pl-kos">&gt;</span>[ 2 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page3</span>"<span class="pl-kos">&gt;</span>[ 3 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/</span>"<span class="pl-kos">&gt;</span>[ Default ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page1</span>"<span class="pl-kos">&gt;</span>[ 1 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page2</span>"<span class="pl-kos">&gt;</span>[ 2 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page3</span>"<span class="pl-kos">&gt;</span>[ 3 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we define four pages with the <code>main</code> tag. With its <code>data-route</code> attribute, we specify the hash to access the page. With an empty <code>data-route</code> attribute we set a default page that gets shown when there is no or empty hash on the url.</p>
 <p>In the <code>nav</code>, tag we specify four links to navigate to a specific page. The URL to navigate to a route page consists of the <code>data-route</code> value preceded by <code>#/</code></p>
 <blockquote>
-<p>Note Not that inactive pages are not processed in the UI update cycle.</p>
+<p><strong>Note:</strong> Not that inactive pages are not processed in the UI update cycle.</p>
 </blockquote>
+<h3><a id="user-content-4162-routing-with-a-class" class="anchor" aria-hidden="true" tabindex="-1" href="#4162-routing-with-a-class"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.16.2 Routing with a class</h3>
 <p>Like the <code>data-if</code> attribute, the <code>data-route</code> value can be proceeded by a class name. When a class name is specified, the page is not hidden/shown, but the class is added to the page which is currently routed. This can be useful to animate pages in view.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
@@ -1469,37 +1519,41 @@ let fahrenheit = 0;
   }
 <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Default page<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Default page<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:page1</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 1<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 1<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:page2</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 2<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 2<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:page3</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 3<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>Page 3<span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/</span>"<span class="pl-kos">&gt;</span>[ Default ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page1</span>"<span class="pl-kos">&gt;</span>[ 1 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page2</span>"<span class="pl-kos">&gt;</span>[ 2 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page3</span>"<span class="pl-kos">&gt;</span>[ 3 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/</span>"<span class="pl-kos">&gt;</span>[ Default ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page1</span>"<span class="pl-kos">&gt;</span>[ 1 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page2</span>"<span class="pl-kos">&gt;</span>[ 2 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/page3</span>"<span class="pl-kos">&gt;</span>[ 3 ]<span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This example is similar to the previous one, except now, each <code>data-route</code> value has the 'active' classname specified.</p>
 <p>When the user now routes to the page with that route name, the class <code>active</code> is added to the <code>main</code> element of the active route. The style class definition for the <code>active</code> class makes the background green and the font color white.</p>
+<h3><a id="user-content-4163-routing-with-parameters" class="anchor" aria-hidden="true" tabindex="-1" href="#4163-routing-with-parameters"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.16.3 Routing with parameters,</h3>
 <p>To create a parameterized page, create a variable containing the parameter value and include it preceded by a hash in the <code>data-route</code> attribute.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-s1">orderNumber</span><span class="pl-kos">;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">#orderNumber</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Order number:
-    <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${orderNumber}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Order number:
+  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${orderNumber}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">iVar:5</span>"<span class="pl-kos">&gt;</span>Orders:
-  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">#/${iVar.index+1000}</span>" <span class="pl-c1">data-text</span>="<span class="pl-s">${iVar.index+1000}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">a</span>
+   <span class="pl-c1">data-attr-href</span>="<span class="pl-s">#/${iVar.index+1000}</span>"
+   <span class="pl-c1">data-text</span>="<span class="pl-s">${iVar.index+1000}</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">a</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we create a <code>main</code> element that shows an <code>output</code> tag that displays the value of the <code>orderNumber</code> variable. The example also creates a list of order numbers with links with the <code>data-for</code> and <code>data-attr-href</code> and <code>data-text</code> attributes. When the user clicks on one of the order number links, the page URL gets updated, and the <code>output</code> tag displays the selected order number.</p>
 <h2><a id="user-content-417-data-component" class="anchor" aria-hidden="true" tabindex="-1" href="#417-data-component"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.17 data-component</h2>
@@ -1525,7 +1579,7 @@ let fahrenheit = 0;
 <p>In this example, we define a hello component with a template. The component is named <strong>hello-world</strong> with the template's <code>data-component</code> attribute. The content contained by the <code>template</code> tag is the actual component. In this case, it contains the text "Hello" followed by a bold tag containing "World".</p>
 <p>We can now reference the component with the <code>hello</code> tag or an element containing a <code>data-component</code> attribute with the value "hello".</p>
 <blockquote>
-<p><strong>NOTE</strong>:
+<p><strong>Note:</strong>
 A component can have only <strong>one</strong> HTML Element as a top-level element in a component definition.</p>
 </blockquote>
 <p><strong><code>&lt;slot&gt;</code></strong>
@@ -1538,7 +1592,11 @@ Variable content in the component can be specified with the <code>slot</code> ta
   <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Hello <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>World<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>Hello 
+  <span class="pl-kos">&lt;</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span>
+   <span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>World<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">b</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we create a component called <code>hello</code>. It defines a <code>slot</code> in the <code>template</code>. The <code>hello</code> component is referenced twice with both reference syntaxes. The first reference specifies <code>John</code> as the slot content. The second reference does not specify <code>slot</code> content and, as a result, displays the default <code>slot</code> content of <code>World</code>.</p>
@@ -1554,18 +1612,19 @@ Variable content in the component can be specified with the <code>slot</code> ta
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-green box
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">data-arg-color</span>="<span class="pl-s">green</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+ green box
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">data-arg-color</span>="<span class="pl-s">green</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
 
-blue box
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">blue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+ blue box
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">blue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
 
-or box with the default color red
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+ or box with the default color red
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
+
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we create a <code>color-box</code> component with the dimensions 100px by 100px, which has an attribute <code>color</code>, that sets background color. The default color is red.</p>
@@ -1579,16 +1638,16 @@ or box with the default color red
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">rgb(${red},${green},${blue})</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">fieldset</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>RGB color picker<span class="pl-kos">&lt;/</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">red</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Green:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">green</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Blue:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">blue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">fieldset</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">rgb(${redColor},${greenColor},${blue})</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">fieldset</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>RGB color picker<span class="pl-kos">&lt;/</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">red</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Green:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">green</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Blue:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">blue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">fieldset</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we use the same <code>color-box</code> component as in the previous example. But now we pass in a template string that constructs an <code>RGB</code> color definition. The RGB colors are based on the <code>red</code>, <code>green</code>, and <code>blue</code> javascript variables. The example also defines a range input control for each color. With these controls, the user can tweak the color displayed in the <code>color-box</code> component.</p>
@@ -1599,12 +1658,12 @@ or box with the default color red
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">hexColorValue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">hexColorValue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">hexColorValue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">hexColorValue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we pass in the javascript variable <code>hexColorValue</code> into the <code>color</code> attribute of the <code>color-box</code> component. In the example, the color input control allows the user to change the <code>hexColorValue</code>.</p>
@@ -1617,14 +1676,17 @@ or box with the default color red
 <p><strong><code>&lt;custom-component attribute-name="[variable]"&gt;&lt;/custom-component</code></strong></p>
 <p>With the <code>data-bind-*</code> attribute, a custom component bindable attribute can be defined. With a bindable attribute, a custom component can modify the variable's value.</p>
 <p>A bindable attribute on a custom component can be set by specifying the <code>data-bind-[component-attribute]=value</code> or the short form with <code>component-attribute=value</code>.</p>
-<p><strong>Example:</strong></p>
+<p>s<strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
   let chosenColor = '';
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-chooser</span> <span class="pl-c1">color</span>="<span class="pl-s">chosenColor</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-chooser</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Color = ${chosenColor}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-chooser</span> <span class="pl-c1">color</span>="<span class="pl-s">chosenColor</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-chooser</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span>/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Color:
+  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${chosenColor}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-chooser</span>" <span class="pl-c1">data-bind-color</span><span class="pl-kos">&gt;</span>
@@ -1654,10 +1716,10 @@ or box with the default color red
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">goodbye</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">goodbye</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">hello</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">goodbye</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">goodbye</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-include</span>="<span class="pl-s">./components.html</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-include</span>="<span class="pl-s">./sectioncomponents.html</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!--components.html--&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">hello</span>"<span class="pl-kos">&gt;</span>
@@ -1669,17 +1731,19 @@ or box with the default color red
 <p>In this example, we create a component.html file. It contains the component definitions of the <code>hello</code> and <code>goodbye</code> components.</p>
 <p>The main HTML code loads the <strong>components.html</strong> file with the <code>data-include</code> attribute and references the <code>hello</code> and <code>goodbye</code> components with the shorthand notation <code>&lt;hello&gt;</code> and <code>&lt;goodbye&gt;</code> tags.</p>
 <h2><a id="user-content-421-data-ref" class="anchor" aria-hidden="true" tabindex="-1" href="#421-data-ref"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.21 data-ref</h2>
-<p><strong>Syntax:</strong>
-<strong><code>data-ref="javascript variable"</code></strong></p>
+<p>ww
+<strong>Syntax:</strong></p>
+<p><strong><code>data-ref="javascript variable"</code></strong></p>
 <p>The <code>data-ref</code> attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or using third-party libraries that need object references.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
 let buttonRef;
 <span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-ref</span>="<span class="pl-s">buttonRef</span>"
-    <span class="pl-c1">data-action</span>="<span class="pl-s">console.log(buttonRef)</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-ref</span>="<span class="pl-s">buttonRef</span>"
+  <span class="pl-c1">data-action</span>="<span class="pl-s">console.log(buttonRef)</span>"<span class="pl-kos">&gt;</span>
+  Press to log reference
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the <code>data-ref</code> attribute is specified with the <code>buttonRef</code> variable. When the user clicks the button, it logs the reference to the HTML button in the console.</p>
 <p>In this chapter, we've provided a comprehensive reference for Reken's attributes, explaining their functions and how to use them effectively in your web development projects. These attributes offer a wide range of functionality for creating dynamic and interactive web pages. Understanding when and how to use them is key to harnessing Reken's full potential.</p>

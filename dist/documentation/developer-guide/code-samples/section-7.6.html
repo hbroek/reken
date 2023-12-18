@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Company Inc. - Employee directory.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body.reken-rest-busy {
+            background: silver;
+        }
+        body.reken-rest-done {
+            background: lightcyan;
+        }
+        body.reken-rest-error {
+            background: lightpink;
+        }
+        body.reken-rest-error::after {
+            content: 'Error loading employees!';
+            font-size: 300%;
+        }
+        .hq::after {
+            content: ' !!!';
+            font-size: small;
+        }
+
+    </style>
+</head>
+
+<body data-rest="employees:json/employees.json" style="margin:0;visibility:hidden;" data-on-rekenready="e.target.style.visibility='visible';">
+    <script>
+        let employees;
+        let showPicture = true;
+        let filterString = "";
+        let employeeIndex;
+        let message=""
+    </script>
+
+    <header style="background:orange;color:white;position:sticky;top:0;left:0;padding:1em;font-size:large;margin-bottom:1em;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;z-index:1;">
+        <nav style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span>
+                <span style="font-size:1.2em;background:white;padding:0.5rem;border-radius:50%;">🏢</span>
+                Company Inc.
+            </span>
+            <input data-on-input="filterString=e.target.value;message=`Filtering employees by [${filterString}]`" type="search" placeholder="People filter" />
+            <label>Photos:
+                <input
+                data-on-change="message=`${(showPicture?'Showing':'Hiding')} profile photos`"
+                type="checkbox"
+                    data-value="showPicture" />
+            </label>
+        </nav>
+    </header>
+
+    <main data-route="employee/#employeeIndex" data-if="employees" style="display:flex;flex-direction:column;align-items:center;flex-wrap:wrap;gap:0.5rem">
+        <h1 data-text="Update employee ${employees[employeeIndex].employee_number}"></h1>
+        <form style="margin:1em;padding:2em;background:orange;display:grid;gap:1rem;grid-template-columns: 1fr 3fr;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+            <label for="name">Name:</label><input id="name" data-value="employees[employeeIndex].name"/>
+            <label for="dept">Department:</label><input id="dept" data-value="employees[employeeIndex].department"/>
+            <label for="loc">Location:</label><input id="loc" data-value="employees[employeeIndex].location"/>
+            <label for="phone">Phone:</label><input id="phone" data-value="employees[employeeIndex].phone_number"/>
+            <label for="email">Email:</label><input id="email" data-value="employees[employeeIndex].email" type="email"/>
+        </form>
+        <button type="button" data-action="history.back();message=`Finished editing employee ${employees[employeeIndex].name}`">Back</button>
+    </main>
+
+    <main data-route="" data-if="employees" data-for="employee:employees.filter((emp)=>emp.name.toLowerCase().indexOf(filterString.toLowerCase())>=0)"
+        style="display:flex;justify-content:center;flex-wrap:wrap;gap:0.5rem" id="great">
+        <card person="employee.item" photo="showPicture" edit_link="#/employee/${employee.index}">
+            <div>Employee number: <strong data-text="${employee.item.employee_number}"></strong><div>
+        </card>
+    </main>
+
+    <footer data-style="transition:height 0.3s;height:${message==''?'0':'2em'};position:fixed;bottom:0;left:0;right:0;display:grid;place-content:center;background:orange;color:white;">
+        <span data-timer="2000:message!='':message=''" data-text="${message}"></span>
+    </footer>
+</body>
+<template data-component="card" data-arg-person data-arg-photo="true" data-arg-edit_link="">
+    <style>
+        :host>div .hq::after {
+            content: '🦆🦆🦆🦆🦆🦆🦆🦆';
+            font-size: small;
+        }
+    </style>
+    <article
+        style="min-width:320px;border:2px solid orange;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;overflow:hidden;background:white;">
+        <img data-if="photo" data-attr-src="${person.photo}"
+            data-attr-alt="Picture of employee ${person.name}" data-attr-title="${person.name}"
+            style="width:320px;height:320px;" />
+        <div style="margin:0.25rem;margin-bottom:1rem;position:relative;">
+            <h1 data-text="${person.name}"></h1>
+            <hr data-if="!photo"
+                data-style="background:${person.gender=='Female'?'pink':person.gender=='Male'?'lightblue':'lightgreen'};height:0.25rem;border:0" />
+            <h2><small><u data-text="${person.department}"></u></small></h2>
+            <h3 data-html="<i>${person.location}</i>" data-class="hq:person.location=='Boston, MA'">
+            </h3>
+            <slot>
+                <div>Phone: <a data-attr-href="tel:${person.phone_number}"
+                        data-text="${person.phone_number}"></a></div>
+                <div>Email: <a data-attr-href="mailto:${person.email}" data-text="${person.email}"></a>
+                </div>
+            </slot>
+            <a
+                data-action="message=`Editing employee ${person.name}`"
+                data-if="edit_link"
+                data-attr-href="${edit_link}"
+                title="Edit employee"
+                style="font-size:1.5rem;position:absolute;right:0;top:0;text-decoration:none;transform:rotate(90deg)">
+                ✏️
+            </a>
+        </div>
+    </article>
+</template>
+<!-- <script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script> -->
+<script src="/src/reken.js"></script>
+
+</html>

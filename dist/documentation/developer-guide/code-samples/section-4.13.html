@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.13 data-rest</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+
+  <style>
+    .reken-rest-busy {
+      background: silver;
+    }
+
+    .reken-rest-done {
+      background: lightgreen;
+    }
+
+    .reken-rest-error {
+      background: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>4.13 data-rest</h1>
+  </header>
+  <article>
+
+    <div data-rest="userData:json/person.json">
+      <output data-text="Name: ${userData.name}"></output>
+    </div>
+
+  </article>
+
+  <article>
+
+    <div data-rest="addressData:address:json/person.json">
+      <output
+        data-text="Street: ${addressData.street}">
+      </output>
+      <output
+        data-text="City: ${addressData.city}">        
+      </output>
+      <output
+        data-text="State: ${addressData.state}">        
+      </output>
+    </div>
+  </article>
+</body>
+<script>
+  let userData = {};
+  let addressData = {}
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

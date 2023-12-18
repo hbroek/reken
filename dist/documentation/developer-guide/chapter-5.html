@@ -1015,8 +1015,8 @@
 <p>Reken supports data binding, allowing you to update components based on changes in variables or user interactions.</p>
 <p><strong>Data Binding:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-value</span>="<span class="pl-s">userInput</span>"/&gt;
-<span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${userInput}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, any changes made in the input field are automatically reflected in the <code>&lt;div&gt;</code>.</p>
+<span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${userInput}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
+<p>In this example, any changes made in the input field are automatically reflected in the <code>&lt;output&gt;</code>.</p>
 <h2><a id="user-content-52-component-creation-and-usage" class="anchor" aria-hidden="true" tabindex="-1" href="#52-component-creation-and-usage"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.2 Component Creation and Usage</h2>
 <p>Components are a powerful way to modularize and reuse parts of your web application's user interface. With Reken, you can create custom components and easily include them in your pages. This promotes code reusability and maintainability.</p>
 <p><strong>Creating a Component:</strong></p>
@@ -1024,8 +1024,8 @@
 <li>Define a component within a <code>&lt;template&gt;</code> element using the <code>data-component</code> attribute, specifying component's name.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">my-component</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-c">&lt;!-- Your component's HTML structure --&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">console.log('Button clicked!')</span>"<span class="pl-kos">&gt;</span>Click me<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-c">&lt;!-- Your component's HTML structure --&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">console.log('Button clicked!')</span>"<span class="pl-kos">&gt;</span>Click me<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <ol start="2">
 <li>In your document, reference the component using the <code>data-component</code> attribute on an HTML element.</li>
@@ -1041,7 +1041,7 @@
 <li>Define a component with a slot within its template.</li>
 </ol>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">my-button</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>A Button<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>A Button<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <ol start="2">
 <li>Use the component; the content provided within the reference will replace the <code>&lt;slot&gt;</code> element.</li>
@@ -1054,67 +1054,69 @@
 <p>Reken supports component state management, allowing you to store changes in local variables.</p>
 <p><strong>Component State:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">counter</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-    <span class="pl-k">let</span> <span class="pl-s1">count</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">count++</span>"<span class="pl-kos">&gt;</span>
-      Increment
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Count: ${count}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+  <span class="pl-k">let</span> <span class="pl-s1">count</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span><span class="pl-kos">;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">count++</span>"<span class="pl-kos">&gt;</span>
+   Increment
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Count: ${count}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the <code>counter</code> component maintains its state with a <code>count</code> variable, updated when the "Increment" button is clicked.</p>
-<h2><a id="user-content-55-passing-data-in-components" class="anchor" aria-hidden="true" tabindex="-1" href="#55-passing-data-in-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.5 Passing data in components</h2>
+<h2><a id="user-content-55-passing-data-in-components" class="anchor" aria-hidden="true" tabindex="-1" href="#55-passing-data-in-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.5 Passing Data in Components</h2>
 <p>Components can be configured by passing in arguments with the <code>data-arg-*</code> attribute; in this way, components can be customized without having to create a new component.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>RED<span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">gold</span>"<span class="pl-kos">&gt;</span>GOLD<span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>RED<span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span> <span class="pl-c1">color</span>="<span class="pl-s">gold</span>"<span class="pl-kos">&gt;</span>GOLD<span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-button</span>"
-          <span class="pl-c1">data-arg-color</span>="<span class="pl-s">skyblue</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color}</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>Default<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-c1">data-arg-color</span>="<span class="pl-s">skyblue</span>"<span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color}</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>Default<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <p>This example defines a <code>color-button</code> button component that can be configured to set the background color with the <code>color</code> attribute. It has a default background of skyblue. In this example, three buttons are created. One with a red background and one gold with the <code>color</code> attribute specified. The last uses the default background color skyblue as it has no color attribute set.</p>
 <h2><a id="user-content-56-getting-data-out-of-components" class="anchor" aria-hidden="true" tabindex="-1" href="#56-getting-data-out-of-components"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.6 Getting data out of components</h2>
 <p>Components can pass data outside of the component with the data-bind-* attribute. When a JavaScript variable is bound via a data-bind attribute, the component can change the variable's value.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-  <span class="pl-k">let</span> <span class="pl-s1">currentNote</span> <span class="pl-c1">=</span> <span class="pl-s">''</span>
+ <span class="pl-k">let</span> <span class="pl-s1">currentNote</span> <span class="pl-c1">=</span> <span class="pl-s">''</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">notes</span> <span class="pl-c1">note</span>="<span class="pl-s">currentNote</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">notes</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Current note: ${currentNote}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">notes</span> <span class="pl-c1">note</span>="<span class="pl-s">currentNote</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">notes</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Current note: ${currentNote}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">notes</span>" <span class="pl-c1">data-bind-note</span>=""<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-    <span class="pl-k">let</span> <span class="pl-s1">notes</span> <span class="pl-c1">=</span> <span class="pl-s">"CDEFGABC"</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span> <span class="pl-c1">data-for</span>="<span class="pl-s">n:notes</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${n.item}</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">note=n.item</span>"<span class="pl-kos">&gt;</span>      
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+ <span class="pl-k">let</span> <span class="pl-s1">notes</span> <span class="pl-c1">=</span> <span class="pl-s">"CDEFGABC"</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span> <span class="pl-c1">data-for</span>="<span class="pl-s">n:notes</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${n.item}</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">note=n.item</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">../src/reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
-<p>"In this example, we create a musical notes component. It displays a button for each note. When a note's button is pressed, the note is displayed via the bound and updated <code>currentNote</code> variable."</p>
+<p>In this example, we create a musical notes component. It displays a button for each note. When a note's button is pressed, the note is displayed via the bound and updated <code>currentNote</code> variable.</p>
 <h2><a id="user-content-57-component-events" class="anchor" aria-hidden="true" tabindex="-1" href="#57-component-events"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.7 Component Events</h2>
 <p>Reken allows your components to create custom events. You can fire an event by calling function <code>dispatch</code>, with the mandatory event type argument and an optional details argument. When the event is initiated, the listeners will receive an event (<code>e</code>) with a <code>detail</code> property that contains the contents of the second argument.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">keypad</span> <span class="pl-c1">data-on-pin</span>="<span class="pl-s">alert(e.detail)</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">keypad</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">keypad</span> <span class="pl-c1">data-on-pin</span>="<span class="pl-s">alert(e.detail)</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">keypad</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">keypad</span>" <span class="pl-c1">data-bind-note</span>=""<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span> <span class="pl-c1">style</span>="<span class="pl-s">display:grid;grid-template-columns: 1fr 1fr 1fr</span>" 
-        <span class="pl-c1">data-for</span>="<span class="pl-s">n:9</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${n.index+1}</span>"
-            <span class="pl-c1">data-action</span>="<span class="pl-s">dispatch('pin', n.index+1)</span>"<span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span> <span class="pl-c1">style</span>="<span class="pl-s">display:grid;</span>
+<span class="pl-s">  grid-template-columns: 3rem 3rem 3rem;</span>
+<span class="pl-s">  grid-template-rows: 3rem 3rem 3rem;</span>" 
+  <span class="pl-c1">data-for</span>="<span class="pl-s">n:9</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${n.index+1}</span>"
+   <span class="pl-c1">data-action</span>="<span class="pl-s">dispatch('pin', n.index+1)</span>"<span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, a keypad component is defined. When a button is pressed, an event with a payload containing the keypad number is dispatched. The keypad has an event listener that shows an alert with the contents of the <code>detail</code> property, the key pressed.</p>
 <h2><a id="user-content-58-component-styling" class="anchor" aria-hidden="true" tabindex="-1" href="#58-component-styling"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.8 Component Styling</h2>
@@ -1156,7 +1158,7 @@
 <h2><a id="user-content-59-component-modules" class="anchor" aria-hidden="true" tabindex="-1" href="#59-component-modules"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.9 Component Modules</h2>
 <p>Reken supports component modules. It can include external component definitions and HTML fragments from other HTML files. Includes can be nested as well. However it is not recommended to have too many separate/nested modules.</p>
 <p><strong>Component includes:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre>  <span class="pl-kos">&lt;</span><span class="pl-ent">ok-button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">ok-button</span><span class="pl-kos">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre> <span class="pl-kos">&lt;</span><span class="pl-ent">ok-button</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">ok-button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span>body<span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-include</span>="<span class="pl-s">lib/components.html</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;/</span>body<span class="pl-kos">&gt;</span> <span class="pl-c">&lt;!-- components.html --&gt;</span>
@@ -1164,17 +1166,17 @@
 <span class="pl-c">&lt;!-- ... include other sub libraries. --&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c">&lt;!-- buttons.html --&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">primary-button</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">style</span>="<span class="pl-s">background:skyblue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>Default<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">style</span>="<span class="pl-s">background:skyblue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span>Default<span class="pl-kos">&lt;/</span><span class="pl-ent">slot</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">ok-button</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>Ok<span class="pl-kos">&lt;/</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>Ok<span class="pl-kos">&lt;/</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">cancel-button</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
-    <span class="pl-kos">&lt;</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>Cancel<span class="pl-kos">&lt;/</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>Cancel<span class="pl-kos">&lt;/</span><span class="pl-ent">primary-button</span><span class="pl-kos">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">template</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the main HTML page loads the <code>components.html</code> file with the <code>data-include</code> attribute. The <code>components.html</code>, in addition, loads other sub-component files, such as <code>buttons.html</code>, with the <code>data-include</code> attribute.</p>
 <h2><a id="user-content-510-routing-with-reken" class="anchor" aria-hidden="true" tabindex="-1" href="#510-routing-with-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a>5.10 Routing with Reken</h2>
@@ -1203,9 +1205,10 @@
 <li>Create an array with our product catalog and create the links to navigate to them.</li>
 </ol>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-s1">products</span> <span class="pl-c1">=</span> <span class="pl-kos">[</span>
-  <span class="pl-kos">{</span><span class="pl-s">'id'</span><span class="pl-kos">,</span> <span class="pl-s">'p12345'</span><span class="pl-kos">,</span> <span class="pl-s">'name'</span>: <span class="pl-s">'Product 12345'</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
-  <span class="pl-kos">{</span><span class="pl-s">'id'</span><span class="pl-kos">,</span> <span class="pl-s">'p67890'</span><span class="pl-kos">,</span> <span class="pl-s">'name'</span>: <span class="pl-s">'Product 67890'</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
-<span class="pl-kos">]</span></pre></div>
+  <span class="pl-kos">{</span><span class="pl-s">'id'</span>: <span class="pl-s">'p12345'</span><span class="pl-kos">,</span> <span class="pl-s">'name'</span>: <span class="pl-s">'Product 12345'</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
+  <span class="pl-kos">{</span><span class="pl-s">'id'</span>: <span class="pl-s">'p67890'</span><span class="pl-kos">,</span> <span class="pl-s">'name'</span>: <span class="pl-s">'Product 67890'</span><span class="pl-kos">}</span><span class="pl-kos">,</span>
+<span class="pl-kos">]</span><span class="pl-kos">;</span>
+<span class="pl-k">let</span> <span class="pl-s1">productId</span><span class="pl-kos">;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">ul</span> <span class="pl-c1">data-for</span>="<span class="pl-s">product:products</span>"<span class="pl-kos">&gt;</span> <span class="pl-c">&lt;!-- Dynamic routing--&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">href</span>="<span class="pl-s">#/products/${product.item.id}</span>"

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.4 data-style</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+</head>
+<header>
+  <h1>4.4 data-style</h1>
+</header>
+<body>
+  <article>
+    <div>
+      <label>Width: <input type="range" data-value="width"></label>
+    </div>
+    <div>
+      <label>Height: <input type="range" data-value="height"></label>
+    </div>
+    <div data-style="width:${width}px;height:${height}px;background:lightgreen;"></div>    
+  </article>
+</body>
+<script>
+  let width = 48;
+  let height = 32
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

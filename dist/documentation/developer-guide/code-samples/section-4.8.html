@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.8 data-for</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+</head>
+<header>
+  <h1>4.8 data-for</h1>
+</header>
+<body>
+  <article>
+    <div data-for="vrb:5">
+      <span>*</span></div>
+  </article>
+
+  <article>
+    <div data-for="vrb:5">
+      <span data-text="${vrb.index}"></span></div>    
+  </article>
+
+  <article>
+    <ul data-for="fruit:fruits">Fruits
+      <li data-text="${fruit.item}"></li>
+    </ul>  
+  </article>
+
+  <article>
+    <section data-for="movie:movies">
+      <div>
+        <h1 data-text="${movie.item.name}"></h1>
+        <div data-for="tomato:movie.item.rating">
+          <span>*</span></div>
+      </div>
+    </section>
+  </article>
+
+  <article>
+    <ol data-for="insect:insects:3">Insects
+      <li data-text="${insect.item}"></li>
+    </ol>    
+  </article>
+
+  <article>
+    <section data-for="picture:pictures:firstPicture:firstPicture+3">
+      <img data-attr-src="photos/${picture.item}" data-attr-alt="Picture ${picture.itemIndex}" width="200"/>
+    </section>
+    <button type="button" data-action="firstPicture=firstPicture-1;" data-attr-disabled="firstPicture==0">Prev</button>
+    <button type="button" data-action="firstPicture=firstPicture+1;" data-attr-disabled="firstPicture==pictures.length-3">Next</button>
+    
+</article>
+
+</body>
+<script>
+  const fruits = ['apple', 'orange', 'peach'];
+
+  const movies = [
+    { name: 'Lord of the Rings', rating: 5 },
+    { name: 'Harry Potter', rating: 2 },
+    { name: 'Avatar', rating: 4 }
+  ]
+
+  const insects = [
+    'butterfly',
+    'spider',
+    'lady bug',
+    'mosquito',
+    'fly',
+    'tick',
+  ]
+
+  const pictures = [
+    '10001.jpg',
+    '10020.jpg',
+    '10003.jpg',
+    '10017.jpg',
+    '10006.jpg',
+    '10013.jpg',
+    '10009.jpg',
+    '10011.jpg',
+  ]
+  let firstPicture = 0;
+
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

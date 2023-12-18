@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Company Inc. - Employee directory.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .hq::after {
+            content: ' !!!';
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body style="margin:0;visibility:hidden" data-on-rekenready="e.target.style.visibility='visible';">
+
+    <script>
+        let showPicture = true;
+        let filterString = "";
+    </script>
+
+    <header style="background:orange;color:white;position:sticky;top:0;left:0;padding:1em;font-size:large;margin-bottom:1em;opacity:0.95;">
+        <nav style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span>
+                <span style="font-size:1.2em;background:white;padding:0.5rem;border-radius:50%;">🏢</span>
+                Company Inc.
+            </span>
+            <input data-on-input="filterString=e.target.value" type="search" placeholder="People filter" />
+            <label>Photos:
+                <input type="checkbox" data-value="showPicture" />
+            </label>
+        </nav>
+    </header>
+
+    <main data-for="employee:employees.filter((emp)=>emp.name.toLowerCase().indexOf(filterString.toLowerCase())>=0)"
+        style="display:flex;justify-content:center;flex-wrap:wrap;gap:0.5rem">
+        <article
+            style="min-width:320px;border:2px solid orange;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;overflow:hidden;">
+            <img data-if="showPicture" data-attr-src="${employee.item.photo}"
+                data-attr-alt="Picture of employee ${employee.item.name}" data-attr-title="${employee.item.name}"
+                style="width:320px;height:320px;" />
+            <div style="margin:0.25rem;margin-bottom:1rem;">
+                <h1 data-text="${employee.item.name}"></h1>
+                <hr data-if="!showPicture"
+                    data-style="background:${employee.item.gender=='Female'?'pink':employee.item.gender=='Male'?'lightblue':'lightgreen'};height:0.25rem;border:0" />
+                <h2><small><u data-text="${employee.item.department}"></u></small></h2>
+                <h3 data-html="<i>${employee.item.location}</i>" data-class="hq:employee.item.location=='Boston, MA'">
+                </h3>
+                <div>Phone: <a data-attr-href="tel:${employee.item.phone_number}"
+                        data-text="${employee.item.phone_number}"></a></div>
+                <div>Email: <a data-attr-href="mailto:${employee.item.email}" data-text="${employee.item.email}"></a>
+                </div>
+            </div>
+        </article>
+    </main>
+</body>
+<script>
+    const employees = [{
+            "name": "Barbara White",
+            "email": "barbara.white@example.com",
+            "phone_number": "555-0204",
+            "department": "Public Relations",
+            "location": "Fort Worth, TX",
+            "gender": "Female",
+            "employee_number": "10013",
+            "photo": "photos/10013.jpg"
+        },
+        {
+            "name": "Charles Hernandez",
+            "email": "charles.hernandez@example.com",
+            "phone_number": "555-0106",
+            "department": "Legal",
+            "location": "San Antonio, TX",
+            "gender": "Male",
+            "employee_number": "10007",
+            "photo": "photos/10007.jpg"
+        },
+        {
+            "name": "Chris Moore",
+            "email": "chris.moore@example.com",
+            "phone_number": "555-0107",
+            "department": "Operations",
+            "location": "San Diego, CA",
+            "gender": "Other",
+            "employee_number": "10008",
+            "photo": "photos/10008.jpg"
+        },
+        {
+            "name": "David Brown",
+            "email": "david.brown@example.com",
+            "phone_number": "555-0103",
+            "department": "Research and Development",
+            "location": "Houston, TX",
+            "gender": "Male",
+            "employee_number": "10004",
+            "photo": "photos/10004.jpg"
+        },
+        {
+            "name": "Elizabeth Thomas",
+            "email": "elizabeth.thomas@example.com",
+            "phone_number": "555-0202",
+            "department": "Production",
+            "location": "Austin, TX",
+            "gender": "Female",
+            "employee_number": "10011",
+            "photo": "photos/10011.jpg"
+        },
+        {
+            "name": "Emma King",
+            "email": "emma.king@example.com",
+            "phone_number": "555-0210",
+            "department": "Engineering",
+            "location": "Seattle, WA",
+            "gender": "Female",
+            "employee_number": "10019",
+            "photo": "photos/10019.jpg"
+        },
+        {
+            "name": "Jennifer Anderson",
+            "email": "jennifer.anderson@example.com",
+            "phone_number": "555-0201",
+            "department": "Quality Assurance",
+            "location": "San Jose, CA",
+            "gender": "Female",
+            "employee_number": "10010",
+            "photo": "photos/10010.jpg"
+        },
+        {
+            "name": "Jessica Clark",
+            "email": "jessica.clark@example.com",
+            "phone_number": "555-0206",
+            "department": "Administration",
+            "location": "Indianapolis, IN",
+            "gender": "Female",
+            "employee_number": "10015",
+            "photo": "photos/10015.jpg"
+        },
+        {
+            "name": "John Smith",
+            "email": "john.smith@example.com",
+            "phone_number": "555-0100",
+            "department": "Marketing",
+            "location": "New York, NY",
+            "gender": "Male",
+            "employee_number": "10001",
+            "photo": "photos/10001.jpg"
+        },
+        {
+            "name": "Joseph Martinez",
+            "email": "joseph.martinez@example.com",
+            "phone_number": "555-0105",
+            "department": "Sales",
+            "location": "Philadelphia, PA",
+            "gender": "Male",
+            "employee_number": "10006",
+            "photo": "photos/10006.jpg"
+        },
+        {
+            "name": "Karen Robinson",
+            "email": "karen.robinson@example.com",
+            "phone_number": "555-0208",
+            "department": "Innovation",
+            "location": "San Francisco, CA",
+            "gender": "Female",
+            "employee_number": "10017",
+            "photo": "photos/10017.jpg"
+        },
+        {
+            "name": "Linda Jackson",
+            "email": "linda.jackson@example.com",
+            "phone_number": "555-0203",
+            "department": "Procurement",
+            "location": "Jacksonville, FL",
+            "gender": "Female",
+            "employee_number": "10012",
+            "photo": "photos/10012.jpg"
+        },
+        {
+            "name": "Mary Taylor",
+            "email": "mary.taylor@example.com",
+            "phone_number": "555-0200",
+            "department": "Customer Service",
+            "location": "Dallas, TX",
+            "gender": "Female",
+            "employee_number": "10009",
+            "photo": "photos/10009.jpg"
+        },
+        {
+            "name": "Michael Johnson",
+            "email": "michael.johnson@example.com",
+            "phone_number": "555-0101",
+            "department": "Finance",
+            "location": "Boston, MA",
+            "gender": "Male",
+            "employee_number": "10002",
+            "photo": "photos/10002.jpg"
+        },
+        {
+            "name": "Nancy Walker",
+            "email": "nancy.walker@example.com",
+            "phone_number": "555-0209",
+            "department": "Accounting",
+            "location": "Fort Lauderdale, FL",
+            "gender": "Female",
+            "employee_number": "10018",
+            "photo": "photos/10018.jpg"
+        },
+        {
+            "name": "Olivia Gonzalez",
+            "email": "olivia.gonzalez@example.com",
+            "phone_number": "555-0211",
+            "department": "Design",
+            "location": "Miami, FL",
+            "gender": "Female",
+            "employee_number": "10020",
+            "photo": "photos/10020.jpg"
+        },
+        {
+            "name": "Richard Davis",
+            "email": "richard.davis@example.com",
+            "phone_number": "555-0104",
+            "department": "Information Technology",
+            "location": "Phoenix, AZ",
+            "gender": "Male",
+            "employee_number": "10005",
+            "photo": "photos/10005.jpg"
+        },
+        {
+            "name": "Robert Williams",
+            "email": "robert.williams@example.com",
+            "phone_number": "555-0102",
+            "department": "Human Resources",
+            "location": "Los Angeles, CA",
+            "gender": "Male",
+            "employee_number": "10003",
+            "photo": "photos/10003.jpg"
+        },
+        {
+            "name": "Sarah Lewis",
+            "email": "sarah.lewis@example.com",
+            "phone_number": "555-0207",
+            "department": "Environmental",
+            "location": "Columbus, OH",
+            "gender": "Female",
+            "employee_number": "10016",
+            "photo": "photos/10016.jpg"
+        },
+        {
+            "name": "Susan Harris",
+            "email": "susan.harris@example.com",
+            "phone_number": "555-0205",
+            "department": "Logistics",
+            "location": "Charlotte, NC",
+            "gender": "Female",
+            "employee_number": "10014",
+            "photo": "photos/10014.jpg"
+        }
+    ]
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+
+</html>

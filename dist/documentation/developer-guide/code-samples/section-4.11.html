@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.11 data-timer</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+<body>
+  <header>
+    <h1>4.11 data-timer</h1>
+  </header>
+  
+  <article>
+    <div data-if="isActive">Message is displayed for 2 seconds.</div>
+
+    <button data-timer="2000:isActive:isActive=false" data-action="isActive=true;">
+      Start Message
+    </button>
+
+  </article>
+</body>
+<script>
+  let isActive = false;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

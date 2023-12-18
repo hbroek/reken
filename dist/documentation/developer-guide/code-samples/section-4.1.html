@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.1 - data-text</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.1 - data-text</h1>
+  </header>
+  
+  <article>
+    <div data-text="Hello, ${userName}!"></div>
+  </article>
+
+  <article>
+    <div data-text="Hello, I win">This will be overridden by the data-text's expression</div>
+  </article>
+
+  <article>
+    <div data-text="Hello, I win as well">
+      <h1>
+        <span>This text will be overriden as well.</span>
+      </h1>
+    </div>
+  </article>
+
+</body>
+<script>
+  let userName = 'jsmith';
+
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>
