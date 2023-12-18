@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.4 Component State</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+<body>
+  <header>
+    <h1>5.4 Component State</h1>
+  </header>
+  
+  <article>
+    <counter></counter>
+  </article>
+</body>
+<template data-component="counter">
+  <script>
+    let count = 0;
+  </script>
+  <div>
+    <button data-action="count++">
+      Increment
+    </button>
+    <p data-text="Count: ${count}"></p>
+  </div>
+</template>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

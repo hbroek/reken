@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.2 Component Creating and Usage</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+<body>
+  <header>
+    <h1>5.2 Component Creating and Usage</h1>
+  </header>
+  
+  <article>
+    <div data-component="my-component"></div>
+    <my-component></my-component>
+  </article>
+</body>
+<template data-component="my-component">
+  <!-- Your component's HTML structure -->
+  <button data-action="console.log('Button clicked!')">Click me</button>
+</template>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

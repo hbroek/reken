@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>6.3 reken.force_calculate()</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>6.3 reken.force_calculate()</h1>
+  </header>
+  <article>
+    <div data-style="transform: translateX(${count}px);
+      width:100px;height:100px;background:skyblue;">
+  </article>
+</body>
+<script>
+  let count = 0;
+
+  function animate(timeStamp) {
+    count++;
+    reken.force_calculate();
+
+    if (count < 200) {
+        window.requestAnimationFrame(animate);
+    }
+  }
+
+  window.requestAnimationFrame(animate);
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

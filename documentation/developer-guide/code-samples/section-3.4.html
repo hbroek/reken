@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3.4 - Render Iterations</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+  <style>
+      .fade-in {
+        transition: opacity 1s;
+        opacity: 1 !important;
+      }
+    </style>
+</head>
+
+<body>
+  <header>
+    <h1>3.3.2 - Conditional Rendering in Practice</h1>
+  </header>
+  <article>
+    <div data-for="loopVar:5">
+      <div data-text="${loopVar.index}"></div>
+    </div>
+
+    <hr/>
+
+    <ul data-for="loopVar:myArray">
+      <li data-text="${loopVar.item}"></li>
+    </ul>
+  </article>
+</body>
+<script>
+  let myArray = ['John', 'Tracy', 'Taylor'];
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

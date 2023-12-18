@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .hq::after {
+            content: ' !!!'
+        }
+    </style>
+</head>
+
+<body style="display:flex;justify-content: center;">
+    <script>
+        const employee = {
+            "name": "Mary Taylor",
+            "email": "mary.taylor@example.com",
+            "phone_number": "555-0200",
+            "department": "Customer Service",
+            "location": "Dallas, TX",
+            "gender": "Female",
+            "employee_number": "10009",
+            "photo": "photos/10009.jpg"
+        }
+        let showPicture = true;
+    </script>
+
+    <article style="width:250px;">
+        <img data-if="showPicture" width="100%" data-attr-src="${employee.photo}"
+            data-attr-alt="Picture of employee ${employee.name}" />
+        <h1 data-text="${employee.name}"></h1>
+        <div
+            data-style="background:${employee.gender=='Female'?'pink':employee.gender=='Male'?'lightblue':'lightgreen'};height:0.25rem;">
+        </div>
+        <h3><u data-text="${employee.department}"></u></h3>
+        <h3 data-html="<i>${employee.location}</i>" data-class="hq:employee.location=='Boston, MA'"></h3>
+        <div>Phone: <a data-attr-href="tel:${employee.phone_number}" data-text="${employee.phone_number}"></a></div>
+        <div>Email: <a data-attr-href="mailto:${employee.email}" data-text="${employee.email}"></a></div>
+    </article>
+</body>
+
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+
+</html>

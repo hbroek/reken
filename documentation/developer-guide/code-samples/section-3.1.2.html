@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3.1.2 - data-html</title>
+    <link rel="stylesheet" href="css/stylesheet.css" />
+  </head>
+  
+  <body>
+    <header>
+      <h1>3.1.2 - data-html</h1>
+    </header>
+    <article>
+      <div data-html="<em>${textToEmphasize}</em> and <strong>${strongText}</strong>"></div>
+    </article>
+  </body>
+  <script>
+    const textToEmphasize = 'Romeo';
+    const strongText = 'Julia';
+  </script>
+  <!-- Include latest Reken version from a CDN -->
+  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

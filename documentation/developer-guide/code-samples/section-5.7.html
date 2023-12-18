@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.7 Component Events</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>5.7 Component Events</h1>
+  </header>
+  <article>
+    <keypad data-on-pin="alert(e.detail)"></keypad>
+  </article>
+</body>
+<template data-component="keypad" data-bind-note="">
+  <nav style="display:grid;
+    grid-template-columns: 3rem 3rem 3rem;
+    grid-template-rows: 3rem 3rem 3rem;" 
+        data-for="n:9">
+    <button data-text="${n.index+1}"
+            data-action="dispatch('pin', n.index+1)">
+    </button>
+  </nav>
+</template>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

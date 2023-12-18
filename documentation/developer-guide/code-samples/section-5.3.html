@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>5.3 Creating a Component with Slots</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>5.3 Creating a Component with Slots</h1>
+  </header>
+  <article>
+    <my-button>Click me</my-button>
+    <my-button></my-button>
+  </article>
+</body>
+<template data-component="my-button">
+  <button><slot>A Button</slot></button>
+</template>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

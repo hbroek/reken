@@ -8,11 +8,11 @@ Before you can harness the power of Reken to create dynamic web pages, you need 
 
 Reken is distributed as a JavaScript library that you can include in your project. You can obtain the Reken library from various sources, such as:
 
-- **Official Website**: The Reken library can typically be downloaded from the official Reken website (https://www.reken.dev). Look for the latest version available for download.
+* **Official Website**: The Reken library can typically be downloaded from the official Reken website (https://www.reken.dev). Look for the latest version available for download.
 
-- **CDN**: You can link to the Reken library directly from a content delivery network (CDN), such as jsDelivr (https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js). This method doesn't require you to download or host the library yourself.
+* **CDN**: You can link to the Reken library directly from a content delivery network (CDN), such as jsDelivr (https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js). This method doesn't require you to download or host the library yourself.
 
-- **GitHub Repository**: The source code for Reken is also available on [GitHub Reken project page](https://github.com/hbroek/reken). You can clone or download the repository to access the library files. You can find the minified / compressed files in the `dist` folder.
+* **GitHub Repository**: The source code for Reken is also available on [GitHub Reken project page](https://github.com/hbroek/reken). You can clone or download the repository to access the library files. You can find the minified / compressed files in the `dist` folder.
 
 ## 2.2 Including Reken in Your Web Project
 
@@ -25,15 +25,14 @@ The most common way to include Reken in your project is by using a `<script>` ta
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <!-- Your HTML document's head content -->
-  </head>
-  <body>
-    <!-- Your HTML content -->
-    
-  </body>
-  <!-- Include the Reken library -->
-  <script src="path/to/reken.js"></script>
+ <head>
+ <!-- Your HTML document's head content -->
+ </head>
+ <body>
+ <!-- Your HTML content -->
+ </body>
+ <!-- Include the Reken library -->
+ <script src="path/to/reken.js"></script>
 </html>
 ```
 
@@ -46,15 +45,15 @@ If you prefer to use a CDN, you can directly link to the Reken library. Here's h
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <!-- Your HTML document's head content -->
-  </head>
-  <body>
-    <!-- Your HTML content -->
+ <head>
+  <!-- Your HTML document's head content -->
+ </head>
+ <body>
+  <!-- Your HTML content -->
     
-  </body>
-  <!-- Include latest Reken version from a CDN -->
-  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+ </body>
+ <!-- Include latest Reken version from a CDN -->
+ <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
 </html>
 ```
 
@@ -65,9 +64,10 @@ In this example, we're using the jsdelivr CDN to link to the latest version of R
 To ensure that Reken has been successfully added to your project, you can perform a simple test. In your HTML document, add a `<script>` tag with the following code:
 
 ```html
+...
 <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
 <script>
-    console.log(reken.version);
+  console.log(reken.version);
 </script>
 ```
 

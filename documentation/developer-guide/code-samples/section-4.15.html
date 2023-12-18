@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.15 data-calc</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+<body>
+  <header>
+    <h1>4.15 data-calc</h1>
+  </header>
+  
+  <article>
+    <label>Fahrenheit:
+      <input data-value="fahrenheit" type="range" min="0" max="140"/>
+      <output data-text="${fahrenheit}"></output>
+    </label>
+    <hr/>
+    <label>Celsius:
+      <output data-text="${celsius.toFixed(1)}"></output>
+    </label>
+  </article>
+</body>
+<script>
+  let fahrenheit = 80;
+</script>
+
+<script data-calc>
+  let celsius = (fahrenheit - 32) * 5 / 9;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.19 data-bind-*</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.19 data-bind-*</h1>
+  </header>
+  
+  <article>
+    <color-chooser color="chosenColor"></color-chooser>
+    <hr/>
+    <label>Color:
+     <output data-text="${chosenColor}"></output>
+    </label>
+     </article>
+
+</body>
+
+<template data-component="color-chooser" data-bind-color>
+  <div style="display:flex; gap:0.25em;">
+    <color-button color="blue" pickedcolor="color"></color-button>
+    <color-button color="green" pickedcolor="color"></color-button>
+    <color-button color="red" pickedcolor="color"></color-button>
+  </div>
+</template>
+
+<template data-component="color-button" data-arg-color data-bind-pickedcolor>
+  <button
+    type="button"
+    data-style="background-color:${color};color:white;"
+    data-text="${color}" data-action="pickedcolor=color">
+  </button>
+</template>
+
+<script>
+  let chosenColor = '';
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

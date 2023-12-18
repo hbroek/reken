@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>6.6 rekeninitialized event</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body data-on-rekeninitialized="myValue=200">
+  <header>
+    <h1>6.6 rekeninitialized event</h1>
+  </header>
+  <article>
+    <output data-text="${myValue}"></output>
+  </article>
+</body>
+<script>
+  let myValue = 100
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

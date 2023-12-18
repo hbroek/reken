@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.18 data-arg-*</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+<body>
+  <header>
+    <h1>4.18 data-arg-*</h1>
+  </header>
+  
+  <article>
+    green box
+    <color-box data-arg-color="green"></color-box>
+
+    blue box
+    <color-box color="blue"></color-box>
+
+    or box with the default color red
+    <color-box></color-box>
+  </article>
+
+  <article>
+    <color-box color="rgb(${rVal},${gVal},${bVal})"></color-box>
+    <fieldset style="display:flex"><legend>RGB color picker</legend>
+      <label>Red:<input type="range" min="0" max="255" data-value="rVal"/></label>
+      <label>Green:<input type="range" min="0" max="255" data-value="gVal"/></label>
+      <label>Blue:<input type="range" min="0" max="255" data-value="bVal"/></label>
+    </fieldset>  
+  </article>
+
+  <article>
+    <color-box color="hexColorValue"></color-box>
+    <label>Red:<input type="color" data-value="hexColorValue"/></label>  
+  </article>
+
+</body>
+
+<template data-component="color-box" data-arg-color="red">
+  <div data-style="background:${color};width:100px;height:100px;">
+  </div>
+</template>
+
+<script>
+  let rVal = 125;
+  let gVal = 20;
+  let bVal = 200;
+
+  let hexColorValue = '#FF0000';
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

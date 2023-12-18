@@ -11,10 +11,10 @@ Reken supports data binding, allowing you to update components based on changes 
 **Data Binding:**
 ```html
 <input data-value="userInput"/>
-<div data-text="${userInput}"></div>
+<output data-text="${userInput}"></output>
 ```
 
-In this example, any changes made in the input field are automatically reflected in the `<div>`.
+In this example, any changes made in the input field are automatically reflected in the `<output>`.
 
 ## 5.2 Component Creation and Usage
 
@@ -26,8 +26,8 @@ Components are a powerful way to modularize and reuse parts of your web applicat
 
 ```html
 <template data-component="my-component">
-  <!-- Your component's HTML structure -->
-  <button data-action="console.log('Button clicked!')">Click me</button>
+ <!-- Your component's HTML structure -->
+ <button data-action="console.log('Button clicked!')">Click me</button>
 </template>
 ```
 
@@ -50,11 +50,12 @@ The content of the component's template will replace the element's content with 
 Components in Reken can be customized with slots. Slots are placeholders in component templates where you can insert content from the component reference. This allows you to create more flexible and configurable components.
 
 **Creating a Component with Slots:**
+
 1. Define a component with a slot within its template.
 
 ```html
 <template data-component="my-button">
-  <button><slot>A Button</slot></button>
+ <button><slot>A Button</slot></button>
 </template>
 ```
 
@@ -79,35 +80,35 @@ Reken supports component state management, allowing you to store changes in loca
 **Component State:**
 ```html
 <template data-component="counter">
-  <script>
-    let count = 0;
-  </script>
-  <div>
-    <button data-action="count++">
-      Increment
-    </button>
-    <p data-text="Count: ${count}"></p>
-  </div>
+ <script>
+  let count = 0;
+ </script>
+ <div>
+  <button data-action="count++">
+   Increment
+  </button>
+  <p data-text="Count: ${count}"></p>
+ </div>
 </template>
 ```
 
 In this example, the `counter` component maintains its state with a `count` variable, updated when the "Increment" button is clicked.
 
-## 5.5 Passing data in components
+## 5.5 Passing Data in Components
 
 Components can be configured by passing in arguments with the `data-arg-*` attribute; in this way, components can be customized without having to create a new component.
 
 ```html
 <body>
-  <color-button color="red">RED</color-button>
-  <color-button color="gold">GOLD</color-button>
-  <color-button></color-button>
+ <color-button color="red">RED</color-button>
+ <color-button color="gold">GOLD</color-button>
+ <color-button></color-button>
 </body>
 <template data-component="color-button"
-          data-arg-color="skyblue">
-  <button data-style="background:${color}">
-    <slot>Default</slot>
-  </button>
+ data-arg-color="skyblue">
+ <button data-style="background:${color}">
+  <slot>Default</slot>
+ </button>
 </template>
 ```
 
@@ -120,26 +121,26 @@ Components can pass data outside of the component with the data-bind-* attribute
 ```html
 <html>
 <script>
-  let currentNote = ''
+ let currentNote = ''
 </script>
 <body>
-  <notes note="currentNote"></notes>
-  <output data-text="Current note: ${currentNote}"></output>
+ <notes note="currentNote"></notes>
+ <output data-text="Current note: ${currentNote}"></output>
 </body>
 <template data-component="notes" data-bind-note="">
-  <script>
-    let notes = "CDEFGABC"
-  </script>
-  <nav data-for="n:notes">
-    <button data-text="${n.item}" data-action="note=n.item">      
-    </button>
-  </nav>
+<script>
+ let notes = "CDEFGABC"
+</script>
+ <nav data-for="n:notes">
+  <button data-text="${n.item}" data-action="note=n.item">
+  </button>
+ </nav>
 </template>
-<script src="../src/reken.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
 </html>
 ```
 
-"In this example, we create a musical notes component. It displays a button for each note. When a note's button is pressed, the note is displayed via the bound and updated `currentNote` variable."
+In this example, we create a musical notes component. It displays a button for each note. When a note's button is pressed, the note is displayed via the bound and updated `currentNote` variable.
 
 ## 5.7 Component Events
 
@@ -149,15 +150,17 @@ Reken allows your components to create custom events. You can fire an event by c
 <!DOCTYPE html>
 <html>
 <body>
-  <keypad data-on-pin="alert(e.detail)"></keypad>
+ <keypad data-on-pin="alert(e.detail)"></keypad>
 </body>
 <template data-component="keypad" data-bind-note="">
-  <nav style="display:grid;grid-template-columns: 1fr 1fr 1fr" 
-        data-for="n:9">
-    <button data-text="${n.index+1}"
-            data-action="dispatch('pin', n.index+1)">
-    </button>
-  </nav>
+ <nav style="display:grid;
+  grid-template-columns: 3rem 3rem 3rem;
+  grid-template-rows: 3rem 3rem 3rem;" 
+  data-for="n:9">
+  <button data-text="${n.index+1}"
+   data-action="dispatch('pin', n.index+1)">
+  </button>
+ </nav>
 </template>
 ```
 
@@ -211,7 +214,7 @@ Reken supports component modules. It can include external component definitions 
 
 **Component includes:**
 ```html
-  <ok-button></ok-button>
+ <ok-button></ok-button>
 </body>
 <div data-include="lib/components.html"></div>
 ```
@@ -225,17 +228,17 @@ Reken supports component modules. It can include external component definitions 
 ```html
 <!-- buttons.html -->
 <template data-component="primary-button">
-  <button style="background:skyblue"><slot>Default</slot></button>
+ <button style="background:skyblue"><slot>Default</slot></button>
 </template>
 <template data-component="ok-button">
-  <span>
-    <primary-button>Ok</primary-button>
-  </span>
+<span>
+ <primary-button>Ok</primary-button>
+</span>
 </template>
 <template data-component="cancel-button">
-  <span>
-    <primary-button>Cancel</primary-button>
-  </span>
+<span>
+ <primary-button>Cancel</primary-button>
+</span>
 </template>
 ```
 
@@ -266,6 +269,7 @@ Routing is essential for building single-page applications (SPAs) with multiple 
 Reken can also be configured to create parameterized routes. This is useful for data-driven pages such as the details page based on a ID. A parameterized route can be defined be preceding the route name with a `#`. Reken will then try to map the route name to a variable with the same name.
 
 **Parameterized Routing:**
+
 1. Define a route by specifying a URL hash preceded by a `#` in the `data-route` attribute.
 
 ```html
@@ -276,9 +280,10 @@ Reken can also be configured to create parameterized routes. This is useful for 
 
 ```javascript
 const products = [
-  {'id', 'p12345', 'name': 'Product 12345'},
-  {'id', 'p67890', 'name': 'Product 67890'},
-]
+  {'id': 'p12345', 'name': 'Product 12345'},
+  {'id': 'p67890', 'name': 'Product 67890'},
+];
+let productId;
 ```
 
 ```html

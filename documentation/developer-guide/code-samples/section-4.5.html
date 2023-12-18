@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.5 data-attr-[attr]</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+</head>
+<header>
+  <h1>4.5 data-attr-[attr]</h1>
+</header>
+<body>
+  <article>
+    <div>
+      <label>Show photo for:
+        <select data-value="imageUrl">
+          <option value="10013.jpg">Barbara</option>
+          <option value="10007.jpg">Charles</option>
+          <option value="10019.jpg">Emma</option>
+        </select>
+      </label>
+    </div>
+
+    <img data-attr-src="photos/${imageUrl}" width="120"/>
+
+  </article>
+
+  <article>
+    <div>
+      <label>Disable Button:
+        <input type="checkbox" data-value="isDisabled"/>
+      </label>
+    </div>
+
+    <button data-attr-disabled="isDisabled">Click</button>
+
+  </article>
+
+</body>
+<script>
+  let imageUrl = "10013.jpg";
+  let isDisabled = false;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

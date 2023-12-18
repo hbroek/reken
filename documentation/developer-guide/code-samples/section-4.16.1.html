@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.16.1 data-route - basic routing</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.16.1 data-route - basic routing</h1>
+  </header>
+  <main data-route="">
+    <h1>Default page</h1>
+  </main>
+  <main data-route="page1">
+    <h1>Page 1</h1>
+  </main>
+  <main data-route="page2">
+    <h1>Page 2</h1>
+  </main>
+  <main data-route="page3">
+    <h1>Page 3</h1>
+  </main>
+  <nav>
+    <a href="#/">[ Default ]</a>
+    <a href="#/page1">[ 1 ]</a>
+    <a href="#/page2">[ 2 ]</a>
+    <a href="#/page3">[ 3 ]</a>
+  </nav>  
+</body>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <title>Section 8.2.3</title>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul data-for="page:4">
+          <li><a data-attr-href="#/page${page.index+1}" data-text="page${page.index+1}"></a></li>
+        </ul>
+      </nav>
+    </header>
+    <main data-route="page1">
+      <h1>Page 1</h1>
+    </main>
+    <main data-route="page2">
+      <h1>Page 2</h1>
+    </main>
+    <main data-route="page3">
+      <h1>Page 3</h1>
+    </main>
+    <main data-route="page4">
+      <h1>Page 4</h1>
+    </main>  
+  </body>
+
+  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+
+</html>

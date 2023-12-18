@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>4.3 data-value</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+</head>
+<header>
+  <h1>4.3 data-value</h1>
+</header>
+<body>
+  <article>
+    <label>text:
+      <input type="text" data-value="userName"/>
+    </label>
+    <output data-text="${userName}"></output>
+  </article>
+
+  <article>
+    <label>number:
+      <input type="number" data-value="age"/>
+    </label>
+    <output data-text="${age}"></output>
+  </article>
+
+  <article>
+    <label>date:
+      <input type="date" data-value="birthday"/>
+    </label>
+    <output data-text="${birthday}"></output>
+  </article>
+
+  <article>
+    <label>color:
+      <input type="color" data-value="favoriteColor"/>
+    </label>
+    <output data-text="${favoriteColor}"></output>
+  </article>
+
+  <article>
+    <label>range:
+      <input type="range" data-value="age"/>
+    </label>
+    <output data-text="${age}"></output>
+  </article>
+
+  <article>
+    <label>radio:
+      <label>Female:<input type="radio" name="gender" value="female" data-value="genderValue"/></label>
+      <label>Male:<input type="radio" name="gender" value="male" data-value="genderValue"/></label>
+      <label>Other:<input type="radio" name="gender" value="other" data-value="genderValue"/></label>
+    </label>
+    <output data-text="${genderValue}"></output>
+</article>
+
+  <article>
+    <label>checkboxes:
+      <label>Nuts:<input type="checkbox" name="allergies" value="nuts" data-value="allergyValues"/></label>
+      <label>Dust:<input type="checkbox" name="allergies" value="dust" data-value="allergyValues"/></label>
+      <label>Bees:<input type="checkbox" name="allergies" value="bees" data-value="allergyValues"/></label>
+    </label>
+    <output data-text="${allergyValues}"></output>
+  </article>
+
+  <article>
+    <label>checkbox:
+      <input type="checkbox" data-value="vegetarianValue"/>
+    </label>
+    <output data-text="${vegetarianValue}"></output>
+  </article>
+
+  <article>
+    <label>text:
+      <input type="file" data-value="fileObject" accept=".json">
+    <label>text:
+      <input type="file" data-value="fileObject:csvConverter" accept=".csv">
+    </label>
+    <output data-if="fileObject" data-text="${fileObject.name}-${new Date(fileObject.lastModified)}-${fileObject.size}-${JSON.stringify(fileObject.data)}"></output>
+  </article>
+
+  <article>
+    <label>select:
+      <select data-value="genderValue">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </label>
+    <output data-text="${genderValue}"></output>
+  </article>
+
+</body>
+<script>
+  let userName = '';
+  let age = 21;
+  let birthday = '';
+  let favoriteColor = '#FFFFFF';
+  let genderValue = 'female';
+  let allergyValues= [];
+  let vegetarianValue = false;
+  let fileObject;
+  let comment = '';
+
+  function csvConverter(contentText, fileObject) {
+    return contentText.split('\n')
+      .map((csvRow)=>csvRow.split(',')
+        .reduce((obj, field, index)=>{obj['f'+index]=field;return obj}, {}));
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

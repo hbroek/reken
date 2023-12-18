@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3.3.2 - Conditional Rendering in Practice</title>
+    <link rel="stylesheet" href="css/stylesheet.css" />
+    <style>
+      .fade-in {
+        transition: opacity 1s;
+        opacity: 1 !important;
+      }
+    </style>
+</head>
+
+<body>
+  <header>
+    <h1>3.3.2 - Conditional Rendering in Practice</h1>
+  </header>
+  <article>
+    <div data-if="unreadMessages.length>0">You have unread messages!</div>
+    <button data-action="unreadMessages.push('New Message')">Add message</button>
+    <div data-if="fade-in:isVisible" style="opacity:0">This element will fade in when isVisible is true.</div>
+    <button data-action="isVisible=true">Make visible</button>
+  </article>
+</body>
+  <script>
+    let unreadMessages = [];
+    let isVisible = false;
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>

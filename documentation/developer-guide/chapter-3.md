@@ -14,7 +14,7 @@ The `data-text` attribute is used to update an HTML element's `textContent` with
 
 **Example:**
 ```html
-<p data-text="Hello, ${name}"></p>
+ <p data-text="Hello, ${name}"></p>
 ```
 
 In this example, the content of the `p` element is dynamically updated to display a greeting such as "Hello, World!" using the value of the `name` JavaScript variable.
@@ -25,7 +25,7 @@ The `data-html` attribute allows you to update the `innerHTML` of an HTML elemen
 
 **Example:**
 ```html
-<div data-html="<em>${textToEmphasize}</em> and <strong>${strongText}</strong>"></div>
+ <div data-html="<em>${textToEmphasize}</em> and <strong>${strongText}</strong>"></div>
 ```
 
 In this case, the `data-html` attribute dynamically inserts HTML content into the `div` element based on JavaScript variables `textToEmphasize` and `strongText`.
@@ -36,7 +36,7 @@ The `data-value` attribute is essential for binding a JavaScript variable to an 
 
 **Example:**
 ```html
-<input type="text" data-value="userInput">
+ <input type="text" data-value="userInput"/>
 ```
 
 In this instance, the `data-value` attribute binds the `userInput` variable to a text input field, allowing the input to update the variable's value.
@@ -47,7 +47,7 @@ The `data-style` attribute is used to update the `style` attribute of an HTML el
 
 **Example:**
 ```html
-<button data-style="background-color: ${buttonColor}; color: ${buttonTextColor};">buttonText</button>
+ <button data-style="background-color: ${buttonColor}; color: ${buttonTextColor};">buttonText</button>
 ```
 
 Here, the `data-style` attribute dynamically modifies the button's background and text colors based on JavaScript variables.
@@ -58,10 +58,10 @@ The `data-attr-[attr]` attribute dynamically sets the value of any HTML element'
 
 **Example:**
 ```html
-<img data-attr-src="${imageSource}">
+ <button data-attr-title="${titleText}">I have a title</button>
 ```
 
-In this example, the `data-attr-src` attribute dynamically modifies the `src` attribute of the `img` element based on the value of the `imageSource` JavaScript variable.
+In this example, the `data-attr-title` attribute dynamically modifies the `title` attribute of the `button` element based on the value of the `titleText` JavaScript variable.
 
 These core Reken attributes are the foundation for creating dynamic web pages. As you progress through this chapter, you'll explore their usage in various scenarios.
 
@@ -79,13 +79,13 @@ Imagine you want to create a dynamic greeting that welcomes the user by their na
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Dynamic Greeting</title>
+ <title>My Dynamic Greeting</title>
 </head>
 <body>
-    <p data-text="Hello, ${name}"></p>
+ <p data-text="Hello, ${name}"></p>
 </body>
-  <script></script>
-  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+ <script></script>
+ <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
 </html>
 ```
 
@@ -97,7 +97,7 @@ Now, let's create JavaScript variables to store the dynamic data. You can includ
 
 ```html
 <script>
-    let name = 'Alice';
+ let name = 'Alice';
 </script>
 ```
 
@@ -109,15 +109,15 @@ Here, we've defined the `name` variable with the value 'Alice'.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Dynamic Greeting</title>
+ <title>My Dynamic Greeting</title>
 </head>
 <body>
-    <p data-text="Hello, ${name}"></p>
+ <p data-text="Hello, ${name}"></p>
 </body>
-  <script>
-    let name = 'Alice';
-  </script>
-  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+ <script>
+  let name = 'Alice';
+ </script>
+ <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
 </html>
 ```
 
@@ -145,7 +145,7 @@ Here's how the `data-if` attribute works:
 
    **Example:**
    ```html
-   <div data-if="x > 0">This element is shown when x is greater than 0.</div>
+    <div data-if="x > 0">This element is shown when x is greater than 0.</div>
    ```
 
 2. **Using CSS Classes:**
@@ -154,7 +154,7 @@ Here's how the `data-if` attribute works:
 
    **Example:**
    ```html
-   <div data-if="isVisible:showElement">This element will have the 'showElement' class when isVisible is true.</div>
+    <div data-if="isVisible:showElement">This element will have the 'showElement' class when isVisible is true.</div>
    ```
 
    This allows you to control the visibility and styles of elements using CSS classes, which is especially useful for handling animations based on class changes.
@@ -168,7 +168,7 @@ Let's explore some real-world examples of conditional rendering using the `data-
 Suppose you want to show a message to the user when a specific condition is met. Here's how you can do it:
 
 ```html
-<div data-if="hasUnreadMessages">You have unread messages!</div>
+<div data-if="unreadMessages.length>0">You have unread messages!</div>
 ```
 
 In this case, the message "You have unread messages!" will only be displayed if the JavaScript variable `hasUnreadMessages` is `true`.
@@ -178,7 +178,7 @@ In this case, the message "You have unread messages!" will only be displayed if 
 You can use conditional rendering with CSS classes to add animations to elements. For instance, you can create a simple fade-in effect:
 
 ```html
-<div data-if="isVisible:fade-in">This element will fade in when isVisible is true.</div>
+<div data-if="fade-in:isVisible">This element will fade in when isVisible is true.</div>
 ```
 
 In your CSS, you can define the `fade-in` class to include animation properties, creating a smooth transition effect.
@@ -194,7 +194,7 @@ Looping over expressions that can iterate with the `data-for` attribute is a pow
 The simplest expression to loop over is just a number or a javascript variable that represents a number. For example you can render 5 divs with the index.
 ```html
 <div data-for="loopVar:5">
-    <div data-text="${loopVar.index}"></div>
+ <div data-text="${loopVar.index}"></div>
 </div>
 ```
 
@@ -204,10 +204,10 @@ Providing an array as the expression allows you to loop over the elements of the
 
 ```html
 <script>
-    let myArray = ['John', 'Tracy', 'Taylor'];
+ let myArray = ['John', 'Tracy', 'Taylor'];
 </script>
 <ul data-for="loopVar:myArray">
-    <li data-text="${loopVar.item}"></li>
+ <li data-text="${loopVar.item}"></li>
 </ul>
 ```
 
@@ -224,7 +224,7 @@ The `data-value` attribute is used to bind a JavaScript variable to an input ele
 Here's how it works:
 
 ```html
-<input type="text" data-value="userName">
+<input type="text" data-value="userName"/>
 ```
 
 In this example, the `data-value` attribute binds the `userName` variable to the input field. Any changes made in the input field will automatically update the `userName` variable, and changes to the variable will be reflected in the input field.
@@ -263,7 +263,7 @@ The `data-rest` attribute is used to fetch data from a REST API endpoint and sto
 Here's how you can use the `data-rest` attribute:
 
 ```html
-<div data-rest="userData:/api/user/123"></div>
+<div data-rest="userData:json/user/jsmith.json"></div>
 ```
 
 In this example, the `data-rest` attribute fetches user data from the `/api/user/123` endpoint and stores it in the `userData` JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.
@@ -285,7 +285,7 @@ The `data-rest` attribute allows you to parameterize your REST API calls using a
 **Example:**
 
 ```html
-<div data-rest="userData:/api/user/${userId}"></div>
+<div data-rest="userData:/json/user/${userId}"></div>
 ```
 
 In this example, the `${userId}` placeholder is replaced with the actual value of the `userId` variable when the API call is made. When the value of `userId` changes, the REST API call is automatically executed again.

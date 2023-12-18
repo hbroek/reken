@@ -16,28 +16,28 @@ For simple Reken projects that involve HTML First __Single__ Page Applications (
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-      <title>Page Title</title>
-      <style>
-        /* Style definitions */
-      </style>
-  </head>
+ <head>
+  <title>Page Title</title>
+  <style>
+   /* Style definitions */
+  </style>
+ </head>
 
-  <body>
-    <!-- html -->
-  </body>
+ <body>
+  <!-- html -->
+ </body>
 
-  <template data-component='a-component'>
-    <!-- Optional component definitions -->
-  </template>
-  ...
+ <template data-component='a-component'>
+  <!-- Optional component definitions -->
+ </template>
+...
 
-  <script>
-    // Optional js variable declrations, functions and eventhandlers
-  </script>
+ <script>
+ // Optional js variable declrations, functions and eventhandlers
+ </script>
 
-  <script src="js/thirdpartylibs.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+ <script src="js/thirdpartylibs.js"></script>
+ <script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
 
 </html>
 ```
@@ -48,20 +48,20 @@ When you have a more complex website with multiple HTML pages that share resourc
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <title>Page Title</title>
-    <link rel="stylesheet" href="css/stylesheet.css">
-  </head>
+ <head>
+  <title>Page Title</title>
+  <link rel="stylesheet" href="css/stylesheet.css">
+ </head>
 
-  <body>
-    <!-- html -->
-  </body>
+ <body>
+  <!-- html -->
+ </body>
 
-  <div data-include="comps/components.html"></div>
-  <script src="js/app.js"></script>
+ <div data-include="comps/components.html"></div>
+ <script src="js/app.js"></script>
 
-  <script src="js/thirdpartylibs.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+ <script src="js/thirdpartylibs.js"></script>
+ <script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
 
 </html>
 ```
@@ -141,17 +141,17 @@ Implement lazy loading for resources like images or components not immediately n
 <!DOCTYPE html>
 <html>
 <script>
-  let show = false;
+ let show = false;
 </script>
 <body style="display:none" data-on-rekenready="e.target.style.display='initial'">
 
-  <button data-action="show=true">Show image</button>
-  <main data-if="show">
-    <img loading="lazy" src="portfolio/henry.jpg"/>
-  </main>
+ <button data-action="show=true">Show image</button>
+ <main data-if="show">
+  <img loading="lazy" src="photos/10010.jpg"/>
+ </main>
 
 </body>
-<script src="../src/reken.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
 </html>
 ```
 
@@ -166,32 +166,32 @@ A similar  approach can be prevent rest calls from executing, by hiding them wit
 <!DOCTYPE html>
 <html>
 <script>
-  let load = false;
-  let list
+ let load = false;
+ let list
 </script>
 <body style="display:none" data-on-rekenready="e.target.style.display='initial'">
 
-  <button data-action="load=true">Load json</button>
-  <main data-if="load">
-    <ol data-rest="list:json/employees.json" data-if="list" data-for="employee:list">
-      <li data-text="${employee.item.name}"></li>
-    </ol>
-  </main>
+ <button data-action="load=true">Load json</button>
+ <main data-if="load">
+  <ol data-rest="list:json/employees.json" data-if="list" data-for="employee:list">
+   <li data-text="${employee.item.name}"></li>
+  </ol>
+ </main>
 
 </body>
-<script src="../src/reken.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
 </html>
 ```
 In this example we activate the `main` element only when the `load` variable is true. As a result the result call will not execute until that happens. There is a `data-if` to ensure that the `data-for` is not executed until the employees are loaded in the `list` variable. Once that happens, the list of Employees is rendered.
 
-## 8.2.6 Minify and Bundle
+## 8.2.4 Minify and Bundle
 
 Minify your HTML, JavaScript, and CSS files to reduce file sizes. There are two ways to make your HTML and CSS files smaller: minify and compression. In addition, your Javascript files have another option to make them smaller, which is uglify, where variable and function names are renamed to shorter symbols, which has that added benefit of obfuscation.
 
 Use bundling tools to combine multiple files into one, reducing the number of requests. Strategies here are to merge all the stylesheet, javascript, and component files into the main HTML file, similar to the SPA files described in section 8.1. Currently, there are no Reken-specific tools that automate this.
 
 
-## 8.2.6 Optimize Images
+## 8.2.5 Optimize Images
 
 Compress and optimize images to reduce their file size without sacrificing quality. This is crucial for faster page loading. Besides having the images set to the closest resolution they are being shown in the browser, there are also optimizer tools to remove metadata and other optimizations to make the images smaller.
 

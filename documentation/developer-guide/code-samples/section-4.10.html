@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>4.10 data-on-*</title>
+  <link rel="stylesheet" href="css/stylesheet.css" />
+</head>
+
+<body>
+  <header>
+    <h1>4.10 data-on-*</h1>
+  </header>
+  <article>
+    <div data-on-mousemove="x=e.clientX;y=e.clientY" style="width:200px;height:200px;background:pink;">Hover mouse over square
+    </div>
+    <output data-text="${x},${y}"></output>
+  </article>
+
+  <article>
+    <div data-on-click="console.log('div')">
+      <a href="https://www.reken.dev"
+        data-on-click="console.log('a href'); e.stopPropagation();e.preventDefault();">
+        Click here !
+      </a>
+    </div>
+  </article>
+
+</body>
+<script>
+  let x = y = 0;
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+
+</html>

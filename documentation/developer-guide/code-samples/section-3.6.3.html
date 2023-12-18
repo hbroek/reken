@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <title>3.6.3 Parameterizing REST Calls</title>
+    <link rel="stylesheet" href="css/stylesheet.css"/>
+    <style>
+      body:has(.reken-rest-busy) {
+        background-color: yellow;
+      }
+      body:has(.reken-rest-error) {
+        background-color: pink;
+      }
+      body:has(.reken-rest-done) {
+        background-color: lightgreen;
+      }
+    </style>
+  </head>
+  <header>
+    <h1>3.6.3 Parameterizing REST Calls</h1>
+  </header>
+  <body>
+    <article>
+      <button data-action="userName='jdoe'">Load Jane Doe</button>
+      <button data-action="userName='jsmith'">Load John Smith</button>
+      <div data-rest="userData:json/user/${userName}.json">
+        <output data-if="userData" data-text="Loaded ${userData.name}"></output>
+      </div>
+    </article>
+  </body>
+  <script>
+    let userData;
+    let userName = 'jsmith';
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js"></script>
+</html>
