@@ -46,7 +46,7 @@ jobs:
           outputpath: dist
           matchpathstructure: true
 
-      # Copy documentation pictures
+      # Copy documentation pictures & examples
       - name: Copy documentation images
         run: |
           mkdir -p dist/documentation/developer-guide/img
@@ -55,6 +55,12 @@ jobs:
           mkdir -p dist/documentation/developer-guide/code-samples
           cp -r documentation/developer-guide/code-samples/* dist/documentation/developer-guide/code-samples
 
+      # Create a zip for the examples
+      #- name: Install Zip
+      #  run: sudo apt-get install zip
+
+      - name: Create Zip File
+        run: zip -r dist/documentation/developer-guide/reken-developer-handbook-code-samples.zip dist/documentation/developer-guide/code-samples
 
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
