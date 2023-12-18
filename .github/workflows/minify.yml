@@ -59,7 +59,7 @@ jobs:
       - name: Create Zip File
         run: |
           cd documentation/developer-guide/code-samples
-          zip -r dist/documentation/developer-guide/reken-developer-handbook-code-samples.zip .
+          zip -r ../../../dist/documentation/developer-guide/reken-developer-handbook-code-samples.zip .
 
       # Auto commits minified files to the repository
       # Ignore it if you don't want to commit the files to the repository 
