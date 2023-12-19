@@ -1153,7 +1153,7 @@ In this example, we create a component.html file. It contains the component defi
 The main HTML code loads the **components.html** file with the `data-include` attribute and references the `hello` and `goodbye` components with the shorthand notation `<hello>` and `<goodbye>` tags.
 
 ## 4.21 data-ref
-ww
+
 **Syntax:**
 
 **`data-ref="javascript variable"`**

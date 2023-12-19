@@ -66,4 +66,20 @@ Before you dive into installation, it's essential to understand the core concept
 
 In the next chapters, we will explore each Reken attribute in detail and learn how to leverage them for dynamic web development. You'll also gain insights into advanced features, such as creating reusable components and routing with Reken.
 
+All the **source code for the examples** used in this handbook are available as [live demos](https://reken.dev/dist/documentation/developer-guide/code-samples/index.html).
+
+```text
+https://reken.dev/dist/documentation/developer-guide/code-samples/index.html
+```
+
+You can also [download](https://reken.dev/dist/documentation/developer-guide/reken-developer-handbook-code-samples.zip) the demos as a zip file to your computer.
+
+```text
+https://reken.dev/dist/documentation/developer-guide/reken-developer-handbook-code-samples.zip
+```
+
+
+
+The samples are organized by chapter and are named after the sections they are presented in.
+
 Let's get started with installing Reken and exploring its attributes in the following chapters.
