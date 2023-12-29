@@ -193,7 +193,8 @@
                         }
                         break;
                     case "text":
-                        controlCode.third.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".textContent = $v"); // Update DOM element with HTML Element from template string if different
+                        controlCode.third.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".innerText = $v"); // Update DOM element with HTML Element from template string if different
+
                         break;
                     case "html":
                         controlCode.third.push("$v=`" + value + "`;if (" + elemString + ".innerHTML !== $v) " + elemString + ".innerHTML = $v"); // Update DOM element with HTML Element from template string if different
