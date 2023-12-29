@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.5';
+    reken.version = '0.9.5.1';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -185,10 +185,8 @@
 
                     case "ref":
                         if (typeof topForString !== 'undefined') {
-                            console.error(elemString, compString, value);
                             refArray.push([value, elemString.split('.').slice(1).join('.')])
                             controlCode.third.push(indent+value + " = " + elemString +";");
-                            console.error('ref add ' + value + elemString)
                         }
                         else {
                             controlCode.first.push(indent+value + " = " + elemString +";");
