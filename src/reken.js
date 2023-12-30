@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.5.2';
+    reken.version = '0.9.5.3';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -465,14 +465,21 @@
                         }
                         else
                             controlCode.third.push(indent+'let '+ _arrayName + ' = new Array(parseInt(' + _data + '))');
-                        controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', Math.min('+_arrayName+'.length,' + (end??_arrayName+'.length')+ ') - '+(start??'0') + ')');
 
+                        const _forStop = uniqueID("forStop");
+                        controlCode.third.push(indent+'const '+_forStop + ' = Math.min('+_arrayName+'.length,' + (end??_arrayName+'.length')+ ') - '+(start??'0'));
+                        controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', '+ _forStop +')');
+                            
                         // At runtime loop thru the direct children
                         let _forVar = uniqueID("forElem");
                         let _forIndex = uniqueID("counter");
-                        controlCode.third.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + elemString + ".children.length/"+elem.children.length+";"+_forIndex+"++){");
 
-                        controlCode.third.push(indent+"if (" + _forIndex + ">=" + _arrayName + ".length "+((typeof end === 'undefined')?"":"||"+_forIndex+">="+end)+") break;"); //Basically if 0 elements in array
+                        const _forRoot = uniqueID("forRoot");
+                        controlCode.third.push(indent+"const "+_forRoot+ " = " + elemString);
+                        const _rootItemCount = uniqueID("rootItemCount");
+                        controlCode.third.push(indent+"const "+_rootItemCount+ " = " + _forRoot +".children.length/"+elem.children.length);
+                        controlCode.third.push(indent+"for (let " + _forIndex + "=0;"+_forIndex+"<" + _forStop+";"+_forIndex+"++){");
+
                         controlCode.third.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "+" + (start??"0") +"],itemIndex:"+_forIndex + "+" + (start??"0")+"}"); // Set the var context
                         
                         forVars += (forVars!=''?',':'') + _var
