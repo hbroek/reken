@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.5.3';
+    reken.version = '0.9.5.4';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -486,8 +486,8 @@
                         controlCode.third.push(indent+"let "+ _forVar)
                         let i = 0;
                         for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                            controlCode.third.push(indent+ _forVar + " = " + elemString+".children["+_forIndex+"*"+elem.children.length+"+"+i+"]")
-                            buildClasses(false, elem.children[i], _forVar, compString+ ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
+                            controlCode.third.push(indent+ _forVar + " = " + elemString+getChildString(_forIndex+"*"+elem.children.length+"+"+i))
+                            buildClasses(false, elem.children[i], _forVar, compString+getChildString(i), topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
                             i++;
                         }
                         controlCode.third.push(indent+'}' + '// End loop ' + _forIndex);
@@ -527,7 +527,7 @@
                                 let i = 0;
                                 for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                                     let elemString = "this.$root"
-                                    buildClasses(false, child, elemString + ".children[" + i + "]", elemString + ".children[" + i + "]", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
+                                    buildClasses(false, child, elemString+getChildString(i), elemString+getChildString(i), topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
                                     i++
                                 }
                                 if (elem.dataset.if !== undefined) {
@@ -664,7 +664,7 @@
         if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
             let i = 0;
             for (let child of elem.children) { 
-                buildClasses(false, child, elemString + ".children[" + i + "]", compString + ".children[" + i + "]", topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
+                buildClasses(false, child, elemString +getChildString(i), compString +getChildString(i), topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
                 i++
             }
             if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
@@ -1186,6 +1186,8 @@
         updateStyleSheetShortHandNames(componentNames);
         componentNames.sort((a,b)=>b.length-a.length)
     }
+
+    const getChildString = (index) => index ? `.children[${index}]`:'.firstElementChild';
 
     const updateStyleSheetShortHandNames = (componentNames) => {
         document.querySelectorAll('head > style').forEach( style => {
