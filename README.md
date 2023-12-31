@@ -6,6 +6,10 @@
 
 For live demos, REPL and more information, visit the [Reken website](http://www.reken.dev).
 
+## Support the Reken project
+Support the Reken project by purchasing the [Reken Developer Handbook↗](https://amzn.to/4asrJBV), all you need to get up to speed with Reken. 
+![Support the Reken project by purchasing the Reken Developer Handbook, all you need to get up to speed with Reken](assets/rdh-cover.png)
+
 ## Why use Reken?
 
 ### Easy creation of Dynamic Web pages with just HTML, CSS and a few  sprinkles of Javascript.
