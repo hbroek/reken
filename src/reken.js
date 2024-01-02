@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.5.4';
+    reken.version = '0.9.5.5';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -1415,6 +1415,9 @@
                     _firstChilds[l].querySelectorAll('[id]').forEach(_childElem => {
                         _childElem.removeAttribute('id');
                     })
+                    if (_firstChilds[l].getAttribute('data-component') || _firstChilds[l].querySelectorAll('[data-component]').length>0) {
+                        _firstChilds[l].$hasComponents = true;
+                    }
                 }
             }
             for (let i = 0; i < length; i++) {
@@ -1426,7 +1429,7 @@
                     }
                     else { // No child yet create it
                         _child = elem.childrenStore[l].cloneNode(true)
-                        initComponentElement(registry, _child)
+                        if (elem.childrenStore[l].$hasComponents) initComponentElement(registry, _child)
 
                         elem.appendChild(_child);
                     }
