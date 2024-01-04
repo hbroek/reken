@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.5.5';
+    reken.version = '0.9.5.6';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -469,7 +469,7 @@
                         const _forStop = uniqueID("forStop");
                         controlCode.third.push(indent+'const '+_forStop + ' = Math.min('+_arrayName+'.length,' + (end??_arrayName+'.length')+ ') - '+(start??'0'));
                         controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', '+ _forStop +')');
-                            
+
                         // At runtime loop thru the direct children
                         let _forVar = uniqueID("forElem");
                         let _forIndex = uniqueID("counter");
@@ -1418,6 +1418,14 @@
                     if (_firstChilds[l].getAttribute('data-component') || _firstChilds[l].querySelectorAll('[data-component]').length>0) {
                         _firstChilds[l].$hasComponents = true;
                     }
+                    if (_firstChilds[l].getAttribute('data-timer') || _firstChilds[l].querySelectorAll('[data-timer]').length>0) {
+                        _firstChilds[l].$hasTimers = true;
+                        elem.$hasTimers = true;
+                    }
+                    if (_firstChilds[l].getAttribute('data-interval') || _firstChilds[l].querySelectorAll('[data-interval]').length>0) {
+                        _firstChilds[l].$hasTimers = true;
+                        elem.$hasTimers = true;
+                    }
                 }
             }
             for (let i = 0; i < length; i++) {
@@ -1435,21 +1443,24 @@
                     }
                 }
             }
-            let checkForTimers=true;
+            
+            if (length==0 && !elem.$hasTimers) {
+                elem.innerText = ''
+                return;
+            }
+
             const _toDelete = [] // This will need to save the first (set of) element(s) when length = 0; 
             for (let i = length; i < _numberOfChildren; i++) {
                 for (let l = 0; l < leafs; l++) {
                     let elemIndex = i*leafs+l;
+                    const _child = _children[elemIndex];
 
-                    if (_children[elemIndex]) {                
-                        _toDelete.push(_children[elemIndex]); //save for removal
-                        if (checkForTimers) {
-                            if (disableTimers(_children[elemIndex])==0)
-                                checkForTimers = false;
+                    if (_child) {                
+                        _toDelete.push(_child); //save for removal
+                        if (elem.childrenStore[l].$hasTimers) {
+                            disableTimers(_child)
                         }
                     }
-                    else
-                        continue;
                 }
             }
            _toDelete.forEach(child=>{elem.removeChild(child)})
