@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.5.6';
+    reken.version = '0.9.6.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -219,6 +219,8 @@
                                 value = value.substring(0, transformerIndex)
                             }
                         }
+                        else if (elem.tagName === 'SELECT' && elem.hasAttribute('multiple'))
+                            controlCode.third.push(indent + "$updateSelectElement("+ elemString + "," + value + ");");
                         else
                             controlCode.third.push(indent + elemString + ".value = " + value);
                         let eventType = "change";
@@ -246,6 +248,8 @@
                             'handlerName': eventId,
                             'handlerCode': (elem.type === 'file') ?
                                 (valueValue + "=e.target.files[0];$importData(e.target, ()=>{$mainInstance.controller({})}, "+transformerFunctionReference+")") :
+                                (elem.tagName === 'SELECT' && elem.hasAttribute('multiple')) ?
+                                "$updateSelectModel(e.target,"+value+")":
                                 (valueValue + "=$typedReturn(e.target," + valueValue + ");"),
                             'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + eventContext.contextString + ";",
                             "deferredUpdate": elem.type === 'file',
@@ -1353,6 +1357,33 @@
             return elem.value;
         }
     }
+
+    const updateSelectModel = (select, array) => {
+        for (let i=0, iLen=select.options.length; i<iLen; i++) {    
+            const opt = select.options[i];
+          
+            const val = opt.value ?? opt.text
+            const index = array.indexOf(val)
+    
+            if (opt.selected) {
+                if (index < 0)
+                    array.push(val);
+            }
+            else {
+                if (index >= 0)
+                    array.splice(index,index+1);
+            }
+        }
+    }
+
+    const updateSelectElement = (select, array) => {
+        for (let i=0, iLen=select.options.length; i<iLen; i++) {
+            const opt = select.options[i];
+
+            opt.selected = array.indexOf(opt.value??opt.text)>=0;
+        }
+    }
+    
     const importData = (elem, updateModel, fileTransformer) => {
         let file_to_read = elem.files[0];
         let fileread = new FileReader();
@@ -1545,9 +1576,9 @@
 
             let definitionString = definition.join('\n')
             // console.log(definitionString)
-            let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', definitionString);
+            let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', '$updateSelectElement', '$updateSelectModel', definitionString);
             if (!doGenerateCode())
-                controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData);
+                controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData, updateSelectElement, updateSelectModel);
             if (doGenerateCode() && !isServerGenerated()) {
                 var element = document.createElement('a');
                 let html = document.body.parentElement.innerHTML.split('\n');

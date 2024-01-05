@@ -242,6 +242,21 @@
       </label>
       <span id="v14_1" data-text="${vnumber14}"></span>
     </div>
+    <script>
+      let vselect15 = ['two', 'four']
+    </script>
+    <div>
+      <span id="v15_0" data-text="${vselect15}"></span>
+      <label>vselect15:
+        <select id="v15" data-value="vselect15" multiple>
+          <option>one</option>
+          <option>two</option>
+          <option>three</option>
+          <option>four</option>
+        </select>
+      </label>
+      <span id="v15_1" data-text="${vselect15}"></span>
+    </div>
   </section>
   <section>
     <h3>data-style tests</h3>
@@ -1783,7 +1798,41 @@
         expect($('v14_1')).to.not.have.text("" + testNumber14);
         done();
       })
+      it('Start with 2 selected values and change value', (done) => {
+        const testString15 = "two,four"
+        const v_sl15 = $('v15')
+        console.log(v_sl15.options[0].selected)
+        assert(v_sl15.options[0].selected === false, "Value is checked")
+        assert(v_sl15.options[1].selected == true, "Value is unchecked")
+        assert(v_sl15.options[2].selected == false, "Value is checked")
+        assert(v_sl15.options[3].selected == true, "Value is unchecked")
 
+        expect($('v15_0')).to.have.text(testString15);
+        expect($('v15_1')).to.have.text(testString15);
+
+        v_sl15.options[1].selected = false;
+        v_sl15.options[3].selected = false;
+
+        $('v15').dispatchEvent(new Event('change'));
+
+        expect($('v15_0')).to.have.text('');
+        expect($('v15_1')).to.have.text('');
+
+        v_sl15.options[2].selected = true;
+
+        $('v15').dispatchEvent(new Event('change'));
+
+        expect($('v15_0')).to.have.text('three');
+        expect($('v15_1')).to.have.text('three');
+
+        v_sl15.options[0].selected = true;
+
+        $('v15').dispatchEvent(new Event('change'));
+        expect($('v15_0')).to.have.text('three,one');
+        expect($('v15_1')).to.have.text('three,one');
+
+        done();
+      })
     })
     describe('data-style tests', () => {
       it('width, heigh background', (done) => {
