@@ -2,7 +2,7 @@
 
 **Reken** _Dutch singular verb for calculate. Pronounce: **Ray - ken**_
 
-**With Reken you can create fast, reactive, HTML compliant web pages without virtual DOM overhead or the need for build tools.**
+**Quickly create data-driven HTML pages with an 'HTML First' approach, using powerful new HTML attributes.**
 
 For live demos, REPL and more information, visit the [Reken website](http://www.reken.dev).
 
