@@ -1159,6 +1159,7 @@ You can also specify component state by specifying a script tag and initialize v
 </li>
 <li>Components support slots. Slots allow you to transfer markup from the component reference into the body of a component definition. Take for example a new button component with the template: <em>&lt;button data-component="my-button"&gt;My &lt;slot&gt;&lt;slot&gt;&lt;button&gt;</em>. You can now create a my-button with  _&lt;my-button&gt;click me&lt;my-button&lt;button&gt;. This will result into a button with the text: <em>My click me</em>
 </li>
+<li>Named slots are also supported. With named slots more than one slot per component can be specified. A named slot can be specified by adding a <code>name</code> attribute to a slot. When using the component the named slot can be specified by adding a <code>slot</code> attribute referencing the slot name.</li>
 </ul>
 </li>
 <li>
