@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.7.0';
+    reken.version = '0.9.7.1';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -1587,7 +1587,7 @@
             definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
             let definitionString = definition.join('\n')
-            console.log(definitionString)
+            // console.log(definitionString)
             let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', '$updateSelectElement', '$updateSelectModel', definitionString);
             if (!doGenerateCode())
                 controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData, updateSelectElement, updateSelectModel);
