@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.6.0';
+    reken.version = '0.9.7.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -705,7 +705,19 @@
                     processComponentReferences(child)
                 }
 
-                let _slotElement = component.querySelector('slot')
+                // Find all the named slots first
+                const _slotElements = component.querySelectorAll('slot[name]')
+                for (let i = 0; i < _slotElements.length; i++) {
+                    component.dataset.hasSlot='true'
+                    let _beforeElement = _slotElements[i];
+                    //Find an node with the name in the element
+                    let slotContent = elem.querySelector(`[slot=${_beforeElement.getAttribute('name')}]`)
+                    if (slotContent != null) {
+                        _beforeElement.parentElement.insertBefore(slotContent, _beforeElement)
+                        _beforeElement.parentElement.removeChild(_beforeElement);
+                    }
+                }
+                const _slotElement = component.querySelector('slot')
                 if (_slotElement !=null && elem.childNodes.length > 0) { // Process slot
                     component.dataset.hasSlot='true'
 
@@ -715,7 +727,7 @@
                         _slotElement.parentElement.insertBefore(child, _beforeElement)
                         _beforeElement = child;
                     }
-                        _slotElement.parentElement.removeChild(_slotElement)
+                    _slotElement.parentElement.removeChild(_slotElement)
                 }
                 let instanceAttributes = ['data-ref', 'data-action', 'data-style', 'data-class', 'data-if', 'data-timer', 'data-interval',
                                             'data-route', 'data-rest', 'data-rest-options', 'data-calc']
@@ -1575,7 +1587,7 @@
             definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
             let definitionString = definition.join('\n')
-            // console.log(definitionString)
+            console.log(definitionString)
             let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', '$updateSelectElement', '$updateSelectModel', definitionString);
             if (!doGenerateCode())
                 controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData, updateSelectElement, updateSelectModel);

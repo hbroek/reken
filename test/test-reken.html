@@ -1304,13 +1304,30 @@
     <template data-component="test-slot2">
       <div>
         <h1>Before</h1>
-        <slot>Has no slot test</slot>
+        <slot>Has no slot text</slot>
         <h1>After</h1>
       </div>
     </template>
     <template data-component="test-subslot2">
       <div>
         <slot><h2>Subslot has not text</h2></slot>
+      </div>
+    </template>
+  </section>
+  <hr>
+  <section>
+    <!-- Test component named slot functionality  -->
+    <test-namedslot1 id="tns1"></test-namedslot1>
+    <test-namedslot1 id="tns2">
+      <h1 slot="before">I'm before</h1>
+      <h3>The main slot</h3>
+      <h2 slot="after">I'm after</h2>
+    </test-namedslot1>
+    <template data-component="test-namedslot1">
+      <div>
+        <slot name="before">Before</slot>
+        <slot>Has no slot text</slot>
+        <slot name="after">After</slot>
       </div>
     </template>
 
@@ -3193,6 +3210,24 @@
       it('Check if sub component slot content is displayed', (done) => {
         const ts2_h2 =  $('ts21').querySelector('h2');
         expect(ts2_h2).to.have.text('Hello from the subslot') 
+        done();
+      })
+      it('Check if named default slot content is displayed', (done) => {
+        const tns1_before =  $('tns1').querySelector('slot[name=before]');
+        expect(tns1_before).to.have.text('Before') 
+        const tns1_after =  $('tns1').querySelector('slot[name=after]');
+        expect(tns1_after).to.have.text('After') 
+        const tns1_default =  $('tns1').querySelector('slot:nth-child(2)');
+        expect(tns1_default).to.have.text('Has no slot text') 
+        done();
+      })
+      it('Check if named slot content is displayed', (done) => {
+        const tns2_before =  $('tns2').querySelector('[slot=before]');
+        expect(tns2_before).to.have.text('I\'m before') 
+        const tns2_after =  $('tns2').querySelector('[slot=after]');
+        expect(tns2_after).to.have.text('I\'m after') 
+        const tns2_default =  $('tns2').querySelector('h3');
+        expect(tns2_default).to.have.text('The main slot') 
         done();
       })
     })

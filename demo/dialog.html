@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="../assets/reken.css" />
+
+    <title>Dialog component with named slots</title>
+</head>
+
+<body>
+    <header>
+        <h1>Dialog component with named slots</h1>
+        <source-code sourceurl="document.location.href"></source-code>
+    </header>
+    <main>
+        <section>
+
+          <my-dialog data-attr-open="openDialog==='one'" detail="loginInfo">
+            <h2 slot="header">Login</h2>
+            <fieldset>
+              <label id="loginName">Name:<input type="text" data-value="detail.name"/></label>
+              <label id="loginPassword">Password:<input type="password" data-value="detail.password"/></label>
+            </fieldset>
+            <h2 slot="footer"><button data-action="detail.command='close'">Close</button></h2>
+          </my-dialog>
+
+          <my-dialog data-attr-open="openDialog==='two'" detail="signupInfo">
+            <h2 slot="header">Signup</h2>
+            <fieldset>
+              <label id="signupName">Name:<input type="text" data-value="detail.name"/></label>
+              <label id="signupEmail">Email:<input type="email" data-value="detail.email"/></label>
+              <label id="signupPassword">Password:<input type="password" data-value="detail.password"/></label>
+            </fieldset>
+            <nav slot="footer">
+              <button data-action="detail.command='cancel'">Cancel</button>
+              <button data-action="detail.command='ok'">Ok</button>
+            </nav>
+          </my-dialog>
+
+          <nav style="gap:0.5em;">
+            <button data-action="openDialog='one'">Login</button>
+            <button data-action="openDialog='two'">Signup</button>
+          </nav>
+
+        </section>
+    </main>
+</body>
+<template data-component="my-dialog" data-arg-detail="">
+  <dialog data-on-close="openDialog='';return true;">
+    <form method="dialog">
+      <header><slot name="header">Header</slot></header>
+      <section>
+        <slot></slot>
+      </section>
+      <footer><slot name="footer"><button>Ok</button></slot></footer>
+    </form>
+  </dialog>  
+</template>
+
+<script>
+  let openDialog = ''
+  let loginInfo = {name:'', password:''};
+  let signupInfo = {name:'', email:'', password:''}
+</script>
+
+<div data-include="includes/demo-lib.html"></div>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
+</html>
+
