@@ -6,6 +6,7 @@
     {"name": "chart-css.html", "tags":["data-value","data-action","data-attr-","data-text","data-style"]},
     {"name": "component-bindable-attributes.html", "tags":["data-text","data-bind-","data-on-","data-style","data-include","data-text","data-if","data-rest","data-rest-options"]},
     {"name": "components.html", "tags":["data-rest","data-if","data-for","data-include","data-component","data-arg-","data-text"]},
+    {"name": "dialog.html", "tags":["data-component","data-arg-","data-value", "data-on-"]},
     {"name": "dynamic-table.html", "tags":["data-rest","data-for","data-text"]},
     {"name": "edit-array-data.html", "tags":["data-for","data-attr-","data-value","data-text"]},
     {"name": "file-open.html", "tags":["data-value","data-if","data-text"]},
