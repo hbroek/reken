@@ -1009,39 +1009,39 @@
 </head>
 <body>
 <article class="markdown-body">
-<h1><a id="user-content-chapter-3-basics" class="anchor" aria-hidden="true" tabindex="-1" href="#chapter-3-basics"><span aria-hidden="true" class="octicon octicon-link"></span></a>Chapter 3: Basics</h1>
+<div class="markdown-heading"><h1 class="heading-element">Chapter 3: Basics</h1><a id="user-content-chapter-3-basics" class="anchor-element" aria-label="Permalink: Chapter 3: Basics" href="#chapter-3-basics"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>In this chapter, we'll cover the fundamental aspects of Reken, which will serve as the building blocks for creating dynamic and interactive web pages. You'll learn about Reken attributes, creating your first dynamic element, conditional rendering, handling user input, and working with REST APIs using Reken's powerful features.</p>
-<h2><a id="user-content-31-understanding-reken-attributes" class="anchor" aria-hidden="true" tabindex="-1" href="#31-understanding-reken-attributes"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1 Understanding Reken Attributes</h2>
+<div class="markdown-heading"><h2 class="heading-element">3.1 Understanding Reken Attributes</h2><a id="user-content-31-understanding-reken-attributes" class="anchor-element" aria-label="Permalink: 3.1 Understanding Reken Attributes" href="#31-understanding-reken-attributes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken attributes are the essential features that empower HTML elements to become dynamic and responsive. These attributes offer a simple and efficient way to bind dynamic content, styles, and behaviors to your HTML elements without the need for complex JavaScript code. Let's explore the primary Reken attributes.</p>
-<h3><a id="user-content-311-data-text" class="anchor" aria-hidden="true" tabindex="-1" href="#311-data-text"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1.1 data-text</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.1.1 data-text</h3><a id="user-content-311-data-text" class="anchor-element" aria-label="Permalink: 3.1.1 data-text" href="#311-data-text"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-text</code> attribute is used to update an HTML element's <code>textContent</code> with an evaluated template string. It's a fundamental attribute for dynamically changing the text content of an element based on JavaScript variables.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre> <span class="pl-kos">&lt;</span><span class="pl-ent">p</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Hello, ${name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the content of the <code>p</code> element is dynamically updated to display a greeting such as "Hello, World!" using the value of the <code>name</code> JavaScript variable.</p>
-<h3><a id="user-content-312-data-html" class="anchor" aria-hidden="true" tabindex="-1" href="#312-data-html"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1.2 data-html</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.1.2 data-html</h3><a id="user-content-312-data-html" class="anchor-element" aria-label="Permalink: 3.1.2 data-html" href="#312-data-html"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-html</code> attribute allows you to update the <code>innerHTML</code> of an HTML element with an evaluated template string. It's a powerful tool for inserting dynamic HTML content into an element.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre> <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;em&gt;${textToEmphasize}&lt;/em&gt; and &lt;strong&gt;${strongText}&lt;/strong&gt;</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this case, the <code>data-html</code> attribute dynamically inserts HTML content into the <code>div</code> element based on JavaScript variables <code>textToEmphasize</code> and <code>strongText</code>.</p>
-<h3><a id="user-content-313-data-value" class="anchor" aria-hidden="true" tabindex="-1" href="#313-data-value"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1.3 data-value</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.1.3 data-value</h3><a id="user-content-313-data-value" class="anchor-element" aria-label="Permalink: 3.1.3 data-value" href="#313-data-value"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-value</code> attribute is essential for binding a JavaScript variable to an input element, providing two-way data binding. It supports various input types, including text, number, checkbox, radio, and file.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre> <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userInput</span>"/&gt;</pre></div>
 <p>In this instance, the <code>data-value</code> attribute binds the <code>userInput</code> variable to a text input field, allowing the input to update the variable's value.</p>
-<h3><a id="user-content-314-data-style" class="anchor" aria-hidden="true" tabindex="-1" href="#314-data-style"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1.4 data-style</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.1.4 data-style</h3><a id="user-content-314-data-style" class="anchor-element" aria-label="Permalink: 3.1.4 data-style" href="#314-data-style"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-style</code> attribute is used to update the <code>style</code> attribute of an HTML element with an evaluated template string. It's a convenient feature for dynamically changing CSS styles based on JavaScript variables.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre> <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background-color: ${buttonColor}; color: ${buttonTextColor};</span>"<span class="pl-kos">&gt;</span>buttonText<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Here, the <code>data-style</code> attribute dynamically modifies the button's background and text colors based on JavaScript variables.</p>
-<h3><a id="user-content-315-data-attr-attr" class="anchor" aria-hidden="true" tabindex="-1" href="#315-data-attr-attr"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.1.5 data-attr-[attr]</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.1.5 data-attr-[attr]</h3><a id="user-content-315-data-attr-attr" class="anchor-element" aria-label="Permalink: 3.1.5 data-attr-[attr]" href="#315-data-attr-attr"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-attr-[attr]</code> attribute dynamically sets the value of any HTML element's attribute using an evaluated template string. It's particularly useful for updating attribute values.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre> <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-attr-title</span>="<span class="pl-s">${titleText}</span>"<span class="pl-kos">&gt;</span>I have a title<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the <code>data-attr-title</code> attribute dynamically modifies the <code>title</code> attribute of the <code>button</code> element based on the value of the <code>titleText</code> JavaScript variable.</p>
 <p>These core Reken attributes are the foundation for creating dynamic web pages. As you progress through this chapter, you'll explore their usage in various scenarios.</p>
-<h2><a id="user-content-32-creating-your-first-dynamic-element" class="anchor" aria-hidden="true" tabindex="-1" href="#32-creating-your-first-dynamic-element"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.2 Creating Your First Dynamic Element</h2>
+<div class="markdown-heading"><h2 class="heading-element">3.2 Creating Your First Dynamic Element</h2><a id="user-content-32-creating-your-first-dynamic-element" class="anchor-element" aria-label="Permalink: 3.2 Creating Your First Dynamic Element" href="#32-creating-your-first-dynamic-element"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Now that you have an understanding of Reken attributes, let's create your first dynamic element. We'll begin with a simple example using the <code>data-text</code> attribute to update the content of an HTML element.</p>
-<h3><a id="user-content-321-creating-a-dynamic-greeting" class="anchor" aria-hidden="true" tabindex="-1" href="#321-creating-a-dynamic-greeting"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.2.1 Creating a Dynamic Greeting</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.2.1 Creating a Dynamic Greeting</h3><a id="user-content-321-creating-a-dynamic-greeting" class="anchor-element" aria-label="Permalink: 3.2.1 Creating a Dynamic Greeting" href="#321-creating-a-dynamic-greeting"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Imagine you want to create a dynamic greeting that welcomes the user by their name. Follow these steps to create your first dynamic element:</p>
 <p><strong>Step 1: Set up your HTML structure.</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
@@ -1080,9 +1080,9 @@
 <p>Save your HTML file and open it in a web browser. You should see a greeting message like "Hello, Alice" displayed on the page.</p>
 <p>Congratulations! You've successfully created your first dynamic element using Reken's <code>data-text</code> attribute. As you can see, Reken attributes make it easy to incorporate dynamic content into your web pages without complex JavaScript code.</p>
 <p>In the following sections, we'll explore more advanced scenarios, including conditional rendering, handling user input, and working with REST APIs, all using Reken attributes.</p>
-<h2><a id="user-content-33-conditional-rendering" class="anchor" aria-hidden="true" tabindex="-1" href="#33-conditional-rendering"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.3 Conditional Rendering</h2>
+<div class="markdown-heading"><h2 class="heading-element">3.3 Conditional Rendering</h2><a id="user-content-33-conditional-rendering" class="anchor-element" aria-label="Permalink: 3.3 Conditional Rendering" href="#33-conditional-rendering"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Conditional rendering is a powerful feature that enables you to show or hide elements based on specific conditions. Reken provides the <code>data-if</code> attribute for accomplishing this. Let's dive into conditional rendering.</p>
-<h3><a id="user-content-331-basics-of-conditional-rendering" class="anchor" aria-hidden="true" tabindex="-1" href="#331-basics-of-conditional-rendering"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.3.1 Basics of Conditional Rendering</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.3.1 Basics of Conditional Rendering</h3><a id="user-content-331-basics-of-conditional-rendering" class="anchor-element" aria-label="Permalink: 3.3.1 Basics of Conditional Rendering" href="#331-basics-of-conditional-rendering"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Conditional rendering allows you to display or hide elements based on the evaluation of a condition.</p>
 <p>Here's how the <code>data-if</code> attribute works:</p>
 <ol>
@@ -1100,7 +1100,7 @@
 <p>This allows you to control the visibility and styles of elements using CSS classes, which is especially useful for handling animations based on class changes.</p>
 </li>
 </ol>
-<h3><a id="user-content-332-conditional-rendering-in-practice" class="anchor" aria-hidden="true" tabindex="-1" href="#332-conditional-rendering-in-practice"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.3.2 Conditional Rendering in Practice</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.3.2 Conditional Rendering in Practice</h3><a id="user-content-332-conditional-rendering-in-practice" class="anchor-element" aria-label="Permalink: 3.3.2 Conditional Rendering in Practice" href="#332-conditional-rendering-in-practice"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Let's explore some real-world examples of conditional rendering using the <code>data-if</code> attribute:</p>
 <p><strong>Example 1: Showing an Element Based on a Condition</strong></p>
 <p>Suppose you want to show a message to the user when a specific condition is met. Here's how you can do it:</p>
@@ -1111,7 +1111,7 @@
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">fade-in:isVisible</span>"<span class="pl-kos">&gt;</span>This element will fade in when isVisible is true.<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In your CSS, you can define the <code>fade-in</code> class to include animation properties, creating a smooth transition effect.</p>
 <p>Conditional rendering with the <code>data-if</code> attribute is a valuable tool for creating responsive and interactive web pages.</p>
-<h2><a id="user-content-34-render-iterations" class="anchor" aria-hidden="true" tabindex="-1" href="#34-render-iterations"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.4 Render Iterations</h2>
+<div class="markdown-heading"><h2 class="heading-element">3.4 Render Iterations</h2><a id="user-content-34-render-iterations" class="anchor-element" aria-label="Permalink: 3.4 Render Iterations" href="#34-render-iterations"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Looping over expressions that can iterate with the <code>data-for</code> attribute is a powerful Reken render feature.</p>
 <p><strong>Example 1: Render 5 div's</strong></p>
 <p>The simplest expression to loop over is just a number or a javascript variable that represents a number. For example you can render 5 divs with the index.</p>
@@ -1127,14 +1127,14 @@
  <span class="pl-kos">&lt;</span><span class="pl-ent">li</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${loopVar.item}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">li</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">ul</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Iterating over collection-based data structures with <code>data-for</code> is a powerful feature to display HTML lists, tables and grids.</p>
-<h2><a id="user-content-35-handling-user-input" class="anchor" aria-hidden="true" tabindex="-1" href="#35-handling-user-input"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.5 Handling User Input</h2>
+<div class="markdown-heading"><h2 class="heading-element">3.5 Handling User Input</h2><a id="user-content-35-handling-user-input" class="anchor-element" aria-label="Permalink: 3.5 Handling User Input" href="#35-handling-user-input"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Handling user input is a critical aspect of building interactive web applications. Reken simplifies this process by providing the <code>data-value</code> attribute, which allows you to bind JavaScript variables to input elements for two-way data binding.</p>
-<h3><a id="user-content-351-binding-input-elements" class="anchor" aria-hidden="true" tabindex="-1" href="#351-binding-input-elements"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.5.1 Binding Input Elements</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.5.1 Binding Input Elements</h3><a id="user-content-351-binding-input-elements" class="anchor-element" aria-label="Permalink: 3.5.1 Binding Input Elements" href="#351-binding-input-elements"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-value</code> attribute is used to bind a JavaScript variable to an input element, ensuring that changes in the input element are reflected in the variable and vice versa. This is incredibly useful for creating forms and interactive elements.</p>
 <p>Here's how it works:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userName</span>"/&gt;</pre></div>
 <p>In this example, the <code>data-value</code> attribute binds the <code>userName</code> variable to the input field. Any changes made in the input field will automatically update the <code>userName</code> variable, and changes to the variable will be reflected in the input field.</p>
-<h3><a id="user-content-352-supported-input-types" class="anchor" aria-hidden="true" tabindex="-1" href="#352-supported-input-types"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.5.2 Supported Input Types</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.5.2 Supported Input Types</h3><a id="user-content-352-supported-input-types" class="anchor-element" aria-label="Permalink: 3.5.2 Supported Input Types" href="#352-supported-input-types"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken's <code>data-value</code> attribute supports various input types, including:</p>
 <ul>
 <li>
@@ -1154,18 +1154,18 @@
 <li>And more...</li>
 </ul>
 <p>The <code>data-value</code> attribute provides seamless handling and binding for input elements like checkboxes, radio buttons, and select elements.</p>
-<h3><a id="user-content-353-file-upload-handling" class="anchor" aria-hidden="true" tabindex="-1" href="#353-file-upload-handling"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.5.3 File Upload Handling</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.5.3 File Upload Handling</h3><a id="user-content-353-file-upload-handling" class="anchor-element" aria-label="Permalink: 3.5.3 File Upload Handling" href="#353-file-upload-handling"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-value</code> attribute for file input fields makes file uploads easy to handle. When you bind a JavaScript variable to a file input element, the variable contains the <code>File</code> object of the uploaded file. This object includes properties such as <code>name</code>, <code>size</code>, <code>lastModified</code>, <code>type</code>, and <code>data</code>. The <code>data</code> property has the deserialized content of the file.</p>
 <p>You can even specify a transform function to handle non-JSON file formats. The transform function receives the uploaded text and the <code>File</code> object, allowing you to deserialize the file as needed. This feature is particularly valuable when working with XML, CSV, or other data formats.</p>
 <p>Handling user input with the <code>data-value</code> attribute simplifies creating forms, collecting user data, and making web applications interactive.</p>
-<h2><a id="user-content-36-working-with-rest-apis" class="anchor" aria-hidden="true" tabindex="-1" href="#36-working-with-rest-apis"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6 Working with REST APIs</h2>
+<div class="markdown-heading"><h2 class="heading-element">3.6 Working with REST APIs</h2><a id="user-content-36-working-with-rest-apis" class="anchor-element" aria-label="Permalink: 3.6 Working with REST APIs" href="#36-working-with-rest-apis"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Interacting with RESTful APIs is a common task in web development. Reken streamlines this process with the <code>data-rest</code> attribute, enabling you to dynamically load data from REST endpoints and update your web page.</p>
-<h3><a id="user-content-361-retrieving-data-from-rest-endpoints" class="anchor" aria-hidden="true" tabindex="-1" href="#361-retrieving-data-from-rest-endpoints"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6.1 Retrieving Data from REST Endpoints</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.6.1 Retrieving Data from REST Endpoints</h3><a id="user-content-361-retrieving-data-from-rest-endpoints" class="anchor-element" aria-label="Permalink: 3.6.1 Retrieving Data from REST Endpoints" href="#361-retrieving-data-from-rest-endpoints"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-rest</code> attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It's a powerful tool for populating your web pages with dynamic data.</p>
 <p>Here's how you can use the <code>data-rest</code> attribute:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:json/user/jsmith.json</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the <code>data-rest</code> attribute fetches user data from the <code>/api/user/123</code> endpoint and stores it in the <code>userData</code> JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.</p>
-<h3><a id="user-content-362-handling-rest-api-call-status" class="anchor" aria-hidden="true" tabindex="-1" href="#362-handling-rest-api-call-status"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6.2 Handling REST API Call Status</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.6.2 Handling REST API Call Status</h3><a id="user-content-362-handling-rest-api-call-status" class="anchor-element" aria-label="Permalink: 3.6.2 Handling REST API Call Status" href="#362-handling-rest-api-call-status"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken makes it easy to handle the status of REST API calls. It automatically adds classes to the element with the <code>data-rest</code> attribute based on the status of the call:</p>
 <ul>
 <li>
@@ -1176,7 +1176,7 @@
 <code>reken-rest-error</code>: Added in case of an error.</li>
 </ul>
 <p>You can use these classes to change the appearance or behavior of elements on your page, providing feedback to users about the status of the API call.</p>
-<h3><a id="user-content-363-parameterizing-rest-calls" class="anchor" aria-hidden="true" tabindex="-1" href="#363-parameterizing-rest-calls"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.6.3 Parameterizing REST Calls</h3>
+<div class="markdown-heading"><h3 class="heading-element">3.6.3 Parameterizing REST Calls</h3><a id="user-content-363-parameterizing-rest-calls" class="anchor-element" aria-label="Permalink: 3.6.3 Parameterizing REST Calls" href="#363-parameterizing-rest-calls"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>data-rest</code> attribute allows you to parameterize your REST API calls using an evaluated template string. This means you can construct the API endpoint URL with dynamic values.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:/json/user/${userId}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
