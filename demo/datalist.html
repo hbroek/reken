@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Use datalist enabled input text to pick a card from a deck and display the card - Reken">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes'>
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+  <link rel="stylesheet" href="../assets/reken.css" />
+  <title>Reken - Input control with Datalist</title>
+</head>
+
+<body>
+  <header>
+    <h1>Input Control with Datalist</h1>
+    <source-code sourceurl="document.location.href"></source-code>
+  </header>
+
+  <main>
+    <section data-if="C">
+      <datalist id="ids" data-for="c:suits.reduce((arr,c) => arr.concat(rank.map(a => c+' / '+a)),[])">
+        <option data-text="${c.item}"></option>
+      </datalist>
+      <label>Pick a card:<input list="ids" data-value="selected" size="28" placeholder="Click to see list or type to filter cards"></label>
+    </section>
+    <section data-if="selected!=''">
+      <card suit="${parseCard(selected)[0]}" rank="${parseCard(selected)[1]}"></card>
+    </section>
+  </main>
+</body>
+
+    
+<template data-component="card" data-arg-suit="Spades" data-arg-rank="Ace">
+  <style>
+    :host {
+      width:8em;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 2fr 1fr;
+      grid-gap: 5px;
+      background-color: white;
+      color: black;
+      font-size: 1.5em;
+      padding: 10px;
+      border-radius: 5%;
+      box-shadow: 0px 5px 15px grey;
+    }
+
+    :host>.center {
+      text-align: center;
+      align-self: center;
+      font-size: 2em;
+    }
+    :host.red>.center {
+      color:red;
+    }
+    :host.red>.top-left>div {
+      color:red;
+    }
+    :host>.top-left>div:first-child {
+      padding-left:0.25em;
+    }
+    :host.red>.bottom-right>div {
+      color:red;
+    }
+    :host>.bottom-right>div:first-child {
+      padding-left:0.25em;
+    }
+    :host>.bottom-right {
+      align-self: end;
+      transform: rotate(180deg);
+    }
+  </style>
+  <script>
+    const suitMap = {'Clubs': '♣️','Diamonds': '♦️','Hearts': '♥️','Spades': '♠️'}
+    function getRankValue(rankString) {
+      switch ((""+rankString).toLowerCase()) {
+        case 'ace':
+          return 'A';
+        case 'king':
+          return 'K';
+        case 'queen':
+          return 'Q';
+        case 'jack':
+          return 'J'
+        default:
+          return rankString;
+      }
+    }
+  </script>
+  <div data-class="red:['hearts','diamonds'].indexOf(suit.toLowerCase())>=0">
+    <div class="top-left">
+      <div data-text="${getRankValue(rank)}">A</div>
+      <div data-text="${suitMap[suit]}">♥</div>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="center" data-text="${suitMap[suit]}">♥</div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="bottom-right">
+      <div data-text="${getRankValue(rank)}">A</div>
+      <div data-text="${suitMap[suit]}">♥</div>
+    </div>
+  </div>
+</template>
+<div data-include="includes/demo-lib.html"></div>
+<script>
+  const suits = [
+    'Clubs',
+    'Diamonds',
+    'Hearts',
+    'Spades'
+  ]
+  const rank = [
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'Jack',
+    'Queen',
+    'King',
+    'Ace'
+  ]
+
+  let C = [
+    { id: 1, label: "label 1" },
+    { id: 2, label: "label 2" },
+    { id: 3, label: "label 3" },
+    { id: 4, label: "label 4" },
+  ]
+  let selected = '';
+  let result;
+  let SERVER = '/test'
+  let count = 1
+  const parseCard = (text) => text.split('/').map(s => s.trim())
+</script>
+
+<script src="../src/reken.js"></script>
+<script defer data-domain="reken.dev" src="https://plausible.io/js/plausible.js"></script>
+
+</html>
