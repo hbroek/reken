@@ -34,7 +34,7 @@
 */
 {   
     const reken = {}
-    reken.version = '0.9.7.1';
+    reken.version = '0.9.7.2';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -486,7 +486,8 @@
 
                         controlCode.third.push(indent+"let " + _var + "= {index:" + _forIndex + ", item:" + _arrayName + "[" + _forIndex + "+" + (start??"0") +"],itemIndex:"+_forIndex + "+" + (start??"0")+"}"); // Set the var context
                         
-                        forVars += (forVars!=''?',':'') + _var
+                        if (forVars.split(',').indexOf(_var)<0)
+                            forVars += (forVars!=''?',':'') + _var
                         controlCode.third.push(indent+"let "+ _forVar)
                         let i = 0;
                         for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
