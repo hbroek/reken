@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * reken.js - copyright Henry van den Broek, 2021-2022
+ * reken.js - copyright Henry van den Broek, 2021-2024
  */
 
 /*
@@ -32,13 +32,292 @@
 * - data-timer: Execute code after a specific amount of time.
 * - data-interval: Repeatedly executes code at a specific intervals.
 */
+class $RekenBase {
+    static classRegistry = {}
+
+    dispatch(type, content) {
+        this.$root.dispatchEvent(new CustomEvent(type, {detail:content}))
+    }
+
+    static processRestCall(elem, _url, _options, modelUpdate) {
+        //  Check if there is a fetch on the _options if true than initiate the rest call other return without action
+        if (_options && typeof _options.fetch !== 'undefined') {
+            if (_options.fetch === false)
+                return;
+            _options.fetch = false;
+        }
+        else {
+            // Url request is the same as last time, no need to fetch again and thus nothing do here.
+            if (typeof elem.dataset.url !== undefined && elem.dataset.url === _url) {
+                return;
+            }
+            elem.dataset.url = _url;
+        }
+        elem.classList.add("reken-rest-busy");
+        _options['reken_rest_status'] = 'reken-rest-busy';
+        elem.classList.remove("reken-rest-error", "reken-rest-done");
+        let skip = false;
+        let savedJson = null;
+        fetch(_url, _options)
+            .then(response => {
+                _options.response = response;
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok, code ${response.status} - ${response.statusText}`);
+                }
+                if (response.status >=400 && response.status < 600) {
+                    throw new Error(`Http error: code ${response.status} - ${response.statusText}`);
+                }
+                _options.response = response;
+                if (_options.transformer) {
+                    let promise = Promise.resolve(response.text())
+                    return promise.then(text => _options.transformer(text, _options))
+                }
+                else {
+                    try {
+                        return response.json();
+                    }
+                    catch(e) {
+                        skip=true;
+                    }
+                }       
+            })
+            .then(json => {
+                if (typeof _options.reviver !== 'undefined') {
+                    const reviveObject = (obj) => {
+                        if (Array.isArray(obj)) {
+                            obj.forEach(o => {reviveObject(o)})
+                        }
+                        else if (typeof obj === 'object') {
+                            Object.keys(obj).forEach((key) => {obj[key] = _options.reviver(key, obj[key])})
+                        }
+                    }
+                    reviveObject(json);
+                }
+                savedJson = json;
+                _options['reken_rest_status'] = 'reken-rest-done';
+                elem.classList.add("reken-rest-done");
+                elem.classList.remove("reken-rest-busy");
+                if (_options.callback && typeof _options.callback === 'function') {
+                    _options.callback(_options, savedJson);
+                }
+                modelUpdate(json, skip)    
+            })
+            .catch(error => {
+                elem.classList.add("reken-rest-error");
+                _options['reken_rest_status'] = 'reken-rest-error';
+                elem.classList.remove("reken-rest-busy");
+                if (_options.callback && typeof _options.callback === 'function') {
+                    _options.callback(_options, savedJson);
+                }
+                reken.force_calculate();
+            })
+    }
+
+    static typedReturn(elem, value) {
+        switch (elem.type) {
+            case "checkbox":
+                if (elem.getAttribute('name')) {
+                    if (elem.checked && value.indexOf(elem.value) < 0)
+                        value.push(elem.value);
+                    if (!elem.checked && value.indexOf(elem.value) > -1)
+                        value.splice(value.indexOf(elem.value), 1);
+                    return value;
+                }
+                else
+                    return elem.checked;
+            case "radio":
+                if (elem.getAttribute('name'))
+                    return elem.value;
+                else
+                    return elem.checked;
+            case "number":
+            case "range":
+                return elem.valueAsNumber;
+            case "file":
+                return elem.files[0]
+            default:
+            return elem.value;
+        }
+    }
+
+    static updateSelectModel(select, array) {
+        for (let i=0, iLen=select.options.length; i<iLen; i++) {    
+            const opt = select.options[i];
+          
+            const val = opt.value ?? opt.text
+            const index = array.indexOf(val)
+    
+            if (opt.selected) {
+                if (index < 0)
+                    array.push(val);
+            }
+            else {
+                if (index >= 0)
+                    array.splice(index,index+1);
+            }
+        }
+    }
+
+    static updateSelectElement(select, array) {
+        for (let i=0, iLen=select.options.length; i<iLen; i++) {
+            const opt = select.options[i];
+
+            opt.selected = array.indexOf(opt.value??opt.text)>=0;
+        }
+    }
+
+    static importData(elem, updateModel, fileTransformer) {
+        let file_to_read = elem.files[0];
+        let fileread = new FileReader();
+        fileread.onload = function(e) {
+            let content = e.target.result;
+            if (!fileTransformer)
+                elem.files[0].data = JSON.parse(content); // parse json 
+            else
+                elem.files[0].data = fileTransformer(content, file_to_read); // parse json 
+            updateModel()
+        };
+        fileread.readAsText(file_to_read);
+    };
+
+    static indexesInForAncestors(elem, indexes = [], elems = []) {
+        let parent = elem.parentElement;
+        if (parent != null) {
+            [indexes, elems] = $RekenBase.indexesInForAncestors(parent, indexes);
+            if (typeof parent.dataset.for != 'undefined') {
+                elems.push(elem)
+                indexes.push(Math.floor($RekenBase.indexOf(parent.children, elem)/parent.dataset.leafCount));
+            }
+        }
+        return [indexes, elems];
+    }
+
+    static isEventHandler(elem, eventType, eventId) {
+        const eventName = 'event_'+eventType;
+        if (elem.dataset[eventName] && elem.dataset[eventName].indexOf(eventId)>=0) {
+            return !(elem.hasAttribute('disabled') || elem.hasAttribute('readonly'));
+        }
+        if (elem.parentElement == null)
+            return false;
+        return $RekenBase.isEventHandler(elem.parentElement, eventType, eventId)
+    }
+
+    static indexOf(list, item) {
+        let i = 0;
+        for (let value of list) {
+            if (value === item)
+                return i;
+            i++;
+        }
+        return -1;
+    }
+
+    static updateForChildren = (registry, elem, array, leafs, length) => {
+        let _children = elem.children;
+        let _numberOfChildren = _children.length/leafs;
+        length = Math.min(array.length, length);
+
+        if (_numberOfChildren > 0 || elem.childrenStore) {
+            
+            if (!elem.childrenStore) { // Initialize store for prototype child elements
+                elem.childrenStore = []
+                let _firstChilds = elem.childrenStore;
+                for (let l = 0; l < leafs; l++) {
+                    _firstChilds[l] = _children[l]; // store
+                    _firstChilds[l].removeAttribute('id'); // to avoid duplicate ids remove them all including from the descendants.
+                    _firstChilds[l].querySelectorAll('[id]').forEach(_childElem => {
+                        _childElem.removeAttribute('id');
+                    })
+                    if (_firstChilds[l].getAttribute('data-component') || _firstChilds[l].querySelectorAll('[data-component]').length>0) {
+                        _firstChilds[l].$hasComponents = true;
+                    }
+                    if (_firstChilds[l].getAttribute('data-timer') || _firstChilds[l].querySelectorAll('[data-timer]').length>0) {
+                        _firstChilds[l].$hasTimers = true;
+                        elem.$hasTimers = true;
+                    }
+                    if (_firstChilds[l].getAttribute('data-interval') || _firstChilds[l].querySelectorAll('[data-interval]').length>0) {
+                        _firstChilds[l].$hasTimers = true;
+                        elem.$hasTimers = true;
+                    }
+                }
+            }
+            for (let i = 0; i < length; i++) {
+                let _child;
+                for (let l = 0; l < leafs; l++) {
+                    let elemIndex = i*leafs+l;
+                    if (i < _numberOfChildren) { // There is an element for this array instance
+                        _child = _children[elemIndex];
+                    }
+                    else { // No child yet create it
+                        _child = elem.childrenStore[l].cloneNode(true)
+                        if (elem.childrenStore[l].$hasComponents) $RekenBase.initComponentElement(registry, _child)
+
+                        elem.appendChild(_child);
+                    }
+                }
+            }
+            
+            if (length==0 && !elem.$hasTimers) {
+                elem.innerText = ''
+                return;
+            }
+
+            const _toDelete = [] // This will need to save the first (set of) element(s) when length = 0; 
+            for (let i = length; i < _numberOfChildren; i++) {
+                for (let l = 0; l < leafs; l++) {
+                    let elemIndex = i*leafs+l;
+                    const _child = _children[elemIndex];
+
+                    if (_child) {                
+                        _toDelete.push(_child); //save for removal
+                        if (elem.childrenStore[l].$hasTimers) {
+                            $RekenBase.disableTimers(_child)
+                        }
+                    }
+                }
+            }
+           _toDelete.forEach(child=>{elem.removeChild(child)})
+        }
+    }
+
+    static disableTimers(elem) {
+        let count = 0
+        if (elem.hasOwnProperty('intervalID')) {
+            clearInterval(elem.intervalID);
+            delete elem.intervalID;
+            count++;
+        }
+        if (elem.hasOwnProperty('timerID')) {
+            clearTimeout(elem.timerID);
+            delete elem.timerID;
+            count++
+        }
+        let _children = elem.children;
+        for (let i = 0; i < _children.length; i++) {
+            count+=$RekenBase.disableTimers(_children[i])
+        }
+        return count;
+    }
+
+    static initComponentElement(registry, elem) {
+        if (elem.dataset.component !== undefined) {
+            if (elem.$class === undefined) {
+                elem.$class = registry[elem.dataset.className].createInstance(elem)
+            }
+            return;
+        }
+        for (let child of elem.children) {
+            $RekenBase.initComponentElement(registry, child)
+        }
+    }
+}
+// Generate code
 {   
     const reken = {}
-    reken.version = '0.9.7.2';
+    reken.version = '0.9.8.0';
     reken.routing_path;
 
     let componentRegistry = {}
-    let classRegistry = {}
     let generatedClass = {}
 
     const isServerGenerated = () => typeof rkn_server_generated !== 'undefined' && rkn_server_generated
@@ -220,7 +499,7 @@
                             }
                         }
                         else if (elem.tagName === 'SELECT' && elem.hasAttribute('multiple'))
-                            controlCode.third.push(indent + "$updateSelectElement("+ elemString + "," + value + ");");
+                            controlCode.third.push(indent + "$RekenBase.updateSelectElement("+ elemString + "," + value + ");");
                         else
                             controlCode.third.push(indent + elemString + ".value = " + value);
                         let eventType = "change";
@@ -244,14 +523,14 @@
                         eventCode.push({
                             'elemId':(topForString === undefined ? compString : topForString),
                             'eventType':eventType,
-                            'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                            'handlerEventCheck': "  if (!$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                             'handlerName': eventId,
                             'handlerCode': (elem.type === 'file') ?
-                                (valueValue + "=e.target.files[0];$importData(e.target, ()=>{$mainInstance.controller({})}, "+transformerFunctionReference+")") :
+                                (valueValue + "=e.target.files[0];$RekenBase.importData(e.target, ()=>{$mainInstance.controller({})}, "+transformerFunctionReference+")") :
                                 (elem.tagName === 'SELECT' && elem.hasAttribute('multiple')) ?
-                                "$updateSelectModel(e.target,"+value+")":
-                                (valueValue + "=$typedReturn(e.target," + valueValue + ");"),
-                            'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + eventContext.contextString + ";",
+                                "$RekenBase.updateSelectModel(e.target,"+value+")":
+                                (valueValue + "=$RekenBase.typedReturn(e.target," + valueValue + ");"),
+                            'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + eventContext.contextString + ";",
                             "deferredUpdate": elem.type === 'file',
                             "refs" : refArray
                         })
@@ -364,10 +643,10 @@
                         eventCode.push({
                             'elemId':(topForString === undefined ? compString : topForString),
                             'eventType':eventName,
-                            'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                            'handlerEventCheck': "  if (!$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                             'handlerName': eventId,
                             'handlerCode':value,
-                            'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                            'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
                             "refs" : refArray
                         })
                     }
@@ -397,7 +676,7 @@
                                 'handlerEventCheck': "",
                                 'handlerName': eventId,
                                 'handlerCode':code,
-                                'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                                'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
                                 "refs" : refArray
                             })
                             controlCode.third.push(`{const $l = ${elemString}`);
@@ -431,7 +710,7 @@
                                 'handlerEventCheck': "",
                                 'handlerName': eventId,
                                 'handlerCode':code,
-                                'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                                'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
                                 "refs" : refArray
                             })
                             controlCode.third.push(`{const $l = ${elemString}`);
@@ -472,7 +751,7 @@
 
                         const _forStop = uniqueID("forStop");
                         controlCode.third.push(indent+'const '+_forStop + ' = Math.min('+_arrayName+'.length,' + (end??_arrayName+'.length')+ ') - '+(start??'0'));
-                        controlCode.third.push(indent+'$updateForChildren($classRegistry, $disableTimers, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', '+ _forStop +')');
+                       controlCode.third.push(indent+'$RekenBase.updateForChildren($RekenBase.classRegistry, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', '+ _forStop +')');
 
                         // At runtime loop thru the direct children
                         let _forVar = uniqueID("forElem");
@@ -543,14 +822,14 @@
                                 const [compDefinition, compStyle] = generateComponentClass(value, value, compInitCode, compControlCode, compEventCode, routeVars, "")
                                 styles.push(...compStyle);
                                 definition.push(...compDefinition)
-                                definition.push(`$classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
+                                definition.push(`$RekenBase.classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                 generatedClass[className] = true;        
                             }
                             if (elem.dataset.hasSlot=='true' || forVars != '') {
                                 className = uniqueID(value);
                                 const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
                                 definition.push(...compDefinition)
-                                definition.push(`$classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
+                                definition.push(`$RekenBase.classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                 generatedClass[className] = true;
                             }
                             else {
@@ -559,7 +838,7 @@
                                     if (!generatedClass[className]) {
                                         const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
                                         definition.push(...compDefinition)
-                                        definition.push(`$classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
+                                        definition.push(`$RekenBase.classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                         generatedClass[className] = true;
                                     }
                                 }
@@ -633,7 +912,7 @@
                         if (elem.dataset.restOptions1) {
                             options = elem.dataset.restOptions1
                         }
-                        controlCode.third.push("    $processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
+                        controlCode.third.push("    $RekenBase.processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
                         break;
 
                     default: {
@@ -655,10 +934,10 @@
                             eventCode.push({
                                 'elemId':(topForString === undefined ? compString : topForString),
                                 'eventType':eventName,
-                                'handlerEventCheck': "  if (!$isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                                'handlerEventCheck': "  if (!$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                                 'handlerName': eventId,
                                 'handlerCode':handler,
-                                'forContext': "let [$ctxIdx,$ctxElems] = $indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
+                                'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
                                 "refs" : refArray
                             })
                         }
@@ -673,11 +952,11 @@
                 i++
             }
             if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
-                controlCode.third.push('} else {$disableTimers('+elemString+')}')
-        }
+                controlCode.third.push('} else {$RekenBase.disableTimers('+elemString+')}')
+            }
         else {
             if (elem.dataset.if1 != undefined && !componentRoot) {
-                controlCode.third.push('} else {$disableTimers('+elemString+')}')
+                controlCode.third.push('} else {$RekenBase.disableTimers('+elemString+')}')
             }
         }        
     }
@@ -812,8 +1091,7 @@
 
         // Build constructor
         output.push('//==============================================================================')
-        output.push(`class ${(componentName=='$main'?'':'$')+componentName.replace('-', '_')} extends ${isBaseClass?'$base':'$'+templateName.replace('-','_')} {`);
-        //    output.push(`class ${componentName.replace('-', '_')} extends $base {`);
+        output.push(`class ${(componentName=='$main'?'':'$')+componentName.replace('-', '_')} extends ${isBaseClass?'$RekenBase':'$'+templateName.replace('-','_')} {`);
 
         if (isBaseClass && componentName != '$main') {
             output.push(...methodCode)
@@ -858,9 +1136,6 @@
         // Build controller
         output.push(`  controller({${stringParams}}) {`)
 
-        // if (componentName === '$main')
-        //     output.push('console.time("controller")');
-
         for (let _var of stateVars)
             output.push(`    let ${_var} = this.${_var}`)
         
@@ -893,8 +1168,6 @@
         for (let _var of stateVars.filter((_v)=>_v!='$root'))
             output.push(`    this.${_var} = ${_var}`)
 
-        // if (componentName === '$main')
-        // output.push('console.timeEnd("controller")');
         output.push('  }')
 
         // Build event handlers
@@ -1235,7 +1508,6 @@
             style.textContent = newLines.join('\n');
         })
     }
-    /* Runtime Helpers *********************************************************************************************************/
     const processIncludes = (element, path) => {
         const promiseArray = []
         element.querySelectorAll('div[data-include]').forEach(async (includeElem)=> {
@@ -1269,278 +1541,7 @@
         })
         return Promise.allSettled(promiseArray)
     }
-
-    const processRestCall = (elem, _url, _options, modelUpdate) => {
-        //  Check if there is a fetch on the _options if true than initiate the rest call other return without action
-        if (_options && typeof _options.fetch !== 'undefined') {
-            if (_options.fetch === false)
-                return;
-            _options.fetch = false;
-        }
-        else {
-            // Url request is the same as last time, no need to fetch again and thus nothing do here.
-            if (typeof elem.dataset.url !== undefined && elem.dataset.url === _url) {
-                return;
-            }
-            elem.dataset.url = _url;
-        }
-        elem.classList.add("reken-rest-busy");
-        _options['reken_rest_status'] = 'reken-rest-busy';
-        elem.classList.remove("reken-rest-error", "reken-rest-done");
-        let skip = false;
-        let savedJson = null;
-        fetch(_url, _options)
-            .then(response => {
-                _options.response = response;
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok, code ${response.status} - ${response.statusText}`);
-                }
-                if (response.status >=400 && response.status < 600) {
-                    throw new Error(`Http error: code ${response.status} - ${response.statusText}`);
-                }
-                _options.response = response;
-                if (_options.transformer) {
-                    let promise = Promise.resolve(response.text())
-                    return promise.then(text => _options.transformer(text, _options))
-                }
-                else {
-                    try {
-                        return response.json();
-                    }
-                    catch(e) {
-                        skip=true;
-                    }
-                }       
-            })
-            .then(json => {
-                if (typeof _options.reviver !== 'undefined') {
-                    const reviveObject = (obj) => {
-                        if (Array.isArray(obj)) {
-                            obj.forEach(o => {reviveObject(o)})
-                        }
-                        else if (typeof obj === 'object') {
-                            Object.keys(obj).forEach((key) => {obj[key] = _options.reviver(key, obj[key])})
-                        }
-                    }
-                    reviveObject(json);
-                }
-                savedJson = json;
-                _options['reken_rest_status'] = 'reken-rest-done';
-                elem.classList.add("reken-rest-done");
-                elem.classList.remove("reken-rest-busy");
-                if (_options.callback && typeof _options.callback === 'function') {
-                    _options.callback(_options, savedJson);
-                }
-                modelUpdate(json, skip)    
-            })
-            .catch(error => {
-                elem.classList.add("reken-rest-error");
-                _options['reken_rest_status'] = 'reken-rest-error';
-                elem.classList.remove("reken-rest-busy");
-                if (_options.callback && typeof _options.callback === 'function') {
-                    _options.callback(_options, savedJson);
-                }
-                reken.force_calculate();
-            })
-    }
-
-    const typedReturn = (elem, value) => {
-        switch (elem.type) {
-            case "checkbox":
-                if (elem.getAttribute('name')) {
-                    if (elem.checked && value.indexOf(elem.value) < 0)
-                        value.push(elem.value);
-                    if (!elem.checked && value.indexOf(elem.value) > -1)
-                        value.splice(value.indexOf(elem.value), 1);
-                    return value;
-                }
-                else
-                    return elem.checked;
-            case "radio":
-                if (elem.getAttribute('name'))
-                    return elem.value;
-                else
-                    return elem.checked;
-            case "number":
-            case "range":
-                return elem.valueAsNumber;
-            case "file":
-                return elem.files[0]
-            default:
-            return elem.value;
-        }
-    }
-
-    const updateSelectModel = (select, array) => {
-        for (let i=0, iLen=select.options.length; i<iLen; i++) {    
-            const opt = select.options[i];
-          
-            const val = opt.value ?? opt.text
-            const index = array.indexOf(val)
-    
-            if (opt.selected) {
-                if (index < 0)
-                    array.push(val);
-            }
-            else {
-                if (index >= 0)
-                    array.splice(index,index+1);
-            }
-        }
-    }
-
-    const updateSelectElement = (select, array) => {
-        for (let i=0, iLen=select.options.length; i<iLen; i++) {
-            const opt = select.options[i];
-
-            opt.selected = array.indexOf(opt.value??opt.text)>=0;
-        }
-    }
-    
-    const importData = (elem, updateModel, fileTransformer) => {
-        let file_to_read = elem.files[0];
-        let fileread = new FileReader();
-        fileread.onload = function(e) {
-            let content = e.target.result;
-            if (!fileTransformer)
-                elem.files[0].data = JSON.parse(content); // parse json 
-            else
-                elem.files[0].data = fileTransformer(content, file_to_read); // parse json 
-            updateModel()
-        };
-        fileread.readAsText(file_to_read);
-    };
-
-    const indexesInForAncestors = (elem, indexes = [], elems = []) => {
-        let parent = elem.parentElement;
-        if (parent != null) {
-            [indexes, elems] = indexesInForAncestors(parent, indexes);
-            if (typeof parent.dataset.for != 'undefined') {
-                elems.push(elem)
-                indexes.push(Math.floor(indexOf(parent.children, elem)/parent.dataset.leafCount));
-            }
-        }
-        return [indexes, elems];
-    }
-
-    const isEventHandler = (elem, eventType, eventId) => {
-        const eventName = 'event_'+eventType;
-        if (elem.dataset[eventName] && elem.dataset[eventName].indexOf(eventId)>=0) {
-            return !(elem.hasAttribute('disabled') || elem.hasAttribute('readonly'));
-        }
-        if (elem.parentElement == null)
-            return false;
-        return isEventHandler(elem.parentElement, eventType, eventId)
-    }
-
-    const indexOf = (list, item) => {
-        let i = 0;
-        for (let value of list) {
-            if (value === item)
-                return i;
-            i++;
-        }
-        return -1;
-    }
-
-    const updateForChildren = (registry, disableTimers, elem, array, leafs, length) => {
-        let _children = elem.children;
-        let _numberOfChildren = _children.length/leafs;
-        length = Math.min(array.length, length);
-
-        if (_numberOfChildren > 0 || elem.childrenStore) {
-            
-            if (!elem.childrenStore) { // Initialize store for prototype child elements
-                elem.childrenStore = []
-                let _firstChilds = elem.childrenStore;
-                for (let l = 0; l < leafs; l++) {
-                    _firstChilds[l] = _children[l]; // store
-                    _firstChilds[l].removeAttribute('id'); // to avoid duplicate ids remove them all including from the descendants.
-                    _firstChilds[l].querySelectorAll('[id]').forEach(_childElem => {
-                        _childElem.removeAttribute('id');
-                    })
-                    if (_firstChilds[l].getAttribute('data-component') || _firstChilds[l].querySelectorAll('[data-component]').length>0) {
-                        _firstChilds[l].$hasComponents = true;
-                    }
-                    if (_firstChilds[l].getAttribute('data-timer') || _firstChilds[l].querySelectorAll('[data-timer]').length>0) {
-                        _firstChilds[l].$hasTimers = true;
-                        elem.$hasTimers = true;
-                    }
-                    if (_firstChilds[l].getAttribute('data-interval') || _firstChilds[l].querySelectorAll('[data-interval]').length>0) {
-                        _firstChilds[l].$hasTimers = true;
-                        elem.$hasTimers = true;
-                    }
-                }
-            }
-            for (let i = 0; i < length; i++) {
-                let _child;
-                for (let l = 0; l < leafs; l++) {
-                    let elemIndex = i*leafs+l;
-                    if (i < _numberOfChildren) { // There is an element for this array instance
-                        _child = _children[elemIndex];
-                    }
-                    else { // No child yet create it
-                        _child = elem.childrenStore[l].cloneNode(true)
-                        if (elem.childrenStore[l].$hasComponents) initComponentElement(registry, _child)
-
-                        elem.appendChild(_child);
-                    }
-                }
-            }
-            
-            if (length==0 && !elem.$hasTimers) {
-                elem.innerText = ''
-                return;
-            }
-
-            const _toDelete = [] // This will need to save the first (set of) element(s) when length = 0; 
-            for (let i = length; i < _numberOfChildren; i++) {
-                for (let l = 0; l < leafs; l++) {
-                    let elemIndex = i*leafs+l;
-                    const _child = _children[elemIndex];
-
-                    if (_child) {                
-                        _toDelete.push(_child); //save for removal
-                        if (elem.childrenStore[l].$hasTimers) {
-                            disableTimers(_child)
-                        }
-                    }
-                }
-            }
-           _toDelete.forEach(child=>{elem.removeChild(child)})
-        }
-    }
-    const disableTimers = (elem) => {
-        let count = 0
-        if (elem.hasOwnProperty('intervalID')) {
-            clearInterval(elem.intervalID);
-            delete elem.intervalID;
-            count++;
-        }
-        if (elem.hasOwnProperty('timerID')) {
-            clearInterval(elem.timerID);
-            delete elem.timerID;
-            count++
-        }
-        let _children = elem.children;
-        for (let i = 0; i < _children.length; i++) {
-            count+=disableTimers(_children[i])
-        }
-        return count;
-    }
-
-    const initComponentElement = (registry, elem) => {
-        if (elem.dataset.component !== undefined) {
-            if (elem.$class === undefined) {
-                elem.$class = registry[elem.dataset.className].createInstance(elem)
-            }
-            return;
-        }
-        for (let child of elem.children) {
-            initComponentElement(registry, child)
-        }
-    }
-
+ 
     const _rekenInit = () => {
         function getParsedHash(hash) {
             let routing_path = []
@@ -1566,7 +1567,6 @@
             let styles = ['template {display:none !important;}'];
 
             document.body.parentElement.setAttribute('data-component', '$main')
-            definition.push('class $base { dispatch(type, content){this.$root.dispatchEvent(new CustomEvent(type, {detail:content}))}} ')
             let refArray = []
             buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '', refArray)
 
@@ -1588,10 +1588,10 @@
             definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
             let definitionString = definition.join('\n')
-            // console.log(definitionString)
-            let controllerFunction = new Function('reken', '$classRegistry', '$updateForChildren', '$disableTimers', '$processRestCall', '$indexesInForAncestors', '$isEventHandler', '$typedReturn', '$importData', '$updateSelectElement', '$updateSelectModel', definitionString);
+            console.log(definitionString)
+            let controllerFunction = new Function('reken', definitionString);
             if (!doGenerateCode())
-                controllerFunction(reken, classRegistry, updateForChildren, disableTimers, processRestCall, indexesInForAncestors, isEventHandler, typedReturn, importData, updateSelectElement, updateSelectModel);
+                controllerFunction(reken);
             if (doGenerateCode() && !isServerGenerated()) {
                 var element = document.createElement('a');
                 let html = document.body.parentElement.innerHTML.split('\n');
