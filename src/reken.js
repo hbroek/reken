@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.8.0';
+    reken.version = '0.9.8.1';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -794,7 +794,6 @@ class $RekenBase {
                         break;
 
                     case "component":
-                        let oldTopForString = topForString
                         topForString = undefined; //Reset the outermost for-loop.
                         let className = value;
                         if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
