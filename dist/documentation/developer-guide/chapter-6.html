@@ -1009,9 +1009,9 @@
 </head>
 <body>
 <article class="markdown-body">
-<div class="markdown-heading"><h1 class="heading-element">Chapter 6: JavaScript API</h1><a id="user-content-chapter-6-javascript-api" class="anchor-element" aria-label="Permalink: Chapter 6: JavaScript API" href="#chapter-6-javascript-api"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h1 class="heading-element">Chapter 6: JavaScript API</h1><a id="user-content-chapter-6-javascript-api" class="anchor" aria-label="Permalink: Chapter 6: JavaScript API" href="#chapter-6-javascript-api"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>In this chapter, we'll explore the JavaScript API provided by Reken. The API allows you to interact with Reken programmatically, providing more control over the dynamic aspects of your web application.</p>
-<div class="markdown-heading"><h2 class="heading-element">6.1 Reken Object Overview</h2><a id="user-content-61-reken-object-overview" class="anchor-element" aria-label="Permalink: 6.1 Reken Object Overview" href="#61-reken-object-overview"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">6.1 Reken Object Overview</h2><a id="user-content-61-reken-object-overview" class="anchor" aria-label="Permalink: 6.1 Reken Object Overview" href="#61-reken-object-overview"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>reken</code> object is the main entry point to Reken's JavaScript API. It provides methods and properties that enable you to manage Reken's behavior and perform various actions within your application. Here's an overview of the <code>reken</code> object:</p>
 <ul>
 <li>
@@ -1027,12 +1027,12 @@
 <p><code>rekenready</code> and <code>rekeninitialized</code> events. The events are fired on the HTML page's body event when Reken finishes initializing and/or updates the UI during startup.</p>
 </li>
 </ul>
-<div class="markdown-heading"><h2 class="heading-element">6.2 reken.version</h2><a id="user-content-62-rekenversion" class="anchor-element" aria-label="Permalink: 6.2 reken.version" href="#62-rekenversion"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">6.2 reken.version</h2><a id="user-content-62-rekenversion" class="anchor" aria-label="Permalink: 6.2 reken.version" href="#62-rekenversion"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>reken.version</code> property allows you to check the version of the Reken library currently in use. This can be helpful when you want to ensure that your application is using the correct version or when dealing with compatibility issues.</p>
 <p><strong>Example: Checking the Reken Version</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${reken.version}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we display Reken's version number in an <code>output</code> element.</p>
-<div class="markdown-heading"><h2 class="heading-element">6.3 reken.force_calculate()</h2><a id="user-content-63-rekenforce_calculate" class="anchor-element" aria-label="Permalink: 6.3 reken.force_calculate()" href="#63-rekenforce_calculate"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">6.3 reken.force_calculate()</h2><a id="user-content-63-rekenforce_calculate" class="anchor" aria-label="Permalink: 6.3 reken.force_calculate()" href="#63-rekenforce_calculate"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>reken.force_calculate()</code> function is a powerful method for manually triggering Reken's recalculation and UI update process. While Reken automatically updates the UI in response to events when using <code>data-value</code>, <code>data-action</code>, <code>data-on-*</code>, and <code>data-rest</code>, there may be cases where you need to initiate an update explicitly, such as after asynchronous events.</p>
 <p><strong>Example: Forcing Reken to Update the UI</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">transform: translateX(${count}px);</span>
@@ -1052,15 +1052,15 @@
 <span class="pl-smi">window</span><span class="pl-kos">.</span><span class="pl-en">requestAnimationFrame</span><span class="pl-kos">(</span><span class="pl-s1">animate</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example we make use of the <code>requestAnimationFrame</code> to move a div element across the screen by updating the <code>count</code> variable. By calling the <code>reken.force_recalculate</code> it executes the value of the <code>data-style</code> attribute.</p>
-<div class="markdown-heading"><h2 class="heading-element">6.4 reken.forceCalculate() (Deprecated)</h2><a id="user-content-64-rekenforcecalculate-deprecated" class="anchor-element" aria-label="Permalink: 6.4 reken.forceCalculate() (Deprecated)" href="#64-rekenforcecalculate-deprecated"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">6.4 reken.forceCalculate() (Deprecated)</h2><a id="user-content-64-rekenforcecalculate-deprecated" class="anchor" aria-label="Permalink: 6.4 reken.forceCalculate() (Deprecated)" href="#64-rekenforcecalculate-deprecated"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>reken.forceCalculate()</code> method was used in older versions of Reken to achieve the same functionality as <code>reken.force_calculate()</code>. However, it has been deprecated in favor of the latter. It is recommended to use <code>reken.force_calculate()</code> for initiating Reken updates.</p>
-<div class="markdown-heading"><h2 class="heading-element">6.5 rekenready event</h2><a id="user-content-65-rekenready-event" class="anchor-element" aria-label="Permalink: 6.5 rekenready event" href="#65-rekenready-event"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">6.5 rekenready event</h2><a id="user-content-65-rekenready-event" class="anchor" aria-label="Permalink: 6.5 rekenready event" href="#65-rekenready-event"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>rekenready</code> event is fired on the <code>body</code> element when Reken is completed and initialized, and the UI is updated at startup.</p>
 <p>**Example: <code>rekenready</code> **</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">style</span>="<span class="pl-s">opacity:0;transition: opacity 1s ease-out</span>"
     <span class="pl-c1">data-on-rekenready</span>="<span class="pl-s">e.target.style.opacity=1</span>"<span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we hide the page contents on startup by setting the opacity to 0. With the data-on-rekenready attribute, we register a listener to show the page contents. When Reken is initialized and the UI is updated, the event fires and the page becomes visible with a 1-second transition. This is useful to avoid seeing the page re-render when the page initializes.</p>
-<div class="markdown-heading"><h2 class="heading-element">6.6 rekeninitialized event</h2><a id="user-content-66-rekeninitialized-event" class="anchor-element" aria-label="Permalink: 6.6 rekeninitialized event" href="#66-rekeninitialized-event"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">6.6 rekeninitialized event</h2><a id="user-content-66-rekeninitialized-event" class="anchor" aria-label="Permalink: 6.6 rekeninitialized event" href="#66-rekeninitialized-event"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The <code>rekeninitialized</code> event is similar to the <code>rekenready</code> event. It is fired when reken is initialized but the UI is not updated yet.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">data-on-rekeninitialized</span>="<span class="pl-s">myValue=200</span>"<span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${myValue}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>

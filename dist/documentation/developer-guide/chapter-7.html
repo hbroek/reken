@@ -1009,10 +1009,10 @@
 </head>
 <body>
 <article class="markdown-body">
-<div class="markdown-heading"><h1 class="heading-element">Chapter 7: Examples and Use Cases</h1><a id="user-content-chapter-7-examples-and-use-cases" class="anchor-element" aria-label="Permalink: Chapter 7: Examples and Use Cases" href="#chapter-7-examples-and-use-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h1 class="heading-element">Chapter 7: Examples and Use Cases</h1><a id="user-content-chapter-7-examples-and-use-cases" class="anchor" aria-label="Permalink: Chapter 7: Examples and Use Cases" href="#chapter-7-examples-and-use-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>In this chapter, we'll explore various examples and use cases of Reken by implementing a sample employee directory application. These examples will help you understand how Reken can be applied to different scenarios and highlight its versatility in building dynamic web applications.</p>
 <p><a target="_blank" rel="noopener noreferrer" href="img/employee-directory.jpg"><img src="img/employee-directory.jpg" alt="The picture shows the finished employee directory application. In the header the logo and name of the companyon are on the left, an employee filter is in the middle and a toggle to show the profile photos is on the right. In the main area of the picture we see a list of employee cards and in the footer, at the bottom we see the application message" style="max-width: 100%;"></a>.</p>
-<div class="markdown-heading"><h2 class="heading-element">7.1 Building Dynamic Web Pages</h2><a id="user-content-71-building-dynamic-web-pages" class="anchor-element" aria-label="Permalink: 7.1 Building Dynamic Web Pages" href="#71-building-dynamic-web-pages"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">7.1 Building Dynamic Web Pages</h2><a id="user-content-71-building-dynamic-web-pages" class="anchor" aria-label="Permalink: 7.1 Building Dynamic Web Pages" href="#71-building-dynamic-web-pages"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken excels at creating dynamic web pages with minimal effort. Adding Reken attributes to your HTML elements, lets you easily make your web pages interactive and responsive. Here are some common examples of building dynamic web pages with Reken. The data we will use is an employee object.</p>
 <div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-s1">employee</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
  <span class="pl-s">"name"</span>: <span class="pl-s">"Mary Taylor"</span><span class="pl-kos">,</span>
@@ -1117,7 +1117,7 @@
 <blockquote>
 <p><strong>Note</strong> we refer to the employee record with the <code>employee.item</code> reference.</p>
 </blockquote>
-<div class="markdown-heading"><h2 class="heading-element">7.2 Interactive User Interfaces</h2><a id="user-content-72-interactive-user-interfaces" class="anchor-element" aria-label="Permalink: 7.2 Interactive User Interfaces" href="#72-interactive-user-interfaces"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">7.2 Interactive User Interfaces</h2><a id="user-content-72-interactive-user-interfaces" class="anchor" aria-label="Permalink: 7.2 Interactive User Interfaces" href="#72-interactive-user-interfaces"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken simplifies the process of building interactive user interfaces. You can enhance user experience and gather user input with ease. Here's how Reken can be used for this purpose:</p>
 <ul>
 <li>
@@ -1171,7 +1171,7 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we build a form that updates the first employee of our array of employees. It creates a <code>main</code> Element to host the form.  The <code>main</code> element contains a <code>h</code> element with the employee id and a <code>form</code> element. The <code>form</code> contains a several <code>label</code> / <code>input</code> combinations bound to the fields in the employee record with the <code>data-value</code> attribute.</p>
 <p>When the user modifies one of the fields, notice that the data in the card of the first employee immediately updates.</p>
-<div class="markdown-heading"><h2 class="heading-element">7.3 Using REST APIs with Reken</h2><a id="user-content-73-using-rest-apis-with-reken" class="anchor-element" aria-label="Permalink: 7.3 Using REST APIs with Reken" href="#73-using-rest-apis-with-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">7.3 Using REST APIs with Reken</h2><a id="user-content-73-using-rest-apis-with-reken" class="anchor" aria-label="Permalink: 7.3 Using REST APIs with Reken" href="#73-using-rest-apis-with-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken makes it straightforward to work with REST APIs, enabling your web application to communicate with external data sources. Here's how you can integrate REST APIs with Reken:</p>
 <ul>
 <li>
@@ -1208,7 +1208,7 @@ let employees;
 ....
 &lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
 <p>This example uses the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded, the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call, the  <code>body</code> element's background turns red, and an error message is displayed. The background turns blue when the REST call is completed succesfully.</p>
-<div class="markdown-heading"><h2 class="heading-element">7.4 Setup Routing</h2><a id="user-content-74-setup-routing" class="anchor-element" aria-label="Permalink: 7.4 Setup Routing" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">7.4 Setup Routing</h2><a id="user-content-74-setup-routing" class="anchor" aria-label="Permalink: 7.4 Setup Routing" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken provides a routing mechanism that makes it easy to make Single Page Applications (SPA). It also supports dynamic routing, where a page can be initialized with one or more parameters.</p>
 <p>First, we define the pages in the application.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">employee/#employeeIndex</span>" <span class="pl-c1">...</span><span class="pl-kos">&gt;</span>
@@ -1252,7 +1252,7 @@ let employees;
 <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">history.back();</span>"<span class="pl-kos">&gt;</span>Back<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the input controls are updated to point to the employee based on the <code>employeeIndex</code> instead of <code>0</code>. At the bottom, a <code>button</code> to return to the employee list page is added.</p>
-<div class="markdown-heading"><h2 class="heading-element">7.5 Creating Reusable Components</h2><a id="user-content-75-creating-reusable-components" class="anchor-element" aria-label="Permalink: 7.5 Creating Reusable Components" href="#75-creating-reusable-components"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">7.5 Creating Reusable Components</h2><a id="user-content-75-creating-reusable-components" class="anchor" aria-label="Permalink: 7.5 Creating Reusable Components" href="#75-creating-reusable-components"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken supports the creation of reusable components that can be inserted into your HTML documents. Components are a great way to maintain consistency and reusability in your web applications. Here's how to create and use components in Reken:</p>
 <ul>
 <li>
@@ -1332,7 +1332,7 @@ let employees;
  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">card</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this fragment, we show how we replace the default slot of the <code>card</code> component with the Employee number.</p>
-<div class="markdown-heading"><h2 class="heading-element">7.6 Use timers</h2><a id="user-content-76-use-timers" class="anchor-element" aria-label="Permalink: 7.6 Use timers" href="#76-use-timers"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">7.6 Use timers</h2><a id="user-content-76-use-timers" class="anchor" aria-label="Permalink: 7.6 Use timers" href="#76-use-timers"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken's timer feature adds dynamic functionality to your application. This makes the application more engaging.</p>
 <p>In the final addition to the application we are adding messages that confirm the actions of the user.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">footer</span>

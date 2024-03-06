@@ -1009,9 +1009,9 @@
 </head>
 <body>
 <article class="markdown-body">
-<div class="markdown-heading"><h1 class="heading-element">Chapter 2: Installing Reken</h1><a id="user-content-chapter-2-installing-reken" class="anchor-element" aria-label="Permalink: Chapter 2: Installing Reken" href="#chapter-2-installing-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h1 class="heading-element">Chapter 2: Installing Reken</h1><a id="user-content-chapter-2-installing-reken" class="anchor" aria-label="Permalink: Chapter 2: Installing Reken" href="#chapter-2-installing-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Before you can harness the power of Reken to create dynamic web pages, you need to add Reken to your web project. In this chapter, we'll walk through the process of installing Reken and adding it to your HTML documents.</p>
-<div class="markdown-heading"><h2 class="heading-element">2.1 Obtaining Reken</h2><a id="user-content-21-obtaining-reken" class="anchor-element" aria-label="Permalink: 2.1 Obtaining Reken" href="#21-obtaining-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">2.1 Obtaining Reken</h2><a id="user-content-21-obtaining-reken" class="anchor" aria-label="Permalink: 2.1 Obtaining Reken" href="#21-obtaining-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken is distributed as a JavaScript library that you can include in your project. You can obtain the Reken library from various sources, such as:</p>
 <ul>
 <li>
@@ -1024,9 +1024,9 @@
 <p><strong>GitHub Repository</strong>: The source code for Reken is also available on <a href="https://github.com/hbroek/reken">GitHub Reken project page</a>. You can clone or download the repository to access the library files. You can find the minified / compressed files in the <code>dist</code> folder.</p>
 </li>
 </ul>
-<div class="markdown-heading"><h2 class="heading-element">2.2 Including Reken in Your Web Project</h2><a id="user-content-22-including-reken-in-your-web-project" class="anchor-element" aria-label="Permalink: 2.2 Including Reken in Your Web Project" href="#22-including-reken-in-your-web-project"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">2.2 Including Reken in Your Web Project</h2><a id="user-content-22-including-reken-in-your-web-project" class="anchor" aria-label="Permalink: 2.2 Including Reken in Your Web Project" href="#22-including-reken-in-your-web-project"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Once you have the Reken library file, you need to include it in your HTML documents. Here's how you can do that:</p>
-<div class="markdown-heading"><h3 class="heading-element">2.2.1 Using a Script Tag</h3><a id="user-content-221-using-a-script-tag" class="anchor-element" aria-label="Permalink: 2.2.1 Using a Script Tag" href="#221-using-a-script-tag"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">2.2.1 Using a Script Tag</h3><a id="user-content-221-using-a-script-tag" class="anchor" aria-label="Permalink: 2.2.1 Using a Script Tag" href="#221-using-a-script-tag"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The most common way to include Reken in your project is by using a <code>&lt;script&gt;</code> tag. Add the following code at the bottom of your HTML document, just before the closing <code>&lt;/html&gt;</code> tag:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
@@ -1040,7 +1040,7 @@
  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">path/to/reken.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>Replace <code>"path/to/reken.js"</code> with the actual path to the Reken library file. This script tag loads the Reken library and makes it available for use in your web pages.</p>
-<div class="markdown-heading"><h3 class="heading-element">2.2.2 Using a Content Delivery Network (CDN)</h3><a id="user-content-222-using-a-content-delivery-network-cdn" class="anchor-element" aria-label="Permalink: 2.2.2 Using a Content Delivery Network (CDN)" href="#222-using-a-content-delivery-network-cdn"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">2.2.2 Using a Content Delivery Network (CDN)</h3><a id="user-content-222-using-a-content-delivery-network-cdn" class="anchor" aria-label="Permalink: 2.2.2 Using a Content Delivery Network (CDN)" href="#222-using-a-content-delivery-network-cdn"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>If you prefer to use a CDN, you can directly link to the Reken library. Here's how you can do that:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-c1">&lt;!DOCTYPE html<span class="pl-kos">&gt;</span></span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
@@ -1055,7 +1055,7 @@
  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we're using the jsdelivr CDN to link to the latest version of Reken. You can also reference a specific Reken version. For example <code>https://cdn.jsdelivr.net/gh/hbroek/reken@v0.9.3/dist/reken.min.js</code> references Reken version 0.9.3.</p>
-<div class="markdown-heading"><h2 class="heading-element">2.3 Verifying the Installation</h2><a id="user-content-23-verifying-the-installation" class="anchor-element" aria-label="Permalink: 2.3 Verifying the Installation" href="#23-verifying-the-installation"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">2.3 Verifying the Installation</h2><a id="user-content-23-verifying-the-installation" class="anchor" aria-label="Permalink: 2.3 Verifying the Installation" href="#23-verifying-the-installation"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>To ensure that Reken has been successfully added to your project, you can perform a simple test. In your HTML document, add a <code>&lt;script&gt;</code> tag with the following code:</p>
 <div class="highlight highlight-text-html-basic"><pre>...
 <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
@@ -1063,7 +1063,7 @@
   <span class="pl-smi">console</span><span class="pl-kos">.</span><span class="pl-en">log</span><span class="pl-kos">(</span><span class="pl-s1">reken</span><span class="pl-kos">.</span><span class="pl-c1">version</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
 <p>When you load this web page in your browser, the Reken library will output its version number to the browser's console. This confirms that Reken is correctly included and available for your project.</p>
-<div class="markdown-heading"><h2 class="heading-element">2.4 Browser Support</h2><a id="user-content-24-browser-support" class="anchor-element" aria-label="Permalink: 2.4 Browser Support" href="#24-browser-support"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">2.4 Browser Support</h2><a id="user-content-24-browser-support" class="anchor" aria-label="Permalink: 2.4 Browser Support" href="#24-browser-support"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken relies on modern JavaScript features and ES6 syntax. As a result, it is supported in modern web browsers, including:</p>
 <ul>
 <li>Google Chrome</li>
@@ -1072,7 +1072,7 @@
 <li>Microsoft Edge</li>
 </ul>
 <p>It's essential to keep this in mind, especially if you're working on projects that may need to support older browsers. You may need to provide alternative solutions with older browser versions.</p>
-<div class="markdown-heading"><h2 class="heading-element">2.5 Upgrading Reken</h2><a id="user-content-25-upgrading-reken" class="anchor-element" aria-label="Permalink: 2.5 Upgrading Reken" href="#25-upgrading-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h2 class="heading-element">2.5 Upgrading Reken</h2><a id="user-content-25-upgrading-reken" class="anchor" aria-label="Permalink: 2.5 Upgrading Reken" href="#25-upgrading-reken"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken is actively developed, and updates are periodically released to enhance its features and address any issues. When a new version of Reken becomes available, consider upgrading to benefit from these improvements.</p>
 <p>To upgrade Reken, you can follow the installation process outlined earlier but replace the existing Reken library file with the latest version. Check the official Reken website or the source repository for release notes and instructions related to specific version updates.</p>
 <p>In the following chapters, you will dive deeper into using Reken's features and attributes to create dynamic web pages. Chapter 3 will introduce you to the core concepts and attributes of Reken, which are essential for understanding how Reken simplifies the process of building dynamic web applications.</p>
