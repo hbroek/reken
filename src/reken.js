@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.8.1';
+    reken.version = '0.9.8.2';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -917,7 +917,7 @@ class $RekenBase {
                     default: {
                         if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
                             let _attr = lowercaseFirstLetter(key.substring(key.startsWith('attr1')?5:4));
-                            if (_attr.startsWith('data'))
+                            if (_attr.startsWith('data') || _attr.startsWith('aria'))
                                 _attr = capCharToHyphen(_attr)
                             if (booleanAttrs.includes(_attr.toLowerCase()))
                                 controlCode.third.push("if ("+value+"){" + elemString + ".setAttribute('" + _attr + "', `" + value + "`)}else{"+elemString + ".removeAttribute('" + _attr + "')}")
@@ -1587,7 +1587,7 @@ class $RekenBase {
             definition.push("document.body.dispatchEvent(new CustomEvent('rekenready', {}))")
 
             let definitionString = definition.join('\n')
-            console.log(definitionString)
+            // console.log(definitionString)
             let controllerFunction = new Function('reken', definitionString);
             if (!doGenerateCode())
                 controllerFunction(reken);

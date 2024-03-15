@@ -417,8 +417,11 @@
     <!-- test boolean attrs-->
     <button id="at2" data-action="at2_disabled = true" data-attr-disabled="at2_disabled" type="button">Click to disable</button>
 
-    <!-- test hyphened attribute -->
+    <!-- test hyphened data attribute -->
     <div id="at3" data-attr-data-at3="${'data-a3'}">AT3</div>
+
+    <!-- test hyphened attribute -->
+    <div id="at4" data-attr-aria-expanded="${'true'}">AT4</div>
 
   </section>
   <hr>
@@ -2253,8 +2256,12 @@
 
         done();
       })
-      it('Check hyphenated attribute gets created', (done) => {
+      it('Check hyphenated aria data attribute gets created', (done) => {
         expect($('at3')).to.have.attribute('data-at3','data-a3')
+        done();
+      })
+      it('Check hyphenated attribute gets created', (done) => {
+        expect($('at4')).to.have.attribute('aria-expanded','true')
         done();
       })
     })
