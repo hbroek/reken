@@ -1065,9 +1065,9 @@
 </ul>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-  .<span class="pl-c1">hq</span>::<span class="pl-ent">after</span> {
-   <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">' !!!'</span>;
-   <span class="pl-c1">font-size</span><span class="pl-kos">:</span> small;
+  .hq::after {
+   content: ' !!!';
+   font-size: small;
   }
  <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
@@ -1191,8 +1191,8 @@ let employees;
 <li>
 <strong>Response Handling</strong>: Reken provides classes like <code>reken-rest-busy</code>, <code>reken-rest-done</code>, and <code>reken-rest-error</code> that allow you to style elements based on the status of REST API requests. This is valuable for providing feedback to users during data retrieval.</li>
 </ul>
-<div class="highlight highlight-source-css"><pre>&lt;style<span class="pl-c1">&gt;</span>
- body.<span class="pl-c1">reken-rest-busy</span> {
+<div class="highlight highlight-source-css"><pre>&lt;<span class="pl-ent">style</span><span class="pl-c1">&gt;</span>
+ <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-busy</span> {
   <span class="pl-c1">background</span><span class="pl-kos">:</span> silver;
  }
  <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-done</span> {
@@ -1206,7 +1206,7 @@ let employees;
   <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">300<span class="pl-smi">%</span></span>;
  }
 ....
-&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
+&lt;<span class="pl-c1">/</span><span class="pl-c1">style</span><span class="pl-c1">&gt;</span></pre></div>
 <p>This example uses the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded, the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call, the  <code>body</code> element's background turns red, and an error message is displayed. The background turns blue when the REST call is completed succesfully.</p>
 <div class="markdown-heading"><h2 class="heading-element">7.4 Setup Routing</h2><a id="user-content-74-setup-routing" class="anchor" aria-label="Permalink: 7.4 Setup Routing" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken provides a routing mechanism that makes it easy to make Single Page Applications (SPA). It also supports dynamic routing, where a page can be initialized with one or more parameters.</p>
@@ -1261,9 +1261,9 @@ let employees;
 <p>In this section, we create a card component that display the employee's info.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">card</span>" <span class="pl-c1">data-arg-person</span> <span class="pl-c1">data-arg-photo</span>="<span class="pl-s">true</span>" <span class="pl-c1">data-arg-edit_link</span>=""<span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">:</span><span class="pl-c1">host</span><span class="pl-c1">&gt;</span><span class="pl-ent">div</span> .<span class="pl-c1">hq</span>::<span class="pl-ent">after</span> {
-   <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">'☺'</span>;
-   <span class="pl-c1">font-size</span><span class="pl-kos">:</span> small;
+  :host&gt;div .hq::after {
+   content: '☺';
+   font-size: small;
   }
  <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
 

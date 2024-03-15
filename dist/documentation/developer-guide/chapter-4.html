@@ -1382,7 +1382,7 @@ let x = y = 0;
 <li>
 <code>reken-rest-error</code> after the call finished unsuccessfully.</li>
 </ul>
-<div class="highlight highlight-source-css"><pre>&lt;style<span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-css"><pre>&lt;<span class="pl-ent">style</span><span class="pl-c1">&gt;</span>
 .<span class="pl-c1">reken-rest-busy</span> {
  <span class="pl-c1">background</span><span class="pl-kos">:</span> silver;
 }
@@ -1392,7 +1392,7 @@ let x = y = 0;
 .<span class="pl-c1">reken-rest-error</span> {
  <span class="pl-c1">background</span><span class="pl-kos">:</span> pink;
 }
-&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
+&lt;<span class="pl-c1">/</span><span class="pl-ent">style</span><span class="pl-c1">&gt;</span></pre></div>
 <p>In this example, we show how one could style the Reken Rest status classes. When the data is loading(<code>data-rest-busy</code>) the background of the element that contains the <code>data-rest</code> attribute displays with a gray background. It displays green (<code>reken-rest-done</code>) when it was successful and pink (<code>reken-rest-error</code>) when it failed.</p>
 <div class="markdown-heading"><h2 class="heading-element">4.14 data-rest-options</h2><a id="user-content-414-data-rest-options" class="anchor" aria-label="Permalink: 4.14 data-rest-options" href="#414-data-rest-options"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Syntax:</strong></p>
@@ -1513,9 +1513,9 @@ let fahrenheit = 0;
 <p>Like the <code>data-if</code> attribute, the <code>data-route</code> value can be proceeded by a class name. When a class name is specified, the page is not hidden/shown, but the class is added to the page which is currently routed. This can be useful to animate pages in view.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-  .<span class="pl-c1">active</span> {
-    <span class="pl-c1">background</span><span class="pl-kos">:</span> green;
-    <span class="pl-c1">color</span><span class="pl-kos">:</span> white;
+  .active {
+    background: green;
+    color: white;
   }
 <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-route</span>="<span class="pl-s">active:</span>"<span class="pl-kos">&gt;</span>
