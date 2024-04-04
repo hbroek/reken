@@ -1266,6 +1266,18 @@
       let cp32Array = [{'a':10},{'b':20}]
     </script>
     <cp32 id="cp32" arg32_0="cp32Array[1]['b']"></cp32>
+
+    <!-- Test access to global vars from component -->
+    <template data-component="cp33">
+      <div data-text="${cp33String}">Should not be here</div>
+    </template>
+
+    <script>
+      let cp33String = 'Hello 33'
+    </script>
+    <cp33 id="cp33"></cp33>
+  </section>
+
   <section>
     <!-- Test component shorthand functionality  -->
     <template data-component="short-hand1">
@@ -3128,6 +3140,10 @@
       })
       it('Pass array and object index value in obj argument', (done) => {
         expect(cp32).to.have.text('20')
+        done();
+      })
+      it('Access global var from component', (done) => {
+        expect(cp33).to.have.text('Hello 33')
         done();
       })
 

@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.8.2';
+    reken.version = '0.9.9.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -911,7 +911,7 @@ class $RekenBase {
                         if (elem.dataset.restOptions1) {
                             options = elem.dataset.restOptions1
                         }
-                        controlCode.third.push("    $RekenBase.processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
+                        controlCode.third.push("    $RekenBase.processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main || !this.hasOwnProperty('"+_array+"')) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
                         break;
 
                     default: {
