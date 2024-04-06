@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build a Reken-Powered Full-Stack Web App with SQLite, Python Flask & Tailwind</title>
+  <meta name="title" content="Build a Reken-Powered Full-Stack Web App with SQLite, Python & Tailwind."/>
+  <meta name="description" content="Discover how to harness Reken's capabilities for robust CRUD web applications in our comprehensive demo. Learn essential techniques for executing GET, POST, DELETE, and PUT REST calls with a Python Flask-based REST service. Seamlessly manage SQLite database operations to fetch, create, delete, and update rows. Plus, elevate your UI with Tailwind's styling. Perfect for developers seeking to leverage Reken for powerful, efficient web app development."/>
+  <meta property="og:title" content="Build a Reken-Powered Full-Stack Web App with SQLite, Python & Tailwind."/>
+  <meta property="og:description" content="Discover how to harness Reken's capabilities for robust CRUD web applications in our comprehensive demo. Learn essential techniques for executing GET, POST, DELETE, and PUT REST calls with a Python Flask-based REST service. Seamlessly manage SQLite database operations to fetch, create, delete, and update rows. Plus, elevate your UI with Tailwind's styling. Perfect for developers seeking to leverage Reken for powerful, efficient web app development."/>
+  <meta property="og:url" content="https://reken.dev/integrations/reken-powered-full-stack-web-app.html"/>
+  <meta property="og:image" content="https://reken.dev/integrations/reken-full-stack.png"/>
+  <meta name="twitter:card" content="Discover how to harness Reken's capabilities for robust CRUD web applications in our comprehensive demo. Learn essential techniques for executing GET, POST, DELETE, and PUT REST calls with a Python Flask-based REST service. Seamlessly manage SQLite database operations to fetch, create, delete, and update rows. Plus, elevate your UI with Tailwind's styling. Perfect for developers seeking to leverage Reken for powerful, efficient web app development." />
+  <meta name="twitter:creator" content="@hbroek13"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="m-6" data-timer="1000:checkCache:checkCache=false;if (listOptions.reken_rest_status=='reken-rest-error') window.location.reload()">
+  <header class=" mb-6 p-12 bg-purple-800 text-white rounded-xl">
+    <h1 class="text-4xl font-bold mb-2"><a class="underline" href="https://reken.dev">Reken</a>-Powered Full-Stack Web App with SQLite, Python & Tailwind</h1>
+    <h3 class="text-2xl font-bold">CRUD operations on an employee database table</h3>
+  </header>
+  <table class="w-full text-sm text-left text-gray-500" data-rest="employees:${SERVER}/api/employees" data-rest-options="listOptions">
+    <thead data-rest="result:${SERVER}/api/employees/${deleteOptions.id}" data-rest-options="deleteOptions" class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr data-rest="employees[0]:${SERVER}/api/employees" data-rest-options="createOptions">
+        <th class="py-3">Id</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Location</th>
+        <th>Department</th>
+        <td class="text-2xl">
+          <button type="button" data-action="listOptions.fetch=true;addMode=false;" title="Refresh rows">🔄</button>
+          <button data-if="!addMode" type="button"
+            data-action="addMode=true;employees.unshift(employees.length>0?{ ...employees[0]}:{id:'',name:'',location:'',department:'', phone:'', email:''});employees[0].id=''" title="Insert new row">➕</button>
+        </td>
+      </tr>
+    </thead>
+    <tbody data-for="u:employees" data-rest="result:${SERVER}/api/employees" data-rest-options="updateOptions">
+      <tr class="bg-white border-b">
+        <td class="py-4" data-text="${u.item.id}"></td>
+        <td><input data-value="u.item.name" placeholder="Type a name"></td>
+        <td><input data-value="u.item.phone"  placeholder="Type a phone number" type="tel"/></td>
+        <td><input data-value="u.item.email"  placeholder="Type an email address" type="email"/></td>
+        <td>
+          <select class="text-sm" data-for="l:locations" data-value="u.item.location">
+            <option data-attr-value="${l.item.location_id}" data-text="${l.item.name}"></option>
+          </select>
+        </td>
+        <td>
+          <select class="text-sm" data-for="d:departments"  data-value="u.item.department">
+            <option data-attr-value="${d.item.department_id}" data-text="${d.item.name}"></option>
+          </select>
+        </td>
+        <td class="text-2xl">
+          <button data-if="!addMode||u.index>0" type="button"
+            data-action="updateOptions.fetch=true;updateOptions.body=JSON.stringify(u.item)" title="Save row changes">💾</button>
+          <button data-if="!addMode||u.index>0" type="button"
+              data-action="deleteOptions.id=u.item.id;deleteOptions.fetch=true;addMode=false" title="Delete row">🗑️</button>
+          <button data-if="addMode&&u.index===0" type="button"
+            data-action="createOptions.fetch=true;createOptions.body=JSON.stringify(u.item);addMode=false;" title="Save new row">💾</button>
+          <button data-if="addMode&&u.index===0" type="button" data-action="employees.shift();addMode=false" title="Cancel row insert">❌</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+          <td colspan="7" class="text-end px-6 py-4">🔄 Refresh rows, ➕ add new row, 💾 save row, 🗑️ delete row, and ❌ cancel new row.
+          </td>
+      </tr>
+  </tfoot>
+  </table>
+  <footer>
+    <h2 class="text-lg">For demo purposes, the SQLite / Python Flask REST API is replaced by a mock REST API in this demo.</h2>
+    <ul class="mt-4">Resources:
+      <li class="ml-6 list-disc">Detailed full-stack implementation discussion in this <a class="underline" href="https://blog.henryvandenbroek.com/reken-powered-full-stack-web-app-with-sqlite-python-flask-tailwind/">blog post</a></li>
+      <li class="ml-6 list-disc">Source code and run instructions on <a class="underline" href="https://github.com/hbroek/reken-fullstack-demo">github/hbroek/reken-fullstack-demo</a></li>
+    </ul>
+  </footer> 
+
+  <div hidden data-rest="departments:${SERVER}/api/departments"></div>
+  <div hidden data-rest="locations:${SERVER}/api/locations"></div>
+</body>
+<script>
+  let SERVER = ''
+  let employees = []
+  let departments = []
+  let locations = []
+  let result;
+  let addMode = false;
+
+  let listOptions = { fetch: true }
+  let createOptions = { fetch: false, method: 'POST', headers: { 'content-type': 'application/json' } }
+  let updateOptions = { fetch: false, method: 'PUT', headers: { 'content-type': 'application/json' } }
+  let deleteOptions = { fetch: false, method: 'DELETE', callback: (() => {listOptions.fetch = true }) }
+
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('pwa-rest-sw.js');
+  }
+  let checkCache = true; //Triggers timer to verify if the first REST GET call is succesfull.
+
+</script>
+<script src="https://cdn.jsdelivr.net/gh/hbroek/reken/dist/reken.min.js"></script>
+</html>
