@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.9.0';
+    reken.version = '0.9.9.1';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -796,16 +796,16 @@ class $RekenBase {
                     case "component":
                         topForString = undefined; //Reset the outermost for-loop.
                         let className = value;
-                        if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
-                            let compInitCode = [];
-                            //first array contains all generated ref code
-                            //second array contains all the script code
-                            //third array contains all the remaining code
-                            let compControlCode = {first:[],second:[],third:[]};
-                            let compEventCode = [];
-                            
-                            buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
+                        let compInitCode = [];
+                        //first array contains all generated ref code
+                        //second array contains all the script code
+                        //third array contains all the remaining code
+                        let compControlCode = {first:[],second:[],third:[]};
+                        let compEventCode = [];
+                        
+                        buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
 
+                       if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
                             if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
                                 let i = 0;
                                 for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
