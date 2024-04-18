@@ -1295,7 +1295,27 @@
     <h3>Test CP34</h3>
     <cp34_parent id="cp34a" array="cp34aArray"></cp34_parent>
     <cp34_parent id="cp34b" array="cp34bArray"></cp34_parent>
-  
+
+    <!-- sub component in a parent sub element component loop, use parent component twice -->
+    <script>
+      let cp35aArray = ['1','2','3']
+      let cp35bArray = ['a','b','c','d']
+    </script>>
+    <template data-component="cp35_parent" data-arg-array>
+      <div> 
+        <div data-for="x:array">
+          <cp35_child value="${x.index}-${x.item}"></div>
+        </div>
+      </div>
+    </template>
+    <template data-component="cp35_child" data-arg-value>
+      <div data-text="${value}">
+      </div>
+    </template>
+    <h3>Test CP35</h3>
+    <cp35_parent id="cp35a" array="cp35aArray"></cp35_parent>
+    <cp35_parent id="cp35b" array="cp35bArray"></cp35_parent>
+
   </section>
 
   <section>
@@ -3167,13 +3187,19 @@
         done();
       })
       it('Parent component with loop over array argument, rendering child component, render twice', (done) => {
-        const cp34a = $('cp34a');
-
         expect(cp34a).to.have.length(3);
         expect(cp34a.children[1]).to.have.text('1-2');
 
         expect(cp34b).to.have.length(4);
         expect(cp34b.children[3]).to.have.text('3-d');
+        done();
+      })
+      it('Parent component with child looping over array argument, rendering child component, render twice', (done) => {
+        expect(cp35a.children[0]).to.have.length(3);
+        expect(cp35a.children[0].children[1]).to.have.text('1-2');
+
+        expect(cp35b.children[0]).to.have.length(4);
+        expect(cp35b.children[0].children[3]).to.have.text('3-d');
         done();
       })
 

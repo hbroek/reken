@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.9.1';
+    reken.version = '0.9.9.2';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -805,18 +805,18 @@ class $RekenBase {
                         
                         buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
 
-                       if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
-                            if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
-                                let i = 0;
-                                for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
-                                    let elemString = "this.$root"
-                                    buildClasses(false, child, elemString+getChildString(i), elemString+getChildString(i), topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
-                                    i++
-                                }
-                                if (elem.dataset.if !== undefined) {
-                                    compControlCode.third.push('}') //Close if statement
-                                }
+                        if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
+                            let i = 0;
+                            for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
+                                let elemString = "this.$root"
+                                buildClasses(false, child, elemString+getChildString(i), elemString+getChildString(i), topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
+                                i++
                             }
+                            if (elem.dataset.if !== undefined) {
+                                compControlCode.third.push('}') //Close if statement
+                            }
+                        }
+                        if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
                             if (!generatedClass[value]) { //Create base class
                                 const [compDefinition, compStyle] = generateComponentClass(value, value, compInitCode, compControlCode, compEventCode, routeVars, "")
                                 styles.push(...compStyle);
