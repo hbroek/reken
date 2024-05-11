@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.9.2';
+    reken.version = '0.9.10.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -640,12 +640,20 @@ class $RekenBase {
                         let eventId = uniqueID(eventName);
                         initCode.push(compString + ".dataset.event_" + eventName + " = (" + compString + ".dataset.event_" + eventName + "??'')+'" + eventId+"'+':'");
 
+                        const valueArray = value.split(':');
+                        let handler = value;
+                        let condition = null;
+                        if (valueArray.length>1) {
+                            condition = valueArray[0];
+                            handler = valueArray.slice(1).join(':');
+                        }
+
                         eventCode.push({
                             'elemId':(topForString === undefined ? compString : topForString),
                             'eventType':eventName,
-                            'handlerEventCheck': "  if (!$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                            'handlerEventCheck': "  if (!("+(condition?'('+condition+')&&':'') +"$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "'))) return;",
                             'handlerName': eventId,
-                            'handlerCode':value,
+                            'handlerCode':handler,
                             'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
                             "refs" : refArray
                         })
@@ -926,14 +934,21 @@ class $RekenBase {
                         }
                         else if (key.startsWith('on') || (key.startsWith('on1') && !componentRoot)) {
                             let eventName = key.substring(key.startsWith('on1')?3:2).toLowerCase();
+                            const valueArray = value.split(':');
                             let handler = value;
+                            let condition = null;
+                            if (valueArray.length>1) {
+                                condition = valueArray[0];
+                                handler = valueArray.slice(1).join(':');
+                            }
+
                             let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
             
                             eventCode.push({
                                 'elemId':(topForString === undefined ? compString : topForString),
                                 'eventType':eventName,
-                                'handlerEventCheck': "  if (!$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
+                                'handlerEventCheck': "  if (!("+(condition?'('+condition+')&&':'') +"$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "'))) return;",
                                 'handlerName': eventId,
                                 'handlerCode':handler,
                                 'forContext': "let [$ctxIdx,$ctxElems] = $RekenBase.indexesInForAncestors(e.target);" + getEventContext(elem).contextString + ";",
@@ -1135,6 +1150,10 @@ class $RekenBase {
         // Build controller
         output.push(`  controller({${stringParams}}) {`)
 
+        // if (componentName === '$main')
+        //     output.push('console.time("controller")');
+
+
         for (let _var of stateVars)
             output.push(`    let ${_var} = this.${_var}`)
         
@@ -1166,6 +1185,9 @@ class $RekenBase {
         // save potentially updated member state
         for (let _var of stateVars.filter((_v)=>_v!='$root'))
             output.push(`    this.${_var} = ${_var}`)
+
+        // if (componentName === '$main')
+        //     output.push('console.timeEnd("controller")');
 
         output.push('  }')
 

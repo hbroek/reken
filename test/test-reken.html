@@ -394,12 +394,19 @@
     let a1 = 10
     let a2 = 20
     let a3 = 30
+    let a4 = 40
+    let a5 = 50
+    let a6 = 60
+    let a6bool = true;
  </script>
   <h3>data-action tests</h3>
-  <button type="button" data-action="a0=a0+1" id="a0">Increment a0</button>
-  <button type="button" data-action="a1=a1-1" id="a1" data-text="Decrement a1 = ${a1}"></button>
-  <button type="button"><div data-action="a2=a2+1" id="a2">Increment a2</div></button>
-  <button type="button" id="a3b" data-action="a3=a3+1"><div id="a3">Increment a3</div></button>
+    <button type="button" data-action="a0=a0+1" id="a0">Increment a0</button>
+    <button type="button" data-action="a1=a1-1" id="a1" data-text="Decrement a1 = ${a1}"></button>
+    <button type="button"><div data-action="a2=a2+1" id="a2">Increm,,,ent a2</div></button>
+    <button type="button" id="a3b" data-action="a3=a3+1"><div id="a3">Increment a3</div></button>
+    <button type="button" id="a4b" data-action="true:a4=a4+1"><,,  div id="a4">Do handle a4 event</div></button>
+    <button type="button" id="a5b" data-action="false:a5=a5+1"><div id="a5">Do not handle a5 event</div></button>
+    <button type="button" id="a6b" data-action="a6bool:a6=a6+1;a6bool=false"><div id="a6">Depending on a6bool handle events</div></button>
   </section>
   <hr>
  
@@ -432,6 +439,8 @@
       let o_1 = 'a'
       let o_2 = ''
       let o_3 = 'abc'
+      let o_4d = ''
+      let o_4u = ''
     </script>
     <h3>data-on tests</h3>
 
@@ -446,6 +455,10 @@
 
     <input id="o3" data-on-change="o_3=o_3.trim()" data-value="o_3"></div>
     <div id=o3_0 data-text="${o_3}"></div>
+
+    <input id="o4" data-on-keydown="true:o_4d=e.keyCode" data-on-keyup="false:o_4u=e.keyCode"></div>
+    <div id=o4_0 data-text="${o_4d}-${o_4u}"></div>
+
   </section>
 
   <section>
@@ -1160,7 +1173,7 @@
     <div>
       <span data-text="pre - ${arga}:${argb}"></span>
       <slot></slot>
-      <button type="button" data-action="cpOutput26=`26b ${arga}:${argb}-button`" data-text="26b ${arga}:${argb}-button"></button>
+      <button type="button" data-action="true:cpOutput26=`26b ${arga}:${argb}-button`" data-text="26b ${arga}:${argb}-button"></button>
       <span data-text="post - ${arga}:${argb}"></span>
   </template>
 
@@ -2285,6 +2298,37 @@
 
         done();
       })
+      it('Press div in button with enabled data-action event to increment js number a4', (done) => {
+        expect(a4).to.equal(40);
+
+        $('a4b').dispatchEvent(new Event('click'));
+        expect(a4).to.equal(41);
+
+        done();
+      })
+      it('Press div in button with disabled data-action event to increment js number a5', (done) => {
+        expect(a5).to.equal(50);
+
+        $('a5b').dispatchEvent(new Event('click'));
+        expect(a5).to.equal(50);
+
+        done();
+      })
+
+      it('Press div in button with boolean driven data-action event to increment js number a6', (done) => {
+        expect(a6).to.equal(60);
+
+        $('a6b').dispatchEvent(new Event('click'));
+        expect(a6).to.equal(61);
+
+        //boolean a6bool is now false.
+        $('a6b').dispatchEvent(new Event('click'));
+        // should be no increment now
+        expect(a6).to.equal(61);
+
+
+        done();
+      })
 
     })
     describe('data-attr tests, initial value and after updated width and height js vars', () => {
@@ -2357,6 +2401,19 @@
         expect($('o3_0')).to.have.text('ABC')
         done();
       })
+      it('Check for conditional keypress up and down event.', (done) => {
+        expect(o_4d).to.equal('');
+        expect(o_4u).to.equal('');
+        expect($('o4_0')).to.have.text('-')
+        fireEvent($('o4'), "keydown", {keyCode: 120});
+        expect(o_4d).to.equal(120);
+        expect($('o4_0')).to.have.text('120-')
+        fireEvent($('o4'), "keyup", {keyCode: 110});
+        expect(o_4u).to.equal('');
+        expect($('o4_0')).to.have.text('120-')
+        done();
+      })
+
     })
     describe('data-for tests', () => {
       it('Render 5 li\'s', (done) => {
