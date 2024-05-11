@@ -1107,10 +1107,10 @@ The variable vrb will contain the propery <strong>index</strong> and when bound 
 &lt;ul data-for="vrb:_array"&gt;&lt;li data-text=${vrb.index} - ${vrb.item}&gt; will render the index and the value of the array for each element in the array. An optional 3rd integer end parameter lets the for loop continue until it reaches the end value. When a 4th integer end value is specified the loop starts at the begin value which is in this case the third parameter and end at the 4th parameters. For example <em>&lt;data-for="vrb:10:end"&gt;</em> or <em>&lt;data-for="vrb:myarray:start:end"&gt;</em></p>
 </li>
 <li>
-<p><strong>data-action</strong>: javascript code that gets executed in the event. In the code snippet you have access to the event details through the e variable.</p>
+<p><strong>data-action</strong>: javascript code that gets executed in the event. In the code snippet you have access to the event details through the e variable. You can specify on optional boolean expression seperated by a colon and that precedes the code to indicate whether the event handling is active.</p>
 </li>
 <li>
-<p><strong>data-on-</strong>: takes javascript code that gets executed in the event. In the code snippet you have access to the variable the event details through the e variable.</p>
+<p><strong>data-on-</strong>: takes javascript code that gets executed in the event. In the code snippet you have access to the variable the event details through the e variable. You can specify on optional boolean expression seperated by a colon and that precedes the code to indicate whether the event handling is active.</p>
 </li>
 <li>
 <p><strong>data-timer</strong>: javascript code that gets executed after a specified time. The data-timer value consists of 3 parts separated by colons. First the time after the code gets triggered (in ms). Second a boolean expression. When true the timer will start. Note if the expression turns false before the timer is triggered the code will NOT execute. And third the code to execute. For example <em>&lt;div data-timer="500:startTimer:console.log('timer is done');startTimer=false"/&gt;</em> This code will print "timer is done" after 500ms when startTimer becomes true. And since the timer sets the boolean to false, will not start another timer again.</p>
