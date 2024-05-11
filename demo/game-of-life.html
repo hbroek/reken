@@ -55,7 +55,7 @@
         <section data-interval="parseInt(1000/fps):evolving:array=nextGeneration(array)">
             <div class="rows" data-for="outside:array">
                 <div class="row" data-for="inside:outside.item">
-                    <div data-action="array[outside.index][inside.index]=array[outside.index][inside.index]?0:1"
+                    <div data-action="true:array[outside.index][inside.index]=array[outside.index][inside.index]?0:1"
                         class="cell" data-class="alive:inside.item>0"></div>
                 </div>
             </div>
