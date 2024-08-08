@@ -123,7 +123,7 @@ Here, we've defined the `name` variable with the value 'Alice'.
 
 **Step 4: Open the HTML in a web browser.**
 
-Save your HTML file and open it in a web browser. You should see a greeting message like "Hello, Alice" displayed on the page.
+Save your HTML file and open it in a web browser. You should see greeting message "Hello, Alice" displayed on the page.
 
 Congratulations! You've successfully created your first dynamic element using Reken's `data-text` attribute. As you can see, Reken attributes make it easy to incorporate dynamic content into your web pages without complex JavaScript code.
 
@@ -171,7 +171,7 @@ Suppose you want to show a message to the user when a specific condition is met.
 <div data-if="unreadMessages.length>0">You have unread messages!</div>
 ```
 
-In this case, the message "You have unread messages!" will only be displayed if the JavaScript variable `hasUnreadMessages` is `true`.
+In this case, the message "You have unread messages!" will only be displayed if the JavaScript array `UnreadMessages` has array items.
 
 **Example 2: Applying CSS Classes for Animation**
 
@@ -266,7 +266,7 @@ Here's how you can use the `data-rest` attribute:
 <div data-rest="userData:json/user/jsmith.json"></div>
 ```
 
-In this example, the `data-rest` attribute fetches user data from the `/api/user/123` endpoint and stores it in the `userData` JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.
+In this example, the `data-rest` attribute fetches user data from the `/api/user/jsmith.json` endpoint and stores it in the `userData` JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.
 
 ### 3.6.2 Handling REST API Call Status
 

@@ -111,7 +111,7 @@ Performance is a critical aspect of web development. While Reken simplifies dyna
 
 Reken updates the DOM efficiently, but excessive updates can impact performance. Avoid unnecessary changes to the DOM, and update only when needed. 
 
-Underneath the cover, Reken optimizes updates by first checking whether the DOM actually needs to be updated, and will only do so when the DOM really cahnges. Instead of hiding UI using styles or classes, use `data-if` or `data-route` to hide UI elements. Besides hiding the UI, it also stops executing the model to update the UI in these hidden (and thus deactivated) HTML branches.
+Underneath the cover, Reken optimizes updates by first checking whether the DOM actually needs to be updated, and will only do so when the DOM really changes. Instead of hiding UI using styles or classes, use `data-if` or `data-route` to hide UI elements. Besides hiding the UI, it also stops executing the model to update the UI in these hidden (and thus deactivated) HTML branches.
 
 ```html
   <main data-route="page1">

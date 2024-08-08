@@ -92,4 +92,4 @@ To upgrade Reken, you can follow the installation process outlined earlier but r
 
 In the following chapters, you will dive deeper into using Reken's features and attributes to create dynamic web pages. Chapter 3 will introduce you to the core concepts and attributes of Reken, which are essential for understanding how Reken simplifies the process of building dynamic web applications.
 
-Now that you have successfully installed Reken, Explore its core concepts and attributes in the upcoming chapter.
+Now that you have successfully installed Reken, explore its core concepts and attributes in the upcoming chapter.

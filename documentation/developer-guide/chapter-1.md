@@ -6,7 +6,7 @@
 
 Reken is a powerful and lightweight JavaScript library designed to simplify the process of creating dynamic web pages using just HTML, CSS, and a dash of JavaScript. It empowers HTML developers, UX designers, and web app builders to add interactivity and dynamic behavior to their web pages without the need to delve into complex JavaScript frameworks or libraries.
 
-At its core, Reken operates by enhancing standard HTML elements with custom `data-*` attributes that allows you to:
+At its core, Reken operates by enhancing standard HTML elements with a set of `data` attributes that allows you to:
 
 - Render dynamic content, attributes, and styles.
 - Conditionally render elements or toggle classes.
@@ -40,7 +40,7 @@ Reken-generated HTML remains fully compliant with standard HTML specifications, 
 
 ## 1.3 Who Should Use Reken?
 
-Reken is an excellent choice for a variety of web developers, including:
+Reken is an excellent choice for a variety of web developers.
 
 ### 1.3.1 HTML Page Developers
 

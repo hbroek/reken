@@ -343,7 +343,7 @@ A class name preceding the expression can be provided to control how an element 
 <div data-if="fadein:isActive" class="hidden">is Active</div>
 ```
 
-The `<div>` element has a class 'hidden' to display it off screen. The `data-if` will have add a class `fadeIn` when the `isActive` variable is `true`, animating the element in view.
+The `<div>` element has a class 'hidden' to display it off screen. The `data-if` adds a class `fadeIn` when the `isActive` variable is `true`, animating the element in view.
 
 >**Note:** It is the developer's responsibility to indicate that the `div` is inactive. All the descendant elements with `Reken` attributes are inactive too. Even if they may be visible.
 
@@ -571,7 +571,7 @@ let isActive = false;
 </button>
 ```
 
-This code will display the "Message is displayed" `div` for five seconds after the user clicks the "Show Message" `button`. The `button` timer gets started once the `isActive` boolean is set to true. After 5 seconds, the timer executes the code to set the `isActive` boolean to `false`, and the `div` is hidden per its `data-if` attribute,
+This code will display the "Message is displayed" `div` for two seconds after the user clicks the "Show Message" `button`. The `button` timer gets started once the `isActive` boolean is set to true. After 2 seconds, the timer executes the code to set the `isActive` boolean to `false`, and the `div` is hidden per its `data-if` attribute,
 
 >**Note** if the boolean trigger expression is still true when the timer is executed, it will start a new timer. The timer can be interrupted by setting the boolean trigger expression to `false`.
 
@@ -760,7 +760,7 @@ To convert the `created` values in the JSON file, a reviver property is set with
 
 **`data-calc`**
 
-The `data-calc` attribute is used to mark a script to have its contents to executed when there is a model update. It helps recalculate formulas or transform data loaded by a REST service.
+The `data-calc` attribute is used to mark a script to have its contents executed everytime there is a model update. It helps recalculate formulas or transform data loaded by a REST service.
 
 **Example:**
 
