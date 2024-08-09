@@ -1188,7 +1188,7 @@
 <p>A class name preceding the expression can be provided to control how an element is shown.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">fadein:isActive</span>" <span class="pl-c1">class</span>="<span class="pl-s">hidden</span>"<span class="pl-kos">&gt;</span>is Active<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>The <code>&lt;div&gt;</code> element has a class 'hidden' to display it off screen. The <code>data-if</code> will have add a class <code>fadeIn</code> when the <code>isActive</code> variable is <code>true</code>, animating the element in view.</p>
+<p>The <code>&lt;div&gt;</code> element has a class 'hidden' to display it off screen. The <code>data-if</code> adds a class <code>fadeIn</code> when the <code>isActive</code> variable is <code>true</code>, animating the element in view.</p>
 <blockquote>
 <p><strong>Note:</strong> It is the developer's responsibility to indicate that the <code>div</code> is inactive. All the descendant elements with <code>Reken</code> attributes are inactive too. Even if they may be visible.</p>
 </blockquote>
@@ -1333,7 +1333,7 @@ let x = y = 0;
   <span class="pl-c1">data-action</span>="<span class="pl-s">isActive=true;</span>"<span class="pl-kos">&gt;</span>
   Start Message
 <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
-<p>This code will display the "Message is displayed" <code>div</code> for five seconds after the user clicks the "Show Message" <code>button</code>. The <code>button</code> timer gets started once the <code>isActive</code> boolean is set to true. After 5 seconds, the timer executes the code to set the <code>isActive</code> boolean to <code>false</code>, and the <code>div</code> is hidden per its <code>data-if</code> attribute,</p>
+<p>This code will display the "Message is displayed" <code>div</code> for two seconds after the user clicks the "Show Message" <code>button</code>. The <code>button</code> timer gets started once the <code>isActive</code> boolean is set to true. After 2 seconds, the timer executes the code to set the <code>isActive</code> boolean to <code>false</code>, and the <code>div</code> is hidden per its <code>data-if</code> attribute,</p>
 <blockquote>
 <p><strong>Note</strong> if the boolean trigger expression is still true when the timer is executed, it will start a new timer. The timer can be interrupted by setting the boolean trigger expression to <code>false</code>.</p>
 </blockquote>
@@ -1461,7 +1461,7 @@ let x = y = 0;
 <div class="markdown-heading"><h2 class="heading-element">4.15 data-calc</h2><a id="user-content-415-data-calc" class="anchor" aria-label="Permalink: 4.15 data-calc" href="#415-data-calc"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Syntax:</strong></p>
 <p><strong><code>data-calc</code></strong></p>
-<p>The <code>data-calc</code> attribute is used to mark a script to have its contents to executed when there is a model update. It helps recalculate formulas or transform data loaded by a REST service.</p>
+<p>The <code>data-calc</code> attribute is used to mark a script to have its contents executed everytime there is a model update. It helps recalculate formulas or transform data loaded by a REST service.</p>
 <p><strong>Example:</strong></p>
 <div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
 let fahrenheit = 0;

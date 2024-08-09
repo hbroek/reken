@@ -1077,7 +1077,7 @@
  <span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="<span class="pl-s">https://cdn.jsdelivr.net/gh/hbroek/reken@latest/dist/reken.min.js</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span></pre></div>
 <p><strong>Step 4: Open the HTML in a web browser.</strong></p>
-<p>Save your HTML file and open it in a web browser. You should see a greeting message like "Hello, Alice" displayed on the page.</p>
+<p>Save your HTML file and open it in a web browser. You should see greeting message "Hello, Alice" displayed on the page.</p>
 <p>Congratulations! You've successfully created your first dynamic element using Reken's <code>data-text</code> attribute. As you can see, Reken attributes make it easy to incorporate dynamic content into your web pages without complex JavaScript code.</p>
 <p>In the following sections, we'll explore more advanced scenarios, including conditional rendering, handling user input, and working with REST APIs, all using Reken attributes.</p>
 <div class="markdown-heading"><h2 class="heading-element">3.3 Conditional Rendering</h2><a id="user-content-33-conditional-rendering" class="anchor" aria-label="Permalink: 3.3 Conditional Rendering" href="#33-conditional-rendering"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
@@ -1105,7 +1105,7 @@
 <p><strong>Example 1: Showing an Element Based on a Condition</strong></p>
 <p>Suppose you want to show a message to the user when a specific condition is met. Here's how you can do it:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">unreadMessages.length&gt;0</span>"<span class="pl-kos">&gt;</span>You have unread messages!<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this case, the message "You have unread messages!" will only be displayed if the JavaScript variable <code>hasUnreadMessages</code> is <code>true</code>.</p>
+<p>In this case, the message "You have unread messages!" will only be displayed if the JavaScript array <code>UnreadMessages</code> has array items.</p>
 <p><strong>Example 2: Applying CSS Classes for Animation</strong></p>
 <p>You can use conditional rendering with CSS classes to add animations to elements. For instance, you can create a simple fade-in effect:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-if</span>="<span class="pl-s">fade-in:isVisible</span>"<span class="pl-kos">&gt;</span>This element will fade in when isVisible is true.<span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
@@ -1164,7 +1164,7 @@
 <p>The <code>data-rest</code> attribute is used to fetch data from a REST API endpoint and store it in a JavaScript variable. It's a powerful tool for populating your web pages with dynamic data.</p>
 <p>Here's how you can use the <code>data-rest</code> attribute:</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">userData:json/user/jsmith.json</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span></pre></div>
-<p>In this example, the <code>data-rest</code> attribute fetches user data from the <code>/api/user/123</code> endpoint and stores it in the <code>userData</code> JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.</p>
+<p>In this example, the <code>data-rest</code> attribute fetches user data from the <code>/api/user/jsmith.json</code> endpoint and stores it in the <code>userData</code> JavaScript variable. When the REST call is complete, the variable contains an object automatically created from the JSON response data.</p>
 <div class="markdown-heading"><h3 class="heading-element">3.6.2 Handling REST API Call Status</h3><a id="user-content-362-handling-rest-api-call-status" class="anchor" aria-label="Permalink: 3.6.2 Handling REST API Call Status" href="#362-handling-rest-api-call-status"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken makes it easy to handle the status of REST API calls. It automatically adds classes to the element with the <code>data-rest</code> attribute based on the status of the call:</p>
 <ul>
