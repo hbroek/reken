@@ -724,6 +724,22 @@
     <div id="r10" data-rest="r10:json/array.json" data-rest-options="r10_options">
     </div>
 
+
+    <script>
+      let r11;
+      const url11 = 'json/array.json'
+    </script>
+    <ul id="r11" data-rest="r11:${url11}" data-for="r11c:r11">
+      <li data-text="${r11c.index} - ${r11c.item.name}">
+    </ul>
+
+    <script>
+      let r12;
+      const url12 = 'json/array.json'
+    </script>
+    <div id="r12" data-rest="r12:[2]:${url12}" data-text="${r12?.name}">
+    </ul>
+
   </section>
   <hr>
   <section>
@@ -2682,6 +2698,15 @@
         assert(r10[1].sell_by instanceof Date, "Reviver not converting to sell_by field to Date")
       })
 
+      it('Load JSON file using template url variable', async function () {
+        await waitFor(2000, () => checkForClass($('r11'), "reken-rest-done"));
+        expect($('r11')).to.have.length(3)
+      })
+
+      it('Load JSON file with template url var and use array syntax path to get third element', async function () {
+        await waitFor(2000, () => checkForClass($('r12'), "reken-rest-done"));
+        expect($('r12')).to.have.text('oranges');
+      })
 
     })
     describe('data-calc tests', () => {

@@ -314,7 +314,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.10.0';
+    reken.version = '0.9.11.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -907,7 +907,7 @@ class $RekenBase {
                         let _url = value.substring(value.indexOf(':') + 1);
                         let path = '';
                         let nextTokenIndex = _url.indexOf(':')
-                        if (nextTokenIndex > 0 && !_url.startsWith('http')) {
+                        if (nextTokenIndex > 0 && !(_url.startsWith('http')||_url.startsWith('${'))) {
                             path = (_url.startsWith('[')?'':'.') + _url.substring(0, nextTokenIndex);
                             _url = _url.substring(nextTokenIndex + 1);
                         }
