@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html style="font-size: calc(1rem + 0.25vw)">
+
+<head>
+  <style>
+    body {
+      font-family: Inter "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+      font-size: calc(1rem + 0.25vw);
+      line-height: 1.5;
+      max-width:80dvw;
+      margin:auto;
+    }
+    .busy {
+      background-color: azure;
+    }
+    .infinite {
+      display:inline-block;
+      animation: spin 1s linear infinite reverse;
+    }
+    @keyframes spin {
+      from {transform: rotate(0deg);}
+      to {
+        transform: rotate(360deg);  
+      }
+    }
+    .primary {
+  background-color: #4D7CF6;
+  color: #FFFFFF;
+}
+
+.secondary {
+  background-color: #E8EDF0;
+  color: #333333;
+}
+
+.button-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: #4D7CF6;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.button-primary:active, .button-secondary:active {
+  transform: scale(0.9);
+}
+
+.button-secondary {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 4px;
+  background-color: #E8EDF0;
+  color: #333333;
+}
+
+.input-field {
+  padding: 16px;
+  font-size: 18px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  background-color: #F7F7F7;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 32px auto;
+  padding: 24px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+
+  </style>
+</head>
+
+<body>
+  <header class="container">
+    <h1>Reken Llama prompter</h1>
+  </header>
+  <main class="container" style="display:flex;flex-direction: column;gap:1rem;">
+    <details>
+      <summary>
+        Llama Instance: <span data-text="${SERVER_URL} / ${MODEL}"></span>
+      </summary>
+      <label class="input-label">Server URL: <input class="input-field" type="url" data-value="SERVER_URL" data-on-change="localStorage.setItem('server',SERVER_URL)"/></label>
+      <label class="input-label">Model: <input class="input-field" type="text" data-value="MODEL" data-on-change="localStorage.setItem('model',MODEL)"/></label>
+    </details>
+    <label for="prompt" class="input-label">Prompt:</label>
+    <textarea id="prompt" style="width:100%;box-sizing: border-box;" class="input-field" data-value="promptString"></textarea>
+    <nav  style="display:flex;flex-direction: row; gap:0.5rem; justify-content: end;">
+      <button type="button" data-if="!busy" class="button-primary"
+        data-action="answer='';busy=true;fetchOptions.fetch=true;body.prompt=promptString;fetchOptions.body=JSON.stringify(body);">OK</button>
+      <button type="button" data-if="busy" class="button-primary"
+        data-action="abortController.abort();busy=false;">Cancel</button>
+      <button type="button" class="button-primary" data-action="answer='';getAsyncPrompt(promptString)">Async fetch</button>
+      <button type="button" class="button-secondary" data-action="copyAnswer()">Copy</button>
+    </nav>
+    <div data-rest="answer:response:http://${SERVER_URL}/api/generate" data-rest-options="fetchOptions">
+      <div data-class="busy">
+        <span data-text="${answer}"></span>
+        <span data-if="busy" class="infinite">↺</span>
+      </div>
+      <sup data-text="${Date.now()-timer}ms"></sup>
+    </div>
+  </main>
+
+</body>
+<script>
+  let SERVER_URL = localStorage.getItem('server')??'127.0.0.1:11434';
+  // const SERVER_URL = 'localhost:11434';
+  let MODEL = localStorage.getItem('model')??'llama3';
+  let promptString = '10*20=';
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
+
+  let fetchOptions = {
+    "mime-type": "application/json",
+    "fetch": false,
+    "method": "POST",
+    "body": '',
+    "callback": ()=>{busy=false;},
+    "signal": signal
+  }
+  let body = {
+    "model": MODEL,
+    "stream": false
+  }
+  let answer = '';
+  let busy = false;
+  let timer = Date.now();
+
+
+  function copyAnswer() {
+    navigator.clipboard.writeText(answer);
+  } 
+
+  function getAsyncPrompt(prompt) {
+    busy = true;
+    timer = Date.now();
+    getAsyncStream(prompt).then(
+      console.log('done')
+    ) 
+  }
+
+  async function getAsyncStream(prompt) {
+    // const r = await fetch(`http://localhost:11434/api/generate`, {
+  const r = await fetch(`http://${SERVER_URL}/api/generate`, {
+      method: "POST",
+      body: JSON.stringify({
+        "prompt": prompt,
+        "stream": true,
+        "model": MODEL,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    });
+    fetchStream(r.body);
+    // for await (const chunk of r.body) {
+    //   let {count, done} = processChunk(chunk)
+    //   if (count>0)
+    //     reken.force_calculate();
+    //   if (done) {
+    //     busy = false;
+    //     reken.force_calculate();
+    //     break;
+    //   }
+    // }
+
+    function processChunk(chunk) {
+      let chunkString = new TextDecoder().decode(chunk);
+      let lines = chunkString.split('\n');
+
+      for (line of lines) {
+        if (line.trim().length == 0)
+          continue
+        let token = JSON.parse(line);
+
+        if (!token.done)
+          answer += token.response;
+      }
+    }
+    
+    function fetchStream(stream) {
+      const reader = stream.getReader();
+      let charsReceived = 0;
+
+      // read() returns a promise that fulfills
+      // when a value has been received
+      reader.read().then(function processText({ done, value }) {
+        // Result objects contain two properties:
+        // done  - true if the stream has already given you all its data.
+        // value - some data. Always undefined when done is true.
+        if (done) {
+          busy = false;
+          reken.force_calculate();
+          return;
+        }
+
+        processChunk(value);
+        reken.force_calculate();
+
+        // Read some more, and call this function again
+        return reader.read().then(processText);
+      });
+    }
+  }
+</script>
+<script src="../src/reken.js"></script>
+
+</html>
+
+
+<!--
+Ollama has a REST API for running and managing models.
+
+Generate a response
+
+curl http://192.168.0.119:11436/api/generate -d '{
+  "model": "llama3",
+  "prompt":"Why is the sky blue?"
+}'
+Chat with a model
+
+curl http://192.168.0.119:11436/api/pull -d '{
+  "name": "llama3"
+}'
+
+-->
