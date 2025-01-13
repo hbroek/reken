@@ -25,6 +25,11 @@
   <script src="https://unpkg.com/chai-dom/chai-dom.js"></script>
   <script src="https://unpkg.com/mocha/mocha.js"></script>
 
+  <!-- <script src="lib/chai.js"></script>
+  <script src="lib/chai-dom.js"></script>
+  <script src="lib/mocha.js"></script> -->
+
+
   <script class="mocha-init">
     mocha.setup('bdd');
     mocha.checkLeaks();
@@ -1344,6 +1349,30 @@
     <h3>Test CP35</h3>
     <cp35_parent id="cp35a" array="cp35aArray"></cp35_parent>
     <cp35_parent id="cp35b" array="cp35bArray"></cp35_parent>
+
+    <!-- component bindable argument that has a event name conflict -->
+    <script>
+      let cp36var = 100;
+    </script>
+
+    <template data-component="cp36" data-bind-input>
+      <div>
+        <span data-text="cp36: ${input}"></span>
+        <button data-action="input+=input;"><slot></slot></button>
+      </div>
+    </template>
+
+    <cp36 id="cp36" input="cp36var">Increase Input</cp36>
+
+
+    <!-- SVG component -->
+    <template data-component="circle37" data-arg-background="green">
+      <circle cx="50" cy="50" r="50" data-attr-fill="${background}"></circle>
+    </template>
+
+    <svg id="cp37" style="width:50px;aspect-ratio: 1;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle37 background="pink"></circle37>
+    </svg>
 
   </section>
 
@@ -2680,6 +2709,7 @@
       it('Load text file and convert into an object', async function () {
         await waitFor(2000, () => checkForClass($('r7'), "reken-rest-done"));
         expect($('r7')).to.have.text('1')
+        expect('json/one.txt').to.equal(r7_options.url)
       })
       it('Load json file in component r8_0 and check for the value', async function () {
         await waitFor(2000, () => checkForClass($('r8_0'), "reken-rest-done"));
@@ -3282,6 +3312,25 @@
 
         expect(cp35b.children[0]).to.have.length(4);
         expect(cp35b.children[0].children[3]).to.have.text('3-d');
+        done();
+      })
+      it('Verify component bound argument with name that is also an event name is updated', (done) => {
+        // First component instance
+        let cp36span =  cp36.querySelectorAll('span')[0];
+
+        expect(cp36span).to.have.text('cp36: 100')
+
+        fireEvent(cp36.querySelectorAll('button')[0], "click") // Double value
+        expect(cp36span).to.have.text('cp36: 200')
+        expect(cp36var).equals(200);
+        done();
+      })
+      it('Verify we can create a SVG component', (done) => {
+        // First component instance
+        let cp37circle =  cp37.querySelectorAll('circle')[0];
+
+        expect(cp37circle).to.have.attr('fill','pink');
+        expect(cp37circle.namespaceURI).equals('http://www.w3.org/2000/svg');
         done();
       })
 

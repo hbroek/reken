@@ -53,6 +53,8 @@ class $RekenBase {
             }
             elem.dataset.url = _url;
         }
+        _options.url = _url;
+
         elem.classList.add("reken-rest-busy");
         _options['reken_rest_status'] = 'reken-rest-busy';
         elem.classList.remove("reken-rest-error", "reken-rest-done");
@@ -314,7 +316,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.11.0';
+    reken.version = '0.9.12.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -399,7 +401,7 @@ class $RekenBase {
             let hasBind = false;
             for (let key of keys) {
                 if (key.startsWith('bind')) {
-                    elem.setAttribute('data-on1-'+key.substring(4),elem.dataset[key]+"=e.detail.value");
+                    elem.setAttribute('data-on1-bind_'+key.substring(4),elem.dataset[key]+"=e.detail.value");
                     hasBind = true;
                 }
             }
@@ -472,7 +474,7 @@ class $RekenBase {
                         }
                         break;
                     case "text":
-                        controlCode.third.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".innerText = $v"); // Update DOM element with HTML Element from template string if different
+                        controlCode.third.push(indent+"$v = `" + value + "`;\n    if (" + elemString + ".textContent !== $v)\n      " + elemString + ".textContent = $v"); // Update DOM element with HTML Element from template string if different
 
                         break;
                     case "html":
@@ -1018,6 +1020,17 @@ class $RekenBase {
                     let _beforeElement = _slotElement;
                     for (let i = elem.childNodes.length-1; i >= 0; i--) {
                         let child = elem.childNodes[i];
+                        const childTag =  child.tagName;
+                        if (typeof childTag !== 'undefined' && svgTags.indexOf(childTag.toLocaleLowerCase())>=0) {
+                            const newChild = document.createElementNS("http://www.w3.org/2000/svg", childTag.toLocaleLowerCase())
+                            newChild.innerHTML = child.innerHTML;
+                            for (const attr of child.getAttributeNames()) {
+                                newChild.setAttribute(attr, child.getAttribute(attr))
+                            }
+
+                            child = newChild;
+                        }
+
                         _slotElement.parentElement.insertBefore(child, _beforeElement)
                         _beforeElement = child;
                     }
@@ -1069,7 +1082,17 @@ class $RekenBase {
             }
             for (let elem of template.content.children) {
                 if (elem.tagName !== 'STYLE' && elem.tagName !== 'SCRIPT') {
-                    component = elem;
+                    const tagName = elem.tagName.toLocaleLowerCase();
+                    if (svgTags.indexOf(tagName)>=0) {
+                        component = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+                        component.innerHTML = elem.innerHTML;
+                        for (let attrName of elem.getAttributeNames()) {
+                            component.setAttribute(attrName, elem.getAttribute(attrName));
+                        }
+                    }
+                    else {
+                        component = elem;
+                    }
                     break;
                 }
             }
@@ -1230,7 +1253,7 @@ class $RekenBase {
 
             //Notify if value argument has changed
             for (let valueVar of bindKeys) {
-                output.push("    if ("+valueVar+"!==this."+valueVar+") $root.dispatchEvent(new CustomEvent('"+valueVar+"', {detail:{'value':"+valueVar+"},bubbles: true}))");
+                output.push("    if ("+valueVar+"!==this."+valueVar+") $root.dispatchEvent(new CustomEvent('bind_"+valueVar+"', {detail:{'value':"+valueVar+"},bubbles: true}))");
             }
 
             for (let _var of stateVars.filter((_v)=>_v!='$root'))
@@ -1433,7 +1456,82 @@ class $RekenBase {
     const uniqueID = (label) => {
         return `$${label??''}` + _ID++;
     }
-
+    const svgTags = [
+        'svg',
+        'altGlyph',
+        'altGlyphDef',
+        'altGlyphItem',
+        'animate',
+        'animateColor',
+        'animateMotion',
+        'animateTransform',
+        'circle',
+        'clipPath',
+        'color-profile',
+        'cursor',
+        'defs',
+        'desc',
+        'ellipse',
+        'feBlend',
+        'feColorMatrix',
+        'feComponentTransfer',
+        'feComposite',
+        'feConvolveMatrix',
+        'feDiffuseLighting',
+        'feDisplacementMap',
+        'feDistantLight',
+        'feFlood',
+        'feFuncA',
+        'feFuncB',
+        'feFuncG',
+        'feFuncR',
+        'feGaussianBlur',
+        'feImage',
+        'feMerge',
+        'feMergeNode',
+        'feMorphology',
+        'feOffset',
+        'fePointLight',
+        'feSpecularLighting',
+        'feSpotLight',
+        'feTile',
+        'feTurbulence',
+        'filter',
+        'font',
+        'font-face',
+        'font-face-format',
+        'font-face-name',
+        'font-face-src',
+        'foreignObject',
+        'g',
+        'glyph',
+        'glyphRef',
+        'hkern',
+        'image',
+        'line',
+        'linearGradient',
+        'mask',
+        'metadata',
+        'missing-glyph',
+        'path',
+        'pattern',
+        'polygon',
+        'polyline',
+        'radialGradient',
+        'rect',
+        'set',
+        'stop',
+        'style',
+        'switch',
+        'symbol',
+        'text',
+        'textPath',
+        'tref',
+        'tspan',
+        'use',
+        'view',
+        'vkern'
+    ]
     const substituteShortHandComponentNames = (root, template) => {
         const compName = template.dataset.component;
         root.querySelectorAll(compName).forEach((elem)=> {
@@ -1445,7 +1543,10 @@ class $RekenBase {
                     break;
                 }
             }
-            const replaceElement = document.createElement(tagName)
+
+            tagName = tagName.toLocaleLowerCase();
+            const replaceElement = svgTags.indexOf(tagName)>=0?document.createElementNS("http://www.w3.org/2000/svg", tagName):document.createElement(tagName)
+
             for (let index = elem.attributes.length - 1; index >= 0; --index) {
                 let attr = elem.attributes[index];
                 if (template.hasAttribute('data-arg-'+attr.name)) {
@@ -1478,6 +1579,7 @@ class $RekenBase {
                     replaceElement.insertBefore(child, beforeChild)
                 beforeChild = child;
             }
+
             replaceElement.setAttribute('data-component', compName);
             elem.parentElement.replaceChild(replaceElement, elem);
         })
@@ -1494,6 +1596,7 @@ class $RekenBase {
                 substituteShortHandComponentNames(templateDoc.content, template)
             })
         })
+
         updateStyleSheetShortHandNames(componentNames);
         componentNames.sort((a,b)=>b.length-a.length)
     }

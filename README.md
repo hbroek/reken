@@ -97,7 +97,7 @@ The variable vrb will contain the propery **index** and when bound to an array a
 - **data-interval**: javascript code that gets executed after a specified interval time. Like with the data-timer, the data-interval value consists of 3 parts separated by colons. First the interval each time the code gets triggered (in ms). Second a boolean expression. When true the intervals will start. Note if the expression turns false the intervals will stop. And third the code to execute. For example _&lt;div data-interval="300:startInterval:console.log('Another 300ms interval passed')/>_ This code will print "Another 300ms interval passed" every 300ms when startInterval becomes true.
 - **data-rest**: Takes a javascript variable and a rest service JSON endpoint url, separated by a colon. Once the rest service call is resolved the javascript variable contains the object representing the json. An optional property path in the resultset can be specified. When the url changes the rest call gets executed again. The url is an evaluated template string. That is how you can parameterize your rest calls.
   - Based on the state of the rest call various classes are added on the element containing the data-rest attribute. When the rest call is in progress it adds the **reken-rest-busy** class. When completed it adds the **reken-rest-done** class. When there was an error it contains a **reken-rest-error** class. This allows you to change the look of the UI during the various stages. An example is _&lt;tbody data-rest="myArray:myrestfile.json"/>_ for a file coming from the same domain. Or _&lt;div data-rest="myObject:path.to.the.object:http://someserver/thathasarestapi.json">_ 
-  **data-rest-options**: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.
+- **data-rest-options**: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.
   - Rest options also takes a **fetch** property when that is true the fetch call will get executed. When the Rest call is executed the fetch property will be reset to false. When the fetch option is set. Reken will no longer monitor the url and therefor will not longer execute the fetch when the url changed.
   - In case the text file coming from the Rest endpoint is not a JSON file. You can specify a transformer function with the **transformer** property, that gets called once the fetch completes. In the transformer function the text file can be transformed into an object. For example when loading a CSV or XML file. The transformer function gets 2 arguments: First argument is the string to be transformed and the 2nd argument is the options object. The transform function needs to return the object.
   - The options object will contain the response object of the latest executed fetch request under the **response** property.
@@ -139,6 +139,75 @@ It has the following public members:
 - **force_calculate** function; Force reken to run its model and update the UI. Normally this happens automatically when using Reken events. However if you have, for example, promises resolving that are not initiated by Reken, you can call `reken.force_calculate()`.
 - **forceCalculate** function; Deprecated. See `force_calculate`.
 
+## Gotchas / limitations
+In this section we discuss some of Reken's gotchas / limitations, hopefully this will help avoid you pulling your head out when you encounter them. We hope to address some of these at some point in the future, but nor guarantees.
+
+- data-action and other event handlers have an optional boolean argument in front of the action code. It is separated by a colon. So if your statement has a colon, it may see this as a seperator and you get this error: SyntaxError: Unexpected token ')'. You can fix this by preceding your action code with a `true:`
+
+Don't
+```
+data-action="myvar=x>10?20:10"
+```
+Do
+```
+data-action="true:myvar=x>10?20:10"
+```
+
+
+- data-bind argument names cannot contain uppercase characters or hyphens. You can however use underscores. 
+Don't
+```
+<template data-component="my-comp" data-bind-myVar>
+...
+<template data-component="my-comp" data-bind-my-var>
+...
+
+```
+Do
+```
+<template data-component="my-comp" data-bind-my_var>
+...
+```
+
+- Component definitions can only have 1 root element
+
+Don't
+```
+<template data-component="card-multi">
+  <header>Hello</header>
+  <main>Main body</main>
+  <footer></footer>
+</template>
+
+```
+Do
+```
+<template data-component="card-single">
+<section>
+  <header>Hello</header>
+  <main>Main body</main>
+  <footer></footer>
+</section>
+</template>
+```
+
+- Component definition can not have a Component as a root element. 
+
+Don't
+```
+<template data-component="my-comp">
+  <custom-component></custom-component>
+</template>
+
+```
+Do
+```
+<template data-component="my-comp">
+  <div>
+    <custom-component></custom-component>
+  </div>
+</template>
+```
 
 ## Acknowledgments
 
