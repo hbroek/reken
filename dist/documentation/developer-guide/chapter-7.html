@@ -1043,7 +1043,7 @@
 </ul>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">width</span>="<span class="pl-s">240</span>" <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${employee.photo}</span>"
-  <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${employee.name}</span>"/&gt;
+  <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${employee.name}</span>"<span class="pl-kos">/&gt;</span>
 ...
  [<span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-attr-href</span>="<span class="pl-s">tel:${employee.phone_number}</span>"
    <span class="pl-c1">data-text</span>="<span class="pl-s">${employee.phone_number}</span>"<span class="pl-kos">&gt;</span>
@@ -1057,7 +1057,7 @@
 <li>
 <strong>Conditional Rendering</strong>: Employ the <code>data-if</code> attribute to show or hide elements conditionally. For example, you can display different content based on user preferences.</li>
 </ul>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-if</span>="<span class="pl-s">showPhoto</span>" <span class="pl-c1">....</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-if</span>="<span class="pl-s">showPhoto</span>" <span class="pl-c1">....</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>In this example, we add a <code>data-if</code> attribute to the image to conditionally display the profile picture of the employee. If the <code>showPhoto</code> is <code>true</code> the photo is visible, if it is set to <code>false</code>, the photo is hidden.</p>
 <ul>
 <li>
@@ -1076,7 +1076,7 @@
  <span class="pl-c1">data-style</span>="<span class="pl-s">background:${employee.gender=='Female'</span>
 <span class="pl-s">  ? 'pink':employee.gender=='Male'</span>
 <span class="pl-s">  ?'lightblue':'lightgreen'};</span>
-<span class="pl-s">  height:0.25rem;border:0;</span>"/&gt;
+<span class="pl-s">  height:0.25rem;border:0;</span>"<span class="pl-kos">/&gt;</span>
 
 <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${employee.location}&lt;/i&gt;</span>"
  <span class="pl-c1">data-class</span>="<span class="pl-s">hq:employee.location=='Boston, MA'</span>"<span class="pl-kos">&gt;</span>
@@ -1109,7 +1109,7 @@
    <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${employee.item.name}</span>"
    <span class="pl-c1">data-attr-title</span>="<span class="pl-s">${employee.item.name}</span>"
    <span class="pl-c1">width</span>="<span class="pl-s">100%</span>"
-  /&gt;
+  <span class="pl-kos">/&gt;</span>
 ....
  <span class="pl-kos">&lt;/</span><span class="pl-ent">article</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
@@ -1136,7 +1136,7 @@
    Company Inc.
   <span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Photos:
-   <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">showPicture</span>"/&gt;
+   <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">showPicture</span>"<span class="pl-kos">/&gt;</span>
   <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span></pre></div>
@@ -1146,12 +1146,12 @@
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>...<span class="pl-kos">&lt;/</span><span class="pl-ent">span</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-on-input</span>="<span class="pl-s">filterString=e.target.value</span>" <span class="pl-c1">type</span>="<span class="pl-s">search</span>" <span class="pl-c1">placeholder</span>="<span class="pl-s">People filter</span>"/&gt;
-  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">...</span>/&gt;
+  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-on-input</span>="<span class="pl-s">filterString=e.target.value</span>" <span class="pl-c1">type</span>="<span class="pl-s">search</span>" <span class="pl-c1">placeholder</span>="<span class="pl-s">People filter</span>"<span class="pl-kos">/&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">...</span><span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;/</span><span class="pl-ent">nav</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">header</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-for</span>="<span class="pl-s">employee:employees.filter((emp)=&gt;emp.name.toLowerCase().indexOf(filterString.toLowerCase())&gt;=0)</span>"
-<span class="pl-c1">....</span></pre></div>
+<span class="pl-c1">....</span><span class="pl-kos"></span></pre></div>
 <p>In this example, we add a people filter control in the <code>nav</code> element. It updates the <code>filterString</code> variable. The content is used to filter the list of employees.</p>
 <ul>
 <li>
@@ -1162,11 +1162,11 @@
  <span class="pl-c1">data-if</span>="<span class="pl-s">employees</span>"<span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">Update employee ${employees[0].employee_number}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">form</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:1em;padding:2em;background:orange;display:grid;gap:1rem;grid-template-columns: 1fr 3fr;border-radius:0.5rem;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;</span>"<span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].name</span>"/&gt;
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">dept</span>"<span class="pl-kos">&gt;</span>Department:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">dept</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].department</span>"/&gt;
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">loc</span>"<span class="pl-kos">&gt;</span>Location:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">loc</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].location</span>"/&gt;
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">phone</span>"<span class="pl-kos">&gt;</span>Phone:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">phone</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].phone_number</span>"/&gt;
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"/&gt;
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].name</span>"<span class="pl-kos">/&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">dept</span>"<span class="pl-kos">&gt;</span>Department:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">dept</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].department</span>"<span class="pl-kos">/&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">loc</span>"<span class="pl-kos">&gt;</span>Location:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">loc</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].location</span>"<span class="pl-kos">/&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">phone</span>"<span class="pl-kos">&gt;</span>Phone:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">phone</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].phone_number</span>"<span class="pl-kos">/&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[0].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"<span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">main</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, we build a form that updates the first employee of our array of employees. It creates a <code>main</code> Element to host the form.  The <code>main</code> element contains a <code>h</code> element with the employee id and a <code>form</code> element. The <code>form</code> contains a several <code>label</code> / <code>input</code> combinations bound to the fields in the employee record with the <code>data-value</code> attribute.</p>
@@ -1177,8 +1177,8 @@
 <li>
 <strong>Data Fetching</strong>: The <code>data-rest</code> attribute allows you to fetch data from a REST API and bind it to JavaScript variables. This data can be automatically updated when the API endpoint changes.</li>
 </ul>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">employees:employees.json</span>" <span class="pl-c1">....</span></pre></div>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">employees:employees.json</span>" <span class="pl-c1">....</span><span class="pl-kos"></span></pre></div>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
 let employees;
 ...</pre></div>
 <p>In this example, we added a <code>data-rest</code> attribute with an attribute value that loads the <code>employee.json</code> file into the variable <code>employees</code>.</p>
@@ -1186,13 +1186,13 @@ let employees;
 <blockquote>
 <p><strong>NOTE</strong>: Since the <code>employee</code> variable is undefined until the JSON file gets loaded we need to hide all the content that relies on it with a <code>data-if</code> attribute.</p>
 </blockquote>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-if</span>="<span class="pl-s">employees</span>"  <span class="pl-c1">....</span></pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-if</span>="<span class="pl-s">employees</span>"  <span class="pl-c1">....</span><span class="pl-kos"></span></pre></div>
 <ul>
 <li>
 <strong>Response Handling</strong>: Reken provides classes like <code>reken-rest-busy</code>, <code>reken-rest-done</code>, and <code>reken-rest-error</code> that allow you to style elements based on the status of REST API requests. This is valuable for providing feedback to users during data retrieval.</li>
 </ul>
-<div class="highlight highlight-source-css"><pre>&lt;<span class="pl-ent">style</span><span class="pl-c1">&gt;</span>
- <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-busy</span> {
+<div class="highlight highlight-source-css"><pre>&lt;style<span class="pl-c1">&gt;</span>
+ body.<span class="pl-c1">reken-rest-busy</span> {
   <span class="pl-c1">background</span><span class="pl-kos">:</span> silver;
  }
  <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-done</span> {
@@ -1201,12 +1201,12 @@ let employees;
  <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-error</span> {
   <span class="pl-c1">background</span><span class="pl-kos">:</span> lightpink;
  }
- <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-error</span>::<span class="pl-ent">after</span> {
+ <span class="pl-ent">body</span>.<span class="pl-c1">reken-rest-error</span>::<span class="pl-c1">after</span> {
   <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">'Error loading employees!'</span>;
   <span class="pl-c1">font-size</span><span class="pl-kos">:</span> <span class="pl-c1">300<span class="pl-smi">%</span></span>;
  }
 ....
-&lt;<span class="pl-c1">/</span><span class="pl-c1">style</span><span class="pl-c1">&gt;</span></pre></div>
+&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
 <p>This example uses the <code>data-rest</code> managed classes that are added during the various phases of the REST call. When the file is being loaded, the <code>body</code> element's background gets the <code>silver</code> color as the class <code>reken-rest-busy</code> is present. When an error occurs during the REST call, the  <code>body</code> element's background turns red, and an error message is displayed. The background turns blue when the REST call is completed succesfully.</p>
 <div class="markdown-heading"><h2 class="heading-element">7.4 Setup Routing</h2><a id="user-content-74-setup-routing" class="anchor" aria-label="Permalink: 7.4 Setup Routing" href="#74-setup-routing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Reken provides a routing mechanism that makes it easy to make Single Page Applications (SPA). It also supports dynamic routing, where a page can be initialized with one or more parameters.</p>
@@ -1240,15 +1240,15 @@ let employees;
 <span class="pl-s"> border-radius:0.5rem;</span>
 <span class="pl-s"> box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;</span>"<span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">name</span>"<span class="pl-kos">&gt;</span>Name:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].name</span>"/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">name</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].name</span>"<span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">dept</span>"<span class="pl-kos">&gt;</span>Department:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">dept</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].department</span>"/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">dept</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].department</span>"<span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">loc</span>"<span class="pl-kos">&gt;</span>Location:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">loc</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].location</span>"/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">loc</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].location</span>"<span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">phone</span>"<span class="pl-kos">&gt;</span>Phone:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">phone</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].phone_number</span>"/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">phone</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].phone_number</span>"<span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span> <span class="pl-c1">for</span>="<span class="pl-s">email</span>"<span class="pl-kos">&gt;</span>Email:<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">id</span>="<span class="pl-s">email</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">employees[employeeIndex].email</span>" <span class="pl-c1">type</span>="<span class="pl-s">email</span>"<span class="pl-kos">/&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">form</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>" <span class="pl-c1">data-action</span>="<span class="pl-s">history.back();</span>"<span class="pl-kos">&gt;</span>Back<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span></pre></div>
 <p>In this example, the input controls are updated to point to the employee based on the <code>employeeIndex</code> instead of <code>0</code>. At the bottom, a <code>button</code> to return to the employee list page is added.</p>
@@ -1272,11 +1272,11 @@ let employees;
 <span class="pl-s">   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;overflow:hidden;background:white;</span>"<span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-if</span>="<span class="pl-s">photo</span>" <span class="pl-c1">data-attr-src</span>="<span class="pl-s">${person.photo}</span>"
    <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture of employee ${person.name}</span>" <span class="pl-c1">data-attr-title</span>="<span class="pl-s">${person.name}</span>"
-   <span class="pl-c1">style</span>="<span class="pl-s">width:320px;height:320px;</span>" /&gt;
+   <span class="pl-c1">style</span>="<span class="pl-s">width:320px;height:320px;</span>" <span class="pl-kos">/&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">style</span>="<span class="pl-s">margin:0.25rem;margin-bottom:1rem;position:relative;</span>"<span class="pl-kos">&gt;</span>
    <span class="pl-kos">&lt;</span><span class="pl-ent">h1</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${person.name}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h1</span><span class="pl-kos">&gt;</span>
    <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span> <span class="pl-c1">data-if</span>="<span class="pl-s">!photo</span>"
-    <span class="pl-c1">data-style</span>="<span class="pl-s">background:${person.gender=='Female'?'pink':person.gender=='Male'?'lightblue':'lightgreen'};height:0.25rem;border:0</span>" /&gt;
+    <span class="pl-c1">data-style</span>="<span class="pl-s">background:${person.gender=='Female'?'pink':person.gender=='Male'?'lightblue':'lightgreen'};height:0.25rem;border:0</span>" <span class="pl-kos">/&gt;</span>
    <span class="pl-kos">&lt;</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">u</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${person.department}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">u</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">small</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h2</span><span class="pl-kos">&gt;</span>
    <span class="pl-kos">&lt;</span><span class="pl-ent">h3</span> <span class="pl-c1">data-html</span>="<span class="pl-s">&lt;i&gt;${person.location}&lt;/i&gt;</span>"
     <span class="pl-c1">data-class</span>="<span class="pl-s">hq:person.location=='Boston, MA'</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">h3</span><span class="pl-kos">&gt;</span>
@@ -1355,7 +1355,7 @@ let employees;
 <span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 
 <span class="pl-kos">&lt;</span><span class="pl-ent">a</span> <span class="pl-c1">data-action</span>="<span class="pl-s">message=`Editing employee ${person.name}`</span>"
- <span class="pl-c1">...</span>/&gt;
+ <span class="pl-c1">...</span><span class="pl-kos">/&gt;</span>
  Back
 <span class="pl-kos">&lt;/</span>a<span class="pl-kos">&gt;</span></pre></div>
 <p>These fragments edit/add event handlers to set the status message. Once the status message is set the <code>footer</code> element is animated in view for 2 seconds.</p>

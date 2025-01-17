@@ -1122,7 +1122,12 @@ The variable vrb will contain the propery <strong>index</strong> and when bound 
 <p><strong>data-rest</strong>: Takes a javascript variable and a rest service JSON endpoint url, separated by a colon. Once the rest service call is resolved the javascript variable contains the object representing the json. An optional property path in the resultset can be specified. When the url changes the rest call gets executed again. The url is an evaluated template string. That is how you can parameterize your rest calls.</p>
 <ul>
 <li>Based on the state of the rest call various classes are added on the element containing the data-rest attribute. When the rest call is in progress it adds the <strong>reken-rest-busy</strong> class. When completed it adds the <strong>reken-rest-done</strong> class. When there was an error it contains a <strong>reken-rest-error</strong> class. This allows you to change the look of the UI during the various stages. An example is <em>&lt;tbody data-rest="myArray:myrestfile.json"/&gt;</em> for a file coming from the same domain. Or <em>&lt;div data-rest="myObject:path.to.the.object:<a href="http://someserver/thathasarestapi.json%22%3E" rel="nofollow">http://someserver/thathasarestapi.json"&gt;</a></em>
-<strong>data-rest-options</strong>: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.</li>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>data-rest-options</strong>: Takes a javascript object with properties to set on the Fetch call initiated by the data-rest attribute.</p>
+<ul>
 <li>Rest options also takes a <strong>fetch</strong> property when that is true the fetch call will get executed. When the Rest call is executed the fetch property will be reset to false. When the fetch option is set. Reken will no longer monitor the url and therefor will not longer execute the fetch when the url changed.</li>
 <li>In case the text file coming from the Rest endpoint is not a JSON file. You can specify a transformer function with the <strong>transformer</strong> property, that gets called once the fetch completes. In the transformer function the text file can be transformed into an object. For example when loading a CSV or XML file. The transformer function gets 2 arguments: First argument is the string to be transformed and the 2nd argument is the options object. The transform function needs to return the object.</li>
 <li>The options object will contain the response object of the latest executed fetch request under the <strong>response</strong> property.</li>
@@ -1195,6 +1200,68 @@ You can also specify component state by specifying a script tag and initialize v
 <li>
 <strong>forceCalculate</strong> function; Deprecated. See <code>force_calculate</code>.</li>
 </ul>
+<div class="markdown-heading"><h2 class="heading-element">Gotchas / limitations</h2><a id="user-content-gotchas--limitations" class="anchor" aria-label="Permalink: Gotchas / limitations" href="#gotchas--limitations"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>In this section we discuss some of Reken's gotchas / limitations, hopefully this will help avoid you pulling your head out when you encounter them. We hope to address some of these at some point in the future, but nor guarantees.</p>
+<ul>
+<li>data-action and other event handlers have an optional boolean argument in front of the action code. It is separated by a colon. So if your statement has a colon, it may see this as a seperator and you get this error: SyntaxError: Unexpected token ')'. You can fix this by preceding your action code with a <code>true:</code>
+</li>
+</ul>
+<p>Don't</p>
+<pre><code>data-action="myvar=x&gt;10?20:10"
+</code></pre>
+<p>Do</p>
+<pre><code>data-action="true:myvar=x&gt;10?20:10"
+</code></pre>
+<ul>
+<li>data-bind argument names cannot contain uppercase characters or hyphens. You can however use underscores.
+Don't</li>
+</ul>
+<pre><code>&lt;template data-component="my-comp" data-bind-myVar&gt;
+...
+&lt;template data-component="my-comp" data-bind-my-var&gt;
+...
+
+</code></pre>
+<p>Do</p>
+<pre><code>&lt;template data-component="my-comp" data-bind-my_var&gt;
+...
+</code></pre>
+<ul>
+<li>Component definitions can only have 1 root element</li>
+</ul>
+<p>Don't</p>
+<pre><code>&lt;template data-component="card-multi"&gt;
+  &lt;header&gt;Hello&lt;/header&gt;
+  &lt;main&gt;Main body&lt;/main&gt;
+  &lt;footer&gt;&lt;/footer&gt;
+&lt;/template&gt;
+
+</code></pre>
+<p>Do</p>
+<pre><code>&lt;template data-component="card-single"&gt;
+&lt;section&gt;
+  &lt;header&gt;Hello&lt;/header&gt;
+  &lt;main&gt;Main body&lt;/main&gt;
+  &lt;footer&gt;&lt;/footer&gt;
+&lt;/section&gt;
+&lt;/template&gt;
+</code></pre>
+<ul>
+<li>Component definition can not have a Component as a root element.</li>
+</ul>
+<p>Don't</p>
+<pre><code>&lt;template data-component="my-comp"&gt;
+  &lt;custom-component&gt;&lt;/custom-component&gt;
+&lt;/template&gt;
+
+</code></pre>
+<p>Do</p>
+<pre><code>&lt;template data-component="my-comp"&gt;
+  &lt;div&gt;
+    &lt;custom-component&gt;&lt;/custom-component&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
 <div class="markdown-heading"><h2 class="heading-element">Acknowledgments</h2><a id="user-content-acknowledgments" class="anchor" aria-label="Permalink: Acknowledgments" href="#acknowledgments"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <ul>
 <li>

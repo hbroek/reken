@@ -1061,11 +1061,11 @@
 <p>With input types <code>text</code> and similarly <code>search</code>, <code>email</code>, <code>password</code>, <code>tel</code> and <code>url</code> all bind to a string. They differ in that they have some validation and/or additional affordances on the control.</p>
 <p>When using the <code>data-value</code> attribute the javascript string value will be applied to the input control and when the value is changed in the input control, the variable gets updated.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userName</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">text</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">userName</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>Likewise with the input type number field, but instead of binding a string value, we bind a integer or number value. The input control typically has additional affordance to increment or decrement the value.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.2 type='number'</h3><a id="user-content-432-typenumber" class="anchor" aria-label="Permalink: 4.3.2 type='number'" href="#432-typenumber"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">number</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user interacts with the input field, the <code>age</code> variable will be updated automatically, and changes to the variable will be reflected in the input field.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.3 type='date'</h3><a id="user-content-433-typedate" class="anchor" aria-label="Permalink: 4.3.3 type='date'" href="#433-typedate"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>With input types <code>text</code> and similarly <code>datetime-local</code>, <code>month</code>, <code>time</code>, and <code>week</code> all bind to a string representing date and/or time. They differ in that they have some validation and/or additional affordances on the control.</p>
@@ -1073,7 +1073,7 @@
 <p><strong>Note:</strong> It is important to initialize the variable with a string value that is compatible with the date format that is expected.</p>
 </blockquote>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">date</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">birthday</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">date</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">birthday</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user interacts with the input field, the <code>birthday</code> variable will be updated automatically, and changes to the variable will reflect in the input field.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.4 type='color'</h3><a id="user-content-434-typecolor" class="anchor" aria-label="Permalink: 4.3.4 type='color'" href="#434-typecolor"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Input type <code>color</code> binds to a string representing the hex value of a color.</p>
@@ -1081,31 +1081,31 @@
 <p><strong>Note:</strong> It is important to initialize the variable with a string value that is empty or a six-digit RGB hex-value preceded with a <code>#</code>. i.e. <code>#762828</code></p>
 </blockquote>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">favoriteColor</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">favoriteColor</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user interacts with the input field, the <code>favoriteColor</code> variable will be updated automatically, and changes to the variable will be reflected in the input field.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.5 type='range'</h3><a id="user-content-435-typerange" class="anchor" aria-label="Permalink: 4.3.5 type='range'" href="#435-typerange"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Input type <code>range</code> binds to an integer variable. As mentioned earlier, when binding a variable to a <code>type=range</code> input control, the variable gets updated through an <code>input event</code>. This means that user manipulates the range control (typically via slider control), and the bound variable updates instantly. Not when he finishes. The advantage is that the UI can react to the updating variable in real time.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">age</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user moves the slider with the input field, the <code>age</code> variable will be updated automatically, and changes to the variable will be reflected in the input field.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.6 type='radio'</h3><a id="user-content-436-typeradio" class="anchor" aria-label="Permalink: 4.3.6 type='radio'" href="#436-typeradio"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>A radio input control works in concert with other radio input controls, which are grouped by the same <code>name</code> attribute (a set). The function of the radio controls is to have the user select one of the values. By clicking an unselected value, it is selected, and the previously selected value is deselected. To bind the set of radio controls to a javascript value, specify on each of the radio controls a <code>data-value</code> with the same variable name.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">female</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;
-<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">male</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;
-<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">other</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">female</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"<span class="pl-kos">/&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">male</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"<span class="pl-kos">/&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">radio</span>" <span class="pl-c1">name</span>="<span class="pl-s">gender</span>" <span class="pl-c1">value</span>="<span class="pl-s">other</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">genderValue</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user selects one of the radio controls, the <code>genderValue</code> variable will be updated automatically with the <code>value</code> specified in the control, and changes to the variable will be represented by the appropriate radio control being checked.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.7 type='checkbox'</h3><a id="user-content-437-typecheckbox" class="anchor" aria-label="Permalink: 4.3.7 type='checkbox'" href="#437-typecheckbox"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>The checkbox input control can be bound in two ways.</p>
 <p>First, similar to the radio input control, the checkbox can work in concert with other checkbox input controls grouped by the same <code>name</code> attribute (a set). The function of the checkbox controls is to have the user select zero, one, or more of the values.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">nuts</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"/&gt;
-<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">dust</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"/&gt;
-<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">bees</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">nuts</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"<span class="pl-kos">/&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">dust</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"<span class="pl-kos">/&gt;</span>
+<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">name</span>="<span class="pl-s">allergies</span>" <span class="pl-c1">value</span>="<span class="pl-s">bees</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">allergyValues</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user selects one or more of the checkboxes, the <code>allergyValues</code> variable will be updated automatically with the values specified in the controls by an array, and changes to the variable array will be represented by the appropriate checkboxes being checked.</p>
 <p>Second, the checkbox can work by itself (i.e,. no <code>name</code> attribute). In this case, its <code>data-value</code> is bound to a <code>boolean</code> variable.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">vegetarianValue</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">checkbox</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">vegetarianValue</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>When the user selects the checkbox, the <code>vegetarianValue</code> variable will be automatically set to <code>true</code>, and when unchecked, set to <code>false</code>. Changes to the boolean variable will either check or uncheck the checkbox depending on the boolean value it is set to.</p>
 <div class="markdown-heading"><h3 class="heading-element">4.3.8 type='file'</h3><a id="user-content-438-typefile" class="anchor" aria-label="Permalink: 4.3.8 type='file'" href="#438-typefile"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p>Input type <code>file</code> data binding works a slightly differently than the other input controls. It is not a 2-way binding. It is a 1-way binding. The user picks a file, and then the binding variable gets updated with a File object. The File object will contain at least a <code>data</code> property which is the object representation of the JSON string that is loaded.</p>
@@ -1157,7 +1157,7 @@
 <p><strong><code>data-attr-[attrName]</code>="[template string] | [boolean expression]"</strong></p>
 <p>The <code>data-attr-[attr]</code> attribute allows you to set any HTML element’s attribute value dynamically. You can update the attribute with a template string.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-src</span>="<span class="pl-s">img/${imageUrl}</span>" <span class="pl-c1">width</span>="<span class="pl-s">120</span>"/&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">img</span> <span class="pl-c1">data-attr-src</span>="<span class="pl-s">img/${imageUrl}</span>" <span class="pl-c1">width</span>="<span class="pl-s">120</span>"<span class="pl-kos">/&gt;</span></pre></div>
 <p>Here, the <code>src</code> attribute of the <code>&lt;img&gt;</code> element will be set to the value of the <code>imageUrl</code> JavaScript variable. We set the width of the image to 120 pixels.</p>
 <p>Boolean HTML attributes such as <code>disabled</code>, <code>readonly</code> etc should be bound to a boolean variable.</p>
 <p><strong>Example:</strong></p>
@@ -1271,7 +1271,7 @@
  <span class="pl-c1">data-attr-src</span>="<span class="pl-s">photos/${picture.item}</span>"
  <span class="pl-c1">data-attr-alt</span>="<span class="pl-s">Picture ${picture.itemIndex}</span>"
  <span class="pl-c1">width</span>="<span class="pl-s">200</span>"
-/&gt;
+<span class="pl-kos">/&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">section</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">type</span>="<span class="pl-s">button</span>"
  <span class="pl-c1">data-action</span>="<span class="pl-s">firstPicture=firstPicture-1;</span>"
@@ -1287,9 +1287,9 @@
 <p><strong><code>data-action</code>="[code to execute]"</strong></p>
 <p>The <code>data-action</code> attribute allows you to execute JavaScript code responding to a click event. Basically, it is a convenience wrapper around a native <code>click</code> event handler, which also invokes the <code>Reken</code> model to execute.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
 let counter = 0;
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-action</span>="<span class="pl-s">counter=counter+1</span>"<span class="pl-kos">&gt;</span>Increment<span class="pl-kos">&lt;/</span><span class="pl-ent">button</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${counter}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span></pre></div>
 <p>When the button is clicked, the <code>counter</code> variable is increased by <code>1</code>. The <code>output</code> Element is updated with the new <code>counter</code> value.</p>
@@ -1302,9 +1302,9 @@ let counter = 0;
 <p><strong><code>data-on-[event]</code>="[code to execute]"</strong></p>
 <p>The <code>data-on-</code> attribute is similar to <code>data-action</code> but is used for executing JavaScript code in response to any native event. Identical to the <code>data-action</code> attribute, the <code>e</code> variable provides access to the event details.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
 let x = y = 0;
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">div</span>
  <span class="pl-c1">data-on-mousemove</span>="<span class="pl-s">x=e.clientX;y=e.clientY</span>"
  <span class="pl-c1">style</span>="<span class="pl-s">width:200px;height:200px;background:pink;</span>"
@@ -1382,7 +1382,7 @@ let x = y = 0;
 <li>
 <code>reken-rest-error</code> after the call finished unsuccessfully.</li>
 </ul>
-<div class="highlight highlight-source-css"><pre>&lt;<span class="pl-ent">style</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-css"><pre>&lt;style<span class="pl-c1">&gt;</span>
 .<span class="pl-c1">reken-rest-busy</span> {
  <span class="pl-c1">background</span><span class="pl-kos">:</span> silver;
 }
@@ -1392,7 +1392,7 @@ let x = y = 0;
 .<span class="pl-c1">reken-rest-error</span> {
  <span class="pl-c1">background</span><span class="pl-kos">:</span> pink;
 }
-&lt;<span class="pl-c1">/</span><span class="pl-ent">style</span><span class="pl-c1">&gt;</span></pre></div>
+&lt;<span class="pl-c1">/</span>style<span class="pl-c1">&gt;</span></pre></div>
 <p>In this example, we show how one could style the Reken Rest status classes. When the data is loading(<code>data-rest-busy</code>) the background of the element that contains the <code>data-rest</code> attribute displays with a gray background. It displays green (<code>reken-rest-done</code>) when it was successful and pink (<code>reken-rest-error</code>) when it failed.</p>
 <div class="markdown-heading"><h2 class="heading-element">4.14 data-rest-options</h2><a id="user-content-414-data-rest-options" class="anchor" aria-label="Permalink: 4.14 data-rest-options" href="#414-data-rest-options"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
 <p><strong>Syntax:</strong></p>
@@ -1435,7 +1435,7 @@ let x = y = 0;
 <code>reviver</code>: If this function reference property is specified, it will do a callback on each loaded object property with the name of the property and the value and return a transformed or untransformed value. This is useful when recreating, for example, Date objects from a JSON Date string.</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
   let message = 'Loading...'
   let statusOptions = <span class="pl-kos">{</span>
       <span class="pl-en">callback</span>: <span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">,</span> <span class="pl-s1">json_object</span><span class="pl-kos">)</span> <span class="pl-c1">=</span><span class="pl-c1">&gt;</span> <span class="pl-kos">{</span>
@@ -1447,7 +1447,7 @@ let x = y = 0;
           <span class="pl-s1">prop_name</span> <span class="pl-c1">===</span> <span class="pl-s">'created'</span>?<span class="pl-k">new</span> <span class="pl-v">Date</span><span class="pl-kos">(</span><span class="pl-s1">prop_value</span><span class="pl-kos">)</span>:<span class="pl-s1">prop_value</span>
   <span class="pl-kos">}</span>
   let orders;
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
     <span class="pl-kos">&lt;</span><span class="pl-ent">main</span> <span class="pl-c1">data-rest</span>="<span class="pl-s">orders:array.json</span>" <span class="pl-c1">data-rest-options</span>="<span class="pl-s">fetchOptions</span>" <span class="pl-kos">&gt;</span>
         <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-for</span>="<span class="pl-s">order:orders</span>"<span class="pl-kos">&gt;</span>
@@ -1463,18 +1463,18 @@ let x = y = 0;
 <p><strong><code>data-calc</code></strong></p>
 <p>The <code>data-calc</code> attribute is used to mark a script to have its contents executed everytime there is a model update. It helps recalculate formulas or transform data loaded by a REST service.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
 let fahrenheit = 0;
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
 
 <span class="pl-c1">&lt;</span><span class="pl-s1">script</span> <span class="pl-s1">data</span><span class="pl-c1">-</span><span class="pl-s1">calc</span><span class="pl-c1">&gt;</span>
-<span class="pl-s1">let</span> <span class="pl-s1">celsius</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">fahrenheit</span> <span class="pl-c1">-</span> <span class="pl-c1">32</span><span class="pl-kos">)</span> <span class="pl-c1">*</span> <span class="pl-c1">5</span> <span class="pl-c1">/</span> <span class="pl-c1">9</span><span class="pl-kos">;</span>
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-k">let</span> <span class="pl-s1">celsius</span> <span class="pl-c1">=</span> <span class="pl-kos">(</span><span class="pl-s1">fahrenheit</span> <span class="pl-c1">-</span> <span class="pl-c1">32</span><span class="pl-kos">)</span> <span class="pl-c1">*</span> <span class="pl-c1">5</span> <span class="pl-c1">/</span> <span class="pl-c1">9</span><span class="pl-kos">;</span>
+<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Fahrenheit:
-  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-value</span>="<span class="pl-s">fahrenheit</span>" <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">140</span>"/&gt;
+  <span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">data-value</span>="<span class="pl-s">fahrenheit</span>" <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">140</span>"<span class="pl-kos">/&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${fahrenheit}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-<span class="pl-kos">&lt;</span><span class="pl-ent">hr</span>/&gt;
+<span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">/&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Celsius:
   <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${celsius.toFixed(1)}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span></pre></div>
@@ -1631,18 +1631,18 @@ Variable content in the component can be specified with the <code>slot</code> ta
 <p>In the example, the <code>color-box</code> component is referenced three times. First, with a color <strong>green</strong>, then <strong>blue</strong>, and lastly, without specifying a color, which displays the default color <strong>red</strong>.</p>
 <p>Besides string literals, the argument values can also be specified as template strings.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
   let red = 125;
   let green = 20;
   let blue = 200;
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">rgb(${redColor},${greenColor},${blue})</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">fieldset</span> <span class="pl-c1">style</span>="<span class="pl-s">display:flex</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>RGB color picker<span class="pl-kos">&lt;/</span><span class="pl-ent">legend</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">red</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Green:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">green</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
-  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Blue:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">blue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">red</span>"<span class="pl-kos">/&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Green:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">green</span>"<span class="pl-kos">/&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Blue:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">range</span>" <span class="pl-c1">min</span>="<span class="pl-s">0</span>" <span class="pl-c1">max</span>="<span class="pl-s">255</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">blue</span>"<span class="pl-kos">/&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;/</span><span class="pl-ent">fieldset</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
@@ -1653,13 +1653,13 @@ Variable content in the component can be specified with the <code>slot</code> ta
 <p>In this example we use the same <code>color-box</code> component as in the previous example. But now we pass in a template string that constructs an <code>RGB</code> color definition. The RGB colors are based on the <code>red</code>, <code>green</code>, and <code>blue</code> javascript variables. The example also defines a range input control for each color. With these controls, the user can tweak the color displayed in the <code>color-box</code> component.</p>
 <p>Lastly, a variable can be passed into as an attribute variable. This variable must exist during the Reken initialization phase of the page; if it does not, it will be considered a string literal.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
   let hexColorValue = '#FF0000';
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">color-box</span> <span class="pl-c1">color</span>="<span class="pl-s">hexColorValue</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-box</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">hexColorValue</span>"/&gt;<span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
+ <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Red:<span class="pl-kos">&lt;</span><span class="pl-ent">input</span> <span class="pl-c1">type</span>="<span class="pl-s">color</span>" <span class="pl-c1">data-value</span>="<span class="pl-s">hexColorValue</span>"<span class="pl-kos">/&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">color-box</span>" <span class="pl-c1">data-arg-color</span>="<span class="pl-s">red</span>"<span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">div</span> <span class="pl-c1">data-style</span>="<span class="pl-s">background:${color};width:100px;height:100px;</span>"<span class="pl-kos">&gt;</span>
@@ -1677,13 +1677,13 @@ Variable content in the component can be specified with the <code>slot</code> ta
 <p>With the <code>data-bind-*</code> attribute, a custom component bindable attribute can be defined. With a bindable attribute, a custom component can modify the variable's value.</p>
 <p>A bindable attribute on a custom component can be set by specifying the <code>data-bind-[component-attribute]=value</code> or the short form with <code>component-attribute=value</code>.</p>
 <p>s<strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
   let chosenColor = '';
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">html</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">color-chooser</span> <span class="pl-c1">color</span>="<span class="pl-s">chosenColor</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">color-chooser</span><span class="pl-kos">&gt;</span>
- <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span>/&gt;
+ <span class="pl-kos">&lt;</span><span class="pl-ent">hr</span><span class="pl-kos">/&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>Color:
   <span class="pl-kos">&lt;</span><span class="pl-ent">output</span> <span class="pl-c1">data-text</span>="<span class="pl-s">${chosenColor}</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">output</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;/</span><span class="pl-ent">label</span><span class="pl-kos">&gt;</span>
@@ -1735,9 +1735,9 @@ Variable content in the component can be specified with the <code>slot</code> ta
 <p><strong><code>data-ref="javascript variable"</code></strong></p>
 <p>The <code>data-ref</code> attribute is used to specify a variable name to which Reken assigns the element reference of the attribute's HTML element. This is useful for working with specific elements, such as setting focus or using third-party libraries that need object references.</p>
 <p><strong>Example:</strong></p>
-<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span>
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">&lt;</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span>
 let buttonRef;
-<span class="pl-c1">&lt;</span><span class="pl-c1">/</span><span class="pl-ent">script</span><span class="pl-c1">&gt;</span></pre></div>
+<span class="pl-kos">&lt;/</span><span class="pl-s1">script</span><span class="pl-c1">&gt;</span></pre></div>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">button</span> <span class="pl-c1">data-ref</span>="<span class="pl-s">buttonRef</span>"
   <span class="pl-c1">data-action</span>="<span class="pl-s">console.log(buttonRef)</span>"<span class="pl-kos">&gt;</span>
