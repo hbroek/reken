@@ -1065,9 +1065,9 @@
 </ul>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-  .hq::after {
-   content: ' !!!';
-   font-size: small;
+  .<span class="pl-c1">hq</span>::<span class="pl-c1">after</span> {
+   <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">' !!!'</span>;
+   <span class="pl-c1">font-size</span><span class="pl-kos">:</span> small;
   }
  <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;/</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
@@ -1261,9 +1261,9 @@ let employees;
 <p>In this section, we create a card component that display the employee's info.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">card</span>" <span class="pl-c1">data-arg-person</span> <span class="pl-c1">data-arg-photo</span>="<span class="pl-s">true</span>" <span class="pl-c1">data-arg-edit_link</span>=""<span class="pl-kos">&gt;</span>
  <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-  :host&gt;div .hq::after {
-   content: '☺';
-   font-size: small;
+  <span class="pl-kos">:</span><span class="pl-c1">host</span><span class="pl-c1">&gt;</span>div .<span class="pl-c1">hq</span>::<span class="pl-c1">after</span> {
+   <span class="pl-c1">content</span><span class="pl-kos">:</span> <span class="pl-s">'☺'</span>;
+   <span class="pl-c1">font-size</span><span class="pl-kos">:</span> small;
   }
  <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
 

@@ -1123,12 +1123,12 @@
 <p>Reken supports component styling, allowing you to style a component without affecting the styles of elements not part of the component.</p>
 <div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">head</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-    div {
-      background: red;
-      color:white;
+    <span class="pl-ent">div</span> {
+      <span class="pl-c1">background</span><span class="pl-kos">:</span> red;
+      <span class="pl-c1">color</span><span class="pl-kos">:</span>white;
     }
-    div &gt; span {
-      background-color: purple;
+    <span class="pl-ent">div</span> <span class="pl-c1">&gt;</span> <span class="pl-ent">span</span> {
+      <span class="pl-c1">background-color</span><span class="pl-kos">:</span> purple;
     }
 
   <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
@@ -1142,11 +1142,11 @@
 <span class="pl-kos">&lt;/</span><span class="pl-ent">body</span><span class="pl-kos">&gt;</span>
 <span class="pl-kos">&lt;</span><span class="pl-ent">template</span> <span class="pl-c1">data-component</span>="<span class="pl-s">my-style</span>"<span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
-    :host {
-      background: green;
+    <span class="pl-kos">:</span><span class="pl-c1">host</span> {
+      background<span class="pl-kos">:</span> green;
     }
-    :host &gt; span {
-      background: blue;
+    <span class="pl-kos">:</span><span class="pl-c1">host</span> <span class="pl-c1">&gt;</span> span {
+      background<span class="pl-kos">:</span> blue;
     }
   <span class="pl-kos">&lt;/</span><span class="pl-ent">style</span><span class="pl-kos">&gt;</span>
   <span class="pl-kos">&lt;</span><span class="pl-ent">div</span><span class="pl-kos">&gt;</span>
