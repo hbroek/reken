@@ -743,7 +743,15 @@
       const url12 = 'json/array.json'
     </script>
     <div id="r12" data-rest="r12:[2]:${url12}" data-text="${r12?.name}">
-    </ul>
+    </div>
+
+    <script>
+      let r13;
+      const url13 = 'json/one.json'
+    </script>
+    <div id="r13" data-rest="r13::${url13}" data-text="${r13?.theNumber}"></div>
+
+    </div>
 
   </section>
   <hr>
@@ -2737,6 +2745,11 @@
         await waitFor(2000, () => checkForClass($('r12'), "reken-rest-done"));
         expect($('r12')).to.have.text('oranges');
       })
+      it('Load a value from json file and display in a div thru js var r13.theNumber', async function () {
+        await waitFor(2000, () => checkForClass($('r13'), "reken-rest-done"));
+        expect($('r13')).to.have.text('1')
+      })
+
 
     })
     describe('data-calc tests', () => {

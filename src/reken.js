@@ -316,7 +316,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.12.0';
+    reken.version = '0.9.13.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -798,7 +798,7 @@ class $RekenBase {
                     }
                     case "calc":
                         if (elem.tagName === 'SCRIPT')
-                            controlCode.second.push(elem.textContent.trim());
+                            controlCode.second.push(indent+elem.textContent.trim());
                         else
                             controlCode.third.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
                         break;
@@ -909,6 +909,10 @@ class $RekenBase {
                         let _url = value.substring(value.indexOf(':') + 1);
                         let path = '';
                         let nextTokenIndex = _url.indexOf(':')
+
+                        if (nextTokenIndex == 0)
+                            _url = _url.substring(1);
+
                         if (nextTokenIndex > 0 && !(_url.startsWith('http')||_url.startsWith('${'))) {
                             path = (_url.startsWith('[')?'':'.') + _url.substring(0, nextTokenIndex);
                             _url = _url.substring(nextTokenIndex + 1);
