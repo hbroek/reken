@@ -47,9 +47,12 @@
             position: absolute;
         }
     </style>
-    <div
-        data-on-pointermove="x=parseInt(e.offsetX/e.target.offsetWidth*100);y=parseInt(e.offsetY/e.target.offsetHeight*100)">
-        <div data-style="left: ${x*root.offsetWidth/100}px; top: ${y*root.offsetHeight/100}px"></div>
+    <script>
+    let picker
+    </script>
+    <div data-ref="picker"
+        data-on-pointermove="if(e.target==picker){x=parseInt(e.offsetX/e.target.offsetWidth*100);y=parseInt(e.offsetY/e.target.offsetHeight*100);}">
+        <div data-style="left: ${x*picker.offsetWidth/100}px; top: ${y*picker.offsetHeight/100}px"></div>
     </div>
 
 </template>

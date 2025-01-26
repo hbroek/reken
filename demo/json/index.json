@@ -4,7 +4,7 @@
     {"name": "array-and-selections.html", "tags":["data-action","data-attr-", "data-value", "data-for"]},
     {"name": "asteroids.html", "tags":["data-attr-", "data-on-", "data-value", "data-for", "data-if", "data-change", "data-calc", "data-rest"]},
     {"name": "chart-css.html", "tags":["data-value","data-action","data-attr-","data-text","data-style"]},
-    {"name": "component-bindable-attributes.html", "tags":["data-text","data-bind-","data-on-","data-style","data-include","data-text","data-if","data-rest","data-rest-options"]},
+    {"name": "component-bindable-attributes.html", "tags":["data-text","data-bind-","data-on-","data-style","data-include","data-text","data-if","data-rest","data-rest-options", "data-ref"]},
     {"name": "components.html", "tags":["data-rest","data-if","data-for","data-include","data-component","data-arg-","data-text"]},
     {"name": "datalist.html", "tags":["data-component","data-arg-","data-value", "data-text", "data-if", "data-class", "data-text"]},
     {"name": "dialog.html", "tags":["data-component","data-arg-","data-value", "data-on-"]},
