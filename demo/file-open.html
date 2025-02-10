@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css"/>
     <title>Open a Json file using the file input control</title>
-    <script>
-        let file;
-    </script>
 </head>
 
 <body>
@@ -25,7 +22,7 @@
                     <h3>Open a JSON file</h3>
                     <h5>Note it will not get uploaded to a server, it will stay in your browser</h5>
                 </header>
-                <label>Pick a JSON file:<input data-value="file" type="file" accept=".json"></label>
+                <label>Pick a JSON file:<input data-value="file = null" type="file" accept=".json"></label>
                 <div data-if="file">Results
                     <h3 data-text="Name: ${file.name}"></h3>
                     <h3 data-text="Epoch time: ${file.lastModified}"></h3>

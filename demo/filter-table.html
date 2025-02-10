@@ -9,21 +9,12 @@
     <link rel="stylesheet" href="../assets/reken.css" />
 
     <title>Filter People in table</title>
-    <script>
-        var restResults = [];
-        var filterResults = [];
-        var filterString = '';
-    </script>
     <style>
         section {
             flex-direction: column;
             align-items: center;
         }
     </style>
-
-    <script data-calc>
-        filterResults = restResults.filter(row => (filterResults == '' || row.name.indexOf(filterString) >= 0 || row.email.indexOf(filterString) >= 0));
-    </script>
 </head>
 
 <body>
@@ -37,8 +28,8 @@
                 <header>
                     <h3>Filter box</h3>
                 </header>
-                <label>Filter by:<input data-on-input="filterString=e.target.value" type="search"></label><span
-                    data-text="Rows: ${filterResults.length}"></span>
+                <label>Filter by:<input data-on-input="filterString=e.target.value" type="search" data-value="filterString=''"></label><span
+                    data-text="Rows: ${restResults.filter(row => (filterString == '' || row.name.indexOf(filterString) >= 0 || row.email.indexOf(filterString) >= 0)).length}"></span>
             </form>
         </section>
         <section>
@@ -49,7 +40,7 @@
                         <th>Name</th>
                         <th>Email</th>
                     </thead>
-                    <tbody data-for="person:filterResults" data-rest="restResults:json/people.json">
+                    <tbody data-for="person:restResults.filter(row => (filterString == '' || row.name.indexOf(filterString) >= 0 || row.email.indexOf(filterString) >= 0))" data-rest="restResults=[]:json/people.json">
                         <tr>
                             <td data-text="${person.index+1}"></td>
                             <td data-text="${person.item.name}"></td>

@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="../assets/reken.css"/>
 
     <title>Reken - List - details</title>
-    <script>
-        let restResults = [];
-        let person;
-    </script>
     <style>
         table {
             overflow-x:initial;
@@ -40,7 +36,7 @@
                     <th>Email</th>
                     <th>Edit</th>
                 </thead>
-                <tbody data-for="person:restResults" data-rest="restResults:json/people.json">
+                <tbody data-for="person:restResults" data-rest="let restResults = []:json/people.json">
                     <tr>
                         <td data-text="${person.index+1}"></td>
                         <td data-text="${person.item.name}"></td>
@@ -51,19 +47,19 @@
             </table>
         </section>
     </main>
-    <main data-route="/person/#personid">
+    <main data-var="selectedPerson" data-route="/person/#personid" data-on-hashchange="console.log(selectedPerson. personid)">
         <form>
-            <label>Name:<input data-value="person.name"></label>
-            <label>Email:<input data-value="person.email"></label>
-            <label>Address:<input data-value="person.address"></label>
-            <label>Age:<input data-value="person.age"></label>
-            <label>Company:<input data-value="person.company"></label>
+            <label>Name:<input data-value="selectedPerson.name"></label>
+            <label>Email:<input data-value="selectedPerson.email"></label>
+            <label>Address:<input data-value="selectedPerson.address"></label>
+            <label>Age:<input data-value="selectedPerson.age"></label>
+            <label>Company:<input data-value="selectedPerson.company"></label>
             <button data-action="history.back();" type="button">Back</button>
         </form>
     </main>
     <script data-calc>
         if (typeof personid !== 'undefined')
-            person = restResults.find(row => row._id === personid);
+            selectedPerson = restResults.find(row => row._id === personid);
     </script>
 
 </body>

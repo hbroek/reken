@@ -16,10 +16,9 @@
         <h1>Dialog component with named slots</h1>
         <source-code sourceurl="document.location.href"></source-code>
     </header>
-    <main>
+    <main data-var="openDialog">
         <section>
-
-          <my-dialog data-attr-open="openDialog==='one'" detail="loginInfo">
+          <my-dialog detail="loginInfo = {name:'', password:''}" dialog="openDialog" name="login">
             <h2 slot="header">Login</h2>
             <fieldset>
               <label id="loginName">Name:<input type="text" data-value="detail.name"/></label>
@@ -28,7 +27,7 @@
             <h2 slot="footer"><button data-action="detail.command='close'">Close</button></h2>
           </my-dialog>
 
-          <my-dialog data-attr-open="openDialog==='two'" detail="signupInfo">
+          <my-dialog detail="signupInfo = {name:'', email:'', password:''}" dialog="openDialog" name="signup">
             <h2 slot="header">Signup</h2>
             <fieldset>
               <label id="signupName">Name:<input type="text" data-value="detail.name"/></label>
@@ -42,15 +41,15 @@
           </my-dialog>
 
           <nav style="gap:0.5em;">
-            <button data-action="openDialog='one'">Login</button>
-            <button data-action="openDialog='two'">Signup</button>
+            <button data-action="openDialog='login'">Login</button>
+            <button data-action="openDialog='signup'">Signup</button>
           </nav>
 
         </section>
     </main>
 </body>
-<template data-component="my-dialog" data-arg-detail="">
-  <dialog data-on-close="openDialog='';return true;">
+<template data-component="my-dialog" data-arg-detail="" data-bind-dialog data-arg-name> 
+  <dialog style="z-index:1000" data-on-close="dialog='';return true;" data-attr-open="dialog===name">
     <form method="dialog">
       <header><slot name="header">Header</slot></header>
       <section>
@@ -60,12 +59,6 @@
     </form>
   </dialog>  
 </template>
-
-<script>
-  let openDialog = ''
-  let loginInfo = {name:'', password:''};
-  let signupInfo = {name:'', email:'', password:''}
-</script>
 
 <div data-include="includes/demo-lib.html"></div>
 

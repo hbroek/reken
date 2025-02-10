@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="../assets/reken.css"/>
 
     <title>People from REST service in Grid</title>
-    <script>
-        var restResults = [];
-    </script>
     <style>
         div.grid {
             display: grid;
@@ -29,7 +26,7 @@
     </header>
     <main>
         <section>
-            <div class="grid" data-for="person:restResults" data-rest="restResults:json/people.json">
+            <div class="grid" data-for="person:restResults" data-rest="restResults = []:json/people.json">
                 <div data-text="${person.index+1}"></div>
                 <div data-text="${person.item.name}"></div>
                 <div data-text="${person.item.email}"></div>

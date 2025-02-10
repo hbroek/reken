@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css" />
     <title>Component Bindable Attributes Demo</title>
-    <script>
-        let x_coord = 10
-        let y_coord = 30
-    </script>
-    <style>
-    </style>
 </head>
 
 <body>
@@ -21,7 +15,7 @@
         <h3>Reken - Component bindable attributes demo</h3>
         <source-code sourceurl="document.location.href"></source-code>
     </header>
-    <main>
+    <main data-var="x_coord=10;y_coord=30">
         <section>
             <div data-text="x:${x_coord} - y:${y_coord}"></div>
         </section>
@@ -47,10 +41,7 @@
             position: absolute;
         }
     </style>
-    <script>
-    let picker
-    </script>
-    <div data-ref="picker"
+    <div data-ref="let picker"
         data-on-pointermove="if(e.target==picker){x=parseInt(e.offsetX/e.target.offsetWidth*100);y=parseInt(e.offsetY/e.target.offsetHeight*100);}">
         <div data-style="left: ${x*picker.offsetWidth/100}px; top: ${y*picker.offsetHeight/100}px"></div>
     </div>

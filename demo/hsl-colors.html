@@ -10,7 +10,6 @@
 
     <title>Set color with HSL parameters</title>
 
-
     <style>
         #color-block > div {
             display: flex;
@@ -37,13 +36,7 @@
         .selected {
             transform: scale(1.2);
         }
-
     </style>
-    <script>
-        let hue        = 0;
-        let saturation = 0;
-        let lighten    = 0;
-    </script>
 </head>
 
 <body>
@@ -52,7 +45,7 @@
         <source-code sourceurl="document.location.href"></source-code>
     </header>
     <main>
-        <section>
+        <section data-var="let hue=0;let saturation=0;let lighten=0">
             <form>
                 <header><h3>Choose HSL color settings</h3></header>
                 <label>Hue:<input data-value="hue" type="range" min="0" max="360" step="0" value="0" /><input data-value="hue" type="number"></label>

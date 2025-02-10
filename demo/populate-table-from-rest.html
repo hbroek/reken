@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="../assets/reken.css"/>
 
     <title>People from REST service</title>
-    <script>
-        var restResults = [];
-    </script>
     <style>
         table {
             overflow-x:initial;
@@ -38,7 +35,7 @@
                     <th>Name</th>
                     <th>Email</th>
                 </thead>
-                <tbody data-for="person:restResults" data-rest="restResults:json/people.json">
+                <tbody data-for="person:restResults" data-rest="restResults = []:json/people.json">
                     <tr>
                         <td data-text="${person.index+1}"></td>
                         <td data-text="${person.item.name}"></td>

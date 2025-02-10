@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css" />
 
-    <script>
-        var repo = {}
-        var userName = "hbroek"
-        var repoName = "reken"
-    </script>
     <title>Reken - Rest Object fetch example</title>
 </head>
 
@@ -25,12 +20,12 @@
         <section>
             <form>
                 <h3>Fetch Github stars</h3>
-                <label>User name<input placeholder="Git username" data-value="userName" type="text" /></label>
-                <label>Repo name<input placeholder="Git reponame" data-value="repoName" type="text" /></label>
+                <label>User name<input placeholder="Git username" data-value="userName = 'hbroek'" type="text" /></label>
+                <label>Repo name<input placeholder="Git reponame" data-value="repoName = 'reken'" type="text" /></label>
             </form>
         </section>
         <section>
-            <div data-rest="repo:https://api.github.com/repos/${userName}/${repoName}">
+            <div data-rest="repo={}:https://api.github.com/repos/${userName}/${repoName}">
                 ⭐️ <emp data-text="${repo.stargazers_count?repo.stargazers_count:'Not a valid repo'}"></emp> Stars
             </div>
         </section>

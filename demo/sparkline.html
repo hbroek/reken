@@ -18,12 +18,6 @@
         <source-code sourceurl="document.location.href"></source-code>
     </header>
     <main>
-        <script>
-            let data1 = Array(30).fill(0).map(() => Math.random() * 100)
-            let data2 = Array(30).fill(0).map(() => Math.random() * 100)
-            let data3 = Array(30).fill(0).map(() => Math.random() * 100)        
-        </script>
-
         <section>
             <aside>
                 <header>
@@ -36,7 +30,9 @@
                 <header>
                     <h2>Javascript array</h2>
                 </header>
-                <sparkline id="orange" color="orange" width="4em" height="1em" data="data1"></sparkline>
+                <sparkline id="orange" color="orange" width="4em" height="1em"
+                    data="data1 = Array(30).fill(0).map(() => Math.random() * 100)">
+                </sparkline>
                 Provide data via an array of numbers.
             </aside>
             <aside>
@@ -45,7 +41,9 @@
                 </header>
                 <sparkline id="red" color="red"
                     data-timer="Math.random()*1000:true:data3[Math.floor(Math.random()*data3.length)]=Math.random()*100"
-                    width="4em" height="1em" data="data3"></sparkline>
+                    width="4em" height="1em"
+                    data="data3=Array(30).fill(0).map(() => Math.random() * 100)">
+                </sparkline>
                 Provide data via an array of numbers. Every so often one of the numbers gets updated.
             </aside>
             <aside>
@@ -53,7 +51,9 @@
                     <h2>Streamed Javascript array</h2>
                 </header>
                 <sparkline id="blue" color="blue" data-interval="1000/24:true:data2.push(Math.random()*100);data2.shift()"
-                    width="4em" height="1em" data="data2"></sparkline>
+                    width="4em" height="1em"
+                    data="data2=Array(30).fill(0).map(() => Math.random() * 100)">
+                </sparkline>
                 Provide data via an array of numbers. 24 times per second the array shifts one number.
             </aside>
             <aside>
@@ -68,7 +68,6 @@
             <div>Based on <a href="https://alexplescan.com/posts/2023/07/08/easy-svg-sparklines/">Easy SVG sparkline.</a>
             </div>
         </section>
-
     </main>
 </body>
 

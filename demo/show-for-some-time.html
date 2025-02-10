@@ -26,17 +26,13 @@
     </header>
     <main>
         <section><form>
-            <label>Seconds to show: <input data-value="timeout" input="number"></label>
+            <label>Seconds to show: <input data-value="timeout = 1" input="number"></label>
             <button data-action="startTimer=true" data-attr-disabled="startTimer" type="button">Start</button>
         </form></section>
-        <section data-timer="timeout*1000:startTimer:startTimer=false">
+        <section data-timer="timeout * 1000:let startTimer=false:startTimer=false">
             <div data-if="startTimer" class="circle">
             </div>
         </section>
-        <script>
-            let startTimer=false;
-            let timeout=1;
-        </script>
     </main>
 </body>
 <div data-include="includes/demo-lib.html"></div>

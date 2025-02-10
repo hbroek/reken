@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="../assets/reken.css"/>
 
     <title>People from REST service</title>
-    <script>
-        var restResults = [{'name':'John', 'email':'John@'}];
-    </script>
     <style>
         table {
             overflow-x:initial;
@@ -33,8 +30,8 @@
     </header>
     <main>
         <div>
-            <table data-rest="restResults:json/people.json">
-                <thead>
+            <table data-rest="restResults = []:json/people.json">
+                <thead data-if="restResults.length>0">
                     <tr data-for="header:Object.keys((restResults[0]))">
                         <th data-text="${header.item}"></th>
                     </tr>

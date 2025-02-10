@@ -119,12 +119,11 @@
             <script>counter = 0</script>
             <aside style="display:flex;flex-direction:column;gap:2em;">
                 <h3>Update the counter with the button</h3>
-                <span data-text="Counter: ${counter}"></span>
+                <span data-var="counter=0" data-text="Counter: ${counter}"></span>
                 <button data-action="counter++">Increase Counter</button>
             </aside>
             <header><p><code class="example">
-                &lt;script&gt;counter = 0&lt;/script&gt;<br/>
-                &lt;span <mark>data-text="Counter: ${counter}"</mark>&gt;&lt;/span&gt;<br/>
+                &lt;span <mark>data-var="counter=0" data-text="Counter: ${counter}"</mark>&gt;&lt;/span&gt;<br/>
                 &lt;button <mark>data-action="counter++"</mark>&gt;Increase Counter&lt;/button&gt;
             </code></p></header>
         </section>
@@ -259,18 +258,14 @@
         </section>
         <hr>
         <section>
-            <script>
-                degrees = 0
-            </script>
             <aside style="display:flex;flex-direction:column;gap:2em;">
                 <h3>Rotate the logo with the slider</h3>
                 <img alt="Logo" data-style="transform: rotate(${degrees}deg);" src="./assets/reken-logo.png">
-                <input type="range" min="0" max="1080" data-value="degrees">
+                <input type="range" min="0" max="1080" data-value="degrees=0">
             </aside>
             <header><code class="example">
-                &lt;script&gt;degrees = 0&lt;/script&gt;<br/>
                 &lt;img alt="Logo" <mark>data-style="transform: rotate(${degrees}deg);"</mark> src="./assets/reken-logo.png"<br/>
-                &lt;input type="range" min="0" max="1080" <mark>data-value="degrees"</mark>&gt;
+                &lt;input type="range" min="0" max="1080" <mark>data-value="degrees=0"</mark>&gt;
             </code></header>
 
         </section>

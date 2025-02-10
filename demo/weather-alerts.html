@@ -8,11 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css" />
 
-    <title data-text="${title}">Weather Alerts for a State</title>
-    <script>
-        var stateList = []
-        var alerts = []
-    </script>
+    <title data-var="title='Weather Alerts for a State'" data-text="${title}"></title>
     <style>
         section#info aside {
             background: lightyellow;
@@ -46,10 +42,6 @@
         }
     </style>
 </head>
-<script>
-    title = "Weather Alerts for a State"
-    selectedValue = "MA"
-</script>
 
 <body>
     <header>
@@ -64,7 +56,7 @@
                     <h3>State picker</h3>
                 </header>
                 <label><span>Select State:</span><select id="selector" data-for="state:stateList"
-                        data-rest="stateList:json/states.json" data-value="selectedValue">
+                        data-rest="stateList=[]:json/states.json" data-value="selectedValue = 'MA'">
                         <option data-attr-value="${state.item.abbreviation}" data-text="${state.item.name}" />
                     </select></label>
 
@@ -73,7 +65,7 @@
 
         </section>
         <section id="info" data-class="EMPTY:alerts.length==0" data-for="alert:alerts"
-            data-rest="alerts:features:https://api.weather.gov/alerts/active?area=${selectedValue}">
+            data-rest="alerts=[]:features:https://api.weather.gov/alerts/active?area=${selectedValue}">
             <aside>
                 <h3 data-text="${alert.item.properties.headline}"></h3>
                 <p data-text="${alert.item.properties.description}"></p>

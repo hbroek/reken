@@ -23,7 +23,6 @@
             { firstName: "John", lastName: "Mills", steps: 560 },
             { firstName: "Cathy", lastName: "Brooks", steps: 10001 }
         ]
-        selectedRow = ['1'];
     </script>
 </head>
 
@@ -49,7 +48,7 @@
                     <tbody data-for="objA:myObjects">
                         <tr>
                             <td><input type="checkbox" name="checkboxes" data-attr-value="${objA.index}"
-                                    data-value="selectedRow"></td>
+                                    data-value="let selectedRow=['1']"></td>
                             <td data-text="${objA.index}"></td>
                             <td data-text="${objA.item.firstName}"></td>
                             <td data-text="${objA.item.lastName}"></td>

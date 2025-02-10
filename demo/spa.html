@@ -72,12 +72,9 @@
             margin: 0.5em;
         }
     </style>
-    <script>
-        let current = 'page1';
-    </script>
 </head>
 
-<body>
+<body data-var="current = 'page1'">
     <header>
         <h1>Reken - Single Page Application</h1>
         <source-code sourceurl="document.location.href"></source-code>
@@ -96,18 +93,18 @@
     </main>
     <footer>
         <section>
-            <button data-component="nav_button" data-arg-title="Page 1" data-arg-page="page1"></button>
-            <button data-component="nav_button" data-arg-title="Page 2" data-arg-page="page2"></button>
-            <button data-component="nav_button" data-arg-title="Page 3" data-arg-page="page3"></button>
+            <button data-component="nav_button" data-arg-title="Page 1" data-arg-page="page1" data-bind-active="current"></button>
+            <button data-component="nav_button" data-arg-title="Page 2" data-arg-page="page2" data-bind-active="current"></button>
+            <button data-component="nav_button" data-arg-title="Page 3" data-arg-page="page3" data-bind-active="current"></button>
         </section>
         <div id='henry' data-henry="henry-look"></div>
     </footer>
 </body>
-<template data-component="nav_button" data-arg-title data-arg-page >
+<template data-component="nav_button" data-arg-title data-arg-page data-bind-active>
     <button 
         data-text = "${title}"
-        data-action = "current=page"
-        data-attr-disabled="current==page"
+        data-action = "active=page"
+        data-attr-disabled="active==page"
     >
     </button>
 </template>

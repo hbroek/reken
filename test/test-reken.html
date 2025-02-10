@@ -262,6 +262,79 @@
       </label>
       <span id="v15_1" data-text="${vselect15}"></span>
     </div>
+
+    <div>
+      <span id="v16_0" data-text="${vinput16}"></span>
+      <input id="v16" data-value="vinput16=16"/>
+      <span id="v16_1" data-text="${vinput16}"></span>
+    </div>
+
+    <div>
+      <span id="v17_0" data-text="${vnumber17}"></span>
+      <label>vnumber2:
+        <input id="v17" type="number" data-value="let vnumber17 = 17" value="not used">
+      </label>
+      <span id="v17_1" data-text="${vnumber17}"></span>
+    </div>
+
+    <div>
+      <span id="v18_0" data-text="${vnumber18}"></span>
+      <label>vnumber18:
+        <input id="v18" type="range" data-value="let vnumber18" value="not used">
+      </label>
+      <span id="v18_1" data-text="${vnumber18}"></span>
+    </div>
+
+    <div>
+      <span id="v19_0" data-text="${vcheckbox19}"></span>
+      <label>vcheckbox19:
+        <input id="v19" type="checkbox" data-value="let vcheckbox19 = false" value="not used">
+      </label>
+      <span id="v19_1" data-text="${vcheckbox19}"></span>
+    </div>
+
+    <div>
+      <span id="v20_0" data-text="${vcheckbox20}"></span>
+      <label>vcheckbox20:
+        <input id="v20" type="checkbox" name="vcheckbox20" data-value="vcheckbox20 = ['one','three']" value="one">
+        <input id="v20_2" type="checkbox" name="vcheckbox20" data-value="vcheckbox20" value="two">
+        <input id="v20_3" type="checkbox" name="vcheckbox20" data-value="vcheckbox20" value="three">
+      </label>
+      <span id="v20_1" data-text="${vcheckbox20}"></span>
+    </div>
+
+    <div>
+      <span id="v21_0" data-text="${vradio21}"></span>
+      <label>vradio21:
+        <input id="v21" type="radio" name="vradio21" data-value="vradio21" value="ONE">
+        <input id="v21_2" type="radio" name="vradio21" data-value="let vradio21 = 'THREE'" value="TWO">
+        <input id="v21_3" type="radio" name="vradio21" data-value="vradio21" value="THREE">
+      </label>
+      <span id="v21_1" data-text="${vradio21}"></span>
+    </div>
+
+    <div>
+      <span id="v22_0" data-text="${vselect22}"></span>
+      <label>vselect22:
+        <select id="v22" data-value="vselect22 = ''">
+          <option>One</option>
+          <option>Two</option>
+          <option>Three</option>
+        </select>
+      </label>
+      <span id="v22_1" data-text="${vselect22}"></span>
+    </div>
+
+    <div>
+      <span id="v23_0" data-text="${vtextarea23}"></span>
+      <label>vtextarea23:
+        <textarea id="v23" data-value="let vtextarea23 = ''">
+        </textarea>
+      </label>
+      <span id="v23_1" data-text="${vtextarea23}"></span>
+    </div>
+
+
   </section>
   <section>
     <h3>data-style tests</h3>
@@ -308,6 +381,20 @@
     <input id="c5_1" type="checkbox" data-value="class50">
     <input id="c5_2" type="checkbox" data-value="class51">
 
+    <div id="c6" data-class="class6=true">
+      Hello class6
+    </div>
+
+    <div id="c7" data-class="class7:let class7var=false">
+      Hello class7
+      <button id="c7_1" type="button" data-action="class7var=!class7var">Click to toggle class7</button>
+    </div>
+
+    <div id="c8" data-class="class81:let class81var=false;let class82=true">
+      Hello class8
+      <button id="c8_1" type="button" data-action="class81var=!class81var">Click to toggle class81</button>
+      <button id="c8_2" type="button" data-action="class82=!class82">Click to toggle class82</button>
+    </div>
 
   </section>
   <hr>
@@ -367,6 +454,12 @@
     <div id="i8" data-if="if8" data-text="${if8}" style="display:flex">Check that display is reset to flex.</div>
     <label>if8:<input id="i8_1" type="checkbox" data-value="if8"></label>
 
+    <div id="i9" data-if="let if9=true"><!--
+      -->Hello visible<!--
+      --></div>
+    <label>if9:<input id="i9_1" type="checkbox" data-value="if9"></label>
+
+
   </section>
   <hr>
   <section>
@@ -412,6 +505,7 @@
     <button type="button" id="a4b" data-action="true:a4=a4+1"><,,  div id="a4">Do handle a4 event</div></button>
     <button type="button" id="a5b" data-action="false:a5=a5+1"><div id="a5">Do not handle a5 event</div></button>
     <button type="button" id="a6b" data-action="a6bool:a6=a6+1;a6bool=false"><div id="a6">Depending on a6bool handle events</div></button>
+    <button type="button" id="a7" data-attr-disabled="!a7bool" data-action="let a7bool=true:a7bool=!a7bool">Disable a7</button>
   </section>
   <hr>
  
@@ -446,6 +540,7 @@
       let o_3 = 'abc'
       let o_4d = ''
       let o_4u = ''
+      let o_5 = 0;
     </script>
     <h3>data-on tests</h3>
 
@@ -463,6 +558,9 @@
 
     <input id="o4" data-on-keydown="true:o_4d=e.keyCode" data-on-keyup="false:o_4u=e.keyCode"></div>
     <div id=o4_0 data-text="${o_4d}-${o_4u}"></div>
+
+    <button type="button" data-on-click="let o5bool=true;o_5=o_5+1" data-text="Increment o_5 ${o_5}" id="o5"></button>
+    <div id=o5_0 data-text="${o_5}"></div>
 
   </section>
 
@@ -604,6 +702,9 @@
       <li data-text="Element ${f15v.index}-${f15v.itemIndex}-${f15v.item}"></li>
     </ol>
 
+    <ul id="f16" data-for="f16v:let f16_arr = ['a','b','c','d','e','f','g','h','i','j']">UL
+      <li data-text="${f16v.index+1} - ${f16v.item}"></li>
+    </ul>
 
   </section>
   <hr>
@@ -751,7 +852,9 @@
     </script>
     <div id="r13" data-rest="r13::${url13}" data-text="${r13?.theNumber}"></div>
 
-    </div>
+    <div id="r14" data-text="${r14.theNumber??0}" data-rest="let r14 = {}:json/one.json"></div>
+
+    <div id="r15" data-text="${r15_options.response?.ok??false}" data-rest="let r15 = {}:json/one.json" data-rest-options="r15_options={}"></div>
 
   </section>
   <hr>
@@ -1382,6 +1485,25 @@
       <circle37 background="pink"></circle37>
     </svg>
 
+    <!-- Test component with declarative argument -->
+    <template data-component="comp38" data-arg-arg1="default value">
+      <div data-text="${arg1}"></div>
+    </template>
+    <comp38 id="cp38" arg1="let cp38val=10"></comp38>
+    <button id="cp38_btn" type="button" data-action="cp38val+=10">Change cp38val</button>
+
+    <!-- Test component with declarative bind argument -->
+    <template data-component="comp39" data-bind-arg1="let cp39val=10">
+      <div>
+        <div data-text="${arg1}"></div>
+        <button type="button" data-action="arg1+=10">Change arg1 value</button>
+      </div>
+    </template>
+    <comp39 id="cp39" arg1="let cp39val=10"></comp39>
+    <div id="cp39_div" data-text="${cp39val}"></div>
+
+
+
   </section>
 
   <section>
@@ -1495,6 +1617,14 @@
       <tic4 atib4="tib4"></tic4>
     </div>
     <input id="ti4" type="checkbox" data-value="tib4">
+
+    <script>
+      let tii5 = 0;
+    </script>
+
+    <div data-timer="let tit5=1:let tib5=false:tii5++"></div>
+    <input id="ti5" type="checkbox" data-value="tib5">
+
   </section>
   <hr>
   <section>
@@ -1542,6 +1672,13 @@
       <inc4 ainb4="inb4"></inc4>
     </div>
     <input id="in4" type="checkbox" data-value="inb4">
+
+    <script>
+      let int5 = 0;
+    </script>
+    <div data-interval="1:let inb5:int5++"></div>
+    <input id="in5" type="checkbox" data-value="inb5">
+
   </section>
   <hr>
 
@@ -1585,9 +1722,45 @@
         <span data-calc="ref3_span.dataset.refValue3=(rf.index+1)*10" data-ref="ref3_span" data-text="ref: ${rf.index+1}"></span>
       </div>
     </template>
+
+    <!-- Test ref with a variable initialization -->
+    <div id="rf4" data-ref="let rf4">Hello ref4</div>    
+
   </section>
   <hr>
 
+  <hr>
+
+<section>
+  <h3>data-var tests</h3>
+  <!-- Verify data-var vars are initialized -->
+  <div id="vr0" data-var="vr0_i=0;let vr0_s='Hello';vr0_b=true" data-text="${vr0_i} ${vr0_s} ${vr0_b}"></div>
+
+  <!-- Verify data-var vars are updated -->
+  <div id="vr1" data-var="vr1_i=1;let vr1_s='Hello';vr1_b=false" data-text="${vr1_i} ${vr1_s} ${vr1_b}"></div>
+  <button id="vr1_btn" type="button" data-action="vr1_i++;vr1_s=vr1_s+' World';vr1_b=!vr1_b">Change vr1</button>
+
+  <!-- Verify data-var as arguments on components -->
+  <template data-component="var2" data-arg-vr2a="1">
+    <div data-text="${vr2a}"></div>
+  </template>
+
+  <var2 id="vr2_0" data-var="vr2_i=1" vr2a="vr2_i"></var2>
+  <var2 id="vr2_1" data-var="vr2_j=2" vr2a="vr2_j"></var2>
+
+
+  <!-- Verify component with data-var attributes on the instance -->
+  <template data-component="var3">
+    <div data-var="vr3_i=1">
+      <div data-var="vr3_j=2" data-text="${vr3_i} ${vr3_j}"></div>
+      <button type="button" data-action="vr3_i++;vr3_j++">Change var3 state</button>
+    </div>
+  </template>
+  <var3 id="vr3_0"></var3>
+  <var3 id="vr3_1"></var3>
+
+</section>
+<hr>
   
   <!-- Test component component loading functionality  -->
   <section>
@@ -1971,6 +2144,122 @@
 
         done();
       })
+      it('Start with data-value defined and initialized variable and change value', (done) => {
+        expect($('v16_0')).to.have.text('16');
+        expect($('v16_1')).to.have.text('16');
+
+        $('v16').value = 32;
+        $('v16').dispatchEvent(new Event('change'));
+
+        assert($('v16').value == 32, "Value is set to 32");
+        expect($('v16_0')).to.have.text('32');
+        expect($('v16_1')).to.have.text('32');
+
+        done();
+      })
+      it('Start with number value 17', (done) => {
+        let testNumber17 = 17
+        assert($('v17').value == testNumber17, "Value is 17")
+        expect($('v17_0')).to.have.text("" + testNumber17);
+        expect($('v17_1')).to.have.text("" + testNumber17);
+        testNumber17 = 227
+        $('v17').value = testNumber17
+        $('v17').dispatchEvent(new Event('change'));
+        assert($('v17').value == testNumber17, `Value set to ${testNumber17}`)
+        expect($('v17_0')).to.have.text("" + testNumber17);
+        expect($('v17_1')).to.have.text("" + testNumber17);
+        done();
+      })
+
+      it('Start with value undefined', (done) => {
+        let testNumber18 = 'undefined';
+        expect($('v18_0')).to.have.text(testNumber18);
+        expect($('v18_1')).to.have.text(testNumber18);
+        testNumber18 = 18;
+        $('v18').value = testNumber18
+        console.log('v18',$('v18'),$('v18').value,testNumber18);
+        $('v18').dispatchEvent(new Event('input'));
+        console.log('v18',$('v18'),$('v18').value,testNumber18);
+        assert($('v18').value == testNumber18, `Value set to ${testNumber18}`)
+        expect($('v18_0')).to.have.text("" + testNumber18);
+        expect($('v18_1')).to.have.text("" + testNumber18);
+        done();
+      })
+
+      it('Start with single checkbox false', (done) => {
+        let testCheckbox19 = false
+        assert($('v19').checked == testCheckbox19, "Value is unchecked")
+        expect($('v19_0')).to.have.text("" + testCheckbox19);
+        expect($('v19_1')).to.have.text("" + testCheckbox19);
+        testCheckbox19 = true
+        $('v19').checked = testCheckbox19
+        $('v19').dispatchEvent(new Event('change'));
+        assert($('v19').checked == testCheckbox19, `Value set to ${testCheckbox19}`)
+        expect($('v19_0')).to.have.text("" + testCheckbox19);
+        expect($('v19_1')).to.have.text("" + testCheckbox19);
+        done();
+      })
+      it('Initialize testCheckbox20, start with multiple checkbox one and three checked, then uncheck one, then check 2', (done) => {
+        let testCheckbox20 = ['one', 'three'];
+        assert($('v20').checked == true, "Value is unchecked")
+        assert($('v20_2').checked == false, "Value is unchecked")
+        assert($('v20_3').checked == true, "Value is unchecked")
+        expect($('v20_0')).to.have.text("" + testCheckbox20.toString());
+        expect($('v20_1')).to.have.text("" + testCheckbox20.toString());  
+
+        $('v20').checked = false
+        $('v20').dispatchEvent(new Event('change'));
+        assert($('v20').checked == false, "Value is unchecked")
+        assert($('v20_2').checked == false, "Value is unchecked")
+        assert($('v20_3').checked == true, "Value is unchecked")
+        testCheckbox20 = 'three';
+        expect($('v20_0')).to.have.text(testCheckbox20);
+        expect($('v20_1')).to.have.text(testCheckbox20);
+        done();
+      })
+      it('Initialize vradio21, start with multiple radio 3 checked, then set radio 2', (done) => {
+        let testRadio21 = 'THREE';
+        assert($('v21').checked == false, "Value is unchecked")
+        assert($('v21_2').checked == false, "Value is unchecked")
+        assert($('v21_3').checked == true, "Value is checked")
+        expect($('v21_0')).to.have.text("" + testRadio21.toString());
+        expect($('v21_1')).to.have.text("" + testRadio21.toString());
+
+        $('v21_2').checked = true;
+        $('v21_2').dispatchEvent(new Event('change'));
+        assert($('v21').checked == false, "Value is unchecked")
+        assert($('v21_2').checked == true, "Value is unchecked")
+        assert($('v21_3').checked == false, "Value is unchecked")
+        testRadio21 = 'TWO';
+        expect($('v21_0')).to.have.text("" + testRadio21.toString());
+        expect($('v21_1')).to.have.text("" + testRadio21.toString());
+        done();
+      })
+
+      it('Initialize vselect22; Start with empty select value and change value', (done) => {
+        const testString22 = "Two"
+        assert($('v22').value == '', "Value is empty")
+        expect($('v22_0')).to.have.text('');
+        expect($('v22_1')).to.have.text('');
+        $('v22').value = testString22
+        $('v22').dispatchEvent(new Event('change'));
+        assert($('v22').value == testString22, `Value set to ${testString22}`)
+        expect($('v22_0')).to.have.text(testString22);
+        expect($('v22_1')).to.have.text(testString22);
+        done();
+      })
+      it('Initialize vtextarea23, start with empty textarea and change value', (done) => {
+        const testString23 = "Two little piggies"
+        assert($('v23').value == '', "Value is empty")
+        expect($('v23_0')).to.have.text('');
+        expect($('v23_1')).to.have.text('');
+        $('v23').value = testString23
+        $('v23').dispatchEvent(new Event('input'));
+        assert($('v23').value == testString23, `Value set to ${testString23}`)
+        expect($('v23_0')).to.have.text(testString23);
+        expect($('v23_1')).to.have.text(testString23);
+        done();
+      })
     })
     describe('data-style tests', () => {
       it('width, heigh background', (done) => {
@@ -2028,6 +2317,28 @@
 
         done();
       })
+      it('class added with declaration', (done) => {
+        expect($('c6')).to.have.class('class6');
+        done();
+      })
+      it('class not added with declaration', (done) => {
+        expect($('c7')).not.to.have.class('class7');
+        $('c7_1').click();
+        expect($('c7')).to.have.class('class7');
+        done();
+      })
+      it('class added with multiple declarations', (done) => {
+        expect($('c8')).not.to.have.class('class81');
+        expect($('c8')).to.have.class('class82');
+        $('c8_1').click();
+        expect($('c8')).to.have.class('class81');
+        expect($('c8')).to.have.class('class82');
+        $('c8_2').click();
+        expect($('c8')).to.have.class('class81');
+        expect($('c8')).to.not.have.class('class82');
+        done();
+      })
+
 
     })
     describe('data-if tests', (done) => {
@@ -2142,6 +2453,14 @@
         done();
       })      
       
+      it('Make sure if element works with let declaration', (done) => {
+        expect($('i9')).to.be.displayed;
+        expect($('i9')).to.have.text('Hello visible');
+        $('i9_1').checked = false;
+        $('i9_1').dispatchEvent(new Event('change'));
+        expect($('i9')).not.to.be.displayed;
+        done();
+      })      
 
     })
 
@@ -2383,6 +2702,12 @@
         done();
       })
 
+      it('Press button to toggle boolean a7', (done) => {
+        expect($('a7')).to.not.have.attribute('disabled')
+        $('a7').dispatchEvent(new Event('click'));
+        expect($('a7')).to.have.attribute('disabled')
+        done();
+      })
     })
     describe('data-attr tests, initial value and after updated width and height js vars', () => {
       it('Init img dimensions from vars and then change with button press', (done) => {
@@ -2466,7 +2791,14 @@
         expect($('o4_0')).to.have.text('120-')
         done();
       })
-
+      it('Press button to increment js number o_5', (done) => {
+        expect(o_5).to.equal(0);
+        expect($('o5')).to.have.text('Increment o_5 0')
+        $('o5').dispatchEvent(new Event('click'));
+        expect(o_5).to.equal(1);
+        expect($('o5')).to.have.text('Increment o_5 1')
+        done();
+      })
     })
     describe('data-for tests', () => {
       it('Render 5 li\'s', (done) => {
@@ -2633,6 +2965,13 @@
         done();
       })
 
+      it('Render 10 li\'s', (done) => {
+        expect($('f16')).to.have.length(10)
+        expect($('f16')).to.contain.text('UL')
+        expect(document.querySelectorAll('ul#f16 li')).to.contain.text(['1 - a','2 - b','3 - c','4 - d','5 - e','6 - f','7 - g','8 - h','9 - i','10 - j'])
+        done();
+      })
+
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
@@ -2750,7 +3089,16 @@
         expect($('r13')).to.have.text('1')
       })
 
+      it('Load a value from json file and display in a div thru js var r14.theNumber', async function () {
+        await waitFor(2000, () => checkForClass($('r14'), "reken-rest-done"));
+        expect($('r14')).to.have.text('1')
+      })
 
+      it('Load a value from json file and display in a div thru js var r15.theNumber', async function () {
+        await waitFor(2000, () => checkForClass($('r15'), "reken-rest-done"));
+        expect($('r15')).to.have.text('true')
+
+      })
     })
     describe('data-calc tests', () => {
       it('Render a the value of js var, update with calc tagged script', (done) => {
@@ -3347,6 +3695,20 @@
         done();
       })
 
+      it('Verify the component is rendered and the variable declared in the argument is updated', (done) => {
+        expect($('cp38')).to.have.text('10')
+        $('cp38_btn').click();
+        expect($('cp38')).to.have.text('20')
+        done();
+      })
+      it('Verify the component is rendered and the variable declared in the bind argument is updated', (done) => {
+        expect($('cp39_div')).to.have.text('10')
+        const cp39comp = $('cp39');
+        const cp39btn = cp39comp.children[1];
+        cp39btn.click();
+        expect($('cp39_div')).to.have.text('20')
+        done();
+      })
     })
     describe('data-component timer/interval tests', () => {
       it.skip('Check that timer we can add a component instance timer on top of a component timer ', async function () {
@@ -3528,6 +3890,16 @@
         await waitFor(20, () => tmr4.children.item(0).textContent=='Count:1')
         await waitFor(20, () => tmr4.children.item(1).textContent=='Count:1')
       })
+      it('Check that timer variables can be initialized', async function () {
+        const ti5_0 =  $('ti5');
+        ti5_0.checked = true;
+        ti5_0.dispatchEvent(new Event('change'));
+        await waitFor(20, () => tii5>0)
+        // Stop the timer now
+        ti5_0.checked = false;
+        ti5_0.dispatchEvent(new Event('change'));
+      })
+
     })
     describe('data-interval tests', () => {
       it('Check that interval increments an integer', async function () {
@@ -3578,6 +3950,17 @@
         await waitFor(20, () => inc4.children.item(0).textContent=='Count:2')
         await waitFor(20, () => inc4.children.item(1).textContent=='Count:2')
       })
+
+      it('Check that interval variables can be initialized', async function () {
+        const in5_0 =  $('in5');
+        in5_0.checked = true;
+        in5_0.dispatchEvent(new Event('change'));
+        await waitFor(20, () => int5>0)
+        // Stop the timer now
+        in5_0.checked = false;
+        in5_0.dispatchEvent(new Event('change'));
+      })
+
     })
 
     describe('data-ref tests', () => {
@@ -3617,6 +4000,44 @@
         done();
       })
 
+      it('Test ref with variable initialization', (done) => {
+        expect(rf4).to.have.text('Hello ref4')
+        done();
+      })
+
+    })
+    describe('data-var tests', () => {
+      it('verify data-var vars are initialized', (done) => {
+        expect(vr0).to.have.text('0 Hello true')
+
+        done();
+      })
+      it('verify data-var vars are updated', (done) => {
+        expect(vr1).to.have.text('1 Hello false')
+        vr1_btn.click();
+        expect(vr1).to.have.text('2 Hello World true')
+        vr1_btn.click();
+        expect(vr1).to.have.text('3 Hello World World false')
+        done();
+      })
+      it('verify data-var vars as arguments on components', (done) => {
+        expect(vr2_0).to.have.text('1')
+        expect(vr2_1).to.have.text('2')
+        done();
+      })
+      it('verify data-var vars on component contents', (done) => {
+        expect(vr3_0.children[0]).to.have.text('1 2')
+        expect(vr3_1.children[0]).to.have.text('1 2')
+
+        vr3_0.children[1].click();
+        expect(vr3_0.children[0]).to.have.text('2 3')
+        expect(vr3_1.children[0]).to.have.text('1 2')
+
+        vr3_1.children[1].click();
+        expect(vr3_0.children[0]).to.have.text('2 3')
+        expect(vr3_1.children[0]).to.have.text('2 3')
+        done();
+      })
     })
 
     describe('issue 17 test', () => {

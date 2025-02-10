@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * reken.js - copyright Henry van den Broek, 2021-2024
+ * reken.js - copyright Henry van den Broek, 2021-2025
  */
 
 /*
@@ -311,12 +311,12 @@ class $RekenBase {
         for (let child of elem.children) {
             $RekenBase.initComponentElement(registry, child)
         }
-    }
+    }    
 }
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.9.13.0';
+    reken.version = '0.10.0.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -391,7 +391,7 @@ class $RekenBase {
     ]
     const isReservedWord = (word) => jsReservedWords.indexOf(word)>=0
 
-    const buildClasses = (componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray) => {
+    const buildClasses = (componentRoot, elem, elemString, compString, topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray, varArray) => {
         if (elem.tagName == "TEMPLATE")
             return; //Ignore template tags
 
@@ -401,8 +401,12 @@ class $RekenBase {
             let hasBind = false;
             for (let key of keys) {
                 if (key.startsWith('bind')) {
-                    elem.setAttribute('data-on1-bind_'+key.substring(4),elem.dataset[key]+"=e.detail.value");
+                    let value = processExpression(elem.dataset[key], varArray) // If var definition add to varArray
+                    elem.setAttribute('data-on1-bind_'+key.substring(4),value+"=e.detail.value");
                     hasBind = true;
+                }
+                if (key.startsWith('arg')) {
+                    processExpression(elem.dataset[key], varArray) // If var definition add to varArray
                 }
             }
             if (hasBind)
@@ -430,7 +434,7 @@ class $RekenBase {
                         if (key.startsWith('arg') || key.startsWith('bind') || key.startsWith('action1') || key.startsWith('style1')
                             || key.startsWith('class1') || key.startsWith('if1') || key.startsWith('on1') || key.startsWith('attr1')
                             || key.startsWith('timer1') || key.startsWith('interval1') || key.startsWith('route1') 
-                            || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1') || key.startsWith('ref1'))
+                            || key.startsWith('rest1') || key.startsWith('rest-options1') || key.startsWith('calc1') || key.startsWith('ref1') || key.startsWith('var1'))
                             filteredKeys.push(key)
                     }
                     keys = filteredKeys;
@@ -438,7 +442,7 @@ class $RekenBase {
             } 
 
             let orderedKeys = []
-            let firsts = ['route', 'ref1', 'style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'ref', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value']; // Need to be first in that order.
+            let firsts = ['route', 'ref1', 'style1', 'if1', 'action1', 'on1', 'attr1', 'class1', 'var1', 'ref', 'component', 'style', 'if', 'for', 'calc', 'attrName', 'attrMin', 'attrMax', 'attrValue', 'value', 'var']; // Need to be first in that order.
             for (let first of firsts) {
                 let indexInKeys = keys.indexOf(first);
                 if (indexInKeys >= 0) {
@@ -466,10 +470,14 @@ class $RekenBase {
 
                     case "ref":
                         if (typeof topForString !== 'undefined') {
+                            value = processExpression(value, varArray)
+
                             refArray.push([value, elemString.split('.').slice(1).join('.')])
                             controlCode.third.push(indent+value + " = " + elemString +";");
                         }
                         else {
+                            value = processExpression(value, varArray)
+                            
                             controlCode.first.push(indent+value + " = " + elemString +";");
                         }
                         break;
@@ -481,6 +489,8 @@ class $RekenBase {
                         controlCode.third.push("$v=`" + value + "`;if (" + elemString + ".innerHTML !== $v) " + elemString + ".innerHTML = $v"); // Update DOM element with HTML Element from template string if different
                         break;
                     case "value":
+                        value = processExpression(value, varArray)
+
                         if (elem.type == 'checkbox') {
                             if (elem.hasAttribute('name') || elem.hasAttribute('data-attr-name'))
                                 controlCode.third.push(indent + elemString + ".checked = " + value + ".indexOf(" + elemString + ".value) > -1");
@@ -560,6 +570,11 @@ class $RekenBase {
                             else {
                                 _class = _expr = classPair; //Shorthand for set class based on the name of the boolean var.
                             }
+                            const newExpr = processExpression(_expr, varArray);
+                            if (_expr === _class)
+                                _class = newExpr;
+                            _expr = newExpr
+
                             controlCode.third.push(elemString + ".classList.toggle('" + _class + "', " + _expr + ")");
                         }
                         break;
@@ -611,10 +626,14 @@ class $RekenBase {
                         case "if":
                         {
                             let [_expr, _class] = parseIfExpression(value);
+                            _expr = processExpression(_expr, varArray)
+    
                             let [_routeExpr, _routeClass] = parseIfExpression(elem.$routeValue);
 
                             if (_routeExpr) //if we have a route as well then merge the route and if expressions.
                                 value = `(${_expr})&&(${_routeExpr})`
+                            else
+                                value = _expr;
 
                             if (_class || _routeClass) {
                                 if (_class)
@@ -647,6 +666,7 @@ class $RekenBase {
                         let condition = null;
                         if (valueArray.length>1) {
                             condition = valueArray[0];
+                            condition = processExpression(condition, varArray, "this.")
                             handler = valueArray.slice(1).join(':');
                         }
 
@@ -676,6 +696,10 @@ class $RekenBase {
                         if (typeof delay === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
                             console.error(`data-timer: [${value}] incorrect amount of arguments`)
                         else {
+
+                            delay = processExpression(delay, varArray)
+                            condition = processExpression(condition, varArray)
+
                             let eventName = "timer";
                             let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
@@ -710,6 +734,9 @@ class $RekenBase {
                         if (typeof interval === 'undefined' || typeof condition === 'undefined' || typeof code === 'undefined')
                             console.error('data-interval: ['+value+'] incorrect amount of arguments')
                         else {
+                            interval = processExpression(interval, varArray)
+                            condition = processExpression(condition, varArray)
+
                             let eventName = "interval";
                             let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
@@ -752,6 +779,7 @@ class $RekenBase {
                         let _arrayName = uniqueID('arr');
 
                         if (isNaN(_data)) {
+                            _data = processExpression(_data, varArray);
                             controlCode.third.push(indent+"$arrVar = "+_data);
                             controlCode.third.push(indent+"if (typeof $arrVar === 'undefined')$arrVar=0;");
                             controlCode.third.push(indent+'let ' +_arrayName + ' = (typeof ($arrVar) !== "number"?'+_data+': new Array(parseInt($arrVar)))');
@@ -761,7 +789,7 @@ class $RekenBase {
 
                         const _forStop = uniqueID("forStop");
                         controlCode.third.push(indent+'const '+_forStop + ' = Math.min('+_arrayName+'.length,' + (end??_arrayName+'.length')+ ') - '+(start??'0'));
-                       controlCode.third.push(indent+'$RekenBase.updateForChildren($RekenBase.classRegistry, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', '+ _forStop +')');
+                        controlCode.third.push(indent+'$RekenBase.updateForChildren($RekenBase.classRegistry, ' + elemString + ',' + _arrayName + ', ' + elem.children.length + ', '+ _forStop +')');
 
                         // At runtime loop thru the direct children
                         let _forVar = uniqueID("forElem");
@@ -781,7 +809,7 @@ class $RekenBase {
                         let i = 0;
                         for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                             controlCode.third.push(indent+ _forVar + " = " + elemString+getChildString(_forIndex+"*"+elem.children.length+"+"+i))
-                            buildClasses(false, elem.children[i], _forVar, compString+getChildString(i), topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
+                            buildClasses(false, elem.children[i], _forVar, compString+getChildString(i), topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray, varArray)
                             i++;
                         }
                         controlCode.third.push(indent+'}' + '// End loop ' + _forIndex);
@@ -803,6 +831,23 @@ class $RekenBase {
                             controlCode.third.push("elem = "+ elemString + ";" + value + ";"); // Update DOM element with HTML Element from template string if different
                         break;
 
+                    case "var1": {
+                            if (componentRoot)
+                                break;
+                        }
+                    case "var":
+                            let declarations = value.trim().split(';');
+                            let newDeclarations = [];
+                            for (let d of declarations) {
+                                let decl = d.trim();
+                                if (decl === '')
+                                    continue;
+                                if (!(decl.startsWith('let ') || decl.startsWith('const ') || decl.startsWith('var ')))
+                                    decl = 'let ' + decl;
+                                newDeclarations.push(decl);
+                            }
+                            varArray.push(...newDeclarations);
+                            break;
                     case "component":
                         topForString = undefined; //Reset the outermost for-loop.
                         let className = value;
@@ -812,14 +857,14 @@ class $RekenBase {
                         //third array contains all the remaining code
                         let compControlCode = {first:[],second:[],third:[]};
                         let compEventCode = [];
-                        
-                        buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
+                        varArray = [];
+                        buildClasses(true, elem, "this.$root", "this.$root", topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray, varArray)
 
                         if (elem.dataset.for === undefined) { // Process the children unless the component definition also has a for loop, then the children will be processed there.
                             let i = 0;
                             for (let child of elem.children) { // Only execute controller code for children of elements with a data-if expression that is true, ie the element is shown.
                                 let elemString = "this.$root"
-                                buildClasses(false, child, elemString+getChildString(i), elemString+getChildString(i), topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray)
+                                buildClasses(false, child, elemString+getChildString(i), elemString+getChildString(i), topForString, definition, compInitCode, compControlCode, compEventCode, styles, route, routeVars, forVars, refArray, varArray)
                                 i++
                             }
                             if (elem.dataset.if !== undefined) {
@@ -828,7 +873,7 @@ class $RekenBase {
                         }
                         if (!generatedClass[value] || !generatedClass[value+'_static'] || elem.dataset.hasSlot=='true' || forVars != '') {
                             if (!generatedClass[value]) { //Create base class
-                                const [compDefinition, compStyle] = generateComponentClass(value, value, compInitCode, compControlCode, compEventCode, routeVars, "")
+                                const [compDefinition, compStyle] = generateComponentClass(value, value, compInitCode, compControlCode, compEventCode, routeVars, "", varArray)
                                 styles.push(...compStyle);
                                 definition.push(...compDefinition)
                                 definition.push(`$RekenBase.classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
@@ -836,7 +881,7 @@ class $RekenBase {
                             }
                             if (elem.dataset.hasSlot=='true' || forVars != '') {
                                 className = uniqueID(value);
-                                const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
+                                const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars, varArray)
                                 definition.push(...compDefinition)
                                 definition.push(`$RekenBase.classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                 generatedClass[className] = true;
@@ -845,7 +890,7 @@ class $RekenBase {
                                 if (value !== '$main') {
                                     className = value+'_static';
                                     if (!generatedClass[className]) {
-                                        const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars)
+                                        const [compDefinition, compStyle] = generateComponentClass(className, value, compInitCode, compControlCode, compEventCode, routeVars, forVars, varArray)
                                         definition.push(...compDefinition)
                                         definition.push(`$RekenBase.classRegistry['${className}']=${(className=='$main'?'':'$')+className.replace('-','_')}`)
                                         generatedClass[className] = true;
@@ -869,16 +914,24 @@ class $RekenBase {
                                 let arg = attr.substring(3).toLowerCase()
                                 if (attr.startsWith('bind'))
                                     arg = attr.substring(4).toLowerCase()
-                                let value = elem.dataset[attr]                 
+                                let value = elem.dataset[attr]
+                                value = processExpression(value, varArray);
+
                                 //Check if variable
+                                if (attr.startsWith('argName')) {
+                                    debugger;
+                                }
                                 let argValue = uniqueID('arg');
                                 if (/^[a-zA-Z_$][0-9a-zA-Z_$.\[\]\']*$/.test(value)) {
                                     if (isReservedWord(value))
                                         controlCode.third.push("      let " + argValue + " = '"+value+"'")
                                     else if (value.indexOf('\'')>0)
                                         controlCode.third.push("      let " + argValue + " = "+value+"") //If it contains a single quote, assume it will be a object qualifier
+                                    else if (varArray.find((elem)=>elem.indexOf(value.split(' ')[1])>=0)) {
+                                        controlCode.third.push("      let " + argValue + " = "+value+"")
+                                    }
                                     else
-                                    controlCode.third.push("      let " + argValue + " = ((typeof " + value + "!== 'undefined' && !(" + value + " instanceof Element))||typeof "+value+"=='function'?"+value+":'"+value+"')")
+                                        controlCode.third.push("      let " + argValue + " = ((typeof " + value + "!== 'undefined' && !(" + value + " instanceof Element))||typeof "+value+"=='function'?"+value+":'"+value+"')")
                                 }
                                     //Check if number
                                 else if (!isNaN(value)) {
@@ -904,7 +957,7 @@ class $RekenBase {
                             if (componentRoot)
                                 break;
                         }
-                    case "rest":
+                    case "rest": {
                         let _array = value.substring(0, value.indexOf(':'));
                         let _url = value.substring(value.indexOf(':') + 1);
                         let path = '';
@@ -925,9 +978,15 @@ class $RekenBase {
                         if (elem.dataset.restOptions1) {
                             options = elem.dataset.restOptions1
                         }
-                        controlCode.third.push("    $RekenBase.processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if (this instanceof $main || !this.hasOwnProperty('"+_array+"')) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
+                        options = processExpression(options, varArray)
+                        const [isDeclaration, assignment, variable] = parseDeclaration(_array);
+                        if (isDeclaration) {
+                            _array = variable;
+                            varArray.push(assignment)
+                        }
+                        controlCode.third.push("    $RekenBase.processRestCall(" + elemString + ",`" + _url + "`, "+options+", (js)=>{"+ " if ((this instanceof $main && !"+isDeclaration+") || !this.hasOwnProperty('"+_array+"')) " + _array + "=js" + path + "; else this." + _array + "=js" + path +";$mainInstance.controller({})})");
                         break;
-
+                    }
                     default: {
                         if (key.startsWith('attr') || (key.startsWith('attr1') && !componentRoot)) {
                             let _attr = lowercaseFirstLetter(key.substring(key.startsWith('attr1')?5:4));
@@ -945,6 +1004,7 @@ class $RekenBase {
                             let condition = null;
                             if (valueArray.length>1) {
                                 condition = valueArray[0];
+                                condition = processExpression(condition, varArray, "this.")
                                 handler = valueArray.slice(1).join(':');
                             }
 
@@ -968,7 +1028,7 @@ class $RekenBase {
         if (!elem.dataset.component && !elem.dataset.for) { // Elements with Component and For process their own children
             let i = 0;
             for (let child of elem.children) { 
-                buildClasses(false, child, elemString +getChildString(i), compString +getChildString(i), topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray)
+                buildClasses(false, child, elemString +getChildString(i), compString +getChildString(i), topForString, definition, initCode, controlCode, eventCode, styles, route, routeVars, forVars, refArray, varArray)
                 i++
             }
             if (elem.dataset.if !== undefined || elem.dataset.route !== undefined)
@@ -1041,7 +1101,7 @@ class $RekenBase {
                     _slotElement.parentElement.removeChild(_slotElement)
                 }
                 let instanceAttributes = ['data-ref', 'data-action', 'data-style', 'data-class', 'data-if', 'data-timer', 'data-interval',
-                                            'data-route', 'data-rest', 'data-rest-options', 'data-calc']
+                                            'data-route', 'data-rest', 'data-rest-options', 'data-calc', 'data-var']
                 for (let attr of elem.getAttributeNames()) { //Copy the attributes
                     if (instanceAttributes.indexOf(attr)>=0) {
                         component.setAttribute(attr+'1', elem.getAttribute(attr))
@@ -1108,14 +1168,14 @@ class $RekenBase {
         return componentClone;
     }
 
-    const generateComponentClass = (componentName, templateName, compInitCode, compControlCode, compEventCode, routeVars, forVars) => {
+    const generateComponentClass = (componentName, templateName, compInitCode, compControlCode, compEventCode, routeVars, forVars, varArray) => {
         let templateElement = document.querySelector("template[data-component='"+templateName+"']")
 
         const isBaseClass = (componentName == templateName || componentName == '$main')
         let output = []
 
         // State initialization
-        const [stateVars, initCode] = getStateVars(templateElement)
+        const [stateVars, initCode] = getStateVars(templateElement, varArray)
         stateVars.push("$root")
 
         // Get comp arguments
@@ -1156,6 +1216,13 @@ class $RekenBase {
         output.push('  super($root)');
 
         output.push('    this.$root = $root;');
+
+        if (componentName == '$main') {
+            output.push(...initCode)
+            for (let _var of stateVars.filter((_v)=>_v!='$root'))
+                output.push(`    this.${_var} = ${_var}`)
+
+        }
         // Add references to top descendant classes
         output.push(...compInitCode)
 
@@ -1179,7 +1246,6 @@ class $RekenBase {
 
         // if (componentName === '$main')
         //     output.push('console.time("controller")');
-
 
         for (let _var of stateVars)
             output.push(`    let ${_var} = this.${_var}`)
@@ -1273,7 +1339,7 @@ class $RekenBase {
         return [output, getStyle(templateElement)]
     }
     // Load first template script and isolate the state variables.
-    const getStateVars = (templateElement) => {
+    const getStateVars = (templateElement, varArray) => {
         let stateVars = []
         let initCode = []
         if (templateElement) {
@@ -1292,6 +1358,11 @@ class $RekenBase {
                     stateVars.push(_var)
                 }
             }
+        }
+        for (let val of varArray) {
+            initCode.push('    '+val);
+
+            stateVars.push(val.split("=")[0].split(' ')[1])
         }
         return [stateVars, initCode]
     }
@@ -1454,6 +1525,31 @@ class $RekenBase {
             _expr = value.substring(value.indexOf(':') + 1);
         }
         return [_expr, _class];
+    }
+
+    const parseDeclaration = (string) => {
+        string = string.trim();
+        string = string.split(';')[0]; // Only parse the first entry, multiple entries process are out of scope for this function.
+        if (['const', 'let', 'var'].includes(string.split(' ')[0])) {
+          return [true, string, string.split(' ')[1].split('=')[0].trim()];
+        }
+    
+        let startIndex;
+        // Check if the assignment is not part of a comparison or arithmetic operation
+        if ((startIndex = string.indexOf('=')) >= 0 && !/[=><+-/*!%]/.test(string[startIndex-1] + string[startIndex+1])) {
+          return [true, 'let ' + string, string.split('=')[0].trim()];
+        }
+        return [false, string]
+    }
+
+    const processExpression = (value, varArray, prefix = "") => {
+        const [isValueDeclaration, valueAssignment, valueVariable] = parseDeclaration(value);
+        if (isValueDeclaration) {
+            value = prefix + valueVariable;
+//            if (typeof varArray !== 'undefined')
+                varArray.push(valueAssignment)
+        }
+        return value    
     }
 
     let _ID = 0;
@@ -1696,7 +1792,7 @@ class $RekenBase {
 
             document.body.parentElement.setAttribute('data-component', '$main')
             let refArray = []
-            buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '', refArray)
+            buildClasses(false, document.body.parentElement, "_r", "_r", undefined, definition, setup, controller, [], styles, [], [], '', refArray, [])
 
             if (styles.length>0) {
                 const headElem = document.querySelector('head');

@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <link rel="stylesheet" href="../assets/reken.css"/>
     <title>Component Demo</title>
-    <script>
-        let restResults = []
-    </script>
     <style>
         demo-card {
             transition: transform 0.3s;
@@ -40,7 +37,7 @@
         <h3>Reken - Component demo</h3>
         <source-code sourceurl="document.location.href"></source-code>
     </header>
-    <main data-rest="restResults:json/people.json">
+    <main data-rest="let restResults = []:json/people.json">
         <section data-if="restResults.length==0">
             <h3>Loading...</h3>
         </section>
