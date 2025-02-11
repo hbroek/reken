@@ -316,7 +316,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.10.0.0';
+    reken.version = '0.10.1.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -918,9 +918,6 @@ class $RekenBase {
                                 value = processExpression(value, varArray);
 
                                 //Check if variable
-                                if (attr.startsWith('argName')) {
-                                    debugger;
-                                }
                                 let argValue = uniqueID('arg');
                                 if (/^[a-zA-Z_$][0-9a-zA-Z_$.\[\]\']*$/.test(value)) {
                                     if (isReservedWord(value))
@@ -1537,7 +1534,10 @@ class $RekenBase {
         let startIndex;
         // Check if the assignment is not part of a comparison or arithmetic operation
         if ((startIndex = string.indexOf('=')) >= 0 && !/[=><+-/*!%]/.test(string[startIndex-1] + string[startIndex+1])) {
-          return [true, 'let ' + string, string.split('=')[0].trim()];
+            let varName = string.split('=')[0].trim();
+            if (/^[a-zA-Z_$][0-9a-zA-Z_$.\[\]\']*$/.test(varName)) {
+                return [true, 'let ' + string, varName];
+            }
         }
         return [false, string]
     }
