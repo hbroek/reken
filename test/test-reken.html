@@ -1502,8 +1502,18 @@
     <comp39 id="cp39" arg1="let cp39val=10"></comp39>
     <div id="cp39_div" data-text="${cp39val}"></div>
 
-
-
+    <!-- Test component with declarative bind argument and three instances, to prevent duplicate bind bug-->
+    <template data-component="cp40" data-bind-counter="let mycounter1=13">
+      <button type="button" data-action="counter += 1">Increment
+        <span data-text="${counter}"></span>
+      </button>
+    </template>
+    <cp40 id="cp40_1" counter="let mycounter1=13"></cp40>
+    <span id="cp40_1_span" data-text="${mycounter1}"></span>
+    <cp40 id="cp40_2" counter="let mycounter10=130"></cp40>
+    <span id="cp40_2_span" data-text="${mycounter10}"></span>
+    <cp40 id="cp40_3" counter="let mycounter20=1300"></cp40>
+    <span id="cp40_3_span" data-text="${mycounter20}"></span>
   </section>
 
   <section>
@@ -3707,6 +3717,24 @@
         const cp39btn = cp39comp.children[1];
         cp39btn.click();
         expect($('cp39_div')).to.have.text('20')
+        done();
+      })
+      it('Verify that declarative bind argument is updated', (done) => {
+        expect($('cp40_1_span')).to.have.text('13')
+        expect($('cp40_2_span')).to.have.text('130')
+        expect($('cp40_3_span')).to.have.text('1300')
+        $('cp40_1').click();
+        expect($('cp40_1_span')).to.have.text('14')
+        expect($('cp40_2_span')).to.have.text('130')
+        expect($('cp40_3_span')).to.have.text('1300')
+        $('cp40_2').click();
+        expect($('cp40_1_span')).to.have.text('14')
+        expect($('cp40_2_span')).to.have.text('131')
+        expect($('cp40_3_span')).to.have.text('1300')
+        $('cp40_3').click();
+        expect($('cp40_1_span')).to.have.text('14')
+        expect($('cp40_2_span')).to.have.text('131')
+        expect($('cp40_3_span')).to.have.text('1301')
         done();
       })
     })
