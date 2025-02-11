@@ -316,7 +316,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.10.1.0';
+    reken.version = '0.10.2.1';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -409,8 +409,9 @@ class $RekenBase {
                     processExpression(elem.dataset[key], varArray) // If var definition add to varArray
                 }
             }
-            if (hasBind)
+            if (hasBind) {
                 keys = Object.keys(elem.dataset).sort();
+            }
         }
 
         if (keys.length>0) {
@@ -896,7 +897,6 @@ class $RekenBase {
                                         generatedClass[className] = true;
                                     }
                                 }
-
                             }
                         }
                         else {
@@ -1008,6 +1008,9 @@ class $RekenBase {
                             let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
             
+                            if (componentRoot && key.startsWith('on1Bind')) {
+                                continue; // Skip bind events for root component
+                            }
                             eventCode.push({
                                 'elemId':(topForString === undefined ? compString : topForString),
                                 'eventType':eventName,
@@ -1224,8 +1227,9 @@ class $RekenBase {
         output.push(...compInitCode)
 
         //Add event registrations
-        for (let event of compEventCode)
+        for (let event of compEventCode) {
             output.push('    '+event.elemId + ".addEventListener('" + event.eventType + "', event => this."+event.handlerName+"(event))");
+        }
         output.push('  }')
 
         // Create static factory method
