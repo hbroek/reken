@@ -316,7 +316,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.10.2.1';
+    reken.version = '0.10.2.2';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -402,7 +402,7 @@ class $RekenBase {
             for (let key of keys) {
                 if (key.startsWith('bind')) {
                     let value = processExpression(elem.dataset[key], varArray) // If var definition add to varArray
-                    elem.setAttribute('data-on1-bind_'+key.substring(4),value+"=e.detail.value");
+                    elem.setAttribute('data-on1-bind_'+key.substring(4).toLowerCase(),value+"=e.detail.value");
                     hasBind = true;
                 }
                 if (key.startsWith('arg')) {

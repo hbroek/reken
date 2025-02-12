@@ -1514,7 +1514,22 @@
     <span id="cp40_2_span" data-text="${mycounter10}"></span>
     <cp40 id="cp40_3" counter="let mycounter20=1300"></cp40>
     <span id="cp40_3_span" data-text="${mycounter20}"></span>
+
+
+    <!-- SVG root component with a bindable attribute -->
+    <svg-comp y="let result=10"></svg-comp>
+
+    <template data-component="svg41" data-bind-y>
+      <svg data-action="y+=1" width="100" height="100"  fill="red">
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+      </svg>
+    </template>
+    <svg41 id="svg41" y="let svg41val=10"></svg41>
+    <div id="svg41_div" data-text="${svg41val}"></div>
   </section>
+
+
+  <hr>
 
   <section>
     <!-- Test component shorthand functionality  -->
@@ -3737,6 +3752,14 @@
         expect($('cp40_3_span')).to.have.text('1301')
         done();
       })
+      it('SVG root component with a bindable attribute', (done) => {
+        expect($('svg41_div')).to.have.text('10')
+        const cp41comp = $('svg41');
+        cp41comp.dispatchEvent(new Event('click'));
+        expect($('svg41_div')).to.have.text('11')
+        done();
+      })
+
     })
     describe('data-component timer/interval tests', () => {
       it.skip('Check that timer we can add a component instance timer on top of a component timer ', async function () {
