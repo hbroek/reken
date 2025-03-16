@@ -34,9 +34,20 @@
 */
 class $RekenBase {
     static classRegistry = {}
+    static isDirty = false;
 
     dispatch(type, content) {
         this.$root.dispatchEvent(new CustomEvent(type, {detail:content}))
+    }
+
+    nextTick() {
+        if (!this.isDirty) {
+            this.isDirty = true;
+            queueMicrotask(() => {
+                this.isDirty = false;
+                reken.force_calculate();
+              });
+        }
     }
 
     static processRestCall(elem, _url, _options, modelUpdate) {
@@ -316,7 +327,7 @@ class $RekenBase {
 // Generate code
 {   
     const reken = {}
-    reken.version = '0.10.2.2';
+    reken.version = '0.11.0.0';
     reken.routing_path;
 
     let componentRegistry = {}
@@ -539,7 +550,7 @@ class $RekenBase {
                             'handlerEventCheck': "  if (!$RekenBase.isEventHandler(e.target, '"+eventName + "', '" + eventId + "')) return;",
                             'handlerName': eventId,
                             'handlerCode': (elem.type === 'file') ?
-                                (valueValue + "=e.target.files[0];$RekenBase.importData(e.target, ()=>{$mainInstance.controller({})}, "+transformerFunctionReference+")") :
+                                (valueValue + "=e.target.files[0];$RekenBase.importData(e.target, ()=>{this.nextTick()}, "+transformerFunctionReference+")") :
                                 (elem.tagName === 'SELECT' && elem.hasAttribute('multiple')) ?
                                 "$RekenBase.updateSelectModel(e.target,"+value+")":
                                 (valueValue + "=$RekenBase.typedReturn(e.target," + valueValue + ");"),
@@ -715,7 +726,7 @@ class $RekenBase {
                                 "refs" : refArray
                             })
                             controlCode.third.push(`{const $l = ${elemString}`);
-                            controlCode.third.push(`if ((${condition}) && !$l.hasOwnProperty('timerID')) $l.timerID = setTimeout(()=>{this.${eventId}({'target':$l});delete $l.timerID;$mainInstance.controller({})}, ${delay})`);
+                            controlCode.third.push(`if ((${condition}) && !$l.hasOwnProperty('timerID')) $l.timerID = setTimeout(()=>{this.${eventId}({'target':$l});delete $l.timerID;this.nextTick()}, ${delay})`);
                             controlCode.third.push(`if (!(${condition}) && $l.hasOwnProperty('timerID')) {clearTimeout($l.timerID); delete $l.timerID}}`);
                         }
                     }
@@ -752,7 +763,7 @@ class $RekenBase {
                                 "refs" : refArray
                             })
                             controlCode.third.push(`{const $l = ${elemString}`);
-                            controlCode.third.push(`if ((${condition}) && !$l.hasOwnProperty('intervalID')) $l.intervalID = setInterval(()=>{this.${eventId}({'target':$l});$mainInstance.controller({})}, ${interval})`);
+                            controlCode.third.push(`if ((${condition}) && !$l.hasOwnProperty('intervalID')) $l.intervalID = setInterval(()=>{this.${eventId}({'target':$l});this.nextTick()}, ${interval})`);
                             controlCode.third.push(`if (!(${condition}) && $l.hasOwnProperty('intervalID')) {clearInterval($l.intervalID); delete $l.intervalID}}`);
                         }
                         break;
@@ -1007,10 +1018,11 @@ class $RekenBase {
 
                             let eventId = uniqueID(eventName);
                             initCode.push(compString + ".dataset.event_" + eventName + " = '" + eventId+"'");
-            
+
                             if (componentRoot && key.startsWith('on1Bind')) {
                                 continue; // Skip bind events for root component
                             }
+
                             eventCode.push({
                                 'elemId':(topForString === undefined ? compString : topForString),
                                 'eventType':eventName,
@@ -1331,7 +1343,7 @@ class $RekenBase {
                 output.push(`    this.${_var} = ${_var}`)
             
             if (!(event.deferredUpdate || event.eventType === 'timer'|| event.eventType === 'interval')) 
-                output.push("    $mainInstance.controller({})");
+                output.push("    this.nextTick()");
             output.push("  }");
         }
 
@@ -1339,6 +1351,7 @@ class $RekenBase {
         output.push('}')
         return [output, getStyle(templateElement)]
     }
+    
     // Load first template script and isolate the state variables.
     const getStateVars = (templateElement, varArray) => {
         let stateVars = []
@@ -1378,7 +1391,6 @@ class $RekenBase {
             let scriptElement = templateElement.content.querySelector('script')
             if (scriptElement != null && !scriptElement.hasAttribute('data-calc') && scriptElement.childNodes.length>0) {
                 let _code =  scriptElement.textContent.split(/\r?\n/); // Create array of state init code.
-                
                 for (let line of _code) {
                     line = line.trim()
                     if (line.startsWith('function')) {

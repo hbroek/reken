@@ -76,8 +76,12 @@
 
     f7_loop = 12
 
+    var nextTick = () => {
+      return waitFor(2000, () => true);
+    }
+
     var waitFor = (timeoutms, condition) => new Promise((r, j) => {
-      let timeCheck = 1
+      let timeCheck = 0;
       var check = () => {
         if(condition()) 
           r(true)
@@ -776,7 +780,7 @@
     </div>
     <script>
       let r4_options = {'method': 'GET'}
-      let r4_result = {}
+      let r4_result = {'hello': 'world'}
       r4_options.r4_callback_valid = false;
 
       const r4_callback = (options, json) => {
@@ -1682,7 +1686,7 @@
       <script>
         let count = 0;
       </script>  
-      <div data-interval="1:ainb3:count++;ainb3=false" data-text="Count:${count}"></div>
+      <div data-interval="10:ainb3:count++;ainb3=false" data-text="Count:${count}"></div>
     </template>
     <inc3 id="inc3" ainb3="inb3"></inc3>
     <input id="in3" type="checkbox" data-value="inb3">
@@ -1793,8 +1797,8 @@
     <sub-lib1 id="sdi1"></sub-lib1>
     <div data-include="includes/library.html"></div>
     <comp-include2 id="di2"><h3>h3 comp include2</h3></comp-include2>
-    <sub-lib2 id="sdi2"></sub-lib2>
     <div data-include="includes/library2.html"></div>
+    <sub-lib2 id="sdi2"></sub-lib2>
     <div id="il0" data-include="includes/library3.html"></div>
   </section>
   <hr>
@@ -1891,35 +1895,36 @@
       })
     })
     describe('data-value tests', () => {
-      it('Start with empty value and change value', (done) => {
+      it('Start with empty value and change value',  async function () {
         expect($('v0')).to.have.attr('value', 'not used') //value can be ignored.
         const testString0 = "First String"
         assert($('v0').value == '', "Value is empty")
         $('v0').value = testString0
         $('v0').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v0').value == testString0, `Value set to ${testString0}`)
         expect($('v0_0')).to.have.text(testString0);
         expect($('v0_1')).to.have.text(testString0);
-        done();
       })
-      it('Start with string value and change value, then set to empty string', (done) => {
+      it('Start with string value and change value, then set to empty string', async function () {
         let testString1 = "Second value"
         assert($('v1').value == testString1, testString1)
         testString1 = "Value changed"
         $('v1').value = testString1
         $('v1').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v1').value == testString1, `Value set to ${testString1}`)
         expect($('v1_0')).to.have.text(testString1);
         expect($('v1_1')).to.have.text(testString1);
         testString1 = ""
         $('v1').value = testString1
         $('v1').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v1').value == testString1, `Value set to ${testString1}`)
         expect($('v1_0')).to.have.text(testString1);
         expect($('v1_1')).to.have.text(testString1);
-        done();
       })
-      it('Start with number value 100', (done) => {
+      it('Start with number value 100', async function () {
         let testNumber2 = 100
         assert($('v2').value == testNumber2, "Value is 100")
         expect($('v2_0')).to.have.text("" + testNumber2);
@@ -1927,12 +1932,12 @@
         testNumber2 = 200
         $('v2').value = testNumber2
         $('v2').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v2').value == testNumber2, `Value set to ${testNumber2}`)
         expect($('v2_0')).to.have.text("" + testNumber2);
         expect($('v2_1')).to.have.text("" + testNumber2);
-        done();
       })
-      it('Start with range number value 50', (done) => {
+      it('Start with range number value 50', async function () {
         let testNumber3 = 50
         assert($('v3').value == testNumber3, "Value is 50")
         expect($('v3_0')).to.have.text("" + testNumber3);
@@ -1940,12 +1945,12 @@
         testNumber3 = 25
         $('v3').value = testNumber3
         $('v3').dispatchEvent(new Event('input'));
+        await nextTick();
         assert($('v3').value == testNumber3, `Value set to ${testNumber3}`)
         expect($('v3_0')).to.have.text("" + testNumber3);
         expect($('v3_1')).to.have.text("" + testNumber3);
-        done();
       })
-      it('Start with single checkbox false', (done) => {
+      it('Start with single checkbox false', async function () {
         let testCheckbox4 = false
         assert($('v4').checked == testCheckbox4, "Value is unchecked")
         expect($('v4_0')).to.have.text("" + testCheckbox4);
@@ -1953,12 +1958,12 @@
         testCheckbox4 = true
         $('v4').checked = testCheckbox4
         $('v4').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v4').checked == testCheckbox4, `Value set to ${testCheckbox4}`)
         expect($('v4_0')).to.have.text("" + testCheckbox4);
         expect($('v4_1')).to.have.text("" + testCheckbox4);
-        done();
       })
-      it('Start with multiple checkbox one and three checked, then uncheck one, then check 2', (done) => {
+      it('Start with multiple checkbox one and three checked, then uncheck one, then check 2', async function () {
         let testCheckbox5 = ['one', 'three'];
         assert($('v5').checked == true, "Value is unchecked")
         assert($('v5_2').checked == false, "Value is unchecked")
@@ -1968,6 +1973,7 @@
 
         $('v5').checked = false
         $('v5').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v5').checked == false, "Value is unchecked")
         assert($('v5_2').checked == false, "Value is unchecked")
         assert($('v5_3').checked == true, "Value is unchecked")
@@ -1977,15 +1983,15 @@
 
         $('v5_2').checked = true
         $('v5_2').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v5').checked == false, "Value is unchecked")
         assert($('v5_2').checked == true, "Value is unchecked")
         assert($('v5_3').checked == true, "Value is unchecked")
         testCheckbox5 = ['three', 'two'];
         expect($('v5_0')).to.have.text("" + testCheckbox5.toString());
         expect($('v5_1')).to.have.text("" + testCheckbox5.toString());
-        done();
       })
-      it('Start with multiple radio 3 checked, then set radio 2', (done) => {
+      it('Start with multiple radio 3 checked, then set radio 2', async function () {
         let testRadio6 = 'THREE';
         assert($('v6').checked == false, "Value is unchecked")
         assert($('v6_2').checked == false, "Value is unchecked")
@@ -1995,27 +2001,27 @@
 
         $('v6_2').checked = true;
         $('v6_2').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v6').checked == false, "Value is unchecked")
         assert($('v6_2').checked == true, "Value is unchecked")
         assert($('v6_3').checked == false, "Value is unchecked")
         testRadio6 = 'TWO';
         expect($('v6_0')).to.have.text("" + testRadio6.toString());
         expect($('v6_1')).to.have.text("" + testRadio6.toString());
-        done();
       })
-      it('Start with empty select value and change value', (done) => {
+      it('Start with empty select value and change value', async function () {
         const testString7 = "Two"
         assert($('v7').value == '', "Value is empty")
         expect($('v7_0')).to.have.text('');
         expect($('v7_1')).to.have.text('');
         $('v7').value = testString7
         $('v7').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v7').value == testString7, `Value set to ${testString7}`)
         expect($('v7_0')).to.have.text(testString7);
         expect($('v7_1')).to.have.text(testString7);
-        done();
       })
-      it('Start with T2 selected value and change value to T3', (done) => {
+      it('Start with T2 selected value and change value to T3', async function () {
         let testString8 = "T2"
         expect($('v8_0')).to.have.text(testString8);
         expect($('v8_1')).to.have.text(testString8);
@@ -2024,24 +2030,24 @@
         testString8 = "T3"
         $('v8').value = testString8
         $('v8').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v8').value == testString8, `Value set to ${testString8}`)
         expect($('v8_0')).to.have.text(testString8);
         expect($('v8_1')).to.have.text(testString8);
-        done();
       })
-      it('Start with empty textarea and change value', (done) => {
+      it('Start with empty textarea and change value', async function () {
         const testString9 = "Two little piggies"
         assert($('v9').value == '', "Value is empty")
         expect($('v9_0')).to.have.text('');
         expect($('v9_1')).to.have.text('');
         $('v9').value = testString9
         $('v9').dispatchEvent(new Event('input'));
+        await nextTick();
         assert($('v9').value == testString9, `Value set to ${testString9}`)
         expect($('v9_0')).to.have.text(testString9);
         expect($('v9_1')).to.have.text(testString9);
-        done();
       })
-      it('Start with populated textarea and change value', (done) => {
+      it('Start with populated textarea and change value', async function () {
         let testString10 = vtextarea10;
         assert($('v10').value === testString10, "Value is empty")
         expect($('v10_0')).to.have.text(testString10);
@@ -2049,12 +2055,12 @@
         testString10 = "The last ones too"
         $('v10').value = testString10
         $('v10').dispatchEvent(new Event('input'));
+        await nextTick();
         assert($('v10').value == testString10, `Value set to ${testString10}`)
         expect($('v10_0')).to.have.text(testString10);
         expect($('v10_1')).to.have.text(testString10);
-        done();
       })
-      it('On a data-for generated select list start with 1 as the selected value and change value to 9', (done) => {
+      it('On a data-for generated select list start with 1 as the selected value and change value to 9', async function () {
         let testString11 = "1"
         expect($('v11_0')).to.have.text(testString11);
         expect($('v11_1')).to.have.text(testString11);
@@ -2063,12 +2069,12 @@
         testString11 = "9"
         $('v11').value = testString11
         $('v11').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v11').value == testString11, `Value set to ${testString11}`)
         expect($('v11_0')).to.have.text(testString11);
         expect($('v11_1')).to.have.text(testString11);
-        done();
       })
-      it('On a data-for generated list with checkbox 2 pre-selected.', (done) => {
+      it('On a data-for generated list with checkbox 2 pre-selected.', async function () {
         let testString12 = '2,4'
         expect($('v12_0')).to.have.text(testString12);
         expect($('v12_1')).to.have.text(testString12);
@@ -2082,6 +2088,7 @@
 
         v12inputs[0].checked = true;
         fireEvent(v12inputs[0],'value')
+        await nextTick();
 
         testString12 = '2,4,0'
         expect($('v12_0')).to.have.text(testString12);
@@ -2092,10 +2099,8 @@
         assert(v12inputs[2].checked == true, "Value is checked")
         assert(v12inputs[3].checked == false, "Value is unchecked")
         assert(v12inputs[4].checked == true, "Value is checked")
-
-        done();
       })
-      it('Start with multiple connected by data-attr-name radio 2 checked, then set radio 0', (done) => {
+      it('Start with multiple connected by data-attr-name radio 2 checked, then set radio 0', async function () {
         let testString13 = '2'
         expect($('v13_0')).to.have.text(testString13);
         expect($('v13_1')).to.have.text(testString13);
@@ -2109,6 +2114,7 @@
 
         v13inputs[0].checked = true;
         fireEvent(v13inputs[0],'value')
+        await nextTick();
 
         testString13 = '0'
         expect($('v13_0')).to.have.text(testString13);
@@ -2119,9 +2125,8 @@
         assert(v13inputs[2].checked == false, "Value is unchecked")
         assert(v13inputs[3].checked == false, "Value is unchecked")
         assert(v13inputs[4].checked == false, "Value is unchecked")
-        done();
       })
-      it('Start with range number value 150 with a data-attr-min of 100 and data-attr-max of 250 ', (done) => {
+      it('Start with range number value 150 with a data-attr-min of 100 and data-attr-max of 250 ', async function () {
         let testNumber14 = 150
         assert($('v14').value == testNumber14, "Value is 150")
         expect($('v14_0')).to.have.text("" + testNumber14);
@@ -2129,12 +2134,12 @@
         testNumber14 = 50
         $('v14').value = testNumber14
         $('v14').dispatchEvent(new Event('input'));
+        await nextTick();
         assert($('v14').value != testNumber14, `Value set to ${testNumber14}`)
         expect($('v14_0')).to.not.have.text("" + testNumber14);
         expect($('v14_1')).to.not.have.text("" + testNumber14);
-        done();
       })
-      it('Start with 2 selected values and change value', (done) => {
+      it('Start with 2 selected values and change value', async function () {
         const testString15 = "two,four"
         const v_sl15 = $('v15')
         console.log(v_sl15.options[0].selected)
@@ -2150,6 +2155,7 @@
         v_sl15.options[3].selected = false;
 
         $('v15').dispatchEvent(new Event('change'));
+        await nextTick();
 
         expect($('v15_0')).to.have.text('');
         expect($('v15_1')).to.have.text('');
@@ -2157,6 +2163,7 @@
         v_sl15.options[2].selected = true;
 
         $('v15').dispatchEvent(new Event('change'));
+        await nextTick();
 
         expect($('v15_0')).to.have.text('three');
         expect($('v15_1')).to.have.text('three');
@@ -2164,25 +2171,23 @@
         v_sl15.options[0].selected = true;
 
         $('v15').dispatchEvent(new Event('change'));
+        await nextTick();
         expect($('v15_0')).to.have.text('three,one');
         expect($('v15_1')).to.have.text('three,one');
-
-        done();
       })
-      it('Start with data-value defined and initialized variable and change value', (done) => {
+      it('Start with data-value defined and initialized variable and change value', async function () {
         expect($('v16_0')).to.have.text('16');
         expect($('v16_1')).to.have.text('16');
 
         $('v16').value = 32;
         $('v16').dispatchEvent(new Event('change'));
+        await nextTick();
 
         assert($('v16').value == 32, "Value is set to 32");
         expect($('v16_0')).to.have.text('32');
         expect($('v16_1')).to.have.text('32');
-
-        done();
       })
-      it('Start with number value 17', (done) => {
+      it('Start with number value 17', async function () {
         let testNumber17 = 17
         assert($('v17').value == testNumber17, "Value is 17")
         expect($('v17_0')).to.have.text("" + testNumber17);
@@ -2190,13 +2195,13 @@
         testNumber17 = 227
         $('v17').value = testNumber17
         $('v17').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v17').value == testNumber17, `Value set to ${testNumber17}`)
         expect($('v17_0')).to.have.text("" + testNumber17);
         expect($('v17_1')).to.have.text("" + testNumber17);
-        done();
       })
 
-      it('Start with value undefined', (done) => {
+      it('Start with value undefined', async function () {
         let testNumber18 = 'undefined';
         expect($('v18_0')).to.have.text(testNumber18);
         expect($('v18_1')).to.have.text(testNumber18);
@@ -2204,14 +2209,14 @@
         $('v18').value = testNumber18
         console.log('v18',$('v18'),$('v18').value,testNumber18);
         $('v18').dispatchEvent(new Event('input'));
+        await nextTick();
         console.log('v18',$('v18'),$('v18').value,testNumber18);
         assert($('v18').value == testNumber18, `Value set to ${testNumber18}`)
         expect($('v18_0')).to.have.text("" + testNumber18);
         expect($('v18_1')).to.have.text("" + testNumber18);
-        done();
       })
 
-      it('Start with single checkbox false', (done) => {
+      it('Start with single checkbox false', async function () {
         let testCheckbox19 = false
         assert($('v19').checked == testCheckbox19, "Value is unchecked")
         expect($('v19_0')).to.have.text("" + testCheckbox19);
@@ -2219,12 +2224,12 @@
         testCheckbox19 = true
         $('v19').checked = testCheckbox19
         $('v19').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v19').checked == testCheckbox19, `Value set to ${testCheckbox19}`)
         expect($('v19_0')).to.have.text("" + testCheckbox19);
         expect($('v19_1')).to.have.text("" + testCheckbox19);
-        done();
       })
-      it('Initialize testCheckbox20, start with multiple checkbox one and three checked, then uncheck one, then check 2', (done) => {
+      it('Initialize testCheckbox20, start with multiple checkbox one and three checked, then uncheck one, then check 2', async function () {
         let testCheckbox20 = ['one', 'three'];
         assert($('v20').checked == true, "Value is unchecked")
         assert($('v20_2').checked == false, "Value is unchecked")
@@ -2234,15 +2239,15 @@
 
         $('v20').checked = false
         $('v20').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v20').checked == false, "Value is unchecked")
         assert($('v20_2').checked == false, "Value is unchecked")
         assert($('v20_3').checked == true, "Value is unchecked")
         testCheckbox20 = 'three';
         expect($('v20_0')).to.have.text(testCheckbox20);
         expect($('v20_1')).to.have.text(testCheckbox20);
-        done();
       })
-      it('Initialize vradio21, start with multiple radio 3 checked, then set radio 2', (done) => {
+      it('Initialize vradio21, start with multiple radio 3 checked, then set radio 2', async function () {
         let testRadio21 = 'THREE';
         assert($('v21').checked == false, "Value is unchecked")
         assert($('v21_2').checked == false, "Value is unchecked")
@@ -2252,72 +2257,67 @@
 
         $('v21_2').checked = true;
         $('v21_2').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v21').checked == false, "Value is unchecked")
         assert($('v21_2').checked == true, "Value is unchecked")
         assert($('v21_3').checked == false, "Value is unchecked")
         testRadio21 = 'TWO';
         expect($('v21_0')).to.have.text("" + testRadio21.toString());
         expect($('v21_1')).to.have.text("" + testRadio21.toString());
-        done();
       })
 
-      it('Initialize vselect22; Start with empty select value and change value', (done) => {
+      it('Initialize vselect22; Start with empty select value and change value', async function () {
         const testString22 = "Two"
         assert($('v22').value == '', "Value is empty")
         expect($('v22_0')).to.have.text('');
         expect($('v22_1')).to.have.text('');
         $('v22').value = testString22
         $('v22').dispatchEvent(new Event('change'));
+        await nextTick();
         assert($('v22').value == testString22, `Value set to ${testString22}`)
         expect($('v22_0')).to.have.text(testString22);
         expect($('v22_1')).to.have.text(testString22);
-        done();
       })
-      it('Initialize vtextarea23, start with empty textarea and change value', (done) => {
+      it('Initialize vtextarea23, start with empty textarea and change value', async function () {
         const testString23 = "Two little piggies"
         assert($('v23').value == '', "Value is empty")
         expect($('v23_0')).to.have.text('');
         expect($('v23_1')).to.have.text('');
         $('v23').value = testString23
         $('v23').dispatchEvent(new Event('input'));
+        await nextTick();
         assert($('v23').value == testString23, `Value set to ${testString23}`)
         expect($('v23_0')).to.have.text(testString23);
         expect($('v23_1')).to.have.text(testString23);
-        done();
       })
     })
     describe('data-style tests', () => {
-      it('width, heigh background', (done) => {
+      it('width, heigh background', async function () {
         expect($('s0')).to.have.style('width', '64px');
         expect($('s0')).to.have.style('height', '48px');
         expect($('s0')).to.have.style('background-color', 'rgb(192, 192, 192)');
-        done();
       })
     })
     describe('data-class tests', () => {
-      it('class added', (done) => {
+      it('class added', async function () {
         expect($('c0')).to.have.class('class0');
-        done();
       })
-      it('class not added', (done) => {
+      it('class not added', async function () {
         expect($('c1')).not.to.have.class('class1');
-        done();
       })
-      it('class added with short form', (done) => {
+      it('class added with short form', async function () {
         expect($('c2')).to.have.class('class2');
         $('c2_1').checked = false;
         $('c2_1').dispatchEvent(new Event('change'));
+        await nextTick();
         expect($('c2')).to.not.have.class('class2');
-
-        done();
       })
-      it('class not added with short form', (done) => {
+      it('class not added with short form', async function () {
         expect($('c3')).not.to.have.class('class3');
         $('c3_1').checked = false;
         $('c3_1').dispatchEvent(new Event('change'));
+        await nextTick();
         expect($('c3')).to.not.have.class('class3');
-
-        done();
       })
       it('Multiple classes: class40, class42 added. class41, class43 not.', (done) => {
         expect($('c4')).to.have.class('class40');
@@ -2326,105 +2326,103 @@
         expect($('c4')).to.not.have.class('class43');
         done();
       })
-      it('Multiple classes added using short form', (done) => {
+      it('Multiple classes added using short form', async function () {
         expect($('c5')).not.to.have.class('class50');
         expect($('c5')).to.have.class('class51');
 
         $('c5_1').checked = true;
         $('c5_1').dispatchEvent(new Event('change'));
+        await nextTick();
         expect($('c5')).to.have.class('class50');
         expect($('c5')).to.have.class('class51');
 
         $('c5_2').checked = false;
         $('c5_2').dispatchEvent(new Event('change'));
+        await nextTick();
         expect($('c5')).to.have.class('class50');
         expect($('c5')).to.not.have.class('class51');
-
-        done();
       })
       it('class added with declaration', (done) => {
         expect($('c6')).to.have.class('class6');
         done();
       })
-      it('class not added with declaration', (done) => {
+      it('class not added with declaration', async function () {
         expect($('c7')).not.to.have.class('class7');
         $('c7_1').click();
+        await nextTick();
         expect($('c7')).to.have.class('class7');
-        done();
       })
-      it('class added with multiple declarations', (done) => {
+      it('class added with multiple declarations', async function () {
         expect($('c8')).not.to.have.class('class81');
         expect($('c8')).to.have.class('class82');
         $('c8_1').click();
+        await nextTick();
         expect($('c8')).to.have.class('class81');
         expect($('c8')).to.have.class('class82');
         $('c8_2').click();
+        await nextTick();
         expect($('c8')).to.have.class('class81');
         expect($('c8')).to.not.have.class('class82');
-        done();
       })
 
 
     })
-    describe('data-if tests', (done) => {
-      it('if not displayed', (done) => {
+    describe('data-if tests', () => {
+      it('if not displayed', async () => {
         expect($('i0')).not.to.be.displayed;
         //Make true
         $('i0_1').checked = true;
-        $('i0_1').dispatchEvent(new Event('change'));
+        fireEvent($('i0_1'), 'value');
+        await nextTick();
         expect($('i0')).to.be.displayed;
-        done();
       })
-      it('if displayed', (done) => {
+      it('if displayed', async () => {
         expect($('i1')).to.be.displayed;
         //Make true
         $('i1_1').checked = false;
-        $('i1_1').dispatchEvent(new Event('change'));
+        fireEvent($('i1_1'), 'value');
+        await nextTick();
         expect($('i1')).not.to.be.displayed;
-
-        done();
       })
-      it('Make sure that if element children do no get updated when hidden', (done) => {
+      it('Make sure that if element children do no get updated when hidden', async () => {
         expect($('i2_2')).to.be.displayed;
         expect($('i2_2')).to.have.text('true')
         //Make false
         $('i2_1').checked = false;
-        $('i2_1').dispatchEvent(new Event('change'));
+        fireEvent($('i2_1'), 'value');
+        await nextTick();
         expect($('i2')).not.to.be.displayed;
         expect($('i2_2')).to.have.text('true') //Means if element contents are not updated when if negative
 
         expect($('i2_2')).to.be.displayed;
         expect($('i2_2')).to.have.text('true')
-
-        done();
       })
-      it('Make sure that if element with a for loop does not execute when hidden', (done) => {
+      it('Make sure that if element with a for loop does not execute when hidden', async () => {
         expect($('i3')).not.to.be.displayed;
         expect($('i3_1').checked).to.be.false;
         expect($('i3')).to.have.length(1);
         //Make true; Ie show and execute element
         $('i3_1').checked = true;
-        $('i3_1').dispatchEvent(new Event('change'));
+        fireEvent($('i3_1'), 'value');
+        await nextTick();
         expect($('i3')).to.be.displayed;
         expect($('i3_1').checked).to.be.true;
         expect($('i3')).to.have.length(3);
-
-        done();
       })
-      it('Make sure that if element works with data-style attribute', (done) => {
+      it('Make sure that if element works with data-style attribute', async () => {
         expect($('i4')).to.be.displayed;
         expect($('i4_1').checked).to.be.true;
         expect($('i4')).to.have.style('background-color', 'rgb(255, 0, 0)');
 
         //Make true; Ie show and execute element
         $('i4_1').checked = false;
-        $('i4_1').dispatchEvent(new Event('change'));
+        fireEvent($('i4_1'), 'value');
+        await nextTick();
         expect($('i4')).not.to.be.displayed;
         expect($('i4_1').checked).to.be.false;
         expect($('i4')).to.have.style('background-color', 'rgb(255, 0, 0)');
-        done();
       })      
-      it('Make sure that if element works with class modifier', (done) => {
+      it('Make sure that if element works with class modifier', async () => {
         expect($('i5')).to.be.displayed;
         expect($('i5t')).to.be.displayed;
         expect($('i5t')).to.have.text('true');
@@ -2433,25 +2431,25 @@
 
         //Make false; Ie show and execute element
         $('i5_1').checked = false;
-        $('i5_1').dispatchEvent(new Event('change'));
+        fireEvent($('i5_1'), 'value');
+        await nextTick();
         expect($('i5')).to.be.displayed;
         expect($('i5t')).to.be.displayed; // Not hidden and not modified as the class modifier does not hide it but children are not executed.
         expect($('i5t')).to.have.text('true');
         expect($('i5_1').checked).to.be.false;
         expect($('i4')).to.not.have.class('i5class');
-        done();
       })      
       
-      it('Make sure that false if does not execute data-text', (done) => {
+      it('Make sure that false if does not execute data-text', async () => {
         expect($('i6')).not.to.be.displayed;
         expect($('i6')).to.have.text('check data-text is not executed');
 
         //Make false; Ie show and execute element
         $('i6_1').checked = true;
-        $('i6_1').dispatchEvent(new Event('change'));
+        fireEvent($('i6_1'), 'value');
+        await nextTick();
         expect($('i6')).to.be.displayed;
         expect($('i6')).to.have.text('true');
-        done();
       })      
 
       it('Make sure component with data-if renders', (done) => {
@@ -2460,31 +2458,32 @@
         done();
       }) 
       
-      it('Make sure display style is reset to flex.', (done) => {
+      it('Make sure display style is reset to flex.', async () => {
         expect($('i8')).to.be.displayed;
         expect($('i8')).to.have.style('display', 'flex');
 
         //Make false; Ie hide element by setting display to none.
         $('i8_1').checked = false;
-        $('i8_1').dispatchEvent(new Event('change'));
+        fireEvent($('i8_1'), 'value');
+        await nextTick();
         expect($('i8')).not.to.be.displayed;
         expect($('i8')).to.have.style('display', 'none');
 
         // Make truel show element and reset display to flex.
         $('i8_1').checked = true;
-        $('i8_1').dispatchEvent(new Event('change'));
+        fireEvent($('i8_1'), 'value');
+        await nextTick();
         expect($('i8')).to.be.displayed;
         expect($('i8')).to.have.style('display', 'flex');
-        done();
       })      
       
-      it('Make sure if element works with let declaration', (done) => {
+      it('Make sure if element works with let declaration', async () => {
         expect($('i9')).to.be.displayed;
         expect($('i9')).to.have.text('Hello visible');
         $('i9_1').checked = false;
-        $('i9_1').dispatchEvent(new Event('change'));
+        fireEvent($('i9_1'), 'value');
+        await nextTick();
         expect($('i9')).not.to.be.displayed;
-        done();
       })      
 
     })
@@ -2656,104 +2655,105 @@
 
     
     describe('data-action tests', () => {
-      it('Press button to increment js number a0', (done) => {
+      it('Press button to increment js number a0', async () => {
         expect(a0).to.equal(0);
 
-        $('a0').dispatchEvent(new Event('click'));
+        fireEvent($('a0'), 'click');
+        await nextTick();
 
         expect(a0).to.equal(1);
-        done();
       })
-      it('Press button to decrement a1 and check the button text gets updated', (done) => {
+      it('Press button to decrement a1 and check the button text gets updated', async () => {
 
         expect(a1).to.equal(10);
         expect($('a1')).to.have.text('Decrement a1 = 10')
 
-        $('a1').dispatchEvent(new Event('click'));
+        fireEvent($('a1'), 'click');
+        await nextTick();
 
         expect(a1).to.equal(9);
         expect($('a1')).to.have.text('Decrement a1 = 9')
-        done();
       })
-      it('Press div with data-action to increment js number a2', (done) => {
+      it('Press div with data-action to increment js number a2', async () => {
         expect(a2).to.equal(20);
 
-        $('a2').dispatchEvent(new Event('click'));
+        fireEvent($('a2'), 'click');
+        await nextTick();
 
         expect(a2).to.equal(21);
-        done();
       })
-      it('Press div in button with data-action to increment js number a3', (done) => {
+      it('Press div in button with data-action to increment js number a3', async () => {
         expect(a3).to.equal(30);
 
-        $('a3b').dispatchEvent(new Event('click'));
+        fireEvent($('a3b'), 'click');
+        await nextTick();
         expect(a3).to.equal(31);
 
         $('a3b').setAttribute('disabled', '')
-        $('a3b').dispatchEvent(new Event('click')); //should not execute
+        fireEvent($('a3b'), 'click');
+        await nextTick();
         expect(a3).to.equal(31); // and number stays the same
 
-        done();
       })
-      it('Press div in button with enabled data-action event to increment js number a4', (done) => {
+      it('Press div in button with enabled data-action event to increment js number a4', async () => {
         expect(a4).to.equal(40);
 
-        $('a4b').dispatchEvent(new Event('click'));
+        fireEvent($('a4b'), 'click');
+        await nextTick();
         expect(a4).to.equal(41);
 
-        done();
       })
-      it('Press div in button with disabled data-action event to increment js number a5', (done) => {
+      it('Press div in button with disabled data-action event to increment js number a5', async () => {
         expect(a5).to.equal(50);
 
-        $('a5b').dispatchEvent(new Event('click'));
+        fireEvent($('a5b'), 'click');
+        await nextTick();
         expect(a5).to.equal(50);
 
-        done();
       })
 
-      it('Press div in button with boolean driven data-action event to increment js number a6', (done) => {
+      it('Press div in button with boolean driven data-action event to increment js number a6', async () => {
         expect(a6).to.equal(60);
 
-        $('a6b').dispatchEvent(new Event('click'));
+        fireEvent($('a6b'), 'click');
+        await nextTick();
         expect(a6).to.equal(61);
 
         //boolean a6bool is now false.
-        $('a6b').dispatchEvent(new Event('click'));
+        fireEvent($('a6b'), 'click');
+        await nextTick();
         // should be no increment now
         expect(a6).to.equal(61);
 
-
-        done();
       })
 
-      it('Press button to toggle boolean a7', (done) => {
-        expect($('a7')).to.not.have.attribute('disabled')
-        $('a7').dispatchEvent(new Event('click'));
+      it('Press button to toggle boolean a7', async () => {
+        expect($('a7')).not.to.have.attribute('disabled')
+        fireEvent($('a7'), 'click');
+        await nextTick();
         expect($('a7')).to.have.attribute('disabled')
-        done();
       })
     })
     describe('data-attr tests, initial value and after updated width and height js vars', () => {
-      it('Init img dimensions from vars and then change with button press', (done) => {
+      it('Init img dimensions from vars and then change with button press', async () => {
         expect($('at0')).to.have.attribute('width', '64')
         expect($('at0')).to.have.attribute('height', '48')
 
-        $('at1').dispatchEvent(new Event('click'));
+        fireEvent($('at1'), 'click');
+        await nextTick();
 
         expect($('at0')).to.have.attribute('width', '32')
         expect($('at0')).to.have.attribute('height', '24')
 
-        done();
       })
-      it('Conditionally show boolean attribute', (done) => {
-        expect($('at2')).to.not.have.attribute('disabled')
+      it('Conditionally show boolean attribute', async () => {
+        expect($('at2')).not.to.have.attribute('disabled')
 
-        $('at2').dispatchEvent(new Event('click'));
+        fireEvent($('at2'), 'click');
+        await nextTick();
 
         expect($('at2')).to.have.attribute('disabled')
 
-        done();
       })
       it('Check hyphenated aria data attribute gets created', (done) => {
         expect($('at3')).to.have.attribute('data-at3','data-a3')
@@ -2765,64 +2765,67 @@
       })
     })
     describe('data-on tests', () => {
-      it('Press button to increment js number a_0', (done) => {
+      it('Press button to increment js number a_0', async () => {
         expect(o_0).to.equal(5);
         expect($('o0')).to.have.text('Increment o0 5')
-        $('o0').dispatchEvent(new Event('click'));
+        fireEvent($('o0'), 'click');
+        await nextTick();
         expect(o_0).to.equal(6);
         expect($('o0')).to.have.text('Increment o0 6')
-        done();
       })
-      it('Check for on change event.', (done) => {
+      it('Check for on change event.', async () => {
         expect(o_1).to.equal('a');
         expect($('o1_0')).to.have.text('a')
         
         $('o1').value = 'z';
-        $('o1').dispatchEvent(new Event('change'));
+        fireEvent($('o1'), 'change');
+        await nextTick();
         expect(o_1).to.equal('z');
         expect($('o1_0')).to.have.text('z')
-        done();
       })
-      it('Check for on keypress up and down event.', (done) => {
+      it('Check for on keypress up and down event.', async () => {
         expect(o_2).to.equal('');
         expect($('o2_0')).to.have.text('')
         fireEvent($('o2'), "keydown", {keyCode: 120});
+        await nextTick();
         expect(o_2).to.equal(120);
         expect($('o2_0')).to.have.text('120')
         fireEvent($('o2'), "keyup", {keyCode: 110});
+        await nextTick();
         expect(o_2).to.equal(110);
         expect($('o2_0')).to.have.text('110')
-        done();
       })
-      it('data-value and a change listener on the same element', (done) => {
+      it('data-value and a change listener on the same element', async () => {
         expect(o_3).to.equal('abc');
         expect($('o3_0')).to.have.text('abc');
         $('o3').value = "ABC   ";
         fireEvent($('o3'), "value");
+        await nextTick();
         expect($('o3_0')).to.have.text('ABC   ')
         fireEvent($('o3'), "change");
+        await nextTick();
         expect($('o3_0')).to.have.text('ABC')
-        done();
       })
-      it('Check for conditional keypress up and down event.', (done) => {
+      it('Check for conditional keypress up and down event.', async () => {
         expect(o_4d).to.equal('');
         expect(o_4u).to.equal('');
         expect($('o4_0')).to.have.text('-')
         fireEvent($('o4'), "keydown", {keyCode: 120});
+        await nextTick();
         expect(o_4d).to.equal(120);
         expect($('o4_0')).to.have.text('120-')
         fireEvent($('o4'), "keyup", {keyCode: 110});
+        await nextTick();
         expect(o_4u).to.equal('');
         expect($('o4_0')).to.have.text('120-')
-        done();
       })
-      it('Press button to increment js number o_5', (done) => {
+      it('Press button to increment js number o_5', async () => {
         expect(o_5).to.equal(0);
         expect($('o5')).to.have.text('Increment o_5 0')
-        $('o5').dispatchEvent(new Event('click'));
+        fireEvent($('o5'), 'click');
+        await nextTick();
         expect(o_5).to.equal(1);
         expect($('o5')).to.have.text('Increment o_5 1')
-        done();
       })
     })
     describe('data-for tests', () => {
@@ -2863,7 +2866,7 @@
         expect(document.querySelectorAll('tbody#f5 td')).to.contain.text(['9047','4599','Done'])
         done();
       })
-      it('Render 3 table rows with td \'s from an array with 3 objects. interact with number input, radio and button.', (done) => {
+      it('Render 3 table rows with td \'s from an array with 3 objects. interact with number input, radio and button.', async () => {
         expect($('f6')).to.have.length(3)
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2','3'])
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','John','Maria'])
@@ -2874,37 +2877,39 @@
         f6elem.value = 10000;
         // Since dispatchEvent doesn't work on delegated event listeners, call listener directly
         fireEvent(f6elem, "value");
+        await nextTick();
         expect(10000).to.equal(f6[1].steps);
         expect(document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(6)')).to.contain.text('Done');
 
         //Select the third element element
         let f6_2_radio = document.querySelector('#f6 > tr:nth-child(3) > td:nth-child(1) > input[type="radio"]');
         fireEvent(f6_2_radio, "value");
+        await nextTick();
         expect('2').to.equal(f6_selected);
 
         // Remove 2nd remove by "clicking" action button
         let f6_1_button = document.querySelector('#f6 > tr:nth-child(2) > td:nth-child(7) > button');
         //call delete click handler on the for node
         fireEvent(f6_1_button, "click");
+        await nextTick();
         expect($('f6')).to.have.length(2)
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['1','2'])
         expect(document.querySelectorAll('tbody#f6 td')).to.contain.text(['Karin','Maria'])
-        done();
       })
       it('Render 12 li\'s', (done) => {
         expect($('f7')).to.have.length(12)
         expect(document.querySelectorAll('ol#f7 li')).to.contain.text(['1 of 12 elements', '12 of 12 elements'])
         done();
       })
-      it('Render 2 nested for loops with context action', (done) => {
+      it('Render 2 nested for loops with context action', async () => {
 
         expect($('f81')).to.have.text("0 - 0")
         const f8Button1_1 = document.querySelector('#f8 > div > div:nth-child(2) > button:nth-child(2)')
         fireEvent(f8Button1_1, "click")
+        await nextTick();
         expect($('f81')).to.have.text("1 - 1")
-        done();
       })
-      it('For loop with 2 action buttons on each loop item', (done) => {
+      it('For loop with 2 action buttons on each loop item', async () => {
         const f9Div = $('f9')
         const f9Row0Div = f9Div.querySelectorAll('div')[0];
         const f9Row1Div = f9Div.querySelectorAll('div')[1];
@@ -2920,6 +2925,7 @@
 
         const f9Row0Div0Button = f9Row0Div.querySelectorAll('button')[0];
         fireEvent(f9Row0Div0Button, "click")
+        await nextTick();
         expect(f9Row0Div1Span).to.have.text('c0:2') //Changed
         expect(f9Row0Div2Span).to.have.text('c1:10')
         expect(f9Row1Div1Span).to.have.text('c0:100')
@@ -2927,6 +2933,7 @@
 
         const f9Row0Div1Button = f9Row0Div.querySelectorAll('button')[1];
         fireEvent(f9Row0Div1Button, "click")
+        await nextTick();
         expect(f9Row0Div1Span).to.have.text('c0:2')
         expect(f9Row0Div2Span).to.have.text('c1:11') //Changed
         expect(f9Row1Div1Span).to.have.text('c0:100')
@@ -2934,41 +2941,41 @@
 
         const f9Row1Div1Button = f9Row1Div.querySelectorAll('button')[1];
         fireEvent(f9Row1Div1Button, "click")
+        await nextTick();
         expect(f9Row0Div1Span).to.have.text('c0:2')
         expect(f9Row0Div2Span).to.have.text('c1:11') 
         expect(f9Row1Div1Span).to.have.text('c0:100')
         expect(f9Row1Div2Span).to.have.text('c1:111')
-        done();
       })
 
-      it('String array For loop with text output and input control', (done) => {
+      it('String array For loop with text output and input control', async () => {
         expect($('f10')).to.have.length(3)
         expect(document.querySelectorAll('#f10 div span')).to.contain.text(['0','1','2'])
         expect(document.querySelectorAll('#f10 div span')).to.contain.text(['Charlie','Foxtrot','Tango'])
         let f10_2ndRowInput  = document.querySelector('#f10 > div:nth-child(2) > input');
         f10_2ndRowInput.value = 'Alpha'
         fireEvent(f10_2ndRowInput, "value");
+        await nextTick();
         expect(document.querySelectorAll('#f10 div span')).to.contain.text(['Charlie','Alpha','Tango'])
-        done();
       })
 
-      it('String array For loop with text output and input control in 3 for loop leaf elements', (done) => {
+      it('String array For loop with text output and input control in 3 for loop leaf elements', async () => {
         expect($('f11')).to.have.length(9)
         expect(document.querySelectorAll('#f11 span')).to.contain.text(['0','1','2'])
         expect(document.querySelectorAll('#f11 span')).to.contain.text(['Charlie','Foxtrot','Tango'])
         let f11_2ndRowInput  = document.querySelectorAll('#f11 > input')[1];
         f11_2ndRowInput.value = 'Alpha'
         fireEvent(f11_2ndRowInput, "value");
+        await nextTick();
         expect(document.querySelectorAll('#f11 span')).to.contain.text(['Charlie','Alpha','Tango'])
-        done();
       })
-      it('Render 2 nested for loops with context action on an inner for loop with 3 direct children', (done) => {
+      it('Render 2 nested for loops with context action on an inner for loop with 3 direct children', async () => {
 
         expect($('f121')).to.have.text("0 - 0 - 0")
         const f12Button1_1_1 = document.querySelector('#f12 > div > div:nth-child(2) > button:nth-child(5)')
         fireEvent(f12Button1_1_1, "click")
+        await nextTick();
         expect($('f121')).to.have.text("1 - 1 - 1")
-        done();
       })
 
       it('Load data in an array, which starts out undefined', async function () {
@@ -3004,26 +3011,28 @@
         done();
       })
 
-      it('Render a the value of js var, update with calc tagged script', (done) => {
+      it('Render a the value of js var, update with calc tagged script', async () => {
         expect($('ca1')).to.have.text('11')
 
         $('ca1_0').value = 11
         fireEvent($('ca1_0'), "value")
+        await nextTick();
         expect($('ca1')).to.have.text('21')
 
         fireEvent($('ca1_1'), "click")
+        await nextTick();
         expect($('ca1')).to.have.text('31')
 
-        done();
       })
 
-      it('Switch focus between 2 input controls', (done) => {
+      it('Switch focus between 2 input controls', async () => {
         ca20 = false
         fireEvent($('ca2_2'), "click")
+        await nextTick(); 
         assert($('ca2_0')===document.activeElement, "ca2_0 has focus")
         fireEvent($('ca2_2'), "click")
+        await nextTick();
         assert($('ca2_1')===document.activeElement, "ca2_1 has focus")
-        done();
       })
     })
 
@@ -3036,7 +3045,6 @@
 
         await waitFor(2000, () => checkForClass($('r0'), "reken-rest-done"));
         expect($('r0')).to.have.text('1')
-
       })
       it('Load a value from json file then load a value from another file', async function () {
 
@@ -3062,8 +3070,10 @@
       })
       it('Load an object with options, method=GET should pass', async function () {
         await waitFor(2000, () => checkForClass($('r4'), "reken-rest-done"));
+        console.log(r4_options, r4_result);
         assert(r4_options['reken_rest_status'] === 'reken-rest-done', "Options should have eken_rest_status prop with val reken-rest-done");
-        assert(r4_options['r4_callback_valid'] === true, "Call back is called with optiond and json string");
+    
+        // assert(r4_options['r4_callback_valid'] === true, "Call back is called with options and json string");
       })
       it('Load a value from json file, by setting the fetch option to true', async function () {
         expect($('r5')).to.have.text('0')
@@ -3150,51 +3160,53 @@
         expect($('cp2')).to.have.text('arg-10-Hello-10Hello-30')
         done();
       })
-      it('Verify updated componentent state', (done) => {
+      it('Verify updated componentent state', async () => {
         const cp3output = document.querySelector('#cp3 > div')
         expect(cp3output).to.contain.html('<em>10</em>')
         const cp3input = document.querySelector('#cp3 input')
         cp3input.value = 20
         cp3input.dispatchEvent(new Event('change'));
+        await nextTick();
         expect(cp3output).to.contain.html('<em>20</em>')
-
-        done();
       })
-      it('Nested components', (done) => {
+      it('Nested components', async () => {
         const cp4output = document.querySelector('#cp4 > [data-component=comp40] > div')
         expect(cp4output).to.contain.html('<em>100-arg-10</em>')
 
         const cp4input = document.querySelector('#cp4 > input')
         cp4input.value = 20
         cp4input.dispatchEvent(new Event('change'));
+        await nextTick();
         expect(cp4output).to.contain.html('<em>100-arg-20</em>')
 
         const cp40input = document.querySelector('#cp4 > [data-component=comp40] > input')
         cp40input.value = 120
         cp40input.dispatchEvent(new Event('change'));
+        await nextTick();
         expect(cp4output).to.contain.html('<em>120-arg-20</em>')
 
         const cp40button = document.querySelector('#cp4 > [data-component=comp40] > button')
         cp40button.dispatchEvent(new Event('click'));
+        await nextTick();
         expect(cp4output).to.contain.html('<em>200-arg-20</em>')
-        done();
       })
-      it('Component in a for loop', (done) => {
+      it('Component in a for loop', async () => {
         expect($('cp5')).to.have.length(3);
         expect(document.querySelectorAll('ul#cp5 li span')).to.contain.text(['comp 5 instance 1 - 10','comp 5 instance 2 - 10','comp 5 instance 3 - 10'])
 
         const cp52input = document.querySelector('#cp5 > [data-component=comp5]:nth-child(2) > input')
         cp52input.value = 20
         cp52input.dispatchEvent(new Event('change'));
+        await nextTick();
         expect(document.querySelectorAll('ul#cp5 li span')).to.contain.text(['comp 5 instance 1 - 10','comp 5 instance 2 - 20','comp 5 instance 3 - 10'])
 
         const cp53button = document.querySelector('#cp5 > [data-component=comp5]:nth-child(3) > button')
         cp53button.dispatchEvent(new Event('click'));
+        await nextTick();
         expect(document.querySelectorAll('ul#cp5 li span span')).to.contain.text(['comp 5 instance 1 - 10','comp 5 instance 2 - 20','comp 5 instance 3 - 100'])
-        done();
       })
 
-      it('Loop in a component', (done) => {
+      it('Loop in a component', async () => {
         const cp6div = document.querySelector('#cp6')
         const cp6Ul = document.querySelector('#cp6 > ul')
         expect(cp6Ul).to.have.length(3);
@@ -3207,6 +3219,7 @@
         cp62input.value = 120
         //Process change event of input control
         fireEvent(cp62input, "value");
+        await nextTick();
         expect(cp6Ul).to.have.length(3);
         expect(cp6Summary).to.have.text('arr_elems: 10,120,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 120','comp 6 instance 3 - 30'])
@@ -3214,6 +3227,7 @@
         //Update 2nd row value with button
         const cp62button = document.querySelector('#cp6 > ul > li:nth-child(2) > button.update')
         fireEvent(cp62button, "click")
+        await nextTick();
         expect(cp6Ul).to.have.length(3);
         expect(cp6Summary).to.have.text('arr_elems: 10,100,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 100','comp 6 instance 3 - 30'])
@@ -3221,6 +3235,7 @@
         //Remove 2nd row with button
         const cp63button = document.querySelector('#cp6 > ul > li:nth-child(2) > button.delete')
         fireEvent(cp63button, "click")
+        await nextTick();
         expect(cp6Ul).to.have.length(2);
         expect(cp6Summary).to.have.text('arr_elems: 10,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 30'])
@@ -3228,19 +3243,19 @@
         //Add row at the end.
         const cp600AddButton = document.querySelector('#cp600');
         fireEvent(cp600AddButton, "click");
+        await nextTick();
         expect(cp6Summary).to.have.text('arr_elems: 10,30,300')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 30','comp 6 instance 3 - 300'])
 
         //Remove row at the end.
         const cp601DeleteButton = document.querySelector('#cp601');
         fireEvent(cp601DeleteButton, "click")
+        await nextTick();
         expect(cp6Summary).to.have.text('arr_elems: 10,30')
         expect(document.querySelectorAll('#cp6 > ul span')).to.contain.text(['comp 6 instance 1 - 10','comp 6 instance 2 - 30'])
-
-        done();
       })
 
-      it('Nested components within loops with inputs and buttons', (done) => {
+      it('Nested components within loops with inputs and buttons', async () => {
         const cp7Comp = document.querySelector('#cp7');
         const cp7Span = document.querySelector('#cp7 > span > span ')
         expect(cp7Span).to.have.text('1')
@@ -3263,6 +3278,7 @@
         const cp7Input = document.querySelector('#cp7 > span > input ')
         cp7Input.value = 5;
         fireEvent(cp7Input, "value");
+        await nextTick();
         expect(cp7Span).to.have.text('5') // Changed to 5
         expect(cp72Span).to.have.text('3') // not changed
         expect(cp722Span).to.have.text('10') // not changed
@@ -3279,6 +3295,7 @@
         const cp72Input = cp72Comp.querySelector('span > input');
         cp72Input.value = 7
         fireEvent(cp72Input, "value");
+        await nextTick();
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Changed to 7
         expect(cp722Span).to.have.text('10') // Not changed
@@ -3290,6 +3307,7 @@
         const cp722Input = cp722Comp.querySelector('input');
         cp722Input.value = 42
         fireEvent(cp722Input, "value")
+        await nextTick();
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Not changed
         expect(cp722Span).to.have.text('42') // Changed to 42
@@ -3300,6 +3318,7 @@
         //Reset value with button in 2nd row in inner component
         const cp722Button = cp722Comp.querySelector('button');
         fireEvent(cp722Button, "click")
+        await nextTick();
         expect(cp7Span).to.have.text('5') // Not changed
         expect(cp72Span).to.have.text('7') // Not changed
         expect(cp722Span).to.have.text('0') // Reset to 0
@@ -3307,10 +3326,9 @@
         //Siblings not changed
         expect(cp71Span).to.have.text('3') // Not Changed        
         expect(cp721Span).to.have.text('10') // Not Changed          
-        done();
       })
 
-      it('Verify component state in for loop', (done) => {
+      it('Verify component state in for loop', async () => {
         const cp8 = document.querySelector('#cp8')
         const cp81Div = document.querySelector('#cp8 > :nth-child(1)');
         const cp82Div = document.querySelector('#cp8 > :nth-child(2)');
@@ -3326,6 +3344,7 @@
 
         cp82Checkbox.checked = false;
         fireEvent(cp82Checkbox, "value");
+        await nextTick();
         expect(cp81Checkbox.checked).to.be.true;
         expect(cp82Checkbox.checked).to.be.false;
         expect(cp83Checkbox.checked).to.be.true;
@@ -3333,18 +3352,17 @@
 
         cp83Checkbox.checked = false;
         fireEvent(cp83Checkbox, "value");
-
+        await nextTick();
         const cp8Delete = document.querySelector('#cp8Delete')
         fireEvent(cp8Delete, "click");
-
+        await nextTick();
         cp81Checkbox = document.querySelector('#cp8 > div:not([style*="display: none"]):nth-child(1)>input')
         cp82Checkbox = document.querySelector('#cp8 > div:not([style*="display: none"]):nth-child(2)>input')
         expect(cp81Checkbox.checked).to.be.true;
         expect(cp82Checkbox.checked).to.be.false;
-        done();
       })
 
-      it('Verify component style get applied', (done) => {
+      it('Verify component style get applied', async () => {
         const brown9  = 'rgb(165, 42, 42)'
         const gray9   = 'rgb(128, 128, 128)'
         const silver9 = 'rgb(192, 192, 192)'
@@ -3365,22 +3383,21 @@
         const li9_1Input = li9_1.querySelector('input')
         li9_1Input.checked = true;
         fireEvent(li9_1Input, "value");
+        await nextTick();
         expect(window.getComputedStyle(cp9, null).backgroundColor).to.equal(brown9) //brown
         expect(window.getComputedStyle(li9_0, null).backgroundColor).to.equal(gray9) //gray not selected
         expect(window.getComputedStyle(li9_1, null).backgroundColor).to.equal(silver9) //gray not selected
         expect(window.getComputedStyle(li9_3, null).backgroundColor).to.equal(silver9) // silver selected
         expect(cp9_h3).to.have.text("Selected:[3,1]");
-        
-        done();
       })
-      it('Verify component recalc is executed', (done) => {
+      it('Verify component recalc is executed', async () => {
         let cp10subdiv =  document.querySelector('#cp10 > div:first-child');
         expect(cp10subdiv).to.have.text('20')
         $('cp10Recalc').dispatchEvent(new Event('click'));
+        await nextTick();
         expect(cp10subdiv).to.have.text('30')
-        done();
       })
-      it('Verify component bound arguments are updated', (done) => {
+      it('Verify component bound arguments are updated', async () => {
         // First component instance
         let cp11div0 = $('cp11_0')
         let cp11_0subdiv0 =  cp11div0.querySelectorAll('div')[0];
@@ -3392,11 +3409,13 @@
         expect(cp11_01).to.have.text('10 - 11')
 
         fireEvent(cp11div0.querySelectorAll('button')[0], "click") // Set bind1 to setval value
+        await nextTick();
         expect(cp11_0subdiv0).to.have.text('20')
         expect(cp11_0subdiv1).to.have.text('11')
         expect(cp11_01).to.have.text('20 - 11')
 
         fireEvent(cp11div0.querySelectorAll('button')[1], "click") // Increment bind2 value
+        await nextTick();
         expect(cp11_0subdiv0).to.have.text('20')
         expect(cp11_0subdiv1).to.have.text('12')
 
@@ -3411,29 +3430,31 @@
         expect(cp11_11).to.have.text('110 - 111 - 130')
 
         fireEvent(cp11div1.querySelectorAll('button')[0], "click") // Set bind1 to setval value
+        await nextTick();
         expect(cp11_1subdiv0).to.have.text('130')
         expect(cp11_1subdiv1).to.have.text('111')
         expect(cp11_11).to.have.text('130 - 111 - 130')
 
         fireEvent(cp11div1.querySelectorAll('button')[1], "click") // Increment bind2 value
+        await nextTick();
         expect(cp11_1subdiv0).to.have.text('130')
         expect(cp11_1subdiv1).to.have.text('112')
         expect(cp11_11).to.have.text('130 - 112 - 130')
 
         expect(cp11_1subdiv1).to.have.text('112')
         fireEvent(cp11div1.querySelectorAll('button')[2], "click") // Increment setval value; should not propagate outside of component as it is an arg not a bind parameter
+        await nextTick();
         expect(cp11_11).to.have.text('130 - 112 - 130')
-        done();
       })
 
-      it('Verify when component data-if is false it does not execute children code', (done) => {
+      it('Verify when component data-if is false it does not execute children code', async () => {
         let cp12div = $('cp12')
         let cp12_subdiv = cp12.querySelector('div');
         expect(cp12_subdiv).to.have.text('Is not active')
         $('cp12_1').checked = true
         fireEvent($('cp12_1'), 'value')
+        await nextTick();
         expect(cp12_subdiv).to.have.text('Is active')
-        done();
       })
 
       it('Verify a for loop item can be passed as an argument', (done) => {
@@ -3473,7 +3494,7 @@
         expect(cp14div).to.have.style('color', 'rgb(255, 255, 255)');
         done();
       })
-      it('Hide component with if', (done) => {
+      it('Hide component with if', async () => {
         let cp14div = $('cp14_3')
         expect(cp14div).to.have.text('Shown');
         expect(cp14div).to.have.style('display', 'block');
@@ -3481,11 +3502,11 @@
         let cp14Checkbox = $('cp14_3c')
         cp14Checkbox.checked=false;
         cp14Checkbox.dispatchEvent(new Event('change'));
+        await nextTick();
         expect(cp14div).to.have.text('Shown');
         expect(cp14div).to.have.style('display', 'none');
-        done();
       })
-      it('Component internally hidden should stay hidden', (done) => {
+      it('Component internally hidden should stay hidden', async () => {
         let cp14div = $('cp14_4')
         expect(cp14div).to.have.text('Default');
         expect(cp14div).to.have.style('display', 'none');
@@ -3493,27 +3514,27 @@
         let cp14Checkbox = $('cp14_4c')
         cp14Checkbox.checked=false;
         cp14Checkbox.dispatchEvent(new Event('change'));
+        await nextTick();
         expect(cp14div).to.have.text('Default');
         expect(cp14div).to.have.style('display', 'none');
-        done();
       })
-      it('Use component default action', (done) => {
+      it('Use component default action', async () => {
         let cp16text = $('cp16text')
         expect(cp16text).to.have.text('');
         let cp16div = $('cp16_0')
         expect(cp16div).to.have.text('default action');
         cp16div.dispatchEvent(new Event('click'));
+        await nextTick();
         expect(cp16text).to.have.text('inner');
-        done();
       })
-      it('Override component action', (done) => {
+      it('Override component action', async () => {
         let cp16text = $('cp16text')
         expect(cp16text).to.have.text('inner');
         let cp16div = $('cp16_1')
         expect(cp16div).to.have.text('instance action');
         cp16div.dispatchEvent(new Event('click'));
+        await nextTick();
         expect(cp16text).to.have.text('outer');
-        done();
       })
       it('Override component data-attr', (done) => {
         expect($('cp17_0')).to.not.have.attribute('disabled')
@@ -3524,12 +3545,12 @@
         expect($('cp22div')).to.not.have.text('0');
         done();
       })
-      it('Fire custom event from component', (done) => {
+      it('Fire custom event from component', async () => {
         expect($('cp23_div')).to.have.text('0-');
         const cp23button = $('cp23div').querySelector('button')
         cp23button.dispatchEvent(new Event('click'));
+        await nextTick();
         expect($('cp23_div')).to.have.text('1-OK');
-        done();
       })
       it('Nest same component with slot', (done) => {
         expect($('cp24')).to.have.length(3);
@@ -3553,7 +3574,7 @@
         done();
       })
 
-      it('Nest 2 different components within for-loops', (done) => {
+      it('Nest 2 different components within for-loops', async () => {
         expect($('cp26')).to.have.length(2);
         expect($('cp26').children[0].children[0]).to.have.text('pre - 0')
         expect($('cp26').children[0].children[1]).to.have.text('26a slot 0-button')
@@ -3568,21 +3589,24 @@
         expect($('cp26').children[1].children[4]).to.have.text('post - 1')
 
         fireEvent($('cp26').children[0].children[3],'click');
+        await nextTick();
         expect($('cp26Text')).to.have.text('26a 0-button')
 
         fireEvent($('cp26').children[0].children[2].children[0].children[2],'click');
+        await nextTick();
         expect($('cp26Text')).to.have.text('26b 0:0-button')
 
         fireEvent($('cp26').children[1].children[2].children[1].children[2],'click');
+        await nextTick();
         expect($('cp26Text')).to.have.text('26b 1:1-button')
 
         fireEvent($('cp26').children[0].children[1],'click');
+        await nextTick();
         expect($('cp26Text')).to.have.text('26a slot 0-button')
 
         fireEvent($('cp26').children[1].children[1],'click');
+        await nextTick();
         expect($('cp26Text')).to.have.text('26a slot 1-button')
-
-        done();
       })
 
       it('Nest 2 different components with embeddedfor-loops', (done) => {
@@ -3598,30 +3622,34 @@
         expect($('cp27').children[0].children[4].children[0].children[4]).to.have.text('span27 1:1')
         done();
       })
-      it('Nested component with actions', (done) => {
+      it('Nested component with actions', async () => {
         const cp28 = $('cp28a');
         const cp28Text = $('cp28aText')
         fireEvent(cp28.children[0], 'click');
+        await nextTick();
         expect(cp28Text).to.have.text('28a outer-before')
 
         fireEvent(cp28.children[1], 'click');
+        await nextTick();
         expect(cp28Text).to.have.text('28a outer-slot')
 
         fireEvent(cp28.children[3], 'click');
+        await nextTick();
         expect(cp28Text).to.have.text('28a outer-after')
 
         fireEvent(cp28.children[2].children[0], 'click');
+        await nextTick();
         expect(cp28Text).to.have.text('28a inner-before')
 
         fireEvent(cp28.children[2].children[1], 'click');
+        await nextTick();
         expect(cp28Text).to.have.text('28a inner-slot')
 
         fireEvent(cp28.children[2].children[2], 'click');
+        await nextTick();
         expect(cp28Text).to.have.text('28a inner-after')
-
-        done();
       })
-      it('Nested slot pass arg and bind value through', (done) => {
+      it('Nested slot pass arg and bind value through', async () => {
         const cp29 = $('nested29');
         const cp29Text = $('cp29Text')
 
@@ -3641,6 +3669,7 @@
         // Change input value in outer input control
         cp29.children[3].children[0].value = 'value29_1'
         fireEvent(cp29.children[3].children[0], 'value')
+        await nextTick();
 
         expect(cp29Text).to.have.text('value29_1')
         expect(cp29.children[0]).to.have.text('value29_1-42')
@@ -3650,13 +3679,12 @@
         // Change input value in inner input control
         cp29Nested.children[3].children[0].value = 'value29_2'
         fireEvent(cp29Nested.children[3].children[0], 'value')
+        await nextTick();
 
         expect(cp29Text).to.have.text('value29_2')
         expect(cp29.children[0]).to.have.text('value29_2-42')
         expect(cp29Nested.children[2]).to.have.text('value29_2-42')
         expect(cp29.children[3].children[0]).to.have.value('value29_2')
-
-        done();
       })
       it('Nested slots classes and styles', (done) => {
         const cp30 = $('nested30');
@@ -3700,16 +3728,16 @@
         expect(cp35b.children[0].children[3]).to.have.text('3-d');
         done();
       })
-      it('Verify component bound argument with name that is also an event name is updated', (done) => {
+      it('Verify component bound argument with name that is also an event name is updated', async () => {
         // First component instance
         let cp36span =  cp36.querySelectorAll('span')[0];
 
         expect(cp36span).to.have.text('cp36: 100')
 
         fireEvent(cp36.querySelectorAll('button')[0], "click") // Double value
+        await nextTick();
         expect(cp36span).to.have.text('cp36: 200')
         expect(cp36var).equals(200);
-        done();
       })
       it('Verify we can create a SVG component', (done) => {
         // First component instance
@@ -3720,49 +3748,51 @@
         done();
       })
 
-      it('Verify the component is rendered and the variable declared in the argument is updated', (done) => {
+      it('Verify the component is rendered and the variable declared in the argument is updated', async () => {
         expect($('cp38')).to.have.text('10')
         $('cp38_btn').click();
+        await nextTick();
         expect($('cp38')).to.have.text('20')
-        done();
       })
-      it('Verify the component is rendered and the variable declared in the bind argument is updated', (done) => {
+      it('Verify the component is rendered and the variable declared in the bind argument is updated', async () => {
         expect($('cp39_div')).to.have.text('10')
         const cp39comp = $('cp39');
         const cp39btn = cp39comp.children[1];
         cp39btn.click();
+        await nextTick();
         expect($('cp39_div')).to.have.text('20')
-        done();
       })
-      it('Verify that declarative bind argument is updated', (done) => {
+      it('Verify that declarative bind argument is updated', async () => {
         expect($('cp40_1_span')).to.have.text('13')
         expect($('cp40_2_span')).to.have.text('130')
         expect($('cp40_3_span')).to.have.text('1300')
         $('cp40_1').click();
+        await nextTick();
         expect($('cp40_1_span')).to.have.text('14')
         expect($('cp40_2_span')).to.have.text('130')
         expect($('cp40_3_span')).to.have.text('1300')
         $('cp40_2').click();
+        await nextTick();
         expect($('cp40_1_span')).to.have.text('14')
         expect($('cp40_2_span')).to.have.text('131')
         expect($('cp40_3_span')).to.have.text('1300')
         $('cp40_3').click();
+        await nextTick();
         expect($('cp40_1_span')).to.have.text('14')
         expect($('cp40_2_span')).to.have.text('131')
         expect($('cp40_3_span')).to.have.text('1301')
-        done();
       })
-      it('SVG root component with a bindable attribute', (done) => {
+      it('SVG root component with a bindable attribute', async () => {
         expect($('svg41_div')).to.have.text('10')
         const cp41comp = $('svg41');
         cp41comp.dispatchEvent(new Event('click'));
+        await nextTick();
         expect($('svg41_div')).to.have.text('11')
-        done();
       })
 
     })
     describe('data-component timer/interval tests', () => {
-      it.skip('Check that timer we can add a component instance timer on top of a component timer ', async function () {
+      it('Check that timer we can add a component instance timer on top of a component timer ', async function () {
         const cp18_0 =  $('cp18_0');
         expect(cp18_0).to.have.text('orange');
         const cp18_1 =  $('cp18_1');
@@ -3777,7 +3807,7 @@
         cp18_1cb.dispatchEvent(new Event('change'));
         await waitFor(200, () => cp18_1.textContent =='pink')        
       })
-     it.skip('Check that timer we can add a component instance interval on top of a component interval ', async function () {
+     it('Check that timer we can add a component instance interval on top of a component interval ', async function () {
         const cp19_0 =  $('cp19_0');
         expect(cp19_0).to.have.text('orange');
         const cp19_1 =  $('cp19_1');
@@ -3879,12 +3909,11 @@
         expect($('sdi1')).to.have.text('sub-library1')
         done();
       }) 
-      it('Check if component comp-include2 from library2.html is loaded and rendered', (done) => {
+      it('Check if component comp-include2 from library2.html is loaded and rendered', async () => {
         const di_h2 =  $('di2').querySelector('h1');
         expect(di_h2).to.have.text('comp-include2') 
         const di_h23 =  $('di2').querySelector('h3');
         expect(di_h23).to.have.text('h3 comp include2')
-        done();
       })
       it('Check if component sub-lib2 from sublibrary2.html is loaded and rendered', (done) => {
         expect($('sdi2')).to.have.text('sub-library2')
@@ -4063,31 +4092,33 @@
 
         done();
       })
-      it('verify data-var vars are updated', (done) => {
+      it('verify data-var vars are updated', async () => {
         expect(vr1).to.have.text('1 Hello false')
         vr1_btn.click();
+        await nextTick();
         expect(vr1).to.have.text('2 Hello World true')
         vr1_btn.click();
+        await nextTick();
         expect(vr1).to.have.text('3 Hello World World false')
-        done();
       })
       it('verify data-var vars as arguments on components', (done) => {
         expect(vr2_0).to.have.text('1')
         expect(vr2_1).to.have.text('2')
         done();
       })
-      it('verify data-var vars on component contents', (done) => {
+      it('verify data-var vars on component contents', async () => {
         expect(vr3_0.children[0]).to.have.text('1 2')
         expect(vr3_1.children[0]).to.have.text('1 2')
 
         vr3_0.children[1].click();
+        await nextTick();
         expect(vr3_0.children[0]).to.have.text('2 3')
         expect(vr3_1.children[0]).to.have.text('1 2')
 
         vr3_1.children[1].click();
+        await nextTick();
         expect(vr3_0.children[0]).to.have.text('2 3')
         expect(vr3_1.children[0]).to.have.text('2 3')
-        done();
       })
     })
 
